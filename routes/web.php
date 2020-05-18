@@ -17,10 +17,20 @@ use Illuminate\Support\Facades\Route;
     return view('welcome');
 });*/
 
+
+
+
 Route::get('/incapacidad','IncapacidadController@inicio');
-Route::get('/validacionDerechos','IncapacidadController@validacion');
+Route::get('/validacionDerechos/{tipo}/{numero}','IncapacidadController@validacion');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+
+//load csv
+Route::get('/load/{tipo}','LoadController@datos');
+
+//api masters
+Route::get('/list/{tipo}','ApiController@list');
 
 
