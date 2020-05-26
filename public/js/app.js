@@ -65907,6 +65907,248 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /***/ }),
 
+/***/ "./resources/js/components/AutocompleteDescripcion.js":
+/*!************************************************************!*\
+  !*** ./resources/js/components/AutocompleteDescripcion.js ***!
+  \************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return AutocompleteDescripcion; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+
+var AutocompleteDescripcion = /*#__PURE__*/function (_Component) {
+  _inherits(AutocompleteDescripcion, _Component);
+
+  var _super = _createSuper(AutocompleteDescripcion);
+
+  function AutocompleteDescripcion(props) {
+    var _this;
+
+    _classCallCheck(this, AutocompleteDescripcion);
+
+    _this = _super.call(this, props);
+    _this.items = [];
+    _this.state = {
+      suggestions: [],
+      text: '',
+      codigo: ''
+    };
+    _this.onTextChanged = _this.onTextChanged.bind(_assertThisInitialized(_this));
+    _this.suggestionSelected = _this.suggestionSelected.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(AutocompleteDescripcion, [{
+    key: "onTextChanged",
+    value: function onTextChanged(e) {
+      var _this2 = this;
+
+      var value = e.target.value;
+      var suggestions = [];
+
+      if (value.length > 4) {
+        /*
+        const regex = new RegExp(`^${value}`,'i');
+        suggestions = this.items.sort().filter(v => regex.test(v));   
+        */
+        var url = 'search/diagnostico/' + value; //console.log(url);
+
+        axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(url).then(function (resp) {
+          // console.log(resp.data.data);
+          suggestions = resp.data.data; // suggestions = [1,2,3];
+          //console.log(suggestions);
+
+          _this2.setState({
+            suggestions: suggestions
+          }); //suggestions.map((item) => console.log(<li key={item.id} onClick={() => this.suggestionSelected(item.descripcion_diagnostico)}>{item.descripcion_diagnostico}</li>));
+
+        })["catch"](function (err) {
+          console.log(err);
+        });
+      }
+
+      this.setState({
+        suggestions: suggestions,
+        text: value
+      }); //this.setState(() => ({ suggestions,text:value}));
+    }
+  }, {
+    key: "suggestionSelected",
+    value: function suggestionSelected(value, cod) {
+      cod = cod.trim();
+      this.setState({
+        suggestions: [],
+        text: value,
+        codigo: cod
+      });
+      this.props.handleDiagnostico(value);
+      this.props.handleCodigoDiagnostico(cod);
+    }
+  }, {
+    key: "renderSuggestions",
+    value: function renderSuggestions() {
+      var _this3 = this;
+
+      var suggestions = this.state.suggestions; //console.log(suggestions);
+
+      if (suggestions.lenght === 0) {
+        return null;
+      }
+
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, suggestions.map(function (item) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+          key: item.id,
+          onClick: function onClick() {
+            return _this3.suggestionSelected(item.descripcion_diagnostico, item.codigo);
+          }
+        }, item.descripcion_diagnostico);
+      }));
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var text = this.state.text;
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-sm-10"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "descripcionDiagnostico"
+      }, "Descripci\xF3n diagn\xF3stico"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "AutoCompleteDescripcion"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        value: text,
+        onChange: this.onTextChanged,
+        type: "text",
+        id: "descripcionDiagnostico",
+        className: "form-control"
+      }), this.renderSuggestions()))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-sm-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "codigoDiagnostico"
+      }, "C\xF3digo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        id: "codigoDiagnostico",
+        className: "form-control",
+        value: this.state.codigo,
+        readOnly: true
+      }))));
+    }
+  }]);
+
+  return AutocompleteDescripcion;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Combocausae.js":
+/*!************************************************!*\
+  !*** ./resources/js/components/Combocausae.js ***!
+  \************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Combocausae; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+function Combocausae(props) {
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+      _useState2 = _slicedToArray(_useState, 2),
+      causas = _useState2[0],
+      setCausas = _useState2[1];
+
+  var getCausas = function getCausas() {
+    var url = 'list/causas';
+    axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (resp) {
+      setCausas(resp.data.data);
+    })["catch"](function (err) {
+      console.log(err);
+    });
+  };
+  /*
+  const handleIpsChange = (e) => {
+      //props.handleIpsChange(e)
+      console.log(e.target.value)
+      putnitIps(e.target.value)
+      putCodigo(e.target.value)
+  }*/
+
+
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(getCausas, []);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+    id: "causaExterna",
+    className: "form-control",
+    onChange: props.handler,
+    value: props.value
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: 0
+  }), causas.map(function (causa) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      key: causa.id,
+      value: causa.id
+    }, causa.causa_externa);
+  }));
+}
+
+/***/ }),
+
 /***/ "./resources/js/components/Comboips.js":
 /*!*********************************************!*\
   !*** ./resources/js/components/Comboips.js ***!
@@ -65941,6 +66183,16 @@ function Comboips(props) {
       ipss = _useState2[0],
       setIpss = _useState2[1];
 
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+      _useState4 = _slicedToArray(_useState3, 2),
+      nitIps = _useState4[0],
+      setnitIps = _useState4[1];
+
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+      _useState6 = _slicedToArray(_useState5, 2),
+      codigoHabilitacion = _useState6[0],
+      setCodigo = _useState6[1];
+
   var getIpss = function getIpss() {
     var url = 'list/ips';
     axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (resp) {
@@ -65950,22 +66202,89 @@ function Comboips(props) {
     });
   };
 
+  var putnitIps = function putnitIps(v) {
+    var nitIps = ipss[v].nit;
+    setnitIps(nitIps);
+  };
+
+  var putCodigo = function putCodigo(v) {
+    var codigoHabilitacion = ipss[v].cod_habilitacion;
+    setCodigo(codigoHabilitacion);
+  };
+
   var handleIpsChange = function handleIpsChange(e) {
-    props.handleIpsChange(e);
+    //props.handleIpsChange(e)
+    console.log(e.target.value);
+    putnitIps(e.target.value);
+    putCodigo(e.target.value);
   };
 
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(getIpss, []);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+
+  var handlePrestadorChange = function handlePrestadorChange(e) {
+    console.log(e.target.value);
+    props.handlePrestador(e.target.value);
+  };
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "row"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-sm-2"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-group"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: "tipoPrestador"
+  }, "Tipo de prestador"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+    id: "tipoPrestador",
+    className: "form-control",
+    onChange: handlePrestadorChange
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: ""
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "1"
+  }, "IPS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: "2"
+  }, "Consultorio")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-sm-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-group"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: "tipoPrestador"
+  }, "IPS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
     onChange: handleIpsChange,
     className: "form-control"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
     value: 0
-  }, "Seleccione"), ipss.map(function (ips) {
+  }), ipss.map(function (ips) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       key: ips.id,
       value: ips.id
     }, ips.nombre_sede);
-  }));
+  })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-sm-3"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-group"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: "nitIPS"
+  }, "Nit IPS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "text",
+    id: "nitIPS",
+    className: "form-control",
+    value: nitIps,
+    readOnly: true
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-sm-3"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-group"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: "codigoHabilitacion"
+  }, "C\xF3digo Habilitaci\xF3n IPS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "text",
+    id: "codigoHabilitacion",
+    className: "form-control",
+    value: codigoHabilitacion,
+    readOnly: true
+  }))));
 }
 
 /***/ }),
@@ -66025,8 +66344,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _Mensaje__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Mensaje */ "./resources/js/components/Mensaje.js");
 /* harmony import */ var _Comboips_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Comboips.js */ "./resources/js/components/Comboips.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _Combocausae_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Combocausae.js */ "./resources/js/components/Combocausae.js");
+/* harmony import */ var _Medico_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Medico.js */ "./resources/js/components/Medico.js");
+/* harmony import */ var _AutocompleteDescripcion_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./AutocompleteDescripcion.js */ "./resources/js/components/AutocompleteDescripcion.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_7__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -66048,6 +66370,9 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
 
 
 
@@ -66093,12 +66418,39 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
       mensaje: '',
       tipo: 'success',
       loading: false,
-      fechaAtencion: today
+      fechaAtencion: today,
+      fechaInicioIncapacidad: today,
+      diasSolicitados: 0,
+      fechaFinIncapacidad: today,
+      diasReconocidos: 0,
+      causae: '0',
+      contingencia: '0',
+      tipoDocAportante: '',
+      numDocAportante: '',
+      nombreAportante: '',
+      observacion: '',
+      diagnostico: '',
+      codigoDiagnostico: '',
+      id: '00001',
+      prorrogaId: 0,
+      tipoPrestador: '',
+      ips_id: 0
     }; // bind
 
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     _this.handleTipo = _this.handleTipo.bind(_assertThisInitialized(_this));
     _this.handleNumero = _this.handleNumero.bind(_assertThisInitialized(_this));
+    _this.handleFechaInicioIncapacidad = _this.handleFechaInicioIncapacidad.bind(_assertThisInitialized(_this));
+    _this.handleFechaFin = _this.handleFechaFin.bind(_assertThisInitialized(_this));
+    _this.handleDiasSolicitados = _this.handleDiasSolicitados.bind(_assertThisInitialized(_this));
+    _this.getBusinessDatesCount = _this.getBusinessDatesCount.bind(_assertThisInitialized(_this));
+    _this.handleCausa = _this.handleCausa.bind(_assertThisInitialized(_this));
+    _this.handleContingencia = _this.handleContingencia.bind(_assertThisInitialized(_this));
+    _this.guardarIncapacidad = _this.guardarIncapacidad.bind(_assertThisInitialized(_this));
+    _this.handleObservacion = _this.handleObservacion.bind(_assertThisInitialized(_this));
+    _this.handleDiagnostico = _this.handleDiagnostico.bind(_assertThisInitialized(_this));
+    _this.handleCodigoDiagnostico = _this.handleCodigoDiagnostico.bind(_assertThisInitialized(_this));
+    _this.handlePrestador = _this.handlePrestador.bind(_assertThisInitialized(_this));
     _this.handleIpsChange = _this.handleIpsChange.bind(_assertThisInitialized(_this));
     _this.showMessage = _this.showMessage(_assertThisInitialized(_this));
     return _this;
@@ -66114,7 +66466,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
       var tipoDocumento = this.state.tipoDocumento;
       var numeroIdentificacion = this.state.numeroIdentificacion;
       var url = '/validacionDerechos/' + tipoDocumento + "/" + numeroIdentificacion;
-      axios__WEBPACK_IMPORTED_MODULE_4___default.a.get(url, {
+      axios__WEBPACK_IMPORTED_MODULE_7___default.a.get(url, {
         tipoDocumento: this.state.tipoDocumento,
         numeroIdentificacion: this.state.numeroIdentificacion
       }).then(function (response) {
@@ -66134,7 +66486,11 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
           var historiaClinica = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado[1]['IdHistoria12'];
           var genero = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado[1]['Sexo'];
           var estado = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado[1]['EstadoDescripcion'];
-          var tipoCotizante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado[1]['ClaseAfiliacion']; // set state
+          var tipoCotizante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado[1]['ClaseAfiliacion']; //datos aportante
+
+          var tipoDocAportante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado[1]['TipoDocEmpresa'];
+          var numDocAportante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado[1]['IDEmpresa'];
+          var nombreAportante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado[1]['NombreEmpresa']; // set state
 
           _this2.setState({
             nombreCompleto: nombreCompleto,
@@ -66145,6 +66501,9 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
             genero: genero,
             estado: estado,
             tipoCotizante: tipoCotizante,
+            tipoDocAportante: tipoDocAportante,
+            numDocAportante: numDocAportante,
+            nombreAportante: nombreAportante,
             loading: true
           });
         }
@@ -66165,9 +66524,142 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
       });
     }
   }, {
-    key: "handleIpsChange",
-    value: function handleIpsChange(e) {
+    key: "handleDiagnostico",
+    value: function handleDiagnostico(dato) {
+      this.setState({
+        diagnostico: dato
+      });
+    }
+  }, {
+    key: "handleCodigoDiagnostico",
+    value: function handleCodigoDiagnostico(dato) {
+      this.setState({
+        codigoDiagnostico: dato
+      });
+    }
+  }, {
+    key: "handleFechaInicioIncapacidad",
+    value: function handleFechaInicioIncapacidad(e) {
+      //var todayDate = new Date().toISOString().slice(0,10);
+      var fi = new Date(e.target.value).getTime();
+      var l1 = new Date(this.state.fechaAtencion);
+      var l2 = new Date(this.state.fechaAtencion);
+      l1 = new Date(l1.setTime(l1.getTime() + 3 * 86400000)).getTime();
+      l2 = new Date(l2.setTime(l2.getTime() - 3 * 86400000)).getTime();
+      this.setState({
+        fechaInicioIncapacidad: new Date(e.target.value).toISOString().slice(0, 10)
+      });
+
+      if (fi > l1) {
+        alert("La fecha de inicio no puede ser mayor a 3 días desde la fecha de atención");
+        this.setState({
+          fechaInicioIncapacidad: new Date().toISOString().slice(0, 10)
+        });
+      }
+
+      if (fi < l2) {
+        alert("La fecha de inicio no puede ser menor a 3 días desde la fecha de atención");
+        this.setState({
+          fechaInicioIncapacidad: new Date().toISOString().slice(0, 10)
+        });
+      }
+    }
+  }, {
+    key: "handleDiasSolicitados",
+    value: function handleDiasSolicitados(e) {
+      this.setState({
+        diasSolicitados: e.target.value
+      });
+    }
+  }, {
+    key: "handleFechaFin",
+    value: function handleFechaFin(e) {
+      var l1 = new Date(this.state.fechaInicioIncapacidad);
+      var dias = this.state.diasSolicitados - 1;
+      l1 = new Date(l1.setTime(l1.getTime() + dias * 86400000)).getTime();
+      this.setState({
+        fechaFinIncapacidad: new Date(l1).toISOString().slice(0, 10)
+      });
+      this.getBusinessDatesCount(new Date(this.state.fechaInicioIncapacidad), new Date(l1));
+    }
+  }, {
+    key: "handleCausa",
+    value: function handleCausa(e) {
+      //console.log(e.target.value);
+      this.setState({
+        causae: e.target.value
+      });
+    }
+  }, {
+    key: "handleObservacion",
+    value: function handleObservacion(e) {
+      this.setState({
+        observacion: e.target.value
+      });
+    }
+  }, {
+    key: "handlePrestador",
+    value: function handlePrestador(dato) {
+      this.setState({
+        tipoPrestador: dato
+      });
+    }
+  }, {
+    key: "handleContingencia",
+    value: function handleContingencia(e) {
       console.log(e.target.value);
+      this.setState({
+        contingencia: e.target.value
+      });
+      var contingencia = e.target.value;
+      var causae = this.state.causae;
+
+      if ((contingencia == 2 || contingencia == 3) && causae != 1 && causae != 14) {
+        alert("la causa externa solo puede ser Accidente de trabajo o Enfermedad laboral");
+        this.setState({
+          causae: ''
+        });
+      }
+    }
+  }, {
+    key: "getBusinessDatesCount",
+    value: function getBusinessDatesCount(startDate, endDate) {
+      //var startDate = new Date(startDate);
+      //var endDate = new Date(endDate);   
+      //console.log(endDate.toISOString().slice(0,10))    
+      var count = 0;
+      var countf = 0;
+      var festivos = ["2020-05-01", "2020-05-25"];
+      var curDate = startDate;
+
+      while (curDate <= endDate) {
+        var dayOfWeek = curDate.getDay(); //console.log(curDate.toISOString().slice(0,10) + " " + dayOfWeek);
+
+        if (dayOfWeek < 6) count++; //console.log(count + " "+ countf)
+
+        if (festivos.includes(curDate.toISOString().slice(0, 10))) countf++;
+        curDate.setDate(curDate.getDate() + 1);
+      }
+
+      console.log(count);
+      console.log(countf);
+      var reconocidos = count - countf;
+      this.setState({
+        diasReconocidos: reconocidos
+      });
+    }
+  }, {
+    key: "guardarIncapacidad",
+    value: function guardarIncapacidad() {
+      console.log(this.state);
+      var url = 'saveIncapacidad';
+      axios__WEBPACK_IMPORTED_MODULE_7___default.a.post(url, {
+        datos: this.state
+      }).then(function (resp) {
+        console.log(resp.data);
+      })["catch"](function (err) {
+        console.log(err);
+      });
     }
   }, {
     key: "showMessage",
@@ -66338,113 +66830,10 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
         className: "card-header"
       }, "Datos de la IPS / M\xE9dico"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card-body"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "row"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-sm-2"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "form-group"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "tipoPrestador"
-      }, "Tipo de prestador"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-        id: "tipoPrestador",
-        className: "form-control"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: ""
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "IPS"
-      }, "IPS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "Consultorio"
-      }, "Consultorio")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-sm-4"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "form-group"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "tipoPrestador"
-      }, "IPS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Comboips_js__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        handleIpsChange: this.handleIpsChange
-      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-sm-3"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "form-group"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "nitIPS"
-      }, "Nit IPS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "text",
-        id: "nitIPS",
-        className: "form-control",
-        value: ""
-      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-sm-3"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "form-group"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "codigoHabilitacion"
-      }, "C\xF3digo Habilitaci\xF3n IPS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "text",
-        id: "codigoHabilitacion",
-        className: "form-control",
-        value: ""
-      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "row"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-sm-3"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "form-group"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "tipoDocumentoMedico"
-      }, "Tipo Documento"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "text",
-        id: "tipoDocumentoMedico",
-        className: "form-control",
-        value: ""
-      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-sm-3"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "form-group"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "numeroIdentificacionMedico"
-      }, "N\xFAmero de identificacion"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "text",
-        id: "numeroIdentificacionMedico",
-        className: "form-control",
-        value: ""
-      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-sm-6"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "form-group"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "nombreMedico"
-      }, "Nombre Completo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "text",
-        id: "nombreMedico",
-        className: "form-control",
-        value: ""
-      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "row"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-sm-3"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "form-group"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "noRegistroMedico"
-      }, "N\xFAmero de registro m\xE9dico"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "text",
-        id: "noRegistroMedico",
-        className: "form-control",
-        value: ""
-      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-sm-4"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "form-group"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "especialidadMedica"
-      }, "Especialidad M\xE9dica"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "text",
-        id: "especialidadMedica",
-        className: "form-control",
-        value: ""
-      })))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Comboips_js__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        handleIpsChange: this.handleIpsChange,
+        handlePrestador: this.handlePrestador
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Medico_js__WEBPACK_IMPORTED_MODULE_5__["default"], null))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row justify-content-center"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-10"
@@ -66472,7 +66861,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
         type: "text",
         id: "numeroIncapacidad",
         className: "form-control",
-        value: "",
+        value: this.state.id + "-" + this.state.prorrogaId,
         readOnly: true
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-sm-6"
@@ -66493,35 +66882,18 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "causaExterna"
-      }, "Causa Externa"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-        id: "causaExterna",
-        className: "form-control"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: ""
-      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-sm-5"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "form-group"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "descripcionDiagnostico"
-      }, "Descripci\xF3n diagn\xF3stico"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "text",
-        id: "descripcionDiagnostico",
-        className: "form-control"
+      }, "Causa Externa"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Combocausae_js__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        handler: this.handleCausa,
+        value: this.state.causae
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-sm-4"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "form-group"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "codigoDiagnostico"
-      }, "C\xF3digo de diagn\xF3stico"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "text",
-        id: "codigoDiagnostico",
-        className: "form-control"
-      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-sm-9"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_AutocompleteDescripcion_js__WEBPACK_IMPORTED_MODULE_6__["default"], {
+        handleDiagnostico: this.handleDiagnostico,
+        handleCodigoDiagnostico: this.handleCodigoDiagnostico
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-sm-3"
+        className: "col-sm-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -66532,13 +66904,13 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: ""
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "Derecha"
+        value: "1"
       }, "Derecha"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "Izquierda"
+        value: "2"
       }, "Izquierda"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "Bilateral"
+        value: "3"
       }, "Bilateral"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "No aplica"
+        value: "4"
       }, "No aplica")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-sm-3"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -66548,9 +66920,11 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
       }, "Fecha inicio Incapacidad"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "date",
         id: "fechaInicioIncapacidad",
-        className: "form-control"
+        className: "form-control",
+        value: this.state.fechaInicioIncapacidad,
+        onChange: this.handleFechaInicioIncapacidad
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-sm-3"
+        className: "col-sm-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -66558,7 +66932,21 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
       }, "Dias Solicitados"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "number",
         id: "diasSolicitados",
-        className: "form-control"
+        className: "form-control",
+        onChange: this.handleDiasSolicitados,
+        value: this.state.diasSolicitados
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-sm-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "diasReconocidos"
+      }, "Dias Reconocidos"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "number",
+        id: "diasReconocidos",
+        className: "form-control",
+        value: this.state.diasReconocidos,
+        readOnly: true
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-sm-3"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -66568,7 +66956,10 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
       }, "Fecha fin incapacidad"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "date",
         id: "fechaFinIncapacidad",
-        className: "form-control"
+        className: "form-control",
+        value: this.state.fechaFinIncapacidad,
+        onSelect: this.handleFechaFin,
+        readOnly: true
       })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -66604,10 +66995,17 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
         htmlFor: "contingenciaOrigen"
       }, "Contingencia Origen"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         id: "contingenciaOrigen",
-        className: "form-control"
+        className: "form-control",
+        onChange: this.handleContingencia
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: ""
-      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "1"
+      }, "Enfermedad general"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "2"
+      }, "Enfermedad laboral"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "3"
+      }, "Accidente de trabajo")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-sm-4"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
@@ -66628,7 +67026,8 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
       }, "Resumen observacion m\xE9dico"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
         rows: "10",
         className: "form-control",
-        id: "observacionMedica"
+        id: "observacionMedica",
+        onChange: this.handleObservacion
       })))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row justify-content-center"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -66649,8 +67048,9 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
         htmlFor: "tipoIdentificacionAportante"
       }, "Tipo Identificaci\xF3n"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
-        id: "tipoIdentificacionAportante",
+        id: "tipoDocAportante",
         className: "form-control",
+        value: this.state.tipoDocAportante,
         readOnly: true
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-sm-3"
@@ -66660,9 +67060,9 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
         htmlFor: "numeroIdentificacionAportante"
       }, "N\xFAmero de identificacion"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
-        id: "numeroIdentificacionAportante",
+        id: "numDocAportante",
         className: "form-control",
-        value: this.state.IDTrabajador,
+        value: this.state.numDocAportante,
         readOnly: true
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-sm-3"
@@ -66674,7 +67074,6 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
         type: "text",
         id: "tipoAportante",
         className: "form-control",
-        value: this.state.IDTrabajador,
         readOnly: true
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-sm-4"
@@ -66686,9 +67085,16 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
         type: "text",
         id: "nombreAportante",
         className: "form-control",
-        value: this.state.nombreCompleto,
+        value: this.state.nombreAportante,
         readOnly: true
-      })))))))));
+      })))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row justify-content-center"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-10"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "btn btn-block btn-success",
+        onClick: this.guardarIncapacidad
+      }, "GUARDAR INCAPACIDAD"))));
     }
   }]);
 
@@ -66699,6 +67105,144 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
 
 if (document.getElementById('root')) {
   react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(IncapacidadFront, null), document.getElementById('root'));
+}
+
+/***/ }),
+
+/***/ "./resources/js/components/Medico.js":
+/*!*******************************************!*\
+  !*** ./resources/js/components/Medico.js ***!
+  \*******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Medico; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+function Medico(props) {
+  var _React$createElement;
+
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+      _useState2 = _slicedToArray(_useState, 2),
+      tipoDocumento = _useState2[0],
+      setTipo = _useState2[1];
+
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+      _useState4 = _slicedToArray(_useState3, 2),
+      numDocumento = _useState4[0],
+      setNumero = _useState4[1];
+
+  var _useState5 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+      _useState6 = _slicedToArray(_useState5, 2),
+      nombre = _useState6[0],
+      setNombre = _useState6[1];
+
+  var _useState7 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+      _useState8 = _slicedToArray(_useState7, 2),
+      registro = _useState8[0],
+      setRegistro = _useState8[1];
+
+  var _useState9 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+      _useState10 = _slicedToArray(_useState9, 2),
+      especialidad = _useState10[0],
+      setEspecialidad = _useState10[1];
+
+  var getMedico = function getMedico() {
+    var url = 'datosMedico';
+    axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (resp) {
+      setTipo(resp.data.data[0]['tipo_documento']);
+      setNumero(resp.data.data[0]['num_documento']);
+      setNombre(resp.data.data[0]['nombre']);
+      setRegistro(resp.data.data[0]['reg_medico']);
+      setEspecialidad(resp.data.data[0]['especialidad']);
+    })["catch"](function (err) {
+      console.log(err);
+    });
+  };
+
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(getMedico, []);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "row"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-sm-3"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-group"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: "tipoDocumentoMedico"
+  }, "Tipo Documento"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "text",
+    id: "tipoDocumentoMedico",
+    className: "form-control",
+    value: tipoDocumento,
+    readOnly: true
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-sm-3"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-group"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: "numeroIdentificacionMedico"
+  }, "N\xFAmero de identificacion"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", (_React$createElement = {
+    type: "text",
+    id: "numeroIdentificacionMedico",
+    className: "form-control",
+    value: ""
+  }, _defineProperty(_React$createElement, "value", numDocumento), _defineProperty(_React$createElement, "readOnly", true), _React$createElement)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-sm-6"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-group"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: "nombreMedico"
+  }, "Nombre Completo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "text",
+    id: "nombreMedico",
+    className: "form-control",
+    value: nombre,
+    readOnly: true
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-sm-3"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-group"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: "noRegistroMedico"
+  }, "N\xFAmero de registro m\xE9dico"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "text",
+    id: "noRegistroMedico",
+    className: "form-control",
+    value: registro,
+    readOnly: true
+  }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "col-sm-4"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "form-group"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+    htmlFor: "especialidadMedica"
+  }, "Especialidad M\xE9dica"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    type: "text",
+    id: "especialidadMedica",
+    className: "form-control",
+    value: especialidad,
+    readOnly: true
+  }))));
 }
 
 /***/ }),

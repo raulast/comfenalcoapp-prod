@@ -1,0 +1,25 @@
+TABLA incapacidad
+id increment
+prorrogaid increment
+tipo_documento_afiliado char 2
+num_documento_afiliado string
+tipo_prestador integer
+ips integer
+medico_id integer 2
+fecha_atencion date
+causa_externa integer
+codigo_diagnostico char 5
+lateralidad integer 
+fecha_inicio_incapacidad date
+dias_solicitados integer
+dias_reconocidos integer
+fecha_fin_incapacidad integer
+proroga char 2
+dias_acumulados_previos integer
+contingencia_origen integer
+dias_acumulados_ultima_incapacidad integer
+observacion medium text
+timestamps
+
+
+

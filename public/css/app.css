@@ -10882,3 +10882,29 @@ a.text-dark:focus {
   }
 }
 
+.AutoCompleteDescripcion input {
+  outline: none;
+}
+
+.AutoCompleteDescripcion ul {
+  list-style: none;
+  text-align: left;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid grey;
+}
+
+.AutoCompleteDescripcion ul::before {
+  content: "";
+}
+
+.AutoCompleteDescripcion li {
+  padding: 5px 5px;
+  cursor: pointer;
+}
+
+.AutoCompleteDescripcion li:hover {
+  text-decoration: underline;
+  background-color: rgba(128, 128, 128, 0.2);
+}
+

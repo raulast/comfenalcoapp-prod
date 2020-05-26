@@ -1,0 +1,16 @@
+id;causa_externa;estado
+1;Accidente de trabajo;1
+2;Accidente de tránsito;1
+3;Accidente rábico;1 
+4;Accidente ofídico;1
+5;Otro tipo de accidente;1
+6;Evento catastrófico;1
+7;Lesión por agresión;1
+8;Lesión auto infligida;1
+4;Enfermedad laboral;1
+5;Otra;1
+9;Sospecha de maltrato físico;1
+10;Sospecha de abuso sexual;1
+11;Sospecha de violencia sexual;1
+12;Sospecha de maltrato emocional;1
+13;Enfermedad general;1 
