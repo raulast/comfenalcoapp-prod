@@ -7,10 +7,10 @@ id;causa_externa;estado
 6;Evento catastrófico;1
 7;Lesión por agresión;1
 8;Lesión auto infligida;1
-4;Enfermedad laboral;1
-5;Otra;1
-9;Sospecha de maltrato físico;1
-10;Sospecha de abuso sexual;1
-11;Sospecha de violencia sexual;1
-12;Sospecha de maltrato emocional;1
-13;Enfermedad general;1 
+9;Enfermedad laboral;1
+10;Otra;1
+11;Sospecha de maltrato físico;1
+12;Sospecha de abuso sexual;1
+14;Sospecha de violencia sexual;1
+15;Sospecha de maltrato emocional;1
+16;Enfermedad general;1 

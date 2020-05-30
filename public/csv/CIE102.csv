@@ -1,2 +1,0 @@
-﻿id;codigo;descripcion_diagnostico;estado;num_dias_maximo_solicitud;dias_maximo_evento;capitulo_grupo;categoria_subgrupo;contingencia;tipo_licencia;genero_comfe;cie_min_salud;genero_minsalud;limite_edad_inferior_minsalud;limite_edad_maxima_minsalud;tipo_diagnostico;aplica_notificacion;opcion_liquidacion;diagnostico_centinela;indicio_at_el;observacion1;observacion2;observacion3;observacion4
-1;A000;COLERA DEBIDO A VIBRIO CHOLERAE O1  BIOTIPO CHOLERAE;1;15;;1;1;1;;A;SI;A;0;999;0;s;I;N;;CODIGOS INESPECIFICOS PETICIÓN EPIDEMIOLOGIA:;;;

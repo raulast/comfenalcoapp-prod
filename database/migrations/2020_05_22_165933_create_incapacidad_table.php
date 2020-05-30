@@ -14,7 +14,7 @@ class CreateIncapacidadTable extends Migration
     public function up()
     {
         Schema::create('incapacidad', function (Blueprint $table) {
-            $table->increments('id');
+            $table->integer('id');
             $table->integer('prorrogaid');
             $table->char('tipo_documento_afiliado',2);
             $table->string('num_documento_afiliado');

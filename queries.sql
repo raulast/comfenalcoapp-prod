@@ -1,14 +1,15 @@
 
-/*
+
 SELECT
   *
 FROM
   INFORMATION_SCHEMA.TABLES;
 GO 
-*/
+/*
 SELECT
 * 
 FROM
 cie10
 GO
 
+*/

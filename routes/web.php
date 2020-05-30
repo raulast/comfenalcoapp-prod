@@ -53,5 +53,7 @@ Route::get('/list/{tipo}','ApiController@list');
 Route::get('/search/{tipo}/{value}','ApiController@search');
 Route::get('datosMedico','ApiController@datosMedico');
 Route::post('saveIncapacidad','ApiController@saveIncapacidad');
-
+Route::get('getNumeroIncapacidad','ApiController@getNumeroIncapacidad');
+Route::get('buscarHistorico/{tipo}/{numero}','ApiController@buscarHistorico')->middleware('auth','twofactor');
+Route::get('buscarHistoricoUltimaDias/{tipo}/{numero}','ApiController@buscarHistoricoUltimaDias');
 

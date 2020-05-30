@@ -51,51 +51,94 @@ class ApiController extends Controller
 
     }
 
+    public function getNumeroIncapacidad(){
+        if(Incapacidad::latest()->first() !== null){
+         $id = Incapacidad::latest()->first()->id;
+         $id+=1;
+        }
+        else{
+            $id=1;
+        }        
+        return response()->json([
+            'data' => $id
+        ]);
+
+    }
+    public function buscarHistorico($tipo,$numero){
+        //return $numero;
+        
+        if (Incapacidad::where('tipo_documento_afiliado',$tipo)->where('num_documento_afiliado',$numero)->exists()){
+            $datos= Incapacidad::where('tipo_documento_afiliado',$tipo)->where('num_documento_afiliado',$numero)->orderBy('created_at','desc')->get();
+           
+        }
+        else{
+            $datos="no";
+        }
+        /*dd($datos);
+        return* response()->json([
+            'dataos' => $datos,
+        ]);
+        */
+      //  dd($datos);
+        return view('incapacidades.historicoIncapacidad',[
+            'datos' => $datos
+        ]);
+    }
+    public function buscarHistoricoUltimaDias($tipo,$numero){
+        //return $numero;
+        
+        if (Incapacidad::where('tipo_documento_afiliado',$tipo)->where('num_documento_afiliado',$numero)->exists()){
+            $i= Incapacidad::where('tipo_documento_afiliado',$tipo)->where('num_documento_afiliado',$numero)->orderBy('created_at','desc')->first();
+            $dias = $i->dias_solicitados;
+            $codigo=$i->codigo_diagnostico;
+            $cie10 = Cie10::where('codigo',$codigo)->first();
+            $capitulo = $cie10->capitulo_grupo;
+            $idant = $i->id;
+            $prorrogaidant = $i->prorrogaid;
+        }
+        else{
+            $datos="no";
+        }
+        //dd($datos);
+        return response()->json([
+            'dias' => (int)$dias,
+            'capitulo' => $capitulo,
+            'idant' => $idant,
+            'prorrogaidant' => (int)$prorrogaidant
+        ]);
+        
+        
+    }
 
     //save
     public function saveIncapacidad(Request $request){
             $datos = $request->datos;
-
-            /*
-           
-           
-            ips integer
-            medico_id integer 2
-            lateralidad integer 
-            proroga char 2
-            dias_acumulados_previos integer
-            dias_acumulados_ultima_incapacidad integer
-           
             
-            
-            
-            
-
-
-            'id' => (int)datos['id'],
-            'prorrogaid' => datos['prorrogaId'],
-            'tipo_prestador' => datod['tipoPrestador'],
-            'tipo_documento_afiliado' =>datos['tipoDocAfiliado'],
-            'num_documento_afiliado' => datos['IDTrabajador'],
-            'fecha_atencion' => datos['fechaAtencion'],
-            'fecha_inicio_incapacidad' => datos['fechaInicioIncapacidad'],
-            'dias_solicitados' => datos['diasSolicitados'],
-            'fecha_fin_incapacidaddatos' => datos['fechaFinIncapacidad'],
-            'dias_reconocidos' => datos['diasReconocidos'], 
-            'causa_externa' => datos['causae'],
-            'contingencia_origen' =>datos['contingencia'], 
-            'observacion' => datos['observacion']
-            'codigo_diagnostico' => datos['codigoDiagnostico'  
-            
-            
-
             $i = Incapacidad::create([
-                'first_name' => 'Taylor',
-                'last_name' => 'Otwell',
-                'title' => 'Developer',
+                'id' => (int)$datos['id'],
+                'prorrogaid' => $datos['prorrogaId'],
+                'tipo_prestador' => $datos['tipoPrestador'],
+                'tipo_documento_afiliado' =>$datos['tipoDocAfiliado'],
+                'num_documento_afiliado' => $datos['IDTrabajador'],
+                'fecha_atencion' => $datos['fechaAtencion'],
+                'fecha_inicio_incapacidad' => $datos['fechaInicioIncapacidad'],
+                'dias_solicitados' => $datos['diasSolicitados'],
+                'fecha_fin_incapacidad' => $datos['fechaFinIncapacidad'],
+                'dias_reconocidos' => $datos['diasReconocidos'], 
+                'causa_externa' => $datos['causae'],
+                'contingencia_origen' =>$datos['contingencia'], 
+                'observacion' => $datos['observacion'],
+                'codigo_diagnostico' => $datos['codigoDiagnostico'],
+                'ips' => $datos['ips_id'],
+                'medico_id' => $datos['medico_id'],
+                'lateralidad' => $datos['lateralidad_id'],
+                'prorroga' => $datos['prorroga'],
+                'dias_acumulados_previos' => $datos['diasAcumuladosPrevios'],
+                'dias_acumulados_ultima_incapacidad' => $datos['diasAcumuladosUltima'],
             ]);
-                */
-            return $request->datos;
+                
+            return  "Incapacidad almacenada";
         
     }
+   
 }

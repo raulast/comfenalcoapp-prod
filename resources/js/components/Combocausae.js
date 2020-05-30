@@ -22,15 +22,25 @@ export default function Combocausae(props){
         putnitIps(e.target.value)
         putCodigo(e.target.value)
     }*/
+    const handleCausa = (e) => {
+        //console.log(e.target.value)
+        props.handleCausa(e.target.value)
+    }
     useEffect(getCausas,[])
 
     return(
-        <select id="causaExterna" className="form-control" onChange={props.handler} value={props.value}>
-           
-            <option value={0}></option>
-            {
-                causas.map(causa => <option key={causa.id} value={causa.id}>{causa.causa_externa}</option>)
-            }
-        </select>
+        <div className="form-group">
+            <label htmlFor="causaExterna">Causa Externa</label>
+            <select id="causaExterna" className="form-control" onChange={handleCausa} value={props.value}>
+            
+                <option value={0}></option>
+                {
+                    causas.map(causa => <option key={causa.id} value={causa.id}>{causa.causa_externa}</option>)
+                }
+            </select>
+            <div className={props.error}>
+                <div className="alert alert-danger" role="alert">{ props.mensaje}</div>
+            </div>
+        </div>
     )
 }

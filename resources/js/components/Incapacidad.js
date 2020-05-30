@@ -33,7 +33,7 @@ class IncapacidadFront extends Component {
             estado: '',
             tipoCotizante : '',
             mensaje : '',
-            tipo : 'success',
+            tipoMensaje : '',
             loading : false,
             fechaAtencion : today,
             fechaInicioIncapacidad : today,
@@ -48,10 +48,35 @@ class IncapacidadFront extends Component {
             observacion:'',
             diagnostico: '',
             codigoDiagnostico: '',
+            capitulo : '',
             id : '00001',
             prorrogaId : 0,
             tipoPrestador: '',
-            ips_id: 0
+            ips_id: 0,
+            medico_id:0,
+            lateralidad_id:0,
+            prorroga:'No',
+            diasAcumuladosPrevios : 0,
+            diasAcumuladosUltima : 0,
+            visible : 'oculto',
+            errors : {
+                diagnostico : 'oculto',
+                tipoPrestador:'oculto',
+                ips: 'oculto',
+                causae:'oculto',
+                lateralidad:'oculto',
+                diasSolicitados:'oculto',
+                contingencia:'oculto'
+            },
+            errorMensajes :{
+                diagnostico : '',
+                tipoPrestador:'',
+                ips: '',
+                causae:'',
+                lateralidad:'',
+                diasSolicitados:'',
+                contingencia:''
+            }
             
         };
         // bind
@@ -68,9 +93,32 @@ class IncapacidadFront extends Component {
         this.handleObservacion = this.handleObservacion.bind(this);
         this.handleDiagnostico = this.handleDiagnostico.bind(this);
         this.handleCodigoDiagnostico = this.handleCodigoDiagnostico.bind(this);
+        this.handleCapituloDiagnostico = this.handleCapituloDiagnostico.bind(this);
         this.handlePrestador = this.handlePrestador.bind(this);
         this.handleIpsChange = this.handleIpsChange.bind(this);
+        this.handleMedico = this.handleMedico.bind(this);
+        this.handleLateralidad= this.handleLateralidad.bind(this);
+        this.handleProrroga = this.handleProrroga.bind(this);
         this.showMessage = this.showMessage(this)
+
+        this.getNumeroIncapacidad = this.getNumeroIncapacidad.bind(this);
+        this.buscarHistorico=this.buscarHistorico.bind(this);
+        this.handleFechaAtencion = this.handleFechaAtencion.bind(this);
+        this.validarForm = this.validarForm.bind(this);
+        this.clearErrors = this.clearErrors.bind(this);
+    }
+    getNumeroIncapacidad(){
+        let url ='getNumeroIncapacidad'
+        axios.get(url)
+            .then(resp => {
+                this.setState({
+                    id:`0000${resp.data.data}`,
+                    prorrogaId:0,
+                });
+            })
+            .catch(err =>{
+                console.log(err)
+            })
        
     }
     handleSubmit(e) {
@@ -90,44 +138,55 @@ class IncapacidadFront extends Component {
                 
                 let mensaje = response.data.responseMessageOut.body.response.validadorResponse.Derechos['MENSAJE'];
                 let derecho = response.data.responseMessageOut.body.response.validadorResponse.Derechos['DerechoPrestacion']
-                
+                console.log(derecho);
+                console.log(mensaje);
                 if (derecho =="SI"){
                 
-                //console.log(response.data.responseMessageOut.body.response.validadorResponse);
-                let nombre = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado[0]['Nombre'];
-                let primerApellido = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado[0]['PrimerApellido']; 
-                let segundoApellido = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado[0]['SegundoApellido'];
-                let nombreCompleto = `${nombre} ${primerApellido} ${segundoApellido}`;
+                        this.getNumeroIncapacidad();
+                        //console.log(response.data.responseMessageOut.body.response.validadorResponse);
+                        let nombre = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['Nombre'];
+                        let primerApellido = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['PrimerApellido']; 
+                        let segundoApellido = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['SegundoApellido'];
+                        let nombreCompleto = `${nombre} ${primerApellido} ${segundoApellido}`;
 
-                let tipoDocAfiliado = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado[0]['TipoDocAfiliado'];
-                let IDTrabajador = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado[1]['IDTrabajador'];
-                
-                let historiaClinica = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado[1]['IdHistoria12'];
-                let genero = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado[1]['Sexo'];
-                let estado = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado[1]['EstadoDescripcion'];
-                let tipoCotizante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado[1]['ClaseAfiliacion'];
-                
-                //datos aportante
-                let tipoDocAportante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado[1]['TipoDocEmpresa'];
-                let numDocAportante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado[1]['IDEmpresa'];
-                let nombreAportante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado[1]['NombreEmpresa'];
-                // set state
-               
-                this.setState({
-                    nombreCompleto: nombreCompleto,
-                    tipoDocAfiliado : tipoDocAfiliado,
-                    IDTrabajador : IDTrabajador,
-                    historiaClinica : historiaClinica,
-                    mensaje : mensaje,
-                    genero : genero,
-                    estado : estado,
-                    tipoCotizante: tipoCotizante,
-                    tipoDocAportante: tipoDocAportante,
-                    numDocAportante: numDocAportante,
-                    nombreAportante:nombreAportante,
-                    loading:true
-                });
+                        let tipoDocAfiliado = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['TipoDocAfiliado'];
+                        let IDTrabajador = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['IDTrabajador'];
+                        
+                        let historiaClinica = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['IdHistoria12'];
+                        let genero = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['Sexo'];
+                        let estado = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['EstadoDescripcion'];
+                        let tipoCotizante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['ClaseAfiliacion'];
+                        
+                        //datos aportante
+                        let tipoDocAportante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['TipoDocEmpresa'];
+                        let numDocAportante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['IDEmpresa'];
+                        let nombreAportante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['NombreEmpresa'];
+                        // set state
+                    
+                        this.setState({
+                            nombreCompleto: nombreCompleto,
+                            tipoDocAfiliado : tipoDocAfiliado,
+                            IDTrabajador : IDTrabajador,
+                            historiaClinica : historiaClinica,
+                            mensaje : mensaje,
+                            genero : genero,
+                            estado : estado,
+                            tipoCotizante: tipoCotizante,
+                            tipoDocAportante: tipoDocAportante,
+                            numDocAportante: numDocAportante,
+                            nombreAportante:nombreAportante,
+                            tipoMensaje: 'success',
+                            visible:'visible',
+                            loading:true,
+                        });
 
+                }
+                else{
+                    this.setState({
+                        mensaje : mensaje,
+                        loading: true,
+                        tipoMensaje: 'error',
+                    });
                 }
             });
            
@@ -136,6 +195,11 @@ class IncapacidadFront extends Component {
     handleTipo(e) {
         this.setState({
             tipoDocumento: e.target.value
+        });
+    }
+    handleFechaAtencion(e) {
+        this.setState({
+            fechaAtencion: e.target.value
         });
     }
     handleNumero(e) {
@@ -154,6 +218,65 @@ class IncapacidadFront extends Component {
         this.setState(
             {codigoDiagnostico: dato}
         )
+    }
+    handleCapituloDiagnostico(dato){
+    
+        this.setState(
+            {capitulo: dato}
+        )
+    }
+    handleLateralidad(e){
+        this.setState(
+            {lateralidad_id: e.target.value}
+        )
+    }
+    handleProrroga(e){
+        this.setState(
+            {prorroga: e.target.value}
+        )
+        if (e.target.value=="Si"){
+            let tipoDocumento=this.state.tipoDocumento;
+            let numeroIdentificacion= this.state.numeroIdentificacion;
+            let url = '/buscarHistoricoUltimaDias/'+tipoDocumento+"/"+numeroIdentificacion;
+            let diasSolicitados = this.state.diasSolicitados
+            
+            axios.get(url)
+                .then(resp => {
+                console.log(resp.data)
+                
+                if (resp.data.capitulo == this.state.capitulo){
+                    let id= "0000"+resp.data.idant;
+                    let prorrogaId = resp.data.prorrogaidant+1;
+                    console.log(prorrogaId);
+                    this.setState({
+                        id : id,
+                        prorrogaId: prorrogaId,
+                        diasAcumuladosPrevios: resp.data.dias,
+                        diasAcumuladosUltima : parseInt(resp.data.dias) + parseInt(diasSolicitados)
+                    })
+                }
+                else{
+                    alert("El diagnóstico seleccionado no pertenece al mismo capítulo de la última incapacidad")
+                    this.setState({
+                        diasAcumuladosPrevios: resp.data.dias,
+                        diasAcumuladosUltima : parseInt(resp.data.dias) + parseInt(diasSolicitados)
+                    })
+                }
+
+                })
+                .catch(err =>{
+                    console.log(err)
+                })
+
+        }
+        if (e.target.value=="No"){
+            this.setState({
+                diasAcumuladosPrevios: 0,
+                diasAcumuladosUltima : 0
+            })
+        
+        }
+
     }
     handleFechaInicioIncapacidad(e){
         //var todayDate = new Date().toISOString().slice(0,10);
@@ -200,10 +323,22 @@ class IncapacidadFront extends Component {
 
     }
     handleCausa(e){
-        //console.log(e.target.value);
+        console.log(e);
         this.setState({
-            causae : e.target.value,
+            causae : e,
         });
+       
+       
+        if (e == 1) { 
+            this.setState({
+                contingencia : 3,
+            });
+        }
+        if (e == 9) { 
+            this.setState({
+                contingencia : 2,
+            });
+        }
     }
     handleObservacion(e){
         this.setState({
@@ -213,11 +348,20 @@ class IncapacidadFront extends Component {
     handlePrestador(dato){
         this.setState(
             {tipoPrestador: dato}
-        )
-        
+        )   
+    }
+    handleIpsChange(dato){
+        this.setState(
+            {ips_id: dato}
+        )   
+    }
+    handleMedico(dato){
+        this.setState(
+            {medico_id: dato}
+        )   
     }
     handleContingencia(e){
-        console.log(e.target.value);
+       // console.log(e.target.value);
         this.setState({
             contingencia : e.target.value,
         });
@@ -236,7 +380,7 @@ class IncapacidadFront extends Component {
         //console.log(endDate.toISOString().slice(0,10))    
         var count = 0;
         var countf = 0;
-        var festivos = ["2020-05-01","2020-05-25"]
+        var festivos = ["2020-05-01","2020-05-25","2020-06-15","2020-06-22","2020-06-29","2020-07-20","2020-08-07","2020-08-17","2020-10-12","2020-11-02","2020-11-16","2020-12-08","2020-12-25"];
         var curDate = startDate;
         while (curDate <= endDate) {
             var dayOfWeek = curDate.getDay();
@@ -257,53 +401,156 @@ class IncapacidadFront extends Component {
         });
     }
     guardarIncapacidad(){
-        console.log(this.state)
+        //console.log(this.state)
+      
+        
+        let resp=this.validarForm()
+
+        if (resp){
+
         let url ='saveIncapacidad'
         
-        axios.post(url, { datos: this.state})
+            axios.post(url, { datos: this.state})
+                .then(resp => {
+                    alert(resp.data)
+                    
+                    this.setState({
+                        visible:'oculto',
+                    });
+                })
+                .catch(err =>{
+                    console.log(err)
+                })
+        }
+        else{
+            alert("Hay errores en algunos campos");
+        }
+       
+    }
+    validarForm(){
+        this.clearErrors()
+        
+        let resp=true;
+        let newState = Object.assign({}, this.state);
+        if (this.state.tipoPrestador == ''){
+            newState.errors.tipoPrestador = "visible";
+            newState.errorMensajes.tipoPrestador = "Tipo de prestador requerido";
+            resp=false;   
+        }
+        if ((this.state.tipoPrestador == 1)&&(this.state.ips_id == 0)){
+            newState.errors.ips = "visible";
+            newState.errorMensajes.ips = "IPS requerida";
+            resp=false;
+        }
+        if (this.state.causae == 0){
+            newState.errors.causae = "visible";
+            newState.errorMensajes.causae = "Causa externa requerida";
+            resp=false;   
+        }
+        if (this.state.lateralidad_id == 0){
+            newState.errors.lateralidad = "visible";
+            newState.errorMensajes.lateralidad = "Lateralidad requerida";
+            resp=false;   
+        }
+        if (this.state.diagnostico == ''){
+            newState.errors.diagnostico = "visible";
+            newState.errorMensajes.diagnostico = "Diagnóstico requerido";
+            resp=false;   
+        }
+        if (this.state.diasSolicitados == 0){
+            newState.errors.diasSolicitados = "visible";
+            newState.errorMensajes.diasSolicitados = "Días debe ser mayor a 0";
+            resp=false;   
+        }
+        if (this.state.contingencia == 0){
+            newState.errors.contingencia = "visible";
+            newState.errorMensajes.contingencia = "Contingencia requerida";
+            resp=false;   
+        }
+        this.setState(newState);
+        return resp;
+        
+    }
+    clearErrors(){
+        let newState = Object.assign({}, this.state);
+       // console.log(Object.entries(newState));  
+        Object.keys(newState.errors).forEach(key => {
+            newState.errors[key] = "oculto";
+        });
+        this.setState(newState);
+        let newState2 = Object.assign({}, this.state);
+        Object.keys(newState2.errorMensajes).forEach(key => {
+            newState2.errorMensajes[key] = '';
+        });
+        //console.log(newState);
+        this.setState(newState2);
+    }   
+    buscarHistorico(){
+        
+        let tipoDocumento=this.state.tipoDocumento;
+        let numeroIdentificacion= this.state.numeroIdentificacion;
+        let url = '/buscarHistorico/'+tipoDocumento+"/"+numeroIdentificacion;
+        window.open(url,"_blank");
+        /*
+        axios.get(url)
             .then(resp => {
-               console.log(resp.data)
+               console.log(resp.data.respuesta)
+
             })
             .catch(err =>{
                 console.log(err)
-            })
+            })*/
     
-      
     }
     showMessage(m){
         return (<div className="alert alert-success" role="alert">{ m }</div>);
     }
     render() {
         let mensaje=<div></div>;
+       
         if (this.state.loading ){ 
-            if (this.state.tipo == 'success'){
-             mensaje = (<div className="alert alert-success" role="alert">
+            if (this.state.tipoMensaje == 'success'){
+                mensaje = (<div className="alert alert-success" role="alert">
                  { this.state.mensaje }
                  </div>);
+               
             }
+            if (this.state.tipoMensaje == 'error'){
+                mensaje = (<div className="alert alert-danger" role="alert">
+                    { this.state.mensaje }
+                    </div>);
+               }
         }
+        
               
         return (
-            <div className="container">
+        
+       
+        
+        <div className="container">
             <div className="row justify-content-center">
                 <div className="col-md-10">
                     <div className="card">
-                        <div className="card-header">Incapacidades</div>
+                        
+                        <div className="card-header bg1">Validación de derechos - Incapacidades</div>
         
                         <div className="card-body">
                             <form onSubmit={this.handleSubmit}>
                                 <div className="row">
                                     <div className="col-sm-4">
+                                        <label htmlFor="tipoDocumento">Tipo Documento</label>
                                         <select className="form-control" id="tipoDocumento" onChange={this.handleTipo}>
                                             <option value=""></option>
                                             <option value="CC">CC</option>
                                         </select>
                                     </div>
                                     <div className="col-sm-4">
+                                        <label htmlFor="numeroIdentificacion">Número de identificacion</label>
                                         <input type="text" id="numeroIdentificacion" className="form-control" onChange={this.handleNumero}/>
                                     </div>
                                     <div className="col-sm-4">
-                                        <input type="submit" className="btn btn-primary" value="Buscar"/>
+                                        <br/>
+                                        <input type="submit" id="btnBuscar" className="btn btn-primary" defaultValue="Buscar"/>
                                     </div>
                                 </div>  
                                 
@@ -314,14 +561,15 @@ class IncapacidadFront extends Component {
             </div>
             <br/>
             
-               
+            
             { mensaje }
-                                
-        
-            <div className="row justify-content-center">
+
+
+            <div className={this.state.visible}>
+            <div className="row justify-content-center ">
                 <div className="col-md-10">
                     <div className="card">
-                        <div className="card-header">Datos del afiliado</div>
+                        <div className="card-header bg2">Datos del afiliado</div>
         
                         <div className="card-body">
                                 <div className="row">
@@ -329,20 +577,20 @@ class IncapacidadFront extends Component {
                                     <div className="col-sm-3">
                                         <div className="form-group">
                                             <label htmlFor="tipoDocumento">Tipo Documento</label>
-                                            <input type="text" id="tipoDocumento" className="form-control" value={this.state.tipoDocAfiliado}  readOnly />
+                                            <input type="text"  className="form-control" defaultValue={this.state.tipoDocAfiliado}  readOnly />
                                         </div>
                                     </div>
 
                                     <div className="col-sm-3">
                                         <div className="form-group">
                                             <label htmlFor="numeroIdentificacion">Número de identificacion</label>
-                                            <input type="text" id="numeroIdentificacion" className="form-control" value={this.state.IDTrabajador}  readOnly  />
+                                            <input type="text"  className="form-control" defaultValue={this.state.IDTrabajador}  readOnly  />
                                         </div>
                                     </div>
                                     <div className="col-sm-6">
                                         <div className="form-group">
                                             <label htmlFor="nombreAfiliado">Nombre Completo</label>
-                                            <input type="text" id="nombreAfiliado" className="form-control" value={this.state.nombreCompleto}  readOnly/>
+                                            <input type="text" id="nombreAfiliado" className="form-control" defaultValue={this.state.nombreCompleto}  readOnly/>
                                         </div>
                                     </div>
                                 </div>  
@@ -351,26 +599,26 @@ class IncapacidadFront extends Component {
                                     <div className="col-sm-3">
                                         <div className="form-group">
                                             <label htmlFor="historiaClinica">Numero de historia clínica</label>
-                                            <input type="text" id="historiaClinica" className="form-control" value={this.state.historiaClinica}  readOnly />
+                                            <input type="text" id="historiaClinica" className="form-control" defaultValue={this.state.historiaClinica}  readOnly />
                                         </div>
                                     </div>
 
                                     <div className="col-sm-1">
                                         <div className="form-group">
                                             <label htmlFor="genero">Género</label>
-                                            <input type="text" id="numeroIdentificacion" className="form-control" value={this.state.genero}  readOnly  />
+                                            <input type="text" id="genero" className="form-control" defaultValue={this.state.genero}  readOnly  />
                                         </div>
                                     </div>
                                     <div className="col-sm-4">
                                         <div className="form-group">
                                             <label htmlFor="estado">Estado</label>
-                                            <input type="text" id="estado" className="form-control" value={this.state.estado}  readOnly/>
+                                            <input type="text" id="estado" className="form-control" defaultValue={this.state.estado}  readOnly/>
                                         </div>
                                     </div>
                                     <div className="col-sm-4">
                                         <div className="form-group">
                                             <label htmlFor="tipoCotizante">Tipo de Cotizante</label>
-                                            <input type="text" id="tipoCotizante" className="form-control" value={this.state.tipoCotizante}  readOnly/>
+                                            <input type="text" id="tipoCotizante" className="form-control" defaultValue={this.state.tipoCotizante}  readOnly/>
                                         </div>
                                     </div>
                                 </div>  
@@ -378,32 +626,37 @@ class IncapacidadFront extends Component {
                     </div>
                 </div>
             </div>
+            </div>
             <br/>
               
+            <div className={this.state.visible}>
             <div className="row justify-content-center">
                 <div className="col-md-10">
                     <div className="card">
-                        <div className="card-header">Datos de la IPS / Médico</div>
+                        <div className="card-header bg2">Datos de la IPS / Médico</div>
         
                         <div className="card-body">
         
-                                <Comboips handleIpsChange={this.handleIpsChange} handlePrestador={this.handlePrestador}/>
-                                <Medico /> 
+                                <Comboips handleIpsChange={this.handleIpsChange} handlePrestador={this.handlePrestador} valor={this.state.ips_id} error={this.state.errors['tipoPrestador']} mensaje={this.state.errorMensajes['tipoPrestador']} errorIps={this.state.errors['ips']} mensajeIps={this.state.errorMensajes['ips']}/>
+                                <Medico handleMedico={this.handleMedico}/> 
                         </div>
                     </div>
                 </div>
             </div>
+            </div>
             <br/>
+
+            <div className={this.state.visible}>
             <div className="row justify-content-center">
                 <div className="col-md-10">
                     <div className="card">
-                        <div className="card-header">Información de la incapacidad</div>
+                        <div className="card-header bg2">Información de la incapacidad</div>
         
                         <div className="card-body">
                                 <div className="row">
                                     <div className="col-sm-3">
                                         <div className="form-group">
-                                            <button className="btn btn-primary" >Histórico Incapacidades</button>
+                                            <button className="btn btn-primary" onClick={this.buscarHistorico}>Histórico Incapacidades</button>
                                         </div>
                                     </div>
 
@@ -418,20 +671,17 @@ class IncapacidadFront extends Component {
                                         <div className="form-group">
                                             <label htmlFor="nombreAfiliado">Fecha de atención</label>
                                          
-                                            <input type="date" id="fechaAtencion" className="form-control"  value={this.state.fechaAtencion}/>
+                                            <input type="date" id="fechaAtencion" className="form-control"  defaultValue={this.state.fechaAtencion} onChange={this.handleFechaAtencion}/>
                                         </div>
                                     </div>
                                 </div>  
                                 <div className="row">
                                     <div className="col-sm-3">
-                                        <div className="form-group">
-                                            <label htmlFor="causaExterna">Causa Externa</label>
-                                             <Combocausae handler = {this.handleCausa} value= { this.state.causae} />
-                                        </div>
+                                        <Combocausae handleCausa = {this.handleCausa} value= { this.state.causae} error={this.state.errors['causae']} mensaje={this.state.errorMensajes['causae']}/>
                                     </div>
                         
                                     <div className="col-sm-9">
-                                        <AutocompleteDescripcion handleDiagnostico ={this.handleDiagnostico} handleCodigoDiagnostico ={this.handleCodigoDiagnostico}/>
+                                        <AutocompleteDescripcion handleDiagnostico ={this.handleDiagnostico} handleCodigoDiagnostico ={this.handleCodigoDiagnostico} handleCapituloDiagnostico ={this.handleCapituloDiagnostico} error={this.state.errors['diagnostico']} mensaje={this.state.errorMensajes['diagnostico']}/>
                                     </div>
                                     
                                 </div>  
@@ -439,25 +689,31 @@ class IncapacidadFront extends Component {
                                     <div className="col-sm-2">
                                         <div className="form-group">
                                             <label htmlFor="lateralidad">Lateralidad</label>
-                                            <select id="lateralidad" className="form-control">
-                                                <option value=""></option>
+                                            <select id="lateralidad" className="form-control" onChange={this.handleLateralidad}>
+                                                <option value="0"></option>
                                                 <option value="1">Derecha</option>
                                                 <option value="2">Izquierda</option>
                                                 <option value="3">Bilateral</option>
                                                 <option value="4">No aplica</option>
                                             </select>
+                                            <div className={this.state.errors['lateralidad']}>
+                                                <div className="alert alert-danger" role="alert">{this.state.errorMensajes['lateralidad']}</div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div className="col-sm-3">
                                         <div className="form-group">
                                             <label htmlFor="fechaInicioIncapacidad">Fecha inicio Incapacidad</label>
-                                            <input type="date" id="fechaInicioIncapacidad" className="form-control" value={this.state.fechaInicioIncapacidad} onChange={this.handleFechaInicioIncapacidad} />
+                                            <input type="date" id="fechaInicioIncapacidad" className="form-control" defaultValue={this.state.fechaInicioIncapacidad} onChange={this.handleFechaInicioIncapacidad} />
                                         </div>
                                     </div>
                                     <div className="col-sm-2">
                                         <div className="form-group">
                                             <label htmlFor="diasSolicitados">Dias Solicitados</label>
                                             <input type="number" id="diasSolicitados" className="form-control" onChange={this.handleDiasSolicitados} value={this.state.diasSolicitados}/>
+                                            <div className={this.state.errors['diasSolicitados']}>
+                                                <div className="alert alert-danger" role="alert">{this.state.errorMensajes['diasSolicitados']}</div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div className="col-sm-2">
@@ -477,10 +733,10 @@ class IncapacidadFront extends Component {
                                     <div className="col-sm-2">
                                         <div className="form-group">
                                             <label htmlFor="prorroga">Prórroga</label>
-                                            <select id="prorroga" className="form-control">
-                                                <option value=""></option>
-                                                <option value="Si">Si</option>
+                                            <select id="prorroga" className="form-control" onChange={ this.handleProrroga}>
                                                 <option value="No">No</option>
+                                                <option value="Si">Si</option>
+                                               
                                                 
                                             </select>
                                         </div>
@@ -488,24 +744,27 @@ class IncapacidadFront extends Component {
                                     <div className="col-sm-3">
                                         <div className="form-group">
                                             <label htmlFor="diasAcumuladosPrevios">Dias Acumulados Previos</label>
-                                            <input type="number" id="diasAcumuladosPrevios" className="form-control"  />
+                                            <input type="number" id="diasAcumuladosPrevios" className="form-control"  value={this.state.diasAcumuladosPrevios} readOnly/>
                                         </div>
                                     </div>
                                     <div className="col-sm-3">
                                         <div className="form-group">
                                             <label htmlFor="contingenciaOrigen">Contingencia Origen</label>
-                                            <select id="contingenciaOrigen" className="form-control" onChange={this.handleContingencia}>
+                                            <select id="contingenciaOrigen" className="form-control" onChange={this.handleContingencia} value={ this.state.contingencia}>
                                                 <option value=""></option> 
                                                 <option value="1">Enfermedad general</option>
                                                 <option value="2">Enfermedad laboral</option>
                                                 <option value="3">Accidente de trabajo</option>
                                             </select>
+                                            <div className={this.state.errors['contingencia']}>
+                                                <div className="alert alert-danger" role="alert">{this.state.errorMensajes['contingencia']}</div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div className="col-sm-4">
                                         <div className="form-group">
                                             <label htmlFor="diasAcumuladosUltimaIncpacidad">Días acumulados última incapacidad</label>
-                                            <input type="number" id="diasAcumuladosUltimaIncapacidad" className="form-control"  />
+                                            <input type="number" id="diasAcumuladosUltimaIncapacidad" className="form-control"  value={this.state.diasAcumuladosUltima}/>
                                         </div>
                                     </div>
                                 </div>  
@@ -523,12 +782,14 @@ class IncapacidadFront extends Component {
                     </div>
                 </div>
             </div>
+            </div>
             <br/>
 
+            <div className={this.state.visible}>
             <div className="row justify-content-center">
                 <div className="col-md-10">
                     <div className="card">
-                        <div className="card-header">Datos del aportante</div>
+                        <div className="card-header bg2">Datos del aportante</div>
         
                         <div className="card-body">
                                 <div className="row">
@@ -563,14 +824,23 @@ class IncapacidadFront extends Component {
                         </div>
                     </div>
                 </div>
+               
+            </div>
             </div>
             <br />
+            
+            <div className={this.state.visible}>
             <div className="row justify-content-center">
                 <div className="col-md-10">
                     <button className="btn btn-block btn-success" onClick={this.guardarIncapacidad}>GUARDAR INCAPACIDAD</button>
                 </div>
             </div>
+            </div>
+        
         </div>
+       
+    
+
         );
     }
 }

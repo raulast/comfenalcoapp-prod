@@ -22,4 +22,6 @@ observacion medium text
 timestamps
 
 
+actualizar campo codigo sin espacios en cie10
+validar el datosafiliado[0]
 

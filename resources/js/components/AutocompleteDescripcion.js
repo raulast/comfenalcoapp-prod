@@ -12,6 +12,8 @@ export default class AutocompleteDescripcion extends Component {
             suggestions: [],
             text: '',
             codigo:'',
+            capitulo:'',
+           
         }
         this.onTextChanged = this.onTextChanged.bind(this);
         this.suggestionSelected = this.suggestionSelected.bind(this);
@@ -53,15 +55,17 @@ export default class AutocompleteDescripcion extends Component {
 
 
     }
-    suggestionSelected(value,cod) {
+    suggestionSelected(value,cod,capitulo) {
         cod = cod.trim()
         this.setState({
             suggestions: [],
             text: value,
-            codigo : cod
+            codigo : cod,
+            capitulo:capitulo
         });
         this.props.handleDiagnostico(value)
         this.props.handleCodigoDiagnostico(cod)
+        this.props.handleCapituloDiagnostico(capitulo)
     }
 
     renderSuggestions() {
@@ -72,12 +76,14 @@ export default class AutocompleteDescripcion extends Component {
         }
         return (
             <ul>
-                {suggestions.map((item) => <li key={item.id} onClick={() => this.suggestionSelected(item.descripcion_diagnostico,item.codigo)}>{item.descripcion_diagnostico}</li>)}
+                {suggestions.map((item) => <li key={item.id} onClick={() => this.suggestionSelected(item.descripcion_diagnostico,item.codigo,item.capitulo_grupo)}>{item.descripcion_diagnostico}</li>)}
             </ul>
         );
     }
     render() {
         const { text } = this.state;
+        const { error } = this.props;
+        const { mensaje } = this.props;
         return (
             <div className="row">
             <div className="col-sm-10">
@@ -87,6 +93,9 @@ export default class AutocompleteDescripcion extends Component {
                     <div className="AutoCompleteDescripcion">
                         <input value={text} onChange={this.onTextChanged} type="text" id="descripcionDiagnostico" className="form-control" />
                         {this.renderSuggestions()}
+                        <div className={error}>
+                            <div className="alert alert-danger" role="alert">{ mensaje}</div>
+                        </div>
                     </div>
                 </div>
             </div>
