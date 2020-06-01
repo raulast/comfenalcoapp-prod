@@ -538,7 +538,7 @@ class IncapacidadFront extends Component {
                             <form onSubmit={this.handleSubmit}>
                                 <div className="row">
                                     <div className="col-sm-4">
-                                        <label htmlFor="tipoDocumento">Tipo Documento</label>
+                                        <label htmlFor="tipoDocumento">Tipo documento</label>
                                         <select className="form-control" id="tipoDocumento" onChange={this.handleTipo}>
                                             <option value=""></option>
                                             <option value="CC">CC</option>
@@ -550,7 +550,7 @@ class IncapacidadFront extends Component {
                                     </div>
                                     <div className="col-sm-4">
                                         <br/>
-                                        <input type="submit" id="btnBuscar" className="btn btn-primary" defaultValue="Buscar"/>
+                                        <input type="submit" id="btnBuscar" className="btn btn-primary" value="Buscar"/>
                                     </div>
                                 </div>  
                                 
@@ -576,7 +576,7 @@ class IncapacidadFront extends Component {
             
                                     <div className="col-sm-3">
                                         <div className="form-group">
-                                            <label htmlFor="tipoDocumento">Tipo Documento</label>
+                                            <label htmlFor="tipoDocumento">Tipo documento</label>
                                             <input type="text"  className="form-control" defaultValue={this.state.tipoDocAfiliado}  readOnly />
                                         </div>
                                     </div>
@@ -589,7 +589,7 @@ class IncapacidadFront extends Component {
                                     </div>
                                     <div className="col-sm-6">
                                         <div className="form-group">
-                                            <label htmlFor="nombreAfiliado">Nombre Completo</label>
+                                            <label htmlFor="nombreAfiliado">Nombre completo</label>
                                             <input type="text" id="nombreAfiliado" className="form-control" defaultValue={this.state.nombreCompleto}  readOnly/>
                                         </div>
                                     </div>
@@ -617,7 +617,7 @@ class IncapacidadFront extends Component {
                                     </div>
                                     <div className="col-sm-4">
                                         <div className="form-group">
-                                            <label htmlFor="tipoCotizante">Tipo de Cotizante</label>
+                                            <label htmlFor="tipoCotizante">Tipo de cotizante</label>
                                             <input type="text" id="tipoCotizante" className="form-control" defaultValue={this.state.tipoCotizante}  readOnly/>
                                         </div>
                                     </div>
@@ -656,7 +656,7 @@ class IncapacidadFront extends Component {
                                 <div className="row">
                                     <div className="col-sm-3">
                                         <div className="form-group">
-                                            <button className="btn btn-primary" onClick={this.buscarHistorico}>Histórico Incapacidades</button>
+                                            <button className="btn btn-primary" onClick={this.buscarHistorico}>Histórico incapacidades</button>
                                         </div>
                                     </div>
 
@@ -697,28 +697,28 @@ class IncapacidadFront extends Component {
                                                 <option value="4">No aplica</option>
                                             </select>
                                             <div className={this.state.errors['lateralidad']}>
-                                                <div className="alert alert-danger" role="alert">{this.state.errorMensajes['lateralidad']}</div>
+                                                <div className={ "invalid-feedback  " + ( this.state.errors['lateralidad'] || "") }>{this.state.errorMensajes['lateralidad']}</div>
                                             </div>
                                         </div>
                                     </div>
                                     <div className="col-sm-3">
                                         <div className="form-group">
-                                            <label htmlFor="fechaInicioIncapacidad">Fecha inicio Incapacidad</label>
+                                            <label htmlFor="fechaInicioIncapacidad">Fecha inicio incapacidad</label>
                                             <input type="date" id="fechaInicioIncapacidad" className="form-control" defaultValue={this.state.fechaInicioIncapacidad} onChange={this.handleFechaInicioIncapacidad} />
                                         </div>
                                     </div>
                                     <div className="col-sm-2">
                                         <div className="form-group">
-                                            <label htmlFor="diasSolicitados">Dias Solicitados</label>
+                                            <label htmlFor="diasSolicitados">Dias solicitados</label>
                                             <input type="number" id="diasSolicitados" className="form-control" onChange={this.handleDiasSolicitados} value={this.state.diasSolicitados}/>
                                             <div className={this.state.errors['diasSolicitados']}>
-                                                <div className="alert alert-danger" role="alert">{this.state.errorMensajes['diasSolicitados']}</div>
+                                                <div className={ "invalid-feedback  " + ( this.state.errors['diasSolicitados'] || "") }>{this.state.errorMensajes['diasSolicitados']}</div>
                                             </div>
                                         </div>
                                     </div>
                                     <div className="col-sm-2">
                                         <div className="form-group">
-                                            <label htmlFor="diasReconocidos">Dias Reconocidos</label>
+                                            <label htmlFor="diasReconocidos">Dias reconocidos</label>
                                             <input type="number" id="diasReconocidos" className="form-control" value={this.state.diasReconocidos} readOnly/>
                                         </div>
                                     </div>
@@ -743,13 +743,13 @@ class IncapacidadFront extends Component {
                                     </div>
                                     <div className="col-sm-3">
                                         <div className="form-group">
-                                            <label htmlFor="diasAcumuladosPrevios">Dias Acumulados Previos</label>
+                                            <label htmlFor="diasAcumuladosPrevios">Días acumulados previos</label>
                                             <input type="number" id="diasAcumuladosPrevios" className="form-control"  value={this.state.diasAcumuladosPrevios} readOnly/>
                                         </div>
                                     </div>
                                     <div className="col-sm-3">
                                         <div className="form-group">
-                                            <label htmlFor="contingenciaOrigen">Contingencia Origen</label>
+                                            <label htmlFor="contingenciaOrigen">Contingencia origen</label>
                                             <select id="contingenciaOrigen" className="form-control" onChange={this.handleContingencia} value={ this.state.contingencia}>
                                                 <option value=""></option> 
                                                 <option value="1">Enfermedad general</option>
@@ -757,14 +757,14 @@ class IncapacidadFront extends Component {
                                                 <option value="3">Accidente de trabajo</option>
                                             </select>
                                             <div className={this.state.errors['contingencia']}>
-                                                <div className="alert alert-danger" role="alert">{this.state.errorMensajes['contingencia']}</div>
+                                            <div className={ "invalid-feedback  " + ( this.state.errors['contingencia'] || "") }>{this.state.errorMensajes['contingencia']}</div>
                                             </div>
                                         </div>
                                     </div>
                                     <div className="col-sm-4">
                                         <div className="form-group">
                                             <label htmlFor="diasAcumuladosUltimaIncpacidad">Días acumulados última incapacidad</label>
-                                            <input type="number" id="diasAcumuladosUltimaIncapacidad" className="form-control"  value={this.state.diasAcumuladosUltima}/>
+                                            <input type="number" id="diasAcumuladosUltimaIncapacidad" className="form-control"  value={this.state.diasAcumuladosUltima} readOnly/>
                                         </div>
                                     </div>
                                 </div>  
@@ -796,7 +796,7 @@ class IncapacidadFront extends Component {
             
                                     <div className="col-sm-2">
                                         <div className="form-group">
-                                            <label htmlFor="tipoIdentificacionAportante">Tipo Identificación</label>
+                                            <label htmlFor="tipoIdentificacionAportante">Tipo identificación</label>
                                             <input type="text" id="tipoDocAportante" className="form-control" value={ this.state.tipoDocAportante}  readOnly />
                                         </div>
                                     </div>

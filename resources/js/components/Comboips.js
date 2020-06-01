@@ -75,7 +75,7 @@ export default function Comboips(props) {
                             <option value="2">Consultorio</option>
                         </select>
                         <div className={props.error}>
-                            <div className="alert alert-danger" role="alert">{ props.mensaje}</div>
+                            <div className={ "invalid-feedback  " + ( props.error || "") }>{ props.mensaje}</div>
                         </div>
                     </div>
                 </div>
@@ -93,7 +93,7 @@ export default function Comboips(props) {
                                 }
                             </select>
                             <div className={props.errorIps}>
-                                <div className="alert alert-danger" role="alert">{ props.mensajeIps}</div>
+                                <div className={ "invalid-feedback  " + ( props.errorIps || "") }>{ props.mensajeIps}</div>
                             </div>
                         </div>
                     </div>
@@ -105,7 +105,7 @@ export default function Comboips(props) {
                     </div>
                     <div className="col-sm-3">
                         <div className="form-group">
-                            <label htmlFor="codigoHabilitacion">Código Habilitación IPS</label>
+                            <label htmlFor="codigoHabilitacion">Código habilitación IPS</label>
                             <input type="text" id="codigoHabilitacion" className="form-control" value={codigoHabilitacion} readOnly />
                         </div>
                     </div>

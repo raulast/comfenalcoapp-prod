@@ -30,7 +30,7 @@ export default function Combocausae(props){
 
     return(
         <div className="form-group">
-            <label htmlFor="causaExterna">Causa Externa</label>
+            <label htmlFor="causaExterna">Causa externa</label>
             <select id="causaExterna" className="form-control" onChange={handleCausa} value={props.value}>
             
                 <option value={0}></option>
@@ -39,7 +39,7 @@ export default function Combocausae(props){
                 }
             </select>
             <div className={props.error}>
-                <div className="alert alert-danger" role="alert">{ props.mensaje}</div>
+                <div className={ "invalid-feedback  " + ( props.error || "") }>{ props.mensaje}</div>
             </div>
         </div>
     )

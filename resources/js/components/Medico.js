@@ -32,7 +32,7 @@ export default function Medico(props) {
 
             <div className="col-sm-3">
                 <div className="form-group">
-                    <label htmlFor="tipoDocumentoMedico">Tipo Documento</label>
+                    <label htmlFor="tipoDocumentoMedico">Tipo documento</label>
                     <input type="text" id="tipoDocumentoMedico" className="form-control" defaultValue={ tipoDocumento} readOnly/>
                 </div>
             </div>
@@ -45,7 +45,7 @@ export default function Medico(props) {
             </div>
             <div className="col-sm-6">
                 <div className="form-group">
-                    <label htmlFor="nombreMedico">Nombre Completo</label>
+                    <label htmlFor="nombreMedico">Nombre completo</label>
                     <input type="text" id="nombreMedico" className="form-control" defaultValue={ nombre} readOnly />
                 </div>
             </div>
@@ -61,7 +61,7 @@ export default function Medico(props) {
 
             <div className="col-sm-4">
                 <div className="form-group">
-                    <label htmlFor="especialidadMedica">Especialidad Médica</label>
+                    <label htmlFor="especialidadMedica">Especialidad médica</label>
                     <select id="especialidadMedica" className="form-control" value={ especialidad} readOnly >
                         <option value="0"></option>
                         <option value="1">Medicina general</option>
