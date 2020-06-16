@@ -8,6 +8,7 @@ use App\User;
 use App\Medico;
 use App\Cie10;
 use App\Causae;
+use App\Estadosi;
 
 class LoadController extends Controller
 {
@@ -27,6 +28,9 @@ class LoadController extends Controller
         }
         if ($tipo== "causas"){ 
             $this->loadCausas(); 
+        }
+        if ($tipo== "estados"){ 
+            $this->loadEstados(); 
         }
         if($tipo == "todos"){
             $this->loadIps(); 
@@ -60,6 +64,14 @@ class LoadController extends Controller
         //dd($customerArr);
         for ($i = 0; $i < count($customerArr); $i ++){
             Causae::firstOrCreate($customerArr[$i]);
+        }   
+    }
+    private function loadEstados(){
+        $file = public_path('csv/estados.csv');
+        $customerArr = $this->csvToArray($file);
+        //dd($customerArr);
+        for ($i = 0; $i < count($customerArr); $i ++){
+            Estadosi::firstOrCreate($customerArr[$i]);
         }   
     }
     private function loadUsuarios(){

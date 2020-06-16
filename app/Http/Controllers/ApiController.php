@@ -34,7 +34,7 @@ class ApiController extends Controller
     }
     public function search($tipo,$value){
         if ($tipo="diagnostico"){
-            $data=Cie10::where('descripcion_diagnostico','like','%'.$value.'%')->get();
+            $data=Cie10::where('descripcion_diagnostico','like','%'.$value.'%')->where('num_dias_maximo_solicitud','>',0)->get();
 
         }
         return response()->json([
@@ -113,7 +113,7 @@ class ApiController extends Controller
     //save
     public function saveIncapacidad(Request $request){
             $datos = $request->datos;
-            
+           // return $datos;
             $i = Incapacidad::create([
                 'id' => (int)$datos['id'],
                 'prorrogaid' => $datos['prorrogaId'],
@@ -128,13 +128,19 @@ class ApiController extends Controller
                 'causa_externa' => $datos['causae'],
                 'contingencia_origen' =>$datos['contingencia'], 
                 'observacion' => $datos['observacion'],
+                
                 'codigo_diagnostico' => $datos['codigoDiagnostico'],
+                'codigo_diagnostico1' => $datos['codigoDiagnostico1'],
+                'codigo_diagnostico2' =>$datos['codigoDiagnostico2'],
+                'codigo_diagnostico3' => $datos['codigoDiagnostico3'],
                 'ips' => $datos['ips_id'],
                 'medico_id' => $datos['medico_id'],
                 'lateralidad' => $datos['lateralidad_id'],
                 'prorroga' => $datos['prorroga'],
                 'dias_acumulados_previos' => $datos['diasAcumuladosPrevios'],
                 'dias_acumulados_ultima_incapacidad' => $datos['diasAcumuladosUltima'],
+                'estado_id' => $datos['estado_id'],
+                'observacion_estado' => $datos['observacion_estado'],
             ]);
                 
             return  "Incapacidad almacenada";

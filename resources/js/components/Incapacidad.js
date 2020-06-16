@@ -5,12 +5,14 @@ import Comboips from './Comboips.js';
 import Combocausae from './Combocausae.js';
 import Medico from './Medico.js';
 import AutocompleteDescripcion from './AutocompleteDescripcion.js';
+
 import axios from 'axios';
 
 
 class IncapacidadFront extends Component {
     constructor(props) {
         super(props);
+
         let today = new Date();
         let dd = today.getDate();
         let mm = today.getMonth()+1; 
@@ -38,6 +40,8 @@ class IncapacidadFront extends Component {
             fechaAtencion : today,
             fechaInicioIncapacidad : today,
             diasSolicitados : 0,
+            diasMaximosCie10:0,
+            diasMaximosEspecialidad:0,
             fechaFinIncapacidad : today,
             diasReconocidos : 0,
             causae : '0',
@@ -46,8 +50,16 @@ class IncapacidadFront extends Component {
             numDocAportante: '',
             nombreAportante:'',
             observacion:'',
+            observacion_estado:'',
             diagnostico: '',
             codigoDiagnostico: '',
+            diagnostico1: '',
+            codigoDiagnostico1: '',
+            diagnostico2: '',
+            codigoDiagnostico2: '',
+            diagnostico3: '',
+            codigoDiagnostico3: '',
+
             capitulo : '',
             id : '00001',
             prorrogaId : 0,
@@ -59,6 +71,7 @@ class IncapacidadFront extends Component {
             diasAcumuladosPrevios : 0,
             diasAcumuladosUltima : 0,
             visible : 'oculto',
+            estado_id : 2,
             errors : {
                 diagnostico : 'oculto',
                 tipoPrestador:'oculto',
@@ -79,7 +92,10 @@ class IncapacidadFront extends Component {
             }
             
         };
+        this.initialState = { ...this.state } 
+
         // bind
+        
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleTipo = this.handleTipo.bind(this);
         this.handleNumero = this.handleNumero.bind(this);
@@ -93,7 +109,14 @@ class IncapacidadFront extends Component {
         this.handleObservacion = this.handleObservacion.bind(this);
         this.handleDiagnostico = this.handleDiagnostico.bind(this);
         this.handleCodigoDiagnostico = this.handleCodigoDiagnostico.bind(this);
+        this.handleDiagnostico1 = this.handleDiagnostico1.bind(this);
+        this.handleCodigoDiagnostico1 = this.handleCodigoDiagnostico1.bind(this);
+        this.handleDiagnostico2 = this.handleDiagnostico2.bind(this);
+        this.handleCodigoDiagnostico2 = this.handleCodigoDiagnostico2.bind(this);
+        this.handleDiagnostico3 = this.handleDiagnostico1.bind(this);
+        this.handleCodigoDiagnostico3 = this.handleCodigoDiagnostico3.bind(this);
         this.handleCapituloDiagnostico = this.handleCapituloDiagnostico.bind(this);
+        this.handleMaximosCie10 = this.handleMaximosCie10.bind(this);
         this.handlePrestador = this.handlePrestador.bind(this);
         this.handleIpsChange = this.handleIpsChange.bind(this);
         this.handleMedico = this.handleMedico.bind(this);
@@ -106,7 +129,13 @@ class IncapacidadFront extends Component {
         this.handleFechaAtencion = this.handleFechaAtencion.bind(this);
         this.validarForm = this.validarForm.bind(this);
         this.clearErrors = this.clearErrors.bind(this);
+        this.reviewProrroga = this.reviewProrroga.bind(this);
+
+        this.handleMaxDias =this.handleMaxDias.bind(this);
+
+      
     }
+    
     getNumeroIncapacidad(){
         let url ='getNumeroIncapacidad'
         axios.get(url)
@@ -197,6 +226,11 @@ class IncapacidadFront extends Component {
             tipoDocumento: e.target.value
         });
     }
+    handleMaxDias(dato) {
+        this.setState({
+            diasMaximosEspecialidad: dato
+        });
+    }
     handleFechaAtencion(e) {
         this.setState({
             fechaAtencion: e.target.value
@@ -207,28 +241,80 @@ class IncapacidadFront extends Component {
             numeroIdentificacion: e.target.value
         });
     }
+    //diagnosticos 
     handleDiagnostico(dato){
-    
-        this.setState(
-            {diagnostico: dato}
-        )
+        this.setState({diagnostico: dato} )
     }
     handleCodigoDiagnostico(dato){
-    
-        this.setState(
-            {codigoDiagnostico: dato}
-        )
+        this.setState({codigoDiagnostico: dato})
+    }
+    handleDiagnostico1(dato){
+        this.setState({diagnostico1: dato} )
+    }
+    handleCodigoDiagnostico1(dato){
+        this.setState({codigoDiagnostico1: dato})
+    }
+    handleDiagnostico2(dato){
+        this.setState({diagnostico2: dato} )
+    }
+    handleCodigoDiagnostico2(dato){
+        this.setState({codigoDiagnostico2: dato})
+    }
+    handleDiagnostico3(dato){
+        this.setState({diagnostico3: dato} )
+    }
+    handleCodigoDiagnostico3(dato){
+        this.setState({codigoDiagnostico3: dato})
     }
     handleCapituloDiagnostico(dato){
-    
-        this.setState(
-            {capitulo: dato}
-        )
+        this.setState({capitulo: dato })   
+    }
+    reviewProrroga(){
+        let tipoDocumento=this.state.tipoDocumento;
+        let numeroIdentificacion = this.state.numeroIdentificacion;
+        let url = '/buscarHistoricoUltimaDias/' + tipoDocumento + "/" + numeroIdentificacion;
+        let diasSolicitados = this.state.diasSolicitados
+        
+        axios.get(url)
+            .then(resp => {
+                //console.log(resp.data)
+
+                if (resp.data.capitulo == this.state.capitulo) {
+                    let id = "0000" + resp.data.idant;
+                    let prorrogaId = resp.data.prorrogaidant + 1;
+                    //console.log(prorrogaId);
+
+                    this.setState({
+                        id: id,
+                        prorroga : "Si",
+                        prorrogaId: prorrogaId,
+                        diasAcumuladosPrevios: resp.data.dias,
+                        diasAcumuladosUltima: parseInt(resp.data.dias) + parseInt(diasSolicitados)
+                    })
+                }
+                else {
+                    let observacion_estado = this.state.observacion_estado;
+                    let observacion = "Ruptura por escoger otro capítulo"
+                    alert("El diagnóstico seleccionado no pertenece al mismo capítulo de la última incapacidad")
+                    this.setState({
+                        diasAcumuladosPrevios: resp.data.dias,
+                        diasAcumuladosUltima: parseInt(resp.data.dias) + parseInt(diasSolicitados),
+                        estado_id: 1,
+                        observacion_estado: `${observacion_estado} ${observacion}`,
+                        prorroga : "No",
+                    })
+                }
+
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+    handleMaximosCie10(dato){
+        this.setState({ diasMaximosCie10: dato})
     }
     handleLateralidad(e){
-        this.setState(
-            {lateralidad_id: e.target.value}
-        )
+        this.setState({lateralidad_id: e.target.value})
     }
     handleProrroga(e){
         this.setState(
@@ -242,7 +328,7 @@ class IncapacidadFront extends Component {
             
             axios.get(url)
                 .then(resp => {
-                console.log(resp.data)
+                //console.log(resp.data)
                 
                 if (resp.data.capitulo == this.state.capitulo){
                     let id= "0000"+resp.data.idant;
@@ -259,7 +345,8 @@ class IncapacidadFront extends Component {
                     alert("El diagnóstico seleccionado no pertenece al mismo capítulo de la última incapacidad")
                     this.setState({
                         diasAcumuladosPrevios: resp.data.dias,
-                        diasAcumuladosUltima : parseInt(resp.data.dias) + parseInt(diasSolicitados)
+                        diasAcumuladosUltima : parseInt(resp.data.dias) + parseInt(diasSolicitados),
+                        estado_id : 1,
                     })
                 }
 
@@ -295,7 +382,7 @@ class IncapacidadFront extends Component {
         if (fi>l1){
             alert("La fecha de inicio no puede ser mayor a 3 días desde la fecha de atención")
             this.setState({
-                fechaInicioIncapacidad:new Date().toISOString().slice(0,10),
+                fechaInicioIncapacidad:new Date().toISOString().slice(0,10)
             });
         }
         if (fi<l2){
@@ -310,6 +397,19 @@ class IncapacidadFront extends Component {
         this.setState({
             diasSolicitados: e.target.value,
         })
+        //console.log(this.state.diasSolicitados);
+        //console.log(this.state.diasMaximosCie10);
+       
+        let observacion_estado = this.state.observacion_estado;
+        let observacion = "Dias solicitados mayor a especificado por Cie10"
+                    
+        if (this.state.diasSolicitados > this.state.diasMaximosCie10) {
+            this.setState({
+                estado_id : 1,
+                observacion_estado: `${observacion_estado} ${observacion}`,
+            })
+        }
+       
     }
     handleFechaFin(e){
         let l1 = new Date(this.state.fechaInicioIncapacidad);
@@ -320,7 +420,7 @@ class IncapacidadFront extends Component {
         });
         this.getBusinessDatesCount(new Date(this.state.fechaInicioIncapacidad),new Date(l1))
 
-
+        this.reviewProrroga()
     }
     handleCausa(e){
         console.log(e);
@@ -337,6 +437,11 @@ class IncapacidadFront extends Component {
         if (e == 9) { 
             this.setState({
                 contingencia : 2,
+            });
+        }
+        if (e == 15) { 
+            this.setState({
+                contingencia : 1,
             });
         }
     }
@@ -402,35 +507,50 @@ class IncapacidadFront extends Component {
     }
     guardarIncapacidad(){
         //console.log(this.state)
-      
-        
-        let resp=this.validarForm()
+        console.log(parseInt(this.state.diasSolicitados));
+        if (parseInt(this.state.diasSolicitados) <= this.state.diasMaximosEspecialidad) {
+                let resp=this.validarForm()
 
-        if (resp){
-
-        let url ='saveIncapacidad'
-        
-            axios.post(url, { datos: this.state})
-                .then(resp => {
-                    alert(resp.data)
-                    
-                    this.setState({
-                        visible:'oculto',
-                    });
-                })
-                .catch(err =>{
-                    console.log(err)
-                })
+                if (resp){
+                    let url = 'saveIncapacidad'
+                    axios.post(url, { datos: this.state })
+                        .then(resp => {
+                            console.log(resp.data)
+                            alert(resp.data)
+                            this.setState(this.initialState);
+                            location.reload();
+                        })
+                        .catch(err => {
+                            console.log(err)
+                        })
+                }
+                else{
+                    alert("Hay errores en algunos campos");
+                }
         }
         else{
-            alert("Hay errores en algunos campos");
+            alert("Los días solicitados exceden el máximo definido para su especialidad médica");
         }
-       
+
+        
     }
     validarForm(){
         this.clearErrors()
         
         let resp=true;
+
+        //Auditoria
+        if (this.state.diasSolicitados > this.state.diasMaximosCie10) {
+            this.setState({
+                estado_id : 1
+            })
+        }
+        if (this.state.diasSolicitados > this.state.diasMaximosEspecialidad) {
+            this.setState({
+                estado_id : 1
+            })
+        }
+
         let newState = Object.assign({}, this.state);
         if (this.state.tipoPrestador == ''){
             newState.errors.tipoPrestador = "visible";
@@ -500,7 +620,6 @@ class IncapacidadFront extends Component {
             .catch(err =>{
                 console.log(err)
             })*/
-    
     }
     showMessage(m){
         return (<div className="alert alert-success" role="alert">{ m }</div>);
@@ -510,13 +629,13 @@ class IncapacidadFront extends Component {
        
         if (this.state.loading ){ 
             if (this.state.tipoMensaje == 'success'){
-                mensaje = (<div className="alert alert-success" role="alert">
+                mensaje = (<div className="alert alert-success reco" role="alert">
                  { this.state.mensaje }
                  </div>);
                
             }
             if (this.state.tipoMensaje == 'error'){
-                mensaje = (<div className="alert alert-danger" role="alert">
+                mensaje = (<div className="alert alert-danger reco" role="alert">
                     { this.state.mensaje }
                     </div>);
                }
@@ -532,21 +651,30 @@ class IncapacidadFront extends Component {
                 <div className="col-md-10">
                     <div className="card">
                         
-                        <div className="card-header bg1">Validación de derechos - Incapacidades</div>
+                        <div className="card-header verde3 titulo">Validación de derechos - Incapacidades</div>
         
-                        <div className="card-body">
+                        <div className="card-body texto">
                             <form onSubmit={this.handleSubmit}>
                                 <div className="row">
                                     <div className="col-sm-4">
                                         <label htmlFor="tipoDocumento">Tipo documento</label>
-                                        <select className="form-control" id="tipoDocumento" onChange={this.handleTipo}>
+                                        <select className="form-control" id="tipoDocumento" onChange={this.handleTipo} value={this.state.tipoDocumento}>
                                             <option value=""></option>
                                             <option value="CC">CC</option>
+                                            <option value="NIT">NIT</option>
+                                            <option value="TI">TI</option>
+                                            <option value="CE">CE</option>
+                                            <option value="PA">PA</option>
+                                            <option value="RC">RC</option>
+                                            <option value="NUIP">NUIP</option>
+                                            <option value="MS">MS</option>
+                                            <option value="CN">CN</option>
+                                           
                                         </select>
                                     </div>
                                     <div className="col-sm-4">
                                         <label htmlFor="numeroIdentificacion">Número de identificacion</label>
-                                        <input type="text" id="numeroIdentificacion" className="form-control" onChange={this.handleNumero}/>
+                                        <input type="text" id="numeroIdentificacion" className="form-control" onChange={this.handleNumero} value={this.state.numeroIdentificacion }/>
                                     </div>
                                     <div className="col-sm-4">
                                         <br/>
@@ -569,9 +697,9 @@ class IncapacidadFront extends Component {
             <div className="row justify-content-center ">
                 <div className="col-md-10">
                     <div className="card">
-                        <div className="card-header bg2">Datos del afiliado</div>
+                        <div className="card-header bg2 titulo">Datos del afiliado</div>
         
-                        <div className="card-body">
+                        <div className="card-body texto">
                                 <div className="row">
             
                                     <div className="col-sm-3">
@@ -633,12 +761,12 @@ class IncapacidadFront extends Component {
             <div className="row justify-content-center">
                 <div className="col-md-10">
                     <div className="card">
-                        <div className="card-header bg2">Datos de la IPS / Médico</div>
+                        <div className="card-header bg2 titulo">Datos de la IPS / Médico</div>
         
-                        <div className="card-body">
+                        <div className="card-body texto">
         
                                 <Comboips handleIpsChange={this.handleIpsChange} handlePrestador={this.handlePrestador} valor={this.state.ips_id} error={this.state.errors['tipoPrestador']} mensaje={this.state.errorMensajes['tipoPrestador']} errorIps={this.state.errors['ips']} mensajeIps={this.state.errorMensajes['ips']}/>
-                                <Medico handleMedico={this.handleMedico}/> 
+                                <Medico handleMedico={this.handleMedico} handleMaxDias={this.handleMaxDias}/> 
                         </div>
                     </div>
                 </div>
@@ -650,9 +778,9 @@ class IncapacidadFront extends Component {
             <div className="row justify-content-center">
                 <div className="col-md-10">
                     <div className="card">
-                        <div className="card-header bg2">Información de la incapacidad</div>
+                        <div className="card-header bg2 titulo">Información de la incapacidad</div>
         
-                        <div className="card-body">
+                        <div className="card-body texto">
                                 <div className="row">
                                     <div className="col-sm-3">
                                         <div className="form-group">
@@ -667,24 +795,37 @@ class IncapacidadFront extends Component {
                                             
                                         </div>
                                     </div>
-                                    <div className="col-sm-6">
+                                    <div className="col-sm-3">
                                         <div className="form-group">
                                             <label htmlFor="nombreAfiliado">Fecha de atención</label>
                                          
                                             <input type="date" id="fechaAtencion" className="form-control"  defaultValue={this.state.fechaAtencion} onChange={this.handleFechaAtencion}/>
                                         </div>
                                     </div>
-                                </div>  
-                                <div className="row">
                                     <div className="col-sm-3">
                                         <Combocausae handleCausa = {this.handleCausa} value= { this.state.causae} error={this.state.errors['causae']} mensaje={this.state.errorMensajes['causae']}/>
                                     </div>
-                        
-                                    <div className="col-sm-9">
-                                        <AutocompleteDescripcion handleDiagnostico ={this.handleDiagnostico} handleCodigoDiagnostico ={this.handleCodigoDiagnostico} handleCapituloDiagnostico ={this.handleCapituloDiagnostico} error={this.state.errors['diagnostico']} mensaje={this.state.errorMensajes['diagnostico']}/>
-                                    </div>
-                                    
                                 </div>  
+                                <div className="row">
+                                    <div className="col-sm-12">
+                                        <AutocompleteDescripcion title="Diagnostico principal" handleDiagnostico ={this.handleDiagnostico} handleCodigoDiagnostico ={this.handleCodigoDiagnostico} handleCapituloDiagnostico ={this.handleCapituloDiagnostico} handleMaximosCie10 ={this.handleMaximosCie10} error={this.state.errors['diagnostico']} mensaje={this.state.errorMensajes['diagnostico']}/>
+                                    </div>
+                                </div> 
+                                <div className="row">
+                                    <div className="col-sm-12">
+                                    <AutocompleteDescripcion title="Diagnóstico relacionado 1" handleDiagnostico ={this.handleDiagnostico1} handleCodigoDiagnostico ={this.handleCodigoDiagnostico1}  />
+                                    </div>
+                                </div> 
+                                <div className="row">
+                                    <div className="col-sm-12">
+                                    <AutocompleteDescripcion title="Diagnóstico relacionado 2" handleDiagnostico ={this.handleDiagnostico2} handleCodigoDiagnostico ={this.handleCodigoDiagnostico2}  />
+                                    </div>
+                                </div> 
+                                <div className="row">
+                                    <div className="col-sm-12">
+                                    <AutocompleteDescripcion title="Diagnóstico relacionado 3" handleDiagnostico ={this.handleDiagnostico3} handleCodigoDiagnostico ={this.handleCodigoDiagnostico3}  />
+                                    </div>
+                                </div> 
                                 <div className="row">
                                     <div className="col-sm-2">
                                         <div className="form-group">
@@ -704,7 +845,7 @@ class IncapacidadFront extends Component {
                                     <div className="col-sm-3">
                                         <div className="form-group">
                                             <label htmlFor="fechaInicioIncapacidad">Fecha inicio incapacidad</label>
-                                            <input type="date" id="fechaInicioIncapacidad" className="form-control" defaultValue={this.state.fechaInicioIncapacidad} onChange={this.handleFechaInicioIncapacidad} />
+                                            <input type="date" id="fechaInicioIncapacidad" className="form-control" value={this.state.fechaInicioIncapacidad} onChange={this.handleFechaInicioIncapacidad} />
                                         </div>
                                     </div>
                                     <div className="col-sm-2">
@@ -730,23 +871,6 @@ class IncapacidadFront extends Component {
                                     </div>
                                 </div>  
                                 <div className="row">
-                                    <div className="col-sm-2">
-                                        <div className="form-group">
-                                            <label htmlFor="prorroga">Prórroga</label>
-                                            <select id="prorroga" className="form-control" onChange={ this.handleProrroga}>
-                                                <option value="No">No</option>
-                                                <option value="Si">Si</option>
-                                               
-                                                
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div className="col-sm-3">
-                                        <div className="form-group">
-                                            <label htmlFor="diasAcumuladosPrevios">Días acumulados previos</label>
-                                            <input type="number" id="diasAcumuladosPrevios" className="form-control"  value={this.state.diasAcumuladosPrevios} readOnly/>
-                                        </div>
-                                    </div>
                                     <div className="col-sm-3">
                                         <div className="form-group">
                                             <label htmlFor="contingenciaOrigen">Contingencia origen</label>
@@ -761,6 +885,24 @@ class IncapacidadFront extends Component {
                                             </div>
                                         </div>
                                     </div>
+                                    <div className="col-sm-2">
+                                        <div className="form-group">
+                                            <label htmlFor="prorroga">Prórroga</label>
+                                            <select id="prorroga" className="form-control" onChange={ this.handleProrroga} value={ this.state.prorroga} readOnly disabled>
+                                                <option value="No">No</option>
+                                                <option value="Si">Si</option>
+                                               
+                                                
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div className="col-sm-3">
+                                        <div className="form-group">
+                                            <label htmlFor="diasAcumuladosPrevios">Días acumulados previos</label>
+                                            <input type="number" id="diasAcumuladosPrevios" className="form-control"  value={this.state.diasAcumuladosPrevios} readOnly/>
+                                        </div>
+                                    </div>
+                                    
                                     <div className="col-sm-4">
                                         <div className="form-group">
                                             <label htmlFor="diasAcumuladosUltimaIncpacidad">Días acumulados última incapacidad</label>
@@ -789,12 +931,12 @@ class IncapacidadFront extends Component {
             <div className="row justify-content-center">
                 <div className="col-md-10">
                     <div className="card">
-                        <div className="card-header bg2">Datos del aportante</div>
+                        <div className="card-header bg2 titulo">Datos del aportante</div>
         
-                        <div className="card-body">
+                        <div className="card-body texto">
                                 <div className="row">
             
-                                    <div className="col-sm-2">
+                                    <div className="col-sm-3">
                                         <div className="form-group">
                                             <label htmlFor="tipoIdentificacionAportante">Tipo identificación</label>
                                             <input type="text" id="tipoDocAportante" className="form-control" value={ this.state.tipoDocAportante}  readOnly />
@@ -807,13 +949,15 @@ class IncapacidadFront extends Component {
                                             <input type="text" id="numDocAportante" className="form-control" value={this.state.numDocAportante}  readOnly  />
                                         </div>
                                     </div>
+                                    {/* Comment goes here 
                                     <div className="col-sm-3">
                                         <div className="form-group">
                                             <label htmlFor="tipoAportante">Tipo aportante</label>
                                             <input type="text" id="tipoAportante" className="form-control"   readOnly  />
                                         </div>
                                     </div>
-                                    <div className="col-sm-4">
+                                        */}
+                                    <div className="col-sm-6">
                                         <div className="form-group">
                                             <label htmlFor="nombreAportante">Nombre aportante</label>
                                             <input type="text" id="nombreAportante" className="form-control" value={this.state.nombreAportante}  readOnly  />

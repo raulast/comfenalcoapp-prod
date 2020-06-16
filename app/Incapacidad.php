@@ -19,6 +19,9 @@ class Incapacidad extends Model
             'fecha_atencion',
             'causa_externa',
             'codigo_diagnostico',
+            'codigo_diagnostico1',
+            'codigo_diagnostico2',
+            'codigo_diagnostico3',
             'lateralidad',
             'fecha_inicio_incapacidad',
             'dias_solicitados',
@@ -29,5 +32,15 @@ class Incapacidad extends Model
             'contingencia_origen',
             'dias_acumulados_ultima_incapacidad',
             'observacion',
+            'observacion_estado',
+            'estado_id',
     ];
+    public function estado()
+    {
+        return $this->belongsTo('App\Estadosi');
+    }
+    public function diagnostico()
+    {
+        return $this->belongsTo('App\Cie10','codigo_diagnostico','codigo');
+    }
 }

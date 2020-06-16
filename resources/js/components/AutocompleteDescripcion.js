@@ -13,6 +13,7 @@ export default class AutocompleteDescripcion extends Component {
             text: '',
             codigo:'',
             capitulo:'',
+            diasMaximos:0,
            
         }
         this.onTextChanged = this.onTextChanged.bind(this);
@@ -55,17 +56,19 @@ export default class AutocompleteDescripcion extends Component {
 
 
     }
-    suggestionSelected(value,cod,capitulo) {
+    suggestionSelected(value,cod,capitulo,diasMaximos) {
         cod = cod.trim()
         this.setState({
             suggestions: [],
             text: value,
             codigo : cod,
-            capitulo:capitulo
+            capitulo:capitulo,
+            diasMaximos: diasMaximos,
         });
         this.props.handleDiagnostico(value)
         this.props.handleCodigoDiagnostico(cod)
         this.props.handleCapituloDiagnostico(capitulo)
+        this.props.handleMaximosCie10(diasMaximos)
     }
 
     renderSuggestions() {
@@ -76,7 +79,7 @@ export default class AutocompleteDescripcion extends Component {
         }
         return (
             <ul>
-                {suggestions.map((item) => <li key={item.id} onClick={() => this.suggestionSelected(item.descripcion_diagnostico,item.codigo,item.capitulo_grupo)}>{item.descripcion_diagnostico}</li>)}
+                {suggestions.map((item) => <li key={item.id} onClick={() => this.suggestionSelected(item.descripcion_diagnostico,item.codigo,item.capitulo_grupo,item.num_dias_maximo_solicitud)}>{item.descripcion_diagnostico}</li>)}
             </ul>
         );
     }
@@ -84,12 +87,13 @@ export default class AutocompleteDescripcion extends Component {
         const { text } = this.state;
         const { error } = this.props;
         const { mensaje } = this.props;
+        const { title} = this.props;
         return (
             <div className="row">
             <div className="col-sm-10">
                 <div className="form-group">
 
-                    <label htmlFor="descripcionDiagnostico">Descripción diagnóstico</label>
+                    <label htmlFor="descripcionDiagnostico">{ title }</label>
                     <div className="AutoCompleteDescripcion">
                         <input value={text} onChange={this.onTextChanged} type="text" id="descripcionDiagnostico" className="form-control" />
                         {this.renderSuggestions()}

@@ -14,8 +14,8 @@ class IncapacidadController extends Controller
         
         $tipoDocumento = $tipo;
         $numeroIdentificacion = $numero;
-        //return json_encode($numeroIdentificacion);
-        /*return view('incapacidades.validacion',[
+        
+       /*return view('incapacidades.validacion',[
             'tipoDocumento' => $tipoDocumento, 
             'numeroIdentificacion' => $numeroIdentificacion
             ]);*/

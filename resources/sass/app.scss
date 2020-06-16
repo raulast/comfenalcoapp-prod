@@ -1,5 +1,6 @@
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+//@import url('https://fonts.googleapis.com/css?family=Open Sans');
+
 
 // Variables
 @import 'variables';
@@ -43,4 +44,41 @@
 }
 .bg2{
     background-color: lightyellow;
+}
+.verde1{
+    background-color:#00B496;
+}
+.verde2{
+    background-color:#009b96;
+}
+.verde3{
+    background-color:#00DC96;
+}
+.gris{
+    background-color:#9B9B9B;
+}
+.black{
+    background-color:#000000;
+}
+
+.titulo{
+    font-family: "Open Sans";
+    font-weight: bold;
+}
+.subtitulo{
+    font-family: "Open Sans";
+    font-weight: bold;
+}
+.texto{
+    font-family: "Open Sans";
+}
+.reco{
+    font-family: "Open Sans"; 
+    font-style: italic;
+}
+.recod{
+    font-family: "Open Sans";
+    font-weight: bold;
+    font-style: italic;
+
 }

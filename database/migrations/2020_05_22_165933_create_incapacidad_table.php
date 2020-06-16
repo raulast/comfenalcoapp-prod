@@ -24,6 +24,9 @@ class CreateIncapacidadTable extends Migration
             $table->date('fecha_atencion');
             $table->integer('causa_externa');
             $table->char('codigo_diagnostico',5);
+            $table->char('codigo_diagnostico1',5)->nullable();
+            $table->char('codigo_diagnostico2',5)->nullable();
+            $table->char('codigo_diagnostico3',5)->nullable();
             $table->integer('lateralidad');
             $table->date('fecha_inicio_incapacidad');
             $table->integer('dias_solicitados');
@@ -34,6 +37,9 @@ class CreateIncapacidadTable extends Migration
             $table->integer('contingencia_origen');
             $table->integer('dias_acumulados_ultima_incapacidad');
             $table->longText('observacion');
+            $table->integer('estado_id');
+            $table->longText('observacion_estado')->nullable();
+
 
             $table->index(['id', 'prorrogaid']);
             $table->timestamps();
