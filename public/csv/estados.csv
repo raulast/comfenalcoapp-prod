@@ -1,0 +1,10 @@
+id;estado;activo
+1;Auditoria generación;1
+2;Generado;1
+3;Radicado;1
+4;Autorizada;1
+5;Auditoria Monitor;1
+6;No autorizada;1
+7;Rembolso;1
+8;Compensado;1
+9;Glosado;1
