@@ -26,7 +26,7 @@ add('writable_dirs', []);
 host('167.99.3.5')
     ->user('deployer')
     ->identityFile('~/.ssh/deployerkey')
-    ->set('deploy_path', '/var/www/html/comfenalcoapp');
+    ->set('deploy_path', '/var/www/comfenalcoapp');
 
     
 // Tasks
@@ -34,6 +34,7 @@ host('167.99.3.5')
 task('build', function () {
     run('cd {{release_path}} && build');
 });
+
 
 // [Optional] if deploy fails automatically unlock.
 after('deploy:failed', 'deploy:unlock');
