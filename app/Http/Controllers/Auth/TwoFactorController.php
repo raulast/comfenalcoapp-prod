@@ -29,8 +29,12 @@ class TwoFactorController extends Controller
         if($request->input('two_factor_code') == $user->two_factor_code)
         {
             $user->resetTwoFactorCode();
-
-            return redirect()->route('incapacidad');
+            if (auth()->user()->tipo == 1){
+                return redirect()->route('incapacidad');
+            }
+            if (auth()->user()->tipo == 0){
+                return "Panel de admin";
+            }
         }
 
         return redirect()->back()->withErrors(['two_factor_code' => 'El código ingresado no es correcto']);

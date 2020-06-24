@@ -13,36 +13,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-/*Route::get('/', function () {
-    return view('welcome');
-});*/
-
 
 Route::redirect('/', '/login');
-Route::redirect('/home', '/admin');
+Route::get('/home', 'HomeController@index')->name('home');
 Auth::routes(['register' => false]);
 Route::get('verify/resend', 'Auth\TwoFactorController@resend')->name('verify.resend');
 Route::resource('verify', 'Auth\TwoFactorController')->only(['index', 'store']);
-
-Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth', 'twofactor']], function () {
-    Route::get('/', 'HomeController@index')->name('home');
-    // Permissions
-   ;
-});
-/*
-
-Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth', 'twofactor']], function () {
-    Route::get('/', 'HomeController@index')->name('home');
-    // Permissions
-   ;
-});
-*/
-
+Route::redirect('/admin', '/login');
 Route::get('/incapacidad','IncapacidadController@inicio')->name('incapacidad')->middleware('auth','twofactor');
 Route::get('/validacionDerechos/{tipo}/{numero}','IncapacidadController@validacion');
 //Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+
 
 
 //load csv
@@ -57,4 +39,9 @@ Route::post('saveIncapacidad','ApiController@saveIncapacidad');
 Route::get('getNumeroIncapacidad','ApiController@getNumeroIncapacidad');
 Route::get('buscarHistorico/{tipo}/{numero}','ApiController@buscarHistorico')->middleware('auth','twofactor');
 Route::get('buscarHistoricoUltimaDias/{tipo}/{numero}','ApiController@buscarHistoricoUltimaDias');
+
+
+Route::get('/xxx', function () {
+    return view('welcome');
+});
 
