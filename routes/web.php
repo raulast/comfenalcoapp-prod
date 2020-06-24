@@ -23,19 +23,20 @@ Route::redirect('/home', '/admin');
 Auth::routes(['register' => false]);
 Route::get('verify/resend', 'Auth\TwoFactorController@resend')->name('verify.resend');
 Route::resource('verify', 'Auth\TwoFactorController')->only(['index', 'store']);
+
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth', 'twofactor']], function () {
+    Route::get('/', 'HomeController@index')->name('home');
+    // Permissions
+   ;
+});
 /*
+
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth', 'twofactor']], function () {
     Route::get('/', 'HomeController@index')->name('home');
     // Permissions
    ;
 });
 */
-/*
-Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth', 'twofactor']], function () {
-    Route::get('/', 'HomeController@index')->name('home');
-    // Permissions
-   ;
-});*/
 
 Route::get('/incapacidad','IncapacidadController@inicio')->name('incapacidad')->middleware('auth','twofactor');
 Route::get('/validacionDerechos/{tipo}/{numero}','IncapacidadController@validacion');

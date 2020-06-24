@@ -1,15 +1,20 @@
 
 
-SELECT
-  *
-FROM
-  INFORMATION_SCHEMA.TABLES;
-GO 
-/*
+
+
 SELECT
 * 
 FROM
 cie10
 GO
 
+
+/*s
+
+
+SELECT
+  *
+FROM
+  INFORMATION_SCHEMA.TABLES;
+GO 
 */

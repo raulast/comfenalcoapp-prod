@@ -37,6 +37,7 @@ class LoadController extends Controller
             $this->loadUsuarios(); 
             $this->loadMedicos();  
             $this->loadCausas();  
+            $this->loadEstados(); 
             $this->loadCie10();  
         }
         return 'Datos cargados';
