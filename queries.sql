@@ -5,7 +5,7 @@
 SELECT
 * 
 FROM
-cie10
+users
 GO
 
 

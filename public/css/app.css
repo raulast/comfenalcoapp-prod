@@ -10995,6 +10995,16 @@ a.text-dark:focus {
   background-color: #000000;
 }
 
+.white {
+  background-color: white;
+}
+
+.full {
+  height: auto;
+  width: 100%;
+  position: relative;
+}
+
 .titulo {
   font-family: "Open Sans";
   font-weight: bold;

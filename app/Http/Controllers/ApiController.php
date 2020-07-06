@@ -8,11 +8,15 @@ use App\Cie10;
 use App\Medico;
 use App\Causae;
 use App\Incapacidad;
+use App\User;
+use Illuminate\Support\Facades\Hash;
+
+
 use Auth;
 
 class ApiController extends Controller
 {
-    //
+    //lists
     public function list($tipo){
         if ($tipo== "ips"){ 
             $data=$this->loadIpsDB(); 
@@ -41,26 +45,13 @@ class ApiController extends Controller
             'data' => $data
         ]);
     }
+    
     public function datosMedico(){
         $id = Auth::user()->id;
         $medico = Medico::where('user_id',$id)->get();
        // dd($medico);
        return response()->json([
         'data' => $medico
-    ]);
-
-    }
-
-    public function getNumeroIncapacidad(){
-        if(Incapacidad::latest()->first() !== null){
-         $id = Incapacidad::latest()->first()->id;
-         $id+=1;
-        }
-        else{
-            $id=1;
-        }        
-        return response()->json([
-            'data' => $id
         ]);
 
     }
@@ -110,7 +101,8 @@ class ApiController extends Controller
         
     }
 
-    //save
+    //saves
+
     public function saveIncapacidad(Request $request){
             $datos = $request->datos;
            // return $datos;
@@ -146,5 +138,78 @@ class ApiController extends Controller
             return  "Incapacidad almacenada";
         
     }
-   
+    public function saveUser(Request $request){
+        $data = $request->datos;
+        //return $data;
+
+        if(User::where('email',$data['correo'])->exists()){
+           User::where('email',$data['correo'])
+            ->update([
+                'name' => $data['nombre'],
+                'email' => $data['correo'],
+                'password' => Hash::make($data['contraseña']),
+                'tipo' => $data['tipo'],
+            ]);
+            $u=0;
+        }
+        else{
+            $u = User::create([
+                'name' => $data['nombre'],
+                'email' => $data['correo'],
+                'password' => Hash::make($data['contraseña']),
+                'tipo' => $data['tipo'],
+            
+            ]);
+        }
+        $data=User::orderBy('name','asc')->get();
+
+        return response()->json([
+            'data' => $u
+        ]);
+            
+        //return  "Usuario almacenado";
+    
+    }
+    public function deleteUser(Request $request){
+        if(User::where('id', $request->userId)->exists()){
+            User::where('id', $request->userId)->delete();     
+        } 
+        return  "Usuario eliminado";
+    }
+
+    //gets
+    public function getNumeroIncapacidad(){
+        if(Incapacidad::latest()->first() !== null){
+         $id = Incapacidad::latest()->first()->id;
+         $id+=1;
+        }
+        else{
+            $id=1;
+        }        
+        return response()->json([
+            'data' => $id
+        ]);
+
+    }
+    public function getSystemUsers(Request $request){
+        $data=User::orderBy('name','asc')->get();
+        return response()->json([
+            'data' => $data
+        ]);
+    }
+    public function getUser(Request $request){
+        //return $request;
+        $data=User::where('id', $request->userId)->get();
+        return response()->json([
+            'data' => $data
+        ]);
+    }
+    public function getMedicosUsers(Request $request){
+        
+        $data=Medico::orderBy('nombre','asc')->get();
+
+        return response()->json([
+            'data' => $data
+        ]);
+    }
 }
