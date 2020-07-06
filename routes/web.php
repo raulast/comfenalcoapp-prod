@@ -54,7 +54,4 @@ Route::get('getMedicosUsers','ApiController@getMedicosUsers');
 
 
 
-Route::get('/xxx', function () {
-    return view('welcome');
-});
 
