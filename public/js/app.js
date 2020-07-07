@@ -67854,9 +67854,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _TableMedicos_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TableMedicos.js */ "./resources/js/components/TableMedicos.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -67882,6 +67885,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var MedicosSistema = /*#__PURE__*/function (_Component) {
   _inherits(MedicosSistema, _Component);
 
@@ -67899,6 +67903,9 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
 
     _this.getMedicosUsers = _this.getMedicosUsers.bind(_assertThisInitialized(_this));
     _this.renderUsers = _this.renderUsers.bind(_assertThisInitialized(_this));
+    _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
+    _this.handleEdition = _this.handleEdition.bind(_assertThisInitialized(_this));
+    _this.handleEliminar = _this.handleEliminar.bind(_assertThisInitialized(_this));
 
     _this.getMedicosUsers();
 
@@ -67906,12 +67913,28 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
   }
 
   _createClass(MedicosSistema, [{
+    key: "handleChange",
+    value: function handleChange(_ref) {
+      var target = _ref.target;
+      this.setState(_defineProperty({}, target.name, target.value));
+    }
+  }, {
+    key: "handleEdition",
+    value: function handleEdition(id) {
+      console.log(id);
+    }
+  }, {
+    key: "handleEliminar",
+    value: function handleEliminar(id) {
+      console.log(id);
+    }
+  }, {
     key: "getMedicosUsers",
     value: function getMedicosUsers() {
       var _this2 = this;
 
       var url = 'getMedicosUsers';
-      axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(url).then(function (resp) {
+      axios__WEBPACK_IMPORTED_MODULE_3___default.a.get(url).then(function (resp) {
         //console.log(resp.data.data);
         _this2.setState({
           medicos: resp.data.data
@@ -67937,7 +67960,7 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var users = this.state.users;
+      var medicos = this.state.medicos;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row mt-5"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -67959,7 +67982,8 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
       }, "C\xF3digo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         className: "form-control",
-        id: "codigoMedico"
+        id: "codigoMedico",
+        onChange: this.handleChange
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-3"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -68086,7 +68110,11 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         scope: "col"
       }, "Registro"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
         scope: "col"
-      }, "Especialidad"))), this.renderUsers()))))));
+      }, "Especialidad"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TableMedicos_js__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        medicos: medicos,
+        handleEdition: this.handleEdition,
+        handleEliminar: this.handleEliminar
+      })))))));
     }
   }]);
 
@@ -68232,6 +68260,50 @@ if (document.getElementById('menuUsuarios')) {
     ReactDOM.render(<MenuUsuarios />, document.getElementById('menuUsuarios'));
 }
 */
+
+/***/ }),
+
+/***/ "./resources/js/components/TableMedicos.js":
+/*!*************************************************!*\
+  !*** ./resources/js/components/TableMedicos.js ***!
+  \*************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TableMedicos; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+
+
+
+function TableMedicos(props) {
+  var eliminar = function eliminar(u) {
+    props.handleEliminar(u.target.id);
+  };
+
+  var editar = function editar(u) {
+    props.handleEdition(u.target.id);
+  };
+
+  var medicos = props.medicos;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, Object.keys(medicos).map(function (key) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+      key: key
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, medicos[key]['cod_medico']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, medicos[key]['tipo_documento']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, medicos[key]['num_documento']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, medicos[key]['nombre']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, medicos[key]['reg_medico']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, medicos[key]['especialidad']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      className: "btn btn-warning btn-sm",
+      id: medicos[key]['id'],
+      onClick: editar
+    }, "Editar")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      className: "btn btn-danger btn-sm",
+      id: medicos[key]['id'],
+      onClick: eliminar
+    }, "Eliminar")));
+  }));
+}
 
 /***/ }),
 

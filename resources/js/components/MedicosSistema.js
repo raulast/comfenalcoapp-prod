@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-
+import TableMedicos from './TableMedicos.js';
 
 import axios from 'axios';
 
@@ -15,7 +15,21 @@ class MedicosSistema extends Component {
         // bind
         this.getMedicosUsers = this.getMedicosUsers.bind(this);
         this.renderUsers = this.renderUsers.bind(this);
+        this.handleChange=this.handleChange.bind(this);
+        this.handleEdition = this.handleEdition.bind(this);
+        this.handleEliminar = this.handleEliminar.bind(this);
         this.getMedicosUsers();
+    }
+    handleChange({ target }) {
+        this.setState({
+          [target.name]: target.value
+        });
+    }
+    handleEdition(id){
+        console.log(id)
+    }
+    handleEliminar(id){
+        console.log(id) 
     }
     getMedicosUsers(){
         let url ='getMedicosUsers'
@@ -55,7 +69,7 @@ class MedicosSistema extends Component {
         );
      }
     render() {
-        const { users } = this.state;
+        const { medicos } = this.state;
         return (
            <div>
             <div className="row mt-5">
@@ -67,7 +81,7 @@ class MedicosSistema extends Component {
                                     <div className="row">
                                         <div className="col-md-3">
                                             <label htmlFor="codigoMedico">Código</label>
-                                            <input type="text" className="form-control" id="codigoMedico"></input>
+                                            <input type="text" className="form-control" id="codigoMedico" onChange={this.handleChange}></input>
                                         </div>
                                         <div className="col-md-3">
                                             <label htmlFor="tipoDocumento">Tipo documento</label>
@@ -151,7 +165,7 @@ class MedicosSistema extends Component {
                                         <th scope="col">Especialidad</th>
                                     </tr>
                                 </thead>
-                                {this.renderUsers()}
+                                <TableMedicos medicos={medicos} handleEdition ={this.handleEdition} handleEliminar ={this.handleEliminar}/>
                             </table>
                         </div>
                     </div>
