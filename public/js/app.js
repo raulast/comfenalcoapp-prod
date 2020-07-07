@@ -67906,6 +67906,7 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
     _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
     _this.handleEdition = _this.handleEdition.bind(_assertThisInitialized(_this));
     _this.handleEliminar = _this.handleEliminar.bind(_assertThisInitialized(_this));
+    _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
 
     _this.getMedicosUsers();
 
@@ -67927,6 +67928,11 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
     key: "handleEliminar",
     value: function handleEliminar(id) {
       console.log(id);
+    }
+  }, {
+    key: "handleSubmit",
+    value: function handleSubmit(e) {
+      e.preventDefault();
     }
   }, {
     key: "getMedicosUsers",
@@ -67971,6 +67977,8 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         className: "card-header bg2 titulo"
       }, "M\xE9dicos "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card-body texto"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        onSubmit: this.handleSubmit
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -68086,7 +68094,7 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         className: "col-md-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "btn btn-success btn-sm"
-      }, "Guardar")))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "Guardar"))))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row mt-5"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-12"

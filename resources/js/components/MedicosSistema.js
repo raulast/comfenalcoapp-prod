@@ -18,6 +18,7 @@ class MedicosSistema extends Component {
         this.handleChange=this.handleChange.bind(this);
         this.handleEdition = this.handleEdition.bind(this);
         this.handleEliminar = this.handleEliminar.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
         this.getMedicosUsers();
     }
     handleChange({ target }) {
@@ -30,6 +31,9 @@ class MedicosSistema extends Component {
     }
     handleEliminar(id){
         console.log(id) 
+    }
+    handleSubmit(e){         
+        e.preventDefault();
     }
     getMedicosUsers(){
         let url ='getMedicosUsers'
@@ -77,74 +81,75 @@ class MedicosSistema extends Component {
                     <div className="card">
                         <div className="card-header bg2 titulo">Médicos </div>
                             <div className="card-body texto">
-                               <div className="form-group">
-                                    <div className="row">
-                                        <div className="col-md-3">
-                                            <label htmlFor="codigoMedico">Código</label>
-                                            <input type="text" className="form-control" id="codigoMedico" onChange={this.handleChange}></input>
-                                        </div>
-                                        <div className="col-md-3">
-                                            <label htmlFor="tipoDocumento">Tipo documento</label>
-                                            <select className="form-control" id="tipoDocumento" onChange={this.handleTipo} value={this.state.tipoDocumento}>
-                                                <option value=""></option>
-                                                <option value="CC">CC</option>
-                                                <option value="NIT">NIT</option>
-                                                <option value="TI">TI</option>
-                                                <option value="CE">CE</option>
-                                                <option value="PA">PA</option>
-                                                <option value="RC">RC</option>
-                                                <option value="NUIP">NUIP</option>
-                                                <option value="MS">MS</option>
-                                                <option value="CN">CN</option>
-        
-                                            </select>
-                                        </div>
-                                        <div className="col-md-3">
-                                            <label htmlFor="codigoMedico">No. Documento</label>
-                                            <input type="text" className="form-control" id="numeroDocumento"></input>
-                                        </div>
-                                        <div className="col-md-3">
-                                            <label htmlFor="registroMedico">No. Registro</label>
-                                            <input type="text" className="form-control" id="registroMedico"></input>
-                                        </div>
+                                <form onSubmit={this.handleSubmit}> 
+                                    <div className="form-group">
+                                            <div className="row">
+                                                <div className="col-md-3">
+                                                    <label htmlFor="codigoMedico">Código</label>
+                                                    <input type="text" className="form-control" id="codigoMedico" onChange={this.handleChange}></input>
+                                                </div>
+                                                <div className="col-md-3">
+                                                    <label htmlFor="tipoDocumento">Tipo documento</label>
+                                                    <select className="form-control" id="tipoDocumento" onChange={this.handleTipo} value={this.state.tipoDocumento}>
+                                                        <option value=""></option>
+                                                        <option value="CC">CC</option>
+                                                        <option value="NIT">NIT</option>
+                                                        <option value="TI">TI</option>
+                                                        <option value="CE">CE</option>
+                                                        <option value="PA">PA</option>
+                                                        <option value="RC">RC</option>
+                                                        <option value="NUIP">NUIP</option>
+                                                        <option value="MS">MS</option>
+                                                        <option value="CN">CN</option>
+                
+                                                    </select>
+                                                </div>
+                                                <div className="col-md-3">
+                                                    <label htmlFor="codigoMedico">No. Documento</label>
+                                                    <input type="text" className="form-control" id="numeroDocumento"></input>
+                                                </div>
+                                                <div className="col-md-3">
+                                                    <label htmlFor="registroMedico">No. Registro</label>
+                                                    <input type="text" className="form-control" id="registroMedico"></input>
+                                                </div>
+                                            </div>
+                                            <div className="row">
+                                                <div className="col-md-4">
+                                                    <label htmlFor="nombre">Nombre</label>
+                                                    <input type="text" className="form-control" id="nombreUsuario"></input>
+                                                </div>
+                                                <div className="col-md-4">
+                                                    <label htmlFor="nombre">Correo electrónico</label>
+                                                    <input type="email" className="form-control" id="correo"></input>
+                                                </div>
+                                                <div className="col-md-4">
+                                                    <label htmlFor="especialidadMedica">Especialidad médica</label>
+                                                    <select id="especialidadMedica" className="form-control" >
+                                                        <option value="0"></option>
+                                                        <option value="1">Médico general</option>
+                                                        <option value="2">Médico especialista</option>
+                                                        <option value="3">Odontólogo general</option>
+                                                        <option value="4">Odontólogo especialista</option>
+                                                    </select>
+                                                </div>
+                                                
+                                            </div>
+                                            <div className="row">
+                                                <div className="col-md-4">
+                                                    <label htmlFor="nombre">Contraseña</label>
+                                                    <input type="text" className="form-control" id="password"></input>
+                                                </div>
+                                                <div className="col-md-4">
+                                                    <label htmlFor="nombre">Confirmar Contraseña</label>
+                                                    <input type="text" className="form-control" id="passwordConfirmar"></input>
+                                                </div>
+                                                <div className="col-md-2">
+                                                    <br />
+                                                    <button className="btn btn-success btn-sm">Guardar</button>
+                                                </div>
+                                            </div>
                                     </div>
-                                    <div className="row">
-                                        <div className="col-md-4">
-                                            <label htmlFor="nombre">Nombre</label>
-                                            <input type="text" className="form-control" id="nombreUsuario"></input>
-                                        </div>
-                                        <div className="col-md-4">
-                                            <label htmlFor="nombre">Correo electrónico</label>
-                                            <input type="email" className="form-control" id="correo"></input>
-                                        </div>
-                                        <div className="col-md-4">
-                                            <label htmlFor="especialidadMedica">Especialidad médica</label>
-                                            <select id="especialidadMedica" className="form-control" >
-                                                <option value="0"></option>
-                                                <option value="1">Médico general</option>
-                                                <option value="2">Médico especialista</option>
-                                                <option value="3">Odontólogo general</option>
-                                                <option value="4">Odontólogo especialista</option>
-                                            </select>
-                                        </div>
-                                        
-                                    </div>
-                                    <div className="row">
-                                        <div className="col-md-4">
-                                            <label htmlFor="nombre">Contraseña</label>
-                                            <input type="text" className="form-control" id="password"></input>
-                                        </div>
-                                        <div className="col-md-4">
-                                            <label htmlFor="nombre">Confirmar Contraseña</label>
-                                            <input type="text" className="form-control" id="passwordConfirmar"></input>
-                                        </div>
-                                        <div className="col-md-2">
-                                            <br />
-                                            <button className="btn btn-success btn-sm">Guardar</button>
-                                        </div>
-                                    </div>
-                               </div>
-                               
+                                </form>
                             </div>
                     </div>
                 </div>
