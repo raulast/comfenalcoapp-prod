@@ -105,9 +105,22 @@ class ApiController extends Controller
 
     public function saveIncapacidad(Request $request){
             $datos = $request->datos;
+            if ($datos['prorroga']=="No"){
+                if(Incapacidad::latest()->first() !== null){
+                    $id = Incapacidad::latest()->first()->id;
+                    $id+=1;
+                }
+                else{
+                    $id=1;
+                } 
+            }
+            else{
+                $id =(int)$datos['id'];
+            }       
+
            // return $datos;
             $i = Incapacidad::create([
-                'id' => (int)$datos['id'],
+                'id' => $id,
                 'prorrogaid' => $datos['prorrogaId'],
                 'tipo_prestador' => $datos['tipoPrestador'],
                 'tipo_documento_afiliado' =>$datos['tipoDocAfiliado'],

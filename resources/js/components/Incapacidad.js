@@ -136,7 +136,7 @@ class IncapacidadFront extends Component {
       
     }
     
-    getNumeroIncapacidad(){
+    async getNumeroIncapacidad(){
         let url ='getNumeroIncapacidad'
         axios.get(url)
             .then(resp => {
@@ -144,6 +144,7 @@ class IncapacidadFront extends Component {
                     id:`0000${resp.data.data}`,
                     prorrogaId:0,
                 });
+                return;
             })
             .catch(err =>{
                 console.log(err)
@@ -505,16 +506,16 @@ class IncapacidadFront extends Component {
             diasReconocidos : reconocidos
         });
     }
-    guardarIncapacidad(){
+    async guardarIncapacidad(){
         //console.log(this.state)
-        console.log(parseInt(this.state.diasSolicitados));
+        //console.log(parseInt(this.state.diasSolicitados));
         if (parseInt(this.state.diasSolicitados) <= this.state.diasMaximosEspecialidad) {
                 let resp=this.validarForm()
 
                 if (resp){
-                    if (this.state.prorroga=="No"){
-                        this.getNumeroIncapacidad();
-                    }
+                    
+                    //alert(this.state.id);
+                    
                     let url = 'saveIncapacidad'
                     axios.post(url, { datos: this.state })
                         .then(resp => {
@@ -526,6 +527,7 @@ class IncapacidadFront extends Component {
                         .catch(err => {
                             console.log(err)
                         })
+                    
                 }
                 else{
                     alert("Hay errores en algunos campos");
@@ -537,7 +539,7 @@ class IncapacidadFront extends Component {
 
         
     }
-    validarForm(){
+    async validarForm(){
         this.clearErrors()
         
         let resp=true;
@@ -591,6 +593,11 @@ class IncapacidadFront extends Component {
             resp=false;   
         }
         this.setState(newState);
+
+        if (this.state.prorroga=="No"){
+            await this.getNumeroIncapacidad();
+        }
+      
         return resp;
         
     }
