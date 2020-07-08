@@ -512,6 +512,9 @@ class IncapacidadFront extends Component {
                 let resp=this.validarForm()
 
                 if (resp){
+                    if (this.state.prorroga=="No"){
+                        this.getNumeroIncapacidad();
+                    }
                     let url = 'saveIncapacidad'
                     axios.post(url, { datos: this.state })
                         .then(resp => {

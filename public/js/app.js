@@ -67033,6 +67033,10 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
         var resp = this.validarForm();
 
         if (resp) {
+          if (this.state.prorroga == "No") {
+            this.getNumeroIncapacidad();
+          }
+
           var url = 'saveIncapacidad';
           axios__WEBPACK_IMPORTED_MODULE_7___default.a.post(url, {
             datos: this.state
@@ -67928,13 +67932,13 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         confirmar: 'oculto'
       },
       errorMensajes: {
-        codigoMedico: 'Código médico requerido',
-        tipoDocumento: '',
-        registroMedico: '',
-        correo: '',
-        epecialidad: '',
-        contraseña: '',
-        confirmar: ''
+        codigoMedico: 'Código requerido',
+        tipoDocumento: 'Tipo requerido',
+        registroMedico: 'Registro requerido',
+        correo: 'Correo requerido',
+        epecialidad: 'Especialidad requerida',
+        contraseña: 'Contraseña requerida',
+        confirmar: 'Repita contraseña'
       }
     }; // bind
 
@@ -67986,7 +67990,7 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
             value = _ref3[1];
 
         if (value == '') {
-          newState.errors[key] = "visible"; // newState.errorMensajes[key] = key + " requerido"; 
+          newState.errors[key] = "visible"; //newState.errorMensajes[key] = key + " requerido"; 
 
           resp = false;
         }
@@ -68013,8 +68017,7 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
       });
       this.setState(newState);
       var newState2 = Object.assign({}, this.state);
-      Object.keys(newState2.errorMensajes).forEach(function (key) {
-        newState2.errorMensajes[key] = '';
+      Object.keys(newState2.errorMensajes).forEach(function (key) {// newState2.errorMensajes[key] = '';
       }); //console.log(newState);
 
       this.setState(newState2);
@@ -68080,10 +68083,10 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         onChange: this.handleChange,
         value: this.state.codigoMedico
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: this.state.errors['nombre']
+        className: this.state.errors['codigoMedico']
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "invalid-feedback  " + (this.state.errors['nombre'] || "")
-      }, this.state.errorMensajes['nombre']))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "invalid-feedback  " + (this.state.errors['codigoMedico'] || "")
+      }, this.state.errorMensajes['codigoMedico']))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-3"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "tipoDocumento"
@@ -68113,7 +68116,11 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         value: "MS"
       }, "MS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "CN"
-      }, "CN"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "CN")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: this.state.errors['tipoDocumento']
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "invalid-feedback  " + (this.state.errors['tipoDocumento'] || "")
+      }, this.state.errorMensajes['tipoDocumento']))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-3"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "codigoMedico"
@@ -68148,7 +68155,7 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         name: "nombreUsuario",
         onChange: this.handleChange,
         value: this.state.nombreUsaurio
-      }, ">")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-4"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "nombre"
@@ -68167,10 +68174,10 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         id: "especialidad",
         className: "form-control",
         name: "especialidad",
-        onchange: this.handleChange,
+        onChange: this.handleChange,
         value: this.state.especialidad
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "0"
+        value: ""
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "1"
       }, "M\xE9dico general"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {

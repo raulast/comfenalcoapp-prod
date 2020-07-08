@@ -29,13 +29,13 @@ class MedicosSistema extends Component {
                 
             },
             errorMensajes :{
-                codigoMedico : 'Código médico requerido',
-                tipoDocumento:'',
-                registroMedico: '',
-                correo:'',
-                epecialidad:'',
-                contraseña: '',
-                confirmar:'',
+                codigoMedico : 'Código requerido',
+                tipoDocumento: 'Tipo requerido',
+                registroMedico: 'Registro requerido',
+                correo:'Correo requerido',
+                epecialidad:'Especialidad requerida',
+                contraseña: 'Contraseña requerida',
+                confirmar:'Repita contraseña',
             }
         }
         // bind
@@ -74,7 +74,7 @@ class MedicosSistema extends Component {
         Object.entries(this.state).map(([key, value]) => {
             if (value == ''){
                 newState.errors[key] = "visible";
-               // newState.errorMensajes[key] = key + " requerido"; 
+                //newState.errorMensajes[key] = key + " requerido"; 
                 resp = false;
             }
         });
@@ -100,7 +100,7 @@ class MedicosSistema extends Component {
         this.setState(newState);
         let newState2 = Object.assign({}, this.state);
         Object.keys(newState2.errorMensajes).forEach(key => {
-            newState2.errorMensajes[key] = '';
+           // newState2.errorMensajes[key] = '';
         });
         //console.log(newState);
         this.setState(newState2);
@@ -157,8 +157,8 @@ class MedicosSistema extends Component {
                                                 <div className="col-md-3">
                                                     <label htmlFor="codigoMedico">Código</label>
                                                     <input type="text" className="form-control" id="codigoMedico" name="codigoMedico" onChange={this.handleChange} value={this.state.codigoMedico}></input>
-                                                    <div className={this.state.errors['nombre']}>
-                                                        <div className={ "invalid-feedback  " + ( this.state.errors['nombre'] || "") }>{this.state.errorMensajes['nombre']}</div>
+                                                    <div className={this.state.errors['codigoMedico']}>
+                                                        <div className={ "invalid-feedback  " + ( this.state.errors['codigoMedico'] || "") }>{this.state.errorMensajes['codigoMedico']}</div>
                                                     </div>
                                                 </div>
                                                 <div className="col-md-3">
@@ -176,6 +176,9 @@ class MedicosSistema extends Component {
                                                         <option value="CN">CN</option>
                 
                                                     </select>
+                                                    <div className={this.state.errors['tipoDocumento']}>
+                                                        <div className={ "invalid-feedback  " + ( this.state.errors['tipoDocumento'] || "") }>{this.state.errorMensajes['tipoDocumento']}</div>
+                                                    </div>
                                                 </div>
                                                 <div className="col-md-3">
                                                     <label htmlFor="codigoMedico">No. Documento</label>
@@ -189,7 +192,7 @@ class MedicosSistema extends Component {
                                             <div className="row">
                                                 <div className="col-md-4">
                                                     <label htmlFor="nombre">Nombre</label>
-                                                    <input type="text" className="form-control" id="nombreUsuario" name="nombreUsuario" onChange={this.handleChange} value={this.state.nombreUsaurio}>></input>
+                                                    <input type="text" className="form-control" id="nombreUsuario" name="nombreUsuario" onChange={this.handleChange} value={this.state.nombreUsaurio}></input>
                                                 </div>
                                                 <div className="col-md-4">
                                                     <label htmlFor="nombre">Correo electrónico</label>
@@ -197,8 +200,8 @@ class MedicosSistema extends Component {
                                                 </div> 
                                                 <div className="col-md-4">
                                                     <label htmlFor="especialidadMedica">Especialidad médica</label>
-                                                    <select id="especialidad" className="form-control" name="especialidad" onchange={this.handleChange} value={this.state.especialidad}>
-                                                        <option value="0"></option>
+                                                    <select id="especialidad" className="form-control" name="especialidad" onChange={this.handleChange} value={this.state.especialidad}>
+                                                        <option value=""></option>
                                                         <option value="1">Médico general</option>
                                                         <option value="2">Médico especialista</option>
                                                         <option value="3">Odontólogo general</option>
