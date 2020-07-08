@@ -11,6 +11,32 @@ class MedicosSistema extends Component {
 
         this.state = {
             medicos: '',
+            codigoMedico: '',
+            tipoDocumento:'',
+            registroMedico:'',
+            correo:'',
+            especialidad:'',
+            contraseña:'',
+            confirmar:'',
+            errors : {
+                codigoMedico : 'oculto',
+                tipoDocumento:'oculto',
+                registroMedico: 'oculto',
+                correo:'oculto',
+                epecialidad:'oculto',
+                contraseña: 'oculto',
+                confirmar:'oculto',
+                
+            },
+            errorMensajes :{
+                codigoMedico : 'Código médico requerido',
+                tipoDocumento:'',
+                registroMedico: '',
+                correo:'',
+                epecialidad:'',
+                contraseña: '',
+                confirmar:'',
+            }
         }
         // bind
         this.getMedicosUsers = this.getMedicosUsers.bind(this);
@@ -19,6 +45,8 @@ class MedicosSistema extends Component {
         this.handleEdition = this.handleEdition.bind(this);
         this.handleEliminar = this.handleEliminar.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.clearErrors = this.clearErrors.bind(this);
+        this.validarForm = this.validarForm.bind(this);
         this.getMedicosUsers();
     }
     handleChange({ target }) {
@@ -34,7 +62,49 @@ class MedicosSistema extends Component {
     }
     handleSubmit(e){         
         e.preventDefault();
+        let resp = this.validarForm()
+
     }
+    validarForm() {
+        
+        this.clearErrors()
+        
+        let resp = true;
+        let newState = Object.assign({}, this.state);
+        Object.entries(this.state).map(([key, value]) => {
+            if (value == ''){
+                newState.errors[key] = "visible";
+               // newState.errorMensajes[key] = key + " requerido"; 
+                resp = false;
+            }
+        });
+       
+        if (resp){
+            if (newState.contraseña != newState.confirmar){
+                newState.errors.contraseña = "visible";
+                newState.errorMensajes.contraseña = "Contraseñas no coinciden";
+                resp = false;
+            }
+        }
+
+        this.setState(newState);
+        return resp;
+       
+    }
+    clearErrors(){
+        let newState = Object.assign({}, this.state);
+       // console.log(Object.entries(newState));  
+        Object.keys(newState.errors).forEach(key => {
+            newState.errors[key] = "oculto";
+        });
+        this.setState(newState);
+        let newState2 = Object.assign({}, this.state);
+        Object.keys(newState2.errorMensajes).forEach(key => {
+            newState2.errorMensajes[key] = '';
+        });
+        //console.log(newState);
+        this.setState(newState2);
+    }  
     getMedicosUsers(){
         let url ='getMedicosUsers'
         axios.get(url)
@@ -86,11 +156,14 @@ class MedicosSistema extends Component {
                                             <div className="row">
                                                 <div className="col-md-3">
                                                     <label htmlFor="codigoMedico">Código</label>
-                                                    <input type="text" className="form-control" id="codigoMedico" onChange={this.handleChange}></input>
+                                                    <input type="text" className="form-control" id="codigoMedico" name="codigoMedico" onChange={this.handleChange} value={this.state.codigoMedico}></input>
+                                                    <div className={this.state.errors['nombre']}>
+                                                        <div className={ "invalid-feedback  " + ( this.state.errors['nombre'] || "") }>{this.state.errorMensajes['nombre']}</div>
+                                                    </div>
                                                 </div>
                                                 <div className="col-md-3">
                                                     <label htmlFor="tipoDocumento">Tipo documento</label>
-                                                    <select className="form-control" id="tipoDocumento" onChange={this.handleTipo} value={this.state.tipoDocumento}>
+                                                    <select className="form-control" id="tipoDocumento" name="tipoDocumento" onChange={this.handleChange} value={this.state.tipoDocumento}>
                                                         <option value=""></option>
                                                         <option value="CC">CC</option>
                                                         <option value="NIT">NIT</option>
@@ -106,25 +179,25 @@ class MedicosSistema extends Component {
                                                 </div>
                                                 <div className="col-md-3">
                                                     <label htmlFor="codigoMedico">No. Documento</label>
-                                                    <input type="text" className="form-control" id="numeroDocumento"></input>
+                                                    <input type="text" className="form-control" id="numeroDocumento" name="numeroDocumento" onChange={this.handleChange} value={this.state.numeroDocumento}></input>
                                                 </div>
                                                 <div className="col-md-3">
                                                     <label htmlFor="registroMedico">No. Registro</label>
-                                                    <input type="text" className="form-control" id="registroMedico"></input>
+                                                    <input type="text" className="form-control" id="registroMedico" name="registroMedico" onChange={this.handleChange} value={this.state.registroMedico}></input>
                                                 </div>
                                             </div>
                                             <div className="row">
                                                 <div className="col-md-4">
                                                     <label htmlFor="nombre">Nombre</label>
-                                                    <input type="text" className="form-control" id="nombreUsuario"></input>
+                                                    <input type="text" className="form-control" id="nombreUsuario" name="nombreUsuario" onChange={this.handleChange} value={this.state.nombreUsaurio}>></input>
                                                 </div>
                                                 <div className="col-md-4">
                                                     <label htmlFor="nombre">Correo electrónico</label>
-                                                    <input type="email" className="form-control" id="correo"></input>
-                                                </div>
+                                                    <input type="email" className="form-control" id="correo" name="correo" onChange={this.handleChange} value={this.state.correo}></input>
+                                                </div> 
                                                 <div className="col-md-4">
                                                     <label htmlFor="especialidadMedica">Especialidad médica</label>
-                                                    <select id="especialidadMedica" className="form-control" >
+                                                    <select id="especialidad" className="form-control" name="especialidad" onchange={this.handleChange} value={this.state.especialidad}>
                                                         <option value="0"></option>
                                                         <option value="1">Médico general</option>
                                                         <option value="2">Médico especialista</option>
@@ -137,15 +210,15 @@ class MedicosSistema extends Component {
                                             <div className="row">
                                                 <div className="col-md-4">
                                                     <label htmlFor="nombre">Contraseña</label>
-                                                    <input type="text" className="form-control" id="password"></input>
+                                                    <input type="text" className="form-control" id="contraseña" name="contraseña" onChange={this.handleChange} value={this.state.contraseña}></input>
                                                 </div>
                                                 <div className="col-md-4">
                                                     <label htmlFor="nombre">Confirmar Contraseña</label>
-                                                    <input type="text" className="form-control" id="passwordConfirmar"></input>
+                                                    <input type="text" className="form-control" id="confirmar" name="confirmar" onChange={this.handleChange} value={this.state.confirmar}></input>
                                                 </div>
                                                 <div className="col-md-2">
                                                     <br />
-                                                    <button className="btn btn-success btn-sm">Guardar</button>
+                                                    <button type="submit" className="btn btn-success btn-sm">Guardar</button>
                                                 </div>
                                             </div>
                                     </div>
