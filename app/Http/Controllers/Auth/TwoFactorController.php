@@ -30,7 +30,7 @@ class TwoFactorController extends Controller
         {
             $user->resetTwoFactorCode();
             if (auth()->user()->tipo == 1){
-                return redirect()->route('incapacidad');
+                return redirect()->route('menu');
             }
             if (auth()->user()->tipo == 0){
                 return "Panel de admin";

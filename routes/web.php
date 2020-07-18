@@ -21,7 +21,7 @@ Route::get('verify/resend', 'Auth\TwoFactorController@resend')->name('verify.res
 Route::resource('verify', 'Auth\TwoFactorController')->only(['index', 'store']);
 //Route::redirect('/admin', '/login');
 
-Route::get('/menu','HomeController@menu')->name('menu');
+Route::get('/menu','HomeController@menu')->name('menu')->middleware('auth','twofactor');;
 Route::get('/incapacidad','IncapacidadController@inicio')->name('incapacidad')->middleware('auth','twofactor');
 Route::get('/licencia','LicenciaController@inicio')->name('licencia')->middleware('auth','twofactor');
 Route::get('/validacionDerechos/{tipo}/{numero}','IncapacidadController@validacion');
@@ -47,6 +47,7 @@ Route::get('datosMedico','ApiController@datosMedico');
 Route::post('saveIncapacidad','ApiController@saveIncapacidad');
 Route::post('saveUser','ApiController@saveUser');
 Route::get('getNumeroIncapacidad','ApiController@getNumeroIncapacidad');
+Route::get('getNumeroLicencia','ApiController@getNumeroLicencia');
 Route::get('buscarHistorico/{tipo}/{numero}','ApiController@buscarHistorico')->middleware('auth','twofactor');
 Route::get('buscarHistoricoUltimaDias/{tipo}/{numero}','ApiController@buscarHistoricoUltimaDias');
 Route::get('getSystemUsers','ApiController@getSystemUsers');

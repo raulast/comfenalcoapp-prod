@@ -15,6 +15,7 @@ require('./bootstrap');
 require('./components/Example');
 require('./components/index');
 require('./components/Incapacidad');
+require('./components/Licencia');
 require('./components/AdminNav');
 require('./components/MenuUsuarios');
 require('./components/UsuariosSistema');

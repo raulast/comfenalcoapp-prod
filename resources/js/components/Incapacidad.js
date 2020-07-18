@@ -435,12 +435,12 @@ class IncapacidadFront extends Component {
                 contingencia : 3,
             });
         }
-        if (e == 9) { 
+        if (e == 14) { 
             this.setState({
                 contingencia : 2,
             });
         }
-        if (e == 15) { 
+        if (e == 13) { 
             this.setState({
                 contingencia : 1,
             });

@@ -204,6 +204,20 @@ class ApiController extends Controller
         ]);
 
     }
+    public function getNumeroLicencia(){
+        /*if(Incapacidad::latest()->first() !== null){
+         $id = Incapacidad::latest()->first()->id;
+         $id+=1;
+        }
+        else{
+            $id=1;
+        }  */
+        $id=1;      
+        return response()->json([
+            'data' => $id
+        ]);
+
+    }
     public function getSystemUsers(Request $request){
         $data=User::orderBy('name','asc')->get();
         return response()->json([

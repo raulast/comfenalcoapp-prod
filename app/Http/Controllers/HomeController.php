@@ -13,4 +13,7 @@ class HomeController extends Controller
     public function inicio(){
         return 'inicio';
     }
+    public function menu(){
+        return view('menu');
+    }
 }

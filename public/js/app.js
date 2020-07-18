@@ -66511,6 +66511,8 @@ __webpack_require__(/*! ./components/index */ "./resources/js/components/index.j
 
 __webpack_require__(/*! ./components/Incapacidad */ "./resources/js/components/Incapacidad.js");
 
+__webpack_require__(/*! ./components/Licencia */ "./resources/js/components/Licencia.js");
+
 __webpack_require__(/*! ./components/AdminNav */ "./resources/js/components/AdminNav.js");
 
 __webpack_require__(/*! ./components/MenuUsuarios */ "./resources/js/components/MenuUsuarios.js");
@@ -67719,13 +67721,13 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
         });
       }
 
-      if (e == 9) {
+      if (e == 14) {
         this.setState({
           contingencia: 2
         });
       }
 
-      if (e == 15) {
+      if (e == 13) {
         this.setState({
           contingencia: 1
         });
@@ -68510,6 +68512,1465 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
 
 if (document.getElementById('root')) {
   react_dom__WEBPACK_IMPORTED_MODULE_2___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(IncapacidadFront, null), document.getElementById('root'));
+}
+
+/***/ }),
+
+/***/ "./resources/js/components/Licencia.js":
+/*!*********************************************!*\
+  !*** ./resources/js/components/Licencia.js ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _Mensaje__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Mensaje */ "./resources/js/components/Mensaje.js");
+/* harmony import */ var _Comboips_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Comboips.js */ "./resources/js/components/Comboips.js");
+/* harmony import */ var _Combocausae_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Combocausae.js */ "./resources/js/components/Combocausae.js");
+/* harmony import */ var _Medico_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Medico.js */ "./resources/js/components/Medico.js");
+/* harmony import */ var _AutocompleteDescripcion_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./AutocompleteDescripcion.js */ "./resources/js/components/AutocompleteDescripcion.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_8__);
+
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+
+
+
+
+
+
+var LicenciaFront = /*#__PURE__*/function (_Component) {
+  _inherits(LicenciaFront, _Component);
+
+  var _super = _createSuper(LicenciaFront);
+
+  function LicenciaFront(props) {
+    var _this;
+
+    _classCallCheck(this, LicenciaFront);
+
+    _this = _super.call(this, props);
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1;
+    var yyyy = today.getFullYear();
+
+    if (dd < 10) {
+      dd = "0".concat(dd);
+    }
+
+    if (mm < 10) {
+      mm = "0".concat(mm);
+    }
+
+    today = "".concat(yyyy, "-").concat(mm, "-").concat(dd);
+    _this.state = {
+      tipoDocumento: '',
+      numeroIdentificacion: '',
+      nombreCompleto: '',
+      tipoDocAfiliado: '',
+      IDTrabajador: '',
+      historiaClinica: '',
+      genero: '',
+      estado: '',
+      tipoCotizante: '',
+      mensaje: '',
+      tipoMensaje: '',
+      loading: false,
+      fechaAtencion: today,
+      fechaInicioLicencia: today,
+      diasSolicitados: 0,
+      diasMaximosCie10: 0,
+      diasMaximosEspecialidad: 0,
+      fechaFinLicencia: today,
+      diasReconocidos: 0,
+      causae: '15',
+      tipoAtencion: '',
+      semanasGestacion: 0,
+      diasGestacion: 0,
+      diasGestacionC: 0,
+      nacidoViable: 0,
+      nacidoViableState: true,
+      fechaProbableState: 'oculto',
+      partoMultiple: '',
+      tipoLicencia: '',
+      contingencia: '1',
+      tipoDocAportante: '',
+      numDocAportante: '',
+      nombreAportante: '',
+      observacion: '',
+      observacion_estado: '',
+      diagnostico: '',
+      codigoDiagnostico: '',
+      diagnostico1: '',
+      codigoDiagnostico1: '',
+      diagnostico2: '',
+      codigoDiagnostico2: '',
+      diagnostico3: '',
+      codigoDiagnostico3: '',
+      capitulo: '',
+      id: '00001',
+      prorrogaId: 0,
+      tipoPrestador: '',
+      ips_id: 0,
+      medico_id: 0,
+      visible: 'oculto',
+      estado_id: 2,
+      errors: {
+        diagnostico: 'oculto',
+        tipoPrestador: 'oculto',
+        ips: 'oculto',
+        causae: 'oculto',
+        lateralidad: 'oculto',
+        diasSolicitados: 'oculto',
+        contingencia: 'oculto'
+      },
+      errorMensajes: {
+        diagnostico: '',
+        tipoPrestador: '',
+        ips: '',
+        causae: '',
+        lateralidad: '',
+        diasSolicitados: '',
+        contingencia: ''
+      }
+    };
+    _this.initialState = _objectSpread({}, _this.state); // bind
+
+    _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
+    _this.getNumeroLicencia = _this.getNumeroLicencia.bind(_assertThisInitialized(_this));
+    _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
+    _this.handleMedico = _this.handleMedico.bind(_assertThisInitialized(_this));
+    _this.handleMaxDias = _this.handleMaxDias.bind(_assertThisInitialized(_this));
+    _this.handlePrestador = _this.handlePrestador.bind(_assertThisInitialized(_this));
+    _this.handleIpsChange = _this.handleIpsChange.bind(_assertThisInitialized(_this));
+    _this.buscarHistorico = _this.buscarHistorico.bind(_assertThisInitialized(_this));
+    _this.handleFechaInicioLicencia = _this.handleFechaInicioLicencia.bind(_assertThisInitialized(_this));
+    _this.diasGestacionC = _this.diasGestacionC.bind(_assertThisInitialized(_this));
+    _this.partoMultiple = _this.partoMultiple.bind(_assertThisInitialized(_this));
+    _this.validartipoLicencia = _this.validartipoLicencia.bind(_assertThisInitialized(_this));
+    /*
+    this.handleTipo = this.handleTipo.bind(this);
+    this.handleNumero = this.handleNumero.bind(this);
+    this.handleFechaInicioIncapacidad = this.handleFechaInicioIncapacidad.bind(this);
+    this.handleFechaFin = this.handleFechaFin.bind(this);
+    this.handleDiasSolicitados = this.handleDiasSolicitados.bind(this);
+    this.getBusinessDatesCount = this.getBusinessDatesCount.bind(this);
+    this.handleCausa = this.handleCausa.bind(this);
+    this.handleContingencia = this.handleContingencia.bind(this);
+    this.guardarIncapacidad = this.guardarIncapacidad.bind(this);
+    this.handleObservacion = this.handleObservacion.bind(this);
+    this.handleDiagnostico = this.handleDiagnostico.bind(this);
+    this.handleCodigoDiagnostico = this.handleCodigoDiagnostico.bind(this);
+    this.handleDiagnostico1 = this.handleDiagnostico1.bind(this);
+    this.handleCodigoDiagnostico1 = this.handleCodigoDiagnostico1.bind(this);
+    this.handleDiagnostico2 = this.handleDiagnostico2.bind(this);
+    this.handleCodigoDiagnostico2 = this.handleCodigoDiagnostico2.bind(this);
+    this.handleDiagnostico3 = this.handleDiagnostico1.bind(this);
+    this.handleCodigoDiagnostico3 = this.handleCodigoDiagnostico3.bind(this);
+    this.handleCapituloDiagnostico = this.handleCapituloDiagnostico.bind(this);
+    this.handleMaximosCie10 = this.handleMaximosCie10.bind(this);
+    this.handlePrestador = this.handlePrestador.bind(this);
+    
+    this.handleMedico = this.handleMedico.bind(this);
+    this.handleLateralidad = this.handleLateralidad.bind(this);
+    this.handleProrroga = this.handleProrroga.bind(this);
+    this.showMessage = this.showMessage(this)
+     
+    this.buscarHistorico = this.buscarHistorico.bind(this);
+    this.handleFechaAtencion = this.handleFechaAtencion.bind(this);
+    this.validarForm = this.validarForm.bind(this);
+    this.clearErrors = this.clearErrors.bind(this);
+    this.reviewProrroga = this.reviewProrroga.bind(this);
+     this.handleMaxDias = this.handleMaxDias.bind(this);
+     */
+
+    return _this;
+  }
+
+  _createClass(LicenciaFront, [{
+    key: "getNumeroLicencia",
+    value: function () {
+      var _getNumeroLicencia = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var _this2 = this;
+
+        var url;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                url = 'getNumeroLicencia';
+                axios__WEBPACK_IMPORTED_MODULE_8___default.a.get(url).then(function (resp) {
+                  _this2.setState({
+                    id: "0000".concat(resp.data.data),
+                    prorrogaId: 0
+                  });
+
+                  return;
+                })["catch"](function (err) {
+                  console.log(err);
+                });
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }));
+
+      function getNumeroLicencia() {
+        return _getNumeroLicencia.apply(this, arguments);
+      }
+
+      return getNumeroLicencia;
+    }()
+  }, {
+    key: "handleSubmit",
+    value: function handleSubmit(e) {
+      var _this3 = this;
+
+      e.preventDefault(); //console.log([this.state.tipoDocumento,this.state.numeroDocumento])
+
+      var tipoDocumento = this.state.tipoDocumento;
+      var numeroIdentificacion = this.state.numeroIdentificacion;
+      var url = '/validacionDerechos/' + tipoDocumento + "/" + numeroIdentificacion;
+      axios__WEBPACK_IMPORTED_MODULE_8___default.a.get(url, {
+        tipoDocumento: this.state.tipoDocumento,
+        numeroIdentificacion: this.state.numeroIdentificacion
+      }).then(function (response) {
+        // console
+        console.log(response);
+        var mensaje = response.data.responseMessageOut.body.response.validadorResponse.Derechos['MENSAJE'];
+        var derecho = response.data.responseMessageOut.body.response.validadorResponse.Derechos['DerechoPrestacion'];
+        console.log(derecho);
+        console.log(mensaje);
+
+        if (derecho == "SI") {
+          _this3.getNumeroLicencia(); //console.log(response.data.responseMessageOut.body.response.validadorResponse);
+
+
+          var nombre = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['Nombre'];
+          var primerApellido = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['PrimerApellido'];
+          var segundoApellido = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['SegundoApellido'];
+          var nombreCompleto = "".concat(nombre, " ").concat(primerApellido, " ").concat(segundoApellido);
+          var tipoDocAfiliado = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['TipoDocAfiliado'];
+          var IDTrabajador = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['IDTrabajador'];
+          var historiaClinica = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['IdHistoria12'];
+          var genero = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['Sexo'];
+          var estado = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['EstadoDescripcion'];
+          var tipoCotizante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['ClaseAfiliacion']; //datos aportante
+
+          var tipoDocAportante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['TipoDocEmpresa'];
+          var numDocAportante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['IDEmpresa'];
+          var nombreAportante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['NombreEmpresa']; // set state
+
+          _this3.setState({
+            nombreCompleto: nombreCompleto,
+            tipoDocAfiliado: tipoDocAfiliado,
+            IDTrabajador: IDTrabajador,
+            historiaClinica: historiaClinica,
+            mensaje: mensaje,
+            genero: genero,
+            estado: estado,
+            tipoCotizante: tipoCotizante,
+            tipoDocAportante: tipoDocAportante,
+            numDocAportante: numDocAportante,
+            nombreAportante: nombreAportante,
+            tipoMensaje: 'success',
+            visible: 'visible',
+            loading: true
+          });
+        } else {
+          _this3.setState({
+            mensaje: mensaje,
+            loading: true,
+            tipoMensaje: 'error'
+          });
+        }
+      });
+    }
+  }, {
+    key: "handleChange",
+    value: function handleChange(_ref) {
+      var target = _ref.target;
+      this.setState(_defineProperty({}, target.name, target.value));
+
+      if (target.name == "tipoAtencion") {
+        if (target.value == 1) {
+          this.setState({
+            nacidoViableState: false
+          });
+        } else {
+          this.setState({
+            nacidoViableState: true
+          });
+        }
+      }
+
+      if (target.name == "tipoLicencia") {
+        if (target.value == 15) {
+          this.setState({
+            fechaProbableState: 'visible'
+          });
+        } else {
+          this.setState({
+            fechaProbableState: 'oculto'
+          });
+        }
+
+        this.validartipoLicencia(target.value);
+      }
+    }
+  }, {
+    key: "validartipoLicencia",
+    value: function validartipoLicencia(tipoLicencia) {
+      //let tipoLicencia = this.state.tipoLicencia;
+      var tipoAtencion = this.state.tipoAtencion;
+      var edadG = this.state.diasGestacionC;
+      var rnv = parseInt(this.state.nacidoViable);
+      var band = false;
+      console.log(tipoLicencia);
+      console.log(tipoAtencion);
+      console.log(edadG);
+      console.log(rnv);
+
+      if (tipoLicencia == "1" && tipoAtencion == "1" && edadG >= 266 && rnv <= 1) {
+        this.setState({
+          diasSolicitados: 126
+        });
+        band = true;
+      }
+
+      if (tipoLicencia == "4" && tipoAtencion == "1" && edadG < 266 && rnv <= 1) {
+        var dias = 126 + (280 - edadG);
+        this.setState({
+          diasSolicitados: dias
+        });
+        band = true;
+      }
+
+      if (tipoLicencia == "5" && tipoAtencion == "1" && edadG >= 266 && rnv > 2) {
+        this.setState({
+          diasSolicitados: 140
+        });
+        band = true;
+      }
+
+      if (tipoLicencia == "6" && tipoAtencion == "1" && edadG < 266 && rnv > 2) {
+        var dias = 126 + (280 - edadG) + 14;
+        this.setState({
+          diasSolicitados: dias
+        });
+        band = true;
+      }
+
+      if (tipoLicencia == "2" && (tipoAtencion == "2" || tipoAtencion == "3") || tipoLicencia == "2" && tipoAtencion == "1" && rnv == 0) {
+        alert("Puede escoger 14 o 28 días máximo");
+        this.setState({
+          diasSolicitados: 14
+        });
+        band = true;
+      }
+
+      if (tipoLicencia == "3" && this.state.medico_id != 0) {
+        alert("Esta licencia NO la generan los médicos, es administrativa por solicitud del aportante.");
+      }
+
+      if (tipoLicencia == "10" && this.state.medico_id != 0) {
+        alert("La licencia se da al padre, se resuelve por via administrativa no la generan los medicos. Solicitar ante la EPS");
+      }
+
+      if (tipoLicencia == "12" || tipoLicencia == "13" || tipoLicencia == "14") {
+        alert("La licencia la da la EPS. Se resuelve por via administrativa. Se debe mostrar aviso para solicitar ante la EPS");
+      }
+
+      if (band == false) {
+        alert("No cumple las condiciones para este tipo de licencia");
+        this.setState({
+          tipoLicencia: '',
+          diasSolicitados: 0
+        });
+      }
+    }
+  }, {
+    key: "partoMultiple",
+    value: function partoMultiple() {
+      var cantidad = parseInt(this.state.nacidoViable);
+
+      if (cantidad > 1) {
+        this.setState({
+          partoMultiple: 'checked'
+        });
+      } else {
+        this.setState({
+          partoMultiple: ''
+        });
+      }
+    }
+  }, {
+    key: "diasGestacionC",
+    value: function diasGestacionC() {
+      var semanas = parseInt(this.state.semanasGestacion);
+      var dias = parseInt(this.state.diasGestacion);
+      var calculado = parseInt(semanas * 7 + dias); //console.log(calculado);
+
+      this.setState({
+        diasGestacionC: calculado
+      });
+    } //diagnosticos 
+
+  }, {
+    key: "handleDiagnostico",
+    value: function handleDiagnostico(dato) {
+      this.setState({
+        diagnostico: dato
+      });
+    }
+  }, {
+    key: "handleCodigoDiagnostico",
+    value: function handleCodigoDiagnostico(dato) {
+      this.setState({
+        codigoDiagnostico: dato
+      });
+    }
+  }, {
+    key: "handleDiagnostico1",
+    value: function handleDiagnostico1(dato) {
+      this.setState({
+        diagnostico1: dato
+      });
+    }
+  }, {
+    key: "handleCodigoDiagnostico1",
+    value: function handleCodigoDiagnostico1(dato) {
+      this.setState({
+        codigoDiagnostico1: dato
+      });
+    }
+  }, {
+    key: "handleDiagnostico2",
+    value: function handleDiagnostico2(dato) {
+      this.setState({
+        diagnostico2: dato
+      });
+    }
+  }, {
+    key: "handleCodigoDiagnostico2",
+    value: function handleCodigoDiagnostico2(dato) {
+      this.setState({
+        codigoDiagnostico2: dato
+      });
+    }
+  }, {
+    key: "handleDiagnostico3",
+    value: function handleDiagnostico3(dato) {
+      this.setState({
+        diagnostico3: dato
+      });
+    }
+  }, {
+    key: "handleCodigoDiagnostico3",
+    value: function handleCodigoDiagnostico3(dato) {
+      this.setState({
+        codigoDiagnostico3: dato
+      });
+    }
+  }, {
+    key: "handleCapituloDiagnostico",
+    value: function handleCapituloDiagnostico(dato) {
+      this.setState({
+        capitulo: dato
+      });
+    }
+  }, {
+    key: "handleMaximosCie10",
+    value: function handleMaximosCie10(dato) {
+      this.setState({
+        diasMaximosCie10: dato
+      });
+    }
+  }, {
+    key: "handleFechaInicioLicencia",
+    value: function handleFechaInicioLicencia(e) {
+      //var todayDate = new Date().toISOString().slice(0,10);
+      var fi = new Date(e.target.value).getTime();
+      var l1 = new Date(this.state.fechaAtencion);
+      var l2 = new Date(this.state.fechaAtencion);
+      l1 = new Date(l1.setTime(l1.getTime() + 30 * 86400000)).getTime();
+      l2 = new Date(l2.setTime(l2.getTime() - 30 * 86400000)).getTime();
+      this.setState({
+        fechaInicioLicencia: new Date(e.target.value).toISOString().slice(0, 10)
+      });
+      /*
+      if (fi > l1) {
+          alert("La fecha de inicio es mayor a 30  días desde la fecha de atención. Debe justificarlo en observacion")
+          this.setState({
+              fechaInicioIncapacidad: new Date().toISOString().slice(0, 10)
+          });
+      }
+      */
+
+      if (fi < l2) {
+        alert("La fecha de inicio no puede ser menor a 30 días desde la fecha de atención. Debe justificarlo en observacion");
+        this.setState({
+          fechaInicioIncapacidad: new Date().toISOString().slice(0, 10)
+        });
+      }
+    }
+  }, {
+    key: "handleDiasSolicitados",
+    value: function handleDiasSolicitados(e) {
+      this.setState({
+        diasSolicitados: e.target.value
+      }); //console.log(this.state.diasSolicitados);
+      //console.log(this.state.diasMaximosCie10);
+
+      var observacion_estado = this.state.observacion_estado;
+      var observacion = "Dias solicitados mayor a especificado por Cie10";
+
+      if (this.state.diasSolicitados > this.state.diasMaximosCie10) {
+        this.setState({
+          estado_id: 1,
+          observacion_estado: "".concat(observacion_estado, " ").concat(observacion)
+        });
+      }
+    }
+  }, {
+    key: "handleFechaFin",
+    value: function handleFechaFin(e) {
+      var l1 = new Date(this.state.fechaInicioIncapacidad);
+      var dias = this.state.diasSolicitados - 1;
+      l1 = new Date(l1.setTime(l1.getTime() + dias * 86400000)).getTime();
+      this.setState({
+        fechaFinIncapacidad: new Date(l1).toISOString().slice(0, 10)
+      });
+      this.getBusinessDatesCount(new Date(this.state.fechaInicioIncapacidad), new Date(l1));
+      this.reviewProrroga();
+    }
+  }, {
+    key: "handleCausa",
+    value: function handleCausa(e) {
+      console.log(e);
+      this.setState({
+        causae: e
+      });
+      /*
+      if (e == 1) {
+          this.setState({
+              contingencia: 3,
+          });
+      }
+      if (e == 9) {
+          this.setState({
+              contingencia: 2,
+          });
+      }
+      if (e == 15) {
+          this.setState({
+              contingencia: 1,
+          });
+      }*/
+    }
+  }, {
+    key: "handlePrestador",
+    value: function handlePrestador(dato) {
+      this.setState({
+        tipoPrestador: dato
+      });
+    }
+  }, {
+    key: "handleIpsChange",
+    value: function handleIpsChange(dato) {
+      this.setState({
+        ips_id: dato
+      });
+    }
+  }, {
+    key: "handleMedico",
+    value: function handleMedico(dato) {
+      this.setState({
+        medico_id: dato
+      });
+    }
+  }, {
+    key: "handleMaxDias",
+    value: function handleMaxDias(dato) {
+      this.setState({
+        diasMaximosEspecialidad: dato
+      });
+    }
+  }, {
+    key: "handleContingencia",
+    value: function handleContingencia(e) {
+      // console.log(e.target.value);
+      this.setState({
+        contingencia: e.target.value
+      });
+      var contingencia = e.target.value;
+      var causae = this.state.causae;
+
+      if ((contingencia == 2 || contingencia == 3) && causae != 1 && causae != 14) {
+        alert("la causa externa solo puede ser Accidente de trabajo o Enfermedad laboral");
+        this.setState({
+          causae: ''
+        });
+      }
+    }
+  }, {
+    key: "getBusinessDatesCount",
+    value: function getBusinessDatesCount(startDate, endDate) {
+      //var startDate = new Date(startDate);
+      //var endDate = new Date(endDate);   
+      //console.log(endDate.toISOString().slice(0,10))    
+      var count = 0;
+      var countf = 0;
+      var festivos = ["2020-05-01", "2020-05-25", "2020-06-15", "2020-06-22", "2020-06-29", "2020-07-20", "2020-08-07", "2020-08-17", "2020-10-12", "2020-11-02", "2020-11-16", "2020-12-08", "2020-12-25"];
+      var curDate = startDate;
+
+      while (curDate <= endDate) {
+        var dayOfWeek = curDate.getDay(); //console.log(curDate.toISOString().slice(0,10) + " " + dayOfWeek);
+
+        if (dayOfWeek < 6) count++; //console.log(count + " "+ countf)
+
+        if (festivos.includes(curDate.toISOString().slice(0, 10))) countf++;
+        curDate.setDate(curDate.getDate() + 1);
+      }
+
+      console.log(count);
+      console.log(countf);
+      var reconocidos = count - countf;
+      this.setState({
+        diasReconocidos: reconocidos
+      });
+    }
+  }, {
+    key: "guardarLicencia",
+    value: function () {
+      var _guardarLicencia = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var _this4 = this;
+
+        var resp, url;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                //console.log(this.state)
+                //console.log(parseInt(this.state.diasSolicitados));
+                if (parseInt(this.state.diasSolicitados) <= this.state.diasMaximosEspecialidad) {
+                  resp = this.validarForm();
+
+                  if (resp) {
+                    //alert(this.state.id);
+                    url = 'saveIncapacidad';
+                    axios__WEBPACK_IMPORTED_MODULE_8___default.a.post(url, {
+                      datos: this.state
+                    }).then(function (resp) {
+                      console.log(resp.data);
+                      alert(resp.data);
+
+                      _this4.setState(_this4.initialState);
+
+                      location.reload();
+                    })["catch"](function (err) {
+                      console.log(err);
+                    });
+                  } else {
+                    alert("Hay errores en algunos campos");
+                  }
+                } else {
+                  alert("Los días solicitados exceden el máximo definido para su especialidad médica");
+                }
+
+              case 1:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function guardarLicencia() {
+        return _guardarLicencia.apply(this, arguments);
+      }
+
+      return guardarLicencia;
+    }()
+  }, {
+    key: "validarForm",
+    value: function () {
+      var _validarForm = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        var resp, newState;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                this.clearErrors();
+                resp = true; //Auditoria
+
+                if (this.state.diasSolicitados > this.state.diasMaximosCie10) {
+                  this.setState({
+                    estado_id: 1
+                  });
+                }
+
+                if (this.state.diasSolicitados > this.state.diasMaximosEspecialidad) {
+                  this.setState({
+                    estado_id: 1
+                  });
+                }
+
+                newState = Object.assign({}, this.state);
+
+                if (this.state.tipoPrestador == '') {
+                  newState.errors.tipoPrestador = "visible";
+                  newState.errorMensajes.tipoPrestador = "Tipo de prestador requerido";
+                  resp = false;
+                }
+
+                if (this.state.tipoPrestador == 1 && this.state.ips_id == 0) {
+                  newState.errors.ips = "visible";
+                  newState.errorMensajes.ips = "IPS requerida";
+                  resp = false;
+                }
+
+                if (this.state.causae == 0) {
+                  newState.errors.causae = "visible";
+                  newState.errorMensajes.causae = "Causa externa requerida";
+                  resp = false;
+                }
+
+                if (this.state.lateralidad_id == 0) {
+                  newState.errors.lateralidad = "visible";
+                  newState.errorMensajes.lateralidad = "Lateralidad requerida";
+                  resp = false;
+                }
+
+                if (this.state.diagnostico == '') {
+                  newState.errors.diagnostico = "visible";
+                  newState.errorMensajes.diagnostico = "Diagnóstico requerido";
+                  resp = false;
+                }
+
+                if (this.state.diasSolicitados == 0) {
+                  newState.errors.diasSolicitados = "visible";
+                  newState.errorMensajes.diasSolicitados = "Días debe ser mayor a 0";
+                  resp = false;
+                }
+
+                if (this.state.contingencia == 0) {
+                  newState.errors.contingencia = "visible";
+                  newState.errorMensajes.contingencia = "Contingencia requerida";
+                  resp = false;
+                }
+
+                this.setState(newState);
+
+                if (!(this.state.prorroga == "No")) {
+                  _context3.next = 16;
+                  break;
+                }
+
+                _context3.next = 16;
+                return this.getNumeroIncapacidad();
+
+              case 16:
+                return _context3.abrupt("return", resp);
+
+              case 17:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      }));
+
+      function validarForm() {
+        return _validarForm.apply(this, arguments);
+      }
+
+      return validarForm;
+    }()
+  }, {
+    key: "clearErrors",
+    value: function clearErrors() {
+      var newState = Object.assign({}, this.state); // console.log(Object.entries(newState));  
+
+      Object.keys(newState.errors).forEach(function (key) {
+        newState.errors[key] = "oculto";
+      });
+      this.setState(newState);
+      var newState2 = Object.assign({}, this.state);
+      Object.keys(newState2.errorMensajes).forEach(function (key) {
+        newState2.errorMensajes[key] = '';
+      }); //console.log(newState);
+
+      this.setState(newState2);
+    }
+  }, {
+    key: "buscarHistorico",
+    value: function buscarHistorico() {
+      var tipoDocumento = this.state.tipoDocumento;
+      var numeroIdentificacion = this.state.numeroIdentificacion;
+      var url = '/buscarHistorico/' + tipoDocumento + "/" + numeroIdentificacion;
+      window.open(url, "_blank");
+      /*
+      axios.get(url)
+          .then(resp => {
+             console.log(resp.data.respuesta)
+           })
+          .catch(err =>{
+              console.log(err)
+          })*/
+    }
+  }, {
+    key: "showMessage",
+    value: function showMessage(m) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "alert alert-success",
+        role: "alert"
+      }, m);
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var mensaje = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null);
+
+      if (this.state.loading) {
+        if (this.state.tipoMensaje == 'success') {
+          mensaje = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+            className: "alert alert-success reco",
+            role: "alert"
+          }, this.state.mensaje);
+        }
+
+        if (this.state.tipoMensaje == 'error') {
+          mensaje = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+            className: "alert alert-danger reco",
+            role: "alert"
+          }, this.state.mensaje);
+        }
+      }
+
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "container"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row justify-content-center"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-md-10"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "card"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "card-header verde3 titulo"
+      }, "Validaci\xF3n de derechos - Licencias"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "card-body texto"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("form", {
+        onSubmit: this.handleSubmit
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-sm-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: "tipoDocumento"
+      }, "Tipo documento"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
+        className: "form-control",
+        name: "tipoDocumento",
+        onChange: this.handleChange,
+        value: this.state.tipoDocumento
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: ""
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: "CC"
+      }, "CC"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: "NIT"
+      }, "NIT"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: "TI"
+      }, "TI"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: "CE"
+      }, "CE"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: "PA"
+      }, "PA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: "RC"
+      }, "RC"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: "NUIP"
+      }, "NUIP"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: "MS"
+      }, "MS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: "CN"
+      }, "CN"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-sm-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: "numeroIdentificacion"
+      }, "N\xFAmero de identificacion"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        type: "text",
+        name: "numeroIdentificacion",
+        className: "form-control",
+        onChange: this.handleChange,
+        value: this.state.numeroIdentificacion
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-sm-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        type: "submit",
+        id: "btnBuscar",
+        className: "btn btn-primary",
+        value: "Buscar"
+      })))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), mensaje, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: this.state.visible
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row justify-content-center "
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-md-10"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "card"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "card-header bg2 titulo"
+      }, "Datos del afiliado"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "card-body texto"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-sm-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: "tipoDocumento"
+      }, "Tipo documento"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        type: "text",
+        className: "form-control",
+        defaultValue: this.state.tipoDocAfiliado,
+        readOnly: true
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-sm-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: "numeroIdentificacion"
+      }, "N\xFAmero de identificacion"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        type: "text",
+        className: "form-control",
+        defaultValue: this.state.IDTrabajador,
+        readOnly: true
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-sm-6"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: "nombreAfiliado"
+      }, "Nombre completo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        type: "text",
+        id: "nombreAfiliado",
+        className: "form-control",
+        defaultValue: this.state.nombreCompleto,
+        readOnly: true
+      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-sm-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: "historiaClinica"
+      }, "Numero de historia cl\xEDnica"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        type: "text",
+        id: "historiaClinica",
+        className: "form-control",
+        defaultValue: this.state.historiaClinica,
+        readOnly: true
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-sm-1"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: "genero"
+      }, "G\xE9nero"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        type: "text",
+        id: "genero",
+        className: "form-control",
+        defaultValue: this.state.genero,
+        readOnly: true
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-sm-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: "estado"
+      }, "Estado"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        type: "text",
+        id: "estado",
+        className: "form-control",
+        defaultValue: this.state.estado,
+        readOnly: true
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-sm-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: "tipoCotizante"
+      }, "Tipo de cotizante"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        type: "text",
+        id: "tipoCotizante",
+        className: "form-control",
+        defaultValue: this.state.tipoCotizante,
+        readOnly: true
+      }))))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: this.state.visible
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row justify-content-center"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-md-10"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "card"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "card-header bg2 titulo"
+      }, "Datos de la IPS / M\xE9dico"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "card-body texto"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Comboips_js__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        handleIpsChange: this.handleIpsChange,
+        handlePrestador: this.handlePrestador,
+        valor: this.state.ips_id,
+        error: this.state.errors['tipoPrestador'],
+        mensaje: this.state.errorMensajes['tipoPrestador'],
+        errorIps: this.state.errors['ips'],
+        mensajeIps: this.state.errorMensajes['ips']
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Medico_js__WEBPACK_IMPORTED_MODULE_6__["default"], {
+        handleMedico: this.handleMedico,
+        handleMaxDias: this.handleMaxDias
+      })))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: this.state.visible
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row justify-content-center"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-md-10"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "card"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "card-header bg2 titulo"
+      }, "Informaci\xF3n de la licencia"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "card-body texto"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-sm-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+        className: "btn btn-primary",
+        onClick: this.buscarHistorico
+      }, "Hist\xF3rico incapacidades"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-sm-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: "contingenciaOrigen"
+      }, "Contingencia origen"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
+        id: "contingenciaOrigen",
+        className: "form-control",
+        onChange: this.handleChange,
+        value: this.state.contingencia
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: "1"
+      }, "Licencia")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: this.state.errors['contingencia']
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "invalid-feedback  " + (this.state.errors['contingencia'] || "")
+      }, this.state.errorMensajes['contingencia']))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-sm-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: "numeroIncapacidad"
+      }, "N\xFAmero de licencia"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        type: "text",
+        name: "numeroLicencia",
+        className: "form-control",
+        value: this.state.id + "-" + this.state.prorrogaId,
+        readOnly: true
+      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-sm-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: "fechaAtencion"
+      }, "Fecha de atenci\xF3n"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        type: "date",
+        name: "fechaAtencion",
+        className: "form-control",
+        defaultValue: this.state.fechaAtencion,
+        onChange: this.handleChange
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: this.state.errors['fechaAtencion']
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "invalid-feedback  " + (this.state.errors['fechaAtencion'] || "")
+      }, this.state.errorMensajes['fechaAtencion'])))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-sm-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: "fechaInicioLicencia"
+      }, "Fecha inicio licencia"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        type: "date",
+        name: "fechaInicioLicencia",
+        className: "form-control",
+        value: this.state.fechaInicioLicencia,
+        onChange: this.handleFechaInicioLicencia
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: this.state.errors['fechaInicioLicencia']
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "invalid-feedback  " + (this.state.errors['fechaInicioLicencia'] || "")
+      }, this.state.errorMensajes['fechaInicioLicencia'])))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-sm-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_Combocausae_js__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        handleCausa: this.handleCausa,
+        value: this.state.causae,
+        error: this.state.errors['causae'],
+        mensaje: this.state.errorMensajes['causae']
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-sm-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: "tipoAtencion"
+      }, "Tipo atenci\xF3n"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
+        name: "tipoAtencion",
+        className: "form-control",
+        onChange: this.handleChange,
+        value: this.state.tipoAtencion
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: ""
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: "1"
+      }, "Vaginal/Ces\xE1rea"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: "2"
+      }, "Aborto"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: "3"
+      }, "Ect\xF3pico")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: this.state.errors['tipoAtencion']
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "invalid-feedback  " + (this.state.errors['tipoAtencion'] || "")
+      }, this.state.errorMensajes['tipoAtencion'])))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-sm-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: "edadGestacional"
+      }, "Edad gestacional al parto"), "Semanas", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        type: "number",
+        "class": "form-control",
+        name: "semanasGestacion",
+        value: this.state.semanasGestacion,
+        onChange: this.handleChange,
+        onKeyUp: this.diasGestacionC
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: this.state.errors['semanasGestacion']
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "invalid-feedback  " + (this.state.errors['semanasGestacion'] || "")
+      }, this.state.errorMensajes['contingencia'])), "D\xEDas", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        type: "number",
+        "class": "form-control",
+        name: "diasGestacion",
+        value: this.state.diasGestacion,
+        onChange: this.handleChange,
+        onKeyUp: this.diasGestacionC
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-sm-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: "edadGestacional"
+      }, "D\xEDas de gestaci\xF3n"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        type: "number",
+        className: "form-control",
+        name: "diasGestacionC",
+        value: this.state.diasGestacionC,
+        readOnly: true
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-sm-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: "nacidoViable"
+      }, "Reci\xE9n nacido viable"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        type: "number",
+        className: "form-control",
+        min: "1",
+        max: "9",
+        name: "nacidoViable",
+        onChange: this.handleChange,
+        disabled: this.state.nacidoViableState,
+        onKeyUp: this.partoMultiple
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", null, "Parto m\xFAltiple\xA0", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        name: "partoMultiple",
+        type: "checkbox",
+        checked: this.state.partoMultiple,
+        readOnly: true
+      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-sm-6"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: "tipoLicencia"
+      }, "Tipo licencia"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
+        name: "tipoLicencia",
+        className: "form-control",
+        onChange: this.handleChange,
+        value: this.state.tipoLicencia
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: ""
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: "1"
+      }, "Maternidad Normal"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: "2"
+      }, "Parto no viable"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: "3"
+      }, "Paternidad"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: "4"
+      }, "Parto prematuro"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: "5"
+      }, "Parto normal m\xFAltiple"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: "6"
+      }, "Parto prematuro m\xFAltiple"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: "10"
+      }, "Fallecimiento de la madre"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: "12"
+      }, "Fallo de tutela"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: "13"
+      }, "Enfermedad materna grave"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: "14"
+      }, "Adopci\xF3n"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: "15"
+      }, "Prelicencia en \xE9poca de parto (anticipo)")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: this.state.errors['tipoLicencia']
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "invalid-feedback  " + (this.state.errors['tipoLicencia'] || "")
+      }, this.state.errorMensajes['tipoLicencia']))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-sm-6"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: this.state.fechaProbableState
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: "fechaProbable"
+      }, "Fecha probable de parto"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        type: "date",
+        id: "fechaProbable",
+        className: "form-control",
+        defaultValue: this.state.fechaProbable,
+        onChange: this.handlefechaProbable
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: this.state.errors['fechaProbable']
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "invalid-feedback  " + (this.state.errors['fechaProbable'] || "")
+      }, this.state.errorMensajes['fechaProbable']))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: "tipoLicencia"
+      }, "Soporte definici\xF3n fecha probable parto"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
+        id: "soporte",
+        className: "form-control",
+        onChange: this.handleChange,
+        value: this.state.soporte
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: ""
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: "1"
+      }, "Fecha \xFAltima regla confiable"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: "2"
+      }, "Ecograf\xEDa primer trimestre")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: this.state.errors['soporte']
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "invalid-feedback  " + (this.state.errors['soporte'] || "")
+      }, this.state.errorMensajes['soporte']))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-sm-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_AutocompleteDescripcion_js__WEBPACK_IMPORTED_MODULE_7__["default"], {
+        title: "Diagnostico principal",
+        handleDiagnostico: this.handleDiagnostico,
+        handleCodigoDiagnostico: this.handleCodigoDiagnostico,
+        handleCapituloDiagnostico: this.handleCapituloDiagnostico,
+        handleMaximosCie10: this.handleMaximosCie10,
+        error: this.state.errors['diagnostico'],
+        mensaje: this.state.errorMensajes['diagnostico']
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-sm-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_AutocompleteDescripcion_js__WEBPACK_IMPORTED_MODULE_7__["default"], {
+        title: "Diagn\xF3stico relacionado 1",
+        handleDiagnostico: this.handleDiagnostico1,
+        handleCodigoDiagnostico: this.handleCodigoDiagnostico1
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-sm-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_AutocompleteDescripcion_js__WEBPACK_IMPORTED_MODULE_7__["default"], {
+        title: "Diagn\xF3stico relacionado 2",
+        handleDiagnostico: this.handleDiagnostico2,
+        handleCodigoDiagnostico: this.handleCodigoDiagnostico2
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-sm-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_AutocompleteDescripcion_js__WEBPACK_IMPORTED_MODULE_7__["default"], {
+        title: "Diagn\xF3stico relacionado 3",
+        handleDiagnostico: this.handleDiagnostico3,
+        handleCodigoDiagnostico: this.handleCodigoDiagnostico3
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-sm-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: "diasSolicitados"
+      }, "Dias solicitados"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        type: "number",
+        id: "diasSolicitados",
+        className: "form-control",
+        onChange: this.handleDiasSolicitados,
+        value: this.state.diasSolicitados
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: this.state.errors['diasSolicitados']
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "invalid-feedback  " + (this.state.errors['diasSolicitados'] || "")
+      }, this.state.errorMensajes['diasSolicitados'])))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-sm-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: "fechaFinIncapacidad"
+      }, "Fecha fin licencia"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        type: "date",
+        id: "fechaFinIncapacidad",
+        className: "form-control",
+        value: this.state.fechaFinIncapacidad,
+        onSelect: this.handleFechaFin,
+        readOnly: true
+      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-sm-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: "observacionMedica"
+      }, "Resumen observacion m\xE9dico"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("textarea", {
+        rows: "10",
+        className: "form-control",
+        id: "observacionMedica",
+        onChange: this.handleObservacion
+      }))))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: this.state.visible
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row justify-content-center"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-md-10"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "card"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "card-header bg2 titulo"
+      }, "Datos del aportante"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "card-body texto"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-sm-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: "tipoIdentificacionAportante"
+      }, "Tipo identificaci\xF3n"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        type: "text",
+        id: "tipoDocAportante",
+        className: "form-control",
+        value: this.state.tipoDocAportante,
+        readOnly: true
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-sm-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: "numeroIdentificacionAportante"
+      }, "N\xFAmero de identificacion"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        type: "text",
+        id: "numDocAportante",
+        className: "form-control",
+        value: this.state.numDocAportante,
+        readOnly: true
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-sm-6"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: "nombreAportante"
+      }, "Nombre aportante"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        type: "text",
+        id: "nombreAportante",
+        className: "form-control",
+        value: this.state.nombreAportante,
+        readOnly: true
+      }))))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: this.state.visible
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row justify-content-center"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-md-10"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+        className: "btn btn-block btn-success",
+        onClick: this.guardarIncapacidad
+      }, "GUARDAR LICENCIA")))));
+    }
+  }]);
+
+  return LicenciaFront;
+}(react__WEBPACK_IMPORTED_MODULE_1__["Component"]);
+
+/* harmony default export */ __webpack_exports__["default"] = (LicenciaFront);
+
+if (document.getElementById('rootl')) {
+  react_dom__WEBPACK_IMPORTED_MODULE_2___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(LicenciaFront, null), document.getElementById('rootl'));
 }
 
 /***/ }),
