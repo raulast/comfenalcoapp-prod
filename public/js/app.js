@@ -66854,6 +66854,192 @@ var AutocompleteDescripcion = /*#__PURE__*/function (_Component) {
 
 /***/ }),
 
+/***/ "./resources/js/components/AutocompleteDescripcionL.js":
+/*!*************************************************************!*\
+  !*** ./resources/js/components/AutocompleteDescripcionL.js ***!
+  \*************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return AutocompleteDescripcion; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+
+var AutocompleteDescripcion = /*#__PURE__*/function (_Component) {
+  _inherits(AutocompleteDescripcion, _Component);
+
+  var _super = _createSuper(AutocompleteDescripcion);
+
+  function AutocompleteDescripcion(props) {
+    var _this;
+
+    _classCallCheck(this, AutocompleteDescripcion);
+
+    _this = _super.call(this, props);
+    _this.items = [];
+    _this.state = {
+      suggestions: [],
+      text: '',
+      codigo: '',
+      capitulo: '',
+      diasMaximos: 0
+    };
+    _this.onTextChanged = _this.onTextChanged.bind(_assertThisInitialized(_this));
+    _this.suggestionSelected = _this.suggestionSelected.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(AutocompleteDescripcion, [{
+    key: "onTextChanged",
+    value: function onTextChanged(e) {
+      var _this2 = this;
+
+      var value = e.target.value;
+      var suggestions = [];
+
+      if (value.length > 4) {
+        /*
+        const regex = new RegExp(`^${value}`,'i');
+        suggestions = this.items.sort().filter(v => regex.test(v));   
+        */
+        var url = 'search/diagnostico/' + value; //console.log(url);
+
+        axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(url).then(function (resp) {
+          // console.log(resp.data.data);
+          suggestions = resp.data.data; // suggestions = [1,2,3];
+          //console.log(suggestions);
+
+          _this2.setState({
+            suggestions: suggestions
+          }); //suggestions.map((item) => console.log(<li key={item.id} onClick={() => this.suggestionSelected(item.descripcion_diagnostico)}>{item.descripcion_diagnostico}</li>));
+
+        })["catch"](function (err) {
+          console.log(err);
+        });
+      }
+
+      this.setState({
+        suggestions: suggestions,
+        text: value
+      }); //this.setState(() => ({ suggestions,text:value}));
+    }
+  }, {
+    key: "suggestionSelected",
+    value: function suggestionSelected(value, cod, capitulo, diasMaximos) {
+      cod = cod.trim();
+      this.setState({
+        suggestions: [],
+        text: value,
+        codigo: cod,
+        capitulo: capitulo,
+        diasMaximos: diasMaximos
+      });
+      this.props.handleDiagnostico(value);
+      this.props.handleCodigoDiagnostico(cod);
+      this.props.handleCapituloDiagnostico(capitulo);
+      this.props.handleMaximosCie10(diasMaximos);
+    }
+  }, {
+    key: "renderSuggestions",
+    value: function renderSuggestions() {
+      var _this3 = this;
+
+      var suggestions = this.state.suggestions; //console.log(suggestions);
+
+      if (suggestions.lenght === 0) {
+        return null;
+      }
+
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, suggestions.map(function (item) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+          key: item.id,
+          onClick: function onClick() {
+            return _this3.suggestionSelected(item.descripcion_diagnostico, item.codigo, item.capitulo_grupo, item.num_dias_maximo_solicitud);
+          }
+        }, item.descripcion_diagnostico);
+      }));
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var text = this.state.text;
+      var error = this.props.error;
+      var mensaje = this.props.mensaje;
+      var title = this.props.title;
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-sm-10"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "descripcionDiagnostico"
+      }, title), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "AutoCompleteDescripcion"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        value: text,
+        onChange: this.onTextChanged,
+        type: "text",
+        id: "descripcionDiagnostico",
+        className: "form-control"
+      }), this.renderSuggestions(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: error
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "invalid-feedback  " + (error || "")
+      }, mensaje))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-sm-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "codigoDiagnostico"
+      }, "C\xF3digo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        id: "codigoDiagnostico",
+        className: "form-control",
+        value: this.state.codigo,
+        readOnly: true
+      }))));
+    }
+  }]);
+
+  return AutocompleteDescripcion;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/Combocausae.js":
 /*!************************************************!*\
   !*** ./resources/js/components/Combocausae.js ***!
@@ -67260,6 +67446,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
       genero: '',
       estado: '',
       tipoCotizante: '',
+      descripcionPrograma: '',
       mensaje: '',
       tipoMensaje: '',
       loading: false,
@@ -67426,7 +67613,8 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
           var historiaClinica = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['IdHistoria12'];
           var genero = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['Sexo'];
           var estado = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['EstadoDescripcion'];
-          var tipoCotizante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['ClaseAfiliacion']; //datos aportante
+          var tipoCotizante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['ClaseAfiliacion'];
+          var descripcionPrograma = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['DescripcionPrograma']; //datos aportante
 
           var tipoDocAportante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['TipoDocEmpresa'];
           var numDocAportante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['IDEmpresa'];
@@ -67441,6 +67629,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
             genero: genero,
             estado: estado,
             tipoCotizante: tipoCotizante,
+            descripcionPrograma: descripcionPrograma,
             tipoDocAportante: tipoDocAportante,
             numDocAportante: numDocAportante,
             nombreAportante: nombreAportante,
@@ -68150,7 +68339,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
         defaultValue: this.state.genero,
         readOnly: true
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "col-sm-4"
+        className: "col-sm-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
@@ -68162,7 +68351,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
         defaultValue: this.state.estado,
         readOnly: true
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "col-sm-4"
+        className: "col-sm-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
@@ -68172,6 +68361,18 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
         id: "tipoCotizante",
         className: "form-control",
         defaultValue: this.state.tipoCotizante,
+        readOnly: true
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-sm-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: "tipoCotizante"
+      }, "Descripci\xF3n programa"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+        type: "text",
+        id: "descripcionPrograma",
+        className: "form-control",
+        defaultValue: this.state.descripcionPrograma,
         readOnly: true
       }))))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: this.state.visible
@@ -68536,8 +68737,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Combocausae_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Combocausae.js */ "./resources/js/components/Combocausae.js");
 /* harmony import */ var _Medico_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Medico.js */ "./resources/js/components/Medico.js");
 /* harmony import */ var _AutocompleteDescripcion_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./AutocompleteDescripcion.js */ "./resources/js/components/AutocompleteDescripcion.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _AutocompleteDescripcionL_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./AutocompleteDescripcionL.js */ "./resources/js/components/AutocompleteDescripcionL.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_9__);
 
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -68571,6 +68773,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 
 
 
@@ -68691,27 +68894,20 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
     _this.diasGestacionC = _this.diasGestacionC.bind(_assertThisInitialized(_this));
     _this.partoMultiple = _this.partoMultiple.bind(_assertThisInitialized(_this));
     _this.validartipoLicencia = _this.validartipoLicencia.bind(_assertThisInitialized(_this));
+    _this.seleccionartipoLicencia = _this.seleccionartipoLicencia.bind(_assertThisInitialized(_this));
+    _this.handleFechaFin = _this.handleFechaFin.bind(_assertThisInitialized(_this));
+    _this.handleDiagnostico = _this.handleDiagnostico.bind(_assertThisInitialized(_this));
+    _this.handleCodigoDiagnostico = _this.handleCodigoDiagnostico.bind(_assertThisInitialized(_this));
+    _this.handleDiagnostico1 = _this.handleDiagnostico1.bind(_assertThisInitialized(_this));
+    _this.handleCodigoDiagnostico1 = _this.handleCodigoDiagnostico1.bind(_assertThisInitialized(_this));
+    _this.handleDiagnostico2 = _this.handleDiagnostico2.bind(_assertThisInitialized(_this));
+    _this.handleCodigoDiagnostico2 = _this.handleCodigoDiagnostico2.bind(_assertThisInitialized(_this));
+    _this.handleDiagnostico3 = _this.handleDiagnostico1.bind(_assertThisInitialized(_this));
+    _this.handleCodigoDiagnostico3 = _this.handleCodigoDiagnostico3.bind(_assertThisInitialized(_this));
+    _this.handleCapituloDiagnostico = _this.handleCapituloDiagnostico.bind(_assertThisInitialized(_this));
+    _this.handleMaximosCie10 = _this.handleMaximosCie10.bind(_assertThisInitialized(_this));
+    _this.guardarLicencia = _this.guardarLicencia.bind(_assertThisInitialized(_this));
     /*
-    this.handleTipo = this.handleTipo.bind(this);
-    this.handleNumero = this.handleNumero.bind(this);
-    this.handleFechaInicioIncapacidad = this.handleFechaInicioIncapacidad.bind(this);
-    this.handleFechaFin = this.handleFechaFin.bind(this);
-    this.handleDiasSolicitados = this.handleDiasSolicitados.bind(this);
-    this.getBusinessDatesCount = this.getBusinessDatesCount.bind(this);
-    this.handleCausa = this.handleCausa.bind(this);
-    this.handleContingencia = this.handleContingencia.bind(this);
-    this.guardarIncapacidad = this.guardarIncapacidad.bind(this);
-    this.handleObservacion = this.handleObservacion.bind(this);
-    this.handleDiagnostico = this.handleDiagnostico.bind(this);
-    this.handleCodigoDiagnostico = this.handleCodigoDiagnostico.bind(this);
-    this.handleDiagnostico1 = this.handleDiagnostico1.bind(this);
-    this.handleCodigoDiagnostico1 = this.handleCodigoDiagnostico1.bind(this);
-    this.handleDiagnostico2 = this.handleDiagnostico2.bind(this);
-    this.handleCodigoDiagnostico2 = this.handleCodigoDiagnostico2.bind(this);
-    this.handleDiagnostico3 = this.handleDiagnostico1.bind(this);
-    this.handleCodigoDiagnostico3 = this.handleCodigoDiagnostico3.bind(this);
-    this.handleCapituloDiagnostico = this.handleCapituloDiagnostico.bind(this);
-    this.handleMaximosCie10 = this.handleMaximosCie10.bind(this);
     this.handlePrestador = this.handlePrestador.bind(this);
     
     this.handleMedico = this.handleMedico.bind(this);
@@ -68725,7 +68921,7 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
     this.clearErrors = this.clearErrors.bind(this);
     this.reviewProrroga = this.reviewProrroga.bind(this);
      this.handleMaxDias = this.handleMaxDias.bind(this);
-     */
+    */
 
     return _this;
   }
@@ -68742,7 +68938,7 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
             switch (_context.prev = _context.next) {
               case 0:
                 url = 'getNumeroLicencia';
-                axios__WEBPACK_IMPORTED_MODULE_8___default.a.get(url).then(function (resp) {
+                axios__WEBPACK_IMPORTED_MODULE_9___default.a.get(url).then(function (resp) {
                   _this2.setState({
                     id: "0000".concat(resp.data.data),
                     prorrogaId: 0
@@ -68777,7 +68973,7 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
       var tipoDocumento = this.state.tipoDocumento;
       var numeroIdentificacion = this.state.numeroIdentificacion;
       var url = '/validacionDerechos/' + tipoDocumento + "/" + numeroIdentificacion;
-      axios__WEBPACK_IMPORTED_MODULE_8___default.a.get(url, {
+      axios__WEBPACK_IMPORTED_MODULE_9___default.a.get(url, {
         tipoDocumento: this.state.tipoDocumento,
         numeroIdentificacion: this.state.numeroIdentificacion
       }).then(function (response) {
@@ -68835,34 +69031,100 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
   }, {
     key: "handleChange",
     value: function handleChange(_ref) {
+      var _this4 = this;
+
       var target = _ref.target;
-      this.setState(_defineProperty({}, target.name, target.value));
-
-      if (target.name == "tipoAtencion") {
-        if (target.value == 1) {
-          this.setState({
-            nacidoViableState: false
-          });
-        } else {
-          this.setState({
-            nacidoViableState: true
-          });
-        }
-      }
-
-      if (target.name == "tipoLicencia") {
-        if (target.value == 15) {
-          this.setState({
-            fechaProbableState: 'visible'
-          });
-        } else {
-          this.setState({
-            fechaProbableState: 'oculto'
-          });
+      this.setState(_defineProperty({}, target.name, target.value), function () {
+        if (target.name == "tipoAtencion") {
+          if (target.value == 1) {
+            _this4.setState({
+              nacidoViableState: false
+            });
+          } else {
+            _this4.setState({
+              nacidoViableState: true
+            });
+          }
         }
 
-        this.validartipoLicencia(target.value);
+        if (target.name == "tipoLicencia") {
+          if (target.value == 15) {
+            _this4.setState({
+              fechaProbableState: 'visible'
+            });
+          } else {
+            _this4.setState({
+              fechaProbableState: 'oculto'
+            });
+          }
+
+          _this4.validartipoLicencia(target.value);
+        }
+
+        if (target.name == "tipoAtencion" || target.name == "nacidoViable") {
+          _this4.seleccionartipoLicencia();
+        }
+      });
+    }
+  }, {
+    key: "seleccionartipoLicencia",
+    value: function seleccionartipoLicencia() {
+      var tipoAtencion = this.state.tipoAtencion;
+      var edadG = this.state.diasGestacionC;
+      var rnv = parseInt(this.state.nacidoViable);
+      console.log("Atencion:" + tipoAtencion);
+      console.log("EdadG:" + edadG);
+      console.log("rnv:" + rnv);
+      var band = false;
+
+      if (tipoAtencion == "1" && edadG >= 266 && rnv == 1) {
+        this.setState({
+          diasSolicitados: 126,
+          tipoLicencia: "1"
+        });
+        band = true;
+      } else if (tipoAtencion == "2" || tipoAtencion == "3") {
+        // alert("Puede escoger 14 o 28 días máximo")
+        this.setState({
+          diasSolicitados: 14,
+          tipoLicencia: "2"
+        });
+        band = true;
+      } else if (tipoAtencion == "1" && edadG < 266 && rnv == 1) {
+        var dias = 126 + (280 - edadG);
+        this.setState({
+          diasSolicitados: dias,
+          tipoLicencia: "4"
+        });
+        band = true;
+      } else if (tipoAtencion == "1" && edadG >= 266 && rnv >= 2) {
+        this.setState({
+          diasSolicitados: 140,
+          tipoLicencia: "5"
+        });
+        band = true;
+      } else if (tipoAtencion == "1" && edadG < 266 && rnv >= 2) {
+        var dias = 126 + (280 - edadG) + 14;
+        this.setState({
+          diasSolicitados: dias,
+          tipoLicencia: "6"
+        });
+        band = true;
+      } else if (tipoAtencion == "1" && rnv == 0) {
+        //alert("Puede escoger 14 o 28 días máximo")
+        this.setState({
+          diasSolicitados: 14,
+          tipoLicencia: "2"
+        });
+        band = true;
+      } else {
+        this.setState({
+          tipoLicencia: '',
+          diasSolicitados: 0
+        });
       }
+
+      console.log(this.state.tipoLicencia);
     }
   }, {
     key: "validartipoLicencia",
@@ -68872,45 +69134,37 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
       var edadG = this.state.diasGestacionC;
       var rnv = parseInt(this.state.nacidoViable);
       var band = false;
-      console.log(tipoLicencia);
-      console.log(tipoAtencion);
-      console.log(edadG);
-      console.log(rnv);
+      /*console.log(tipoLicencia)
+      console.log(tipoAtencion)
+      console.log(edadG)
+      console.log(rnv)*/
 
-      if (tipoLicencia == "1" && tipoAtencion == "1" && edadG >= 266 && rnv <= 1) {
+      if (tipoLicencia == "1" && tipoAtencion == "1" && edadG >= 266 && rnv == 1) {
         this.setState({
           diasSolicitados: 126
         });
         band = true;
-      }
-
-      if (tipoLicencia == "4" && tipoAtencion == "1" && edadG < 266 && rnv <= 1) {
+      } else if (tipoLicencia == "2" && (tipoAtencion == "2" || tipoAtencion == "3") || tipoLicencia == "2" && tipoAtencion == "1" && rnv == 0) {
+        alert("Puede escoger 14 o 28 días máximo");
+        this.setState({
+          diasSolicitados: 14
+        });
+        band = true;
+      } else if (tipoLicencia == "4" && tipoAtencion == "1" && edadG < 266 && rnv == 1) {
         var dias = 126 + (280 - edadG);
         this.setState({
           diasSolicitados: dias
         });
         band = true;
-      }
-
-      if (tipoLicencia == "5" && tipoAtencion == "1" && edadG >= 266 && rnv > 2) {
+      } else if (tipoLicencia == "5" && tipoAtencion == "1" && edadG >= 266 && rnv >= 2) {
         this.setState({
           diasSolicitados: 140
         });
         band = true;
-      }
-
-      if (tipoLicencia == "6" && tipoAtencion == "1" && edadG < 266 && rnv > 2) {
+      } else if (tipoLicencia == "6" && tipoAtencion == "1" && edadG < 266 && rnv >= 2) {
         var dias = 126 + (280 - edadG) + 14;
         this.setState({
           diasSolicitados: dias
-        });
-        band = true;
-      }
-
-      if (tipoLicencia == "2" && (tipoAtencion == "2" || tipoAtencion == "3") || tipoLicencia == "2" && tipoAtencion == "1" && rnv == 0) {
-        alert("Puede escoger 14 o 28 días máximo");
-        this.setState({
-          diasSolicitados: 14
         });
         band = true;
       }
@@ -68925,6 +69179,10 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
 
       if (tipoLicencia == "12" || tipoLicencia == "13" || tipoLicencia == "14") {
         alert("La licencia la da la EPS. Se resuelve por via administrativa. Se debe mostrar aviso para solicitar ante la EPS");
+      }
+
+      if (tipoLicencia == "15") {
+        band = true;
       }
 
       if (band == false) {
@@ -68953,12 +69211,16 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
   }, {
     key: "diasGestacionC",
     value: function diasGestacionC() {
+      var _this5 = this;
+
       var semanas = parseInt(this.state.semanasGestacion);
       var dias = parseInt(this.state.diasGestacion);
       var calculado = parseInt(semanas * 7 + dias); //console.log(calculado);
 
       this.setState({
         diasGestacionC: calculado
+      }, function () {
+        _this5.seleccionartipoLicencia();
       });
     } //diagnosticos 
 
@@ -69081,14 +69343,13 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
   }, {
     key: "handleFechaFin",
     value: function handleFechaFin(e) {
-      var l1 = new Date(this.state.fechaInicioIncapacidad);
+      var l1 = new Date(this.state.fechaInicioLicencia);
       var dias = this.state.diasSolicitados - 1;
       l1 = new Date(l1.setTime(l1.getTime() + dias * 86400000)).getTime();
       this.setState({
-        fechaFinIncapacidad: new Date(l1).toISOString().slice(0, 10)
-      });
-      this.getBusinessDatesCount(new Date(this.state.fechaInicioIncapacidad), new Date(l1));
-      this.reviewProrroga();
+        fechaFinLicencia: new Date(l1).toISOString().slice(0, 10)
+      }); //this.getBusinessDatesCount(new Date(this.state.fechaInicioIncapacidad), new Date(l1))
+      //this.reviewProrroga()
     }
   }, {
     key: "handleCausa",
@@ -69190,7 +69451,7 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
     key: "guardarLicencia",
     value: function () {
       var _guardarLicencia = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var _this4 = this;
+        var _this6 = this;
 
         var resp, url;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
@@ -69205,13 +69466,13 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
                   if (resp) {
                     //alert(this.state.id);
                     url = 'saveIncapacidad';
-                    axios__WEBPACK_IMPORTED_MODULE_8___default.a.post(url, {
+                    axios__WEBPACK_IMPORTED_MODULE_9___default.a.post(url, {
                       datos: this.state
                     }).then(function (resp) {
                       console.log(resp.data);
                       alert(resp.data);
 
-                      _this4.setState(_this4.initialState);
+                      _this6.setState(_this6.initialState);
 
                       location.reload();
                     })["catch"](function (err) {
@@ -69736,12 +69997,14 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
       }, "Reci\xE9n nacido viable"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
         type: "number",
         className: "form-control",
-        min: "1",
+        min: "0",
         max: "9",
         name: "nacidoViable",
+        value: this.state.nacidoViable,
         onChange: this.handleChange,
         disabled: this.state.nacidoViableState,
-        onKeyUp: this.partoMultiple
+        onKeyUp: this.partoMultiple,
+        onClick: this.partoMultiple
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", null, "Parto m\xFAltiple\xA0", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
         name: "partoMultiple",
         type: "checkbox",
@@ -69825,7 +70088,7 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
         className: "row"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "col-sm-12"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_AutocompleteDescripcion_js__WEBPACK_IMPORTED_MODULE_7__["default"], {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_AutocompleteDescripcionL_js__WEBPACK_IMPORTED_MODULE_8__["default"], {
         title: "Diagnostico principal",
         handleDiagnostico: this.handleDiagnostico,
         handleCodigoDiagnostico: this.handleCodigoDiagnostico,
@@ -69867,9 +70130,9 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
         htmlFor: "diasSolicitados"
       }, "Dias solicitados"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
         type: "number",
-        id: "diasSolicitados",
+        name: "diasSolicitados",
         className: "form-control",
-        onChange: this.handleDiasSolicitados,
+        onChange: this.handleChange,
         value: this.state.diasSolicitados
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: this.state.errors['diasSolicitados']
@@ -69880,12 +70143,12 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
-        htmlFor: "fechaFinIncapacidad"
+        htmlFor: "fechaFinLicencia"
       }, "Fecha fin licencia"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
         type: "date",
-        id: "fechaFinIncapacidad",
+        id: "fechaFinLicencia",
         className: "form-control",
-        value: this.state.fechaFinIncapacidad,
+        value: this.state.fechaFinLicencia,
         onSelect: this.handleFechaFin,
         readOnly: true
       })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
@@ -69899,7 +70162,7 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
       }, "Resumen observacion m\xE9dico"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("textarea", {
         rows: "10",
         className: "form-control",
-        id: "observacionMedica",
+        name: "observacion",
         onChange: this.handleObservacion
       }))))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: this.state.visible

@@ -34,6 +34,7 @@ class IncapacidadFront extends Component {
             genero: '',
             estado: '',
             tipoCotizante : '',
+            descripcionPrograma:'',
             mensaje : '',
             tipoMensaje : '',
             loading : false,
@@ -186,7 +187,8 @@ class IncapacidadFront extends Component {
                         let genero = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['Sexo'];
                         let estado = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['EstadoDescripcion'];
                         let tipoCotizante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['ClaseAfiliacion'];
-                        
+                        let descripcionPrograma = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['DescripcionPrograma'];
+
                         //datos aportante
                         let tipoDocAportante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['TipoDocEmpresa'];
                         let numDocAportante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['IDEmpresa'];
@@ -202,6 +204,7 @@ class IncapacidadFront extends Component {
                             genero : genero,
                             estado : estado,
                             tipoCotizante: tipoCotizante,
+                            descripcionPrograma: descripcionPrograma,
                             tipoDocAportante: tipoDocAportante,
                             numDocAportante: numDocAportante,
                             nombreAportante:nombreAportante,
@@ -747,16 +750,22 @@ class IncapacidadFront extends Component {
                                             <input type="text" id="genero" className="form-control" defaultValue={this.state.genero}  readOnly  />
                                         </div>
                                     </div>
-                                    <div className="col-sm-4">
+                                    <div className="col-sm-2">
                                         <div className="form-group">
                                             <label htmlFor="estado">Estado</label>
                                             <input type="text" id="estado" className="form-control" defaultValue={this.state.estado}  readOnly/>
                                         </div>
                                     </div>
-                                    <div className="col-sm-4">
+                                    <div className="col-sm-2">
                                         <div className="form-group">
                                             <label htmlFor="tipoCotizante">Tipo de cotizante</label>
                                             <input type="text" id="tipoCotizante" className="form-control" defaultValue={this.state.tipoCotizante}  readOnly/>
+                                        </div>
+                                    </div>
+                                    <div className="col-sm-4">
+                                        <div className="form-group">
+                                            <label htmlFor="tipoCotizante">Descripción programa</label>
+                                            <input type="text" id="descripcionPrograma" className="form-control" defaultValue={this.state.descripcionPrograma}  readOnly/>
                                         </div>
                                     </div>
                                 </div>  

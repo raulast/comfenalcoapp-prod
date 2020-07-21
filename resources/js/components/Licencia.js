@@ -5,6 +5,7 @@ import Comboips from './Comboips.js';
 import Combocausae from './Combocausae.js';
 import Medico from './Medico.js';
 import AutocompleteDescripcion from './AutocompleteDescripcion.js';
+import AutocompleteDescripcionL from './AutocompleteDescripcionL.js';
 
 import axios from 'axios';
 
@@ -118,18 +119,8 @@ class LicenciaFront extends Component {
         this.diasGestacionC = this.diasGestacionC.bind(this);
         this.partoMultiple = this.partoMultiple.bind(this);
         this.validartipoLicencia = this.validartipoLicencia.bind(this);
-
-        /*
-        this.handleTipo = this.handleTipo.bind(this);
-        this.handleNumero = this.handleNumero.bind(this);
-        this.handleFechaInicioIncapacidad = this.handleFechaInicioIncapacidad.bind(this);
+        this.seleccionartipoLicencia = this.seleccionartipoLicencia.bind(this);
         this.handleFechaFin = this.handleFechaFin.bind(this);
-        this.handleDiasSolicitados = this.handleDiasSolicitados.bind(this);
-        this.getBusinessDatesCount = this.getBusinessDatesCount.bind(this);
-        this.handleCausa = this.handleCausa.bind(this);
-        this.handleContingencia = this.handleContingencia.bind(this);
-        this.guardarIncapacidad = this.guardarIncapacidad.bind(this);
-        this.handleObservacion = this.handleObservacion.bind(this);
         this.handleDiagnostico = this.handleDiagnostico.bind(this);
         this.handleCodigoDiagnostico = this.handleCodigoDiagnostico.bind(this);
         this.handleDiagnostico1 = this.handleDiagnostico1.bind(this);
@@ -140,6 +131,9 @@ class LicenciaFront extends Component {
         this.handleCodigoDiagnostico3 = this.handleCodigoDiagnostico3.bind(this);
         this.handleCapituloDiagnostico = this.handleCapituloDiagnostico.bind(this);
         this.handleMaximosCie10 = this.handleMaximosCie10.bind(this);
+        this.guardarLicencia = this.guardarLicencia.bind(this);
+
+        /*
         this.handlePrestador = this.handlePrestador.bind(this);
         
         this.handleMedico = this.handleMedico.bind(this);
@@ -155,7 +149,6 @@ class LicenciaFront extends Component {
         this.reviewProrroga = this.reviewProrroga.bind(this);
 
         this.handleMaxDias = this.handleMaxDias.bind(this);
-
         */
     }
 
@@ -246,35 +239,112 @@ class LicenciaFront extends Component {
 
     }
     handleChange({ target }) {
+        
         this.setState({
           [target.name]: target.value
+        }, () => {
+            if (target.name == "tipoAtencion"){
+                if (target.value == 1){
+                    this.setState({
+                        nacidoViableState: false
+                      });
+                }
+                else{
+                    this.setState({
+                        nacidoViableState: true
+                      });
+                }
+                
+            }
+            if (target.name == "tipoLicencia"){
+               
+                if (target.value == 15){
+                    this.setState({
+                        fechaProbableState: 'visible'
+                      });
+                }
+                else{
+                    this.setState({
+                        fechaProbableState: 'oculto'
+                      });
+                }
+                this.validartipoLicencia(target.value)
+            }
+            
+            if ((target.name == "tipoAtencion")||(target.name == "nacidoViable")){
+                this.seleccionartipoLicencia();
+            }
         });
-        if (target.name == "tipoAtencion"){
-            if (target.value == 1){
-                this.setState({
-                    nacidoViableState: false
-                  });
-            }
-            else{
-                this.setState({
-                    nacidoViableState: true
-                  });
-            }
+       
+        
+    }
+    seleccionartipoLicencia(){
+        let tipoAtencion = this.state.tipoAtencion;
+        let edadG = this.state.diasGestacionC;
+        let rnv = parseInt(this.state.nacidoViable);
+
+        console.log("Atencion:"+tipoAtencion);
+        console.log("EdadG:"+edadG);
+        console.log("rnv:"+rnv);
+
+        let band = false;
+
+        if ( (tipoAtencion =="1") && (edadG >= 266) && (rnv ==1)){
+            this.setState({
+                diasSolicitados: 126,
+                tipoLicencia: "1"
+            });
+            band=true;
+            
         }
-        if (target.name == "tipoLicencia"){
-           
-            if (target.value == 15){
-                this.setState({
-                    fechaProbableState: 'visible'
-                  });
-            }
-            else{
-                this.setState({
-                    fechaProbableState: 'oculto'
-                  });
-            }
-            this.validartipoLicencia(target.value)
+        else if ((tipoAtencion =="2" || tipoAtencion=="3")){
+            // alert("Puede escoger 14 o 28 días máximo")
+             this.setState({
+                 diasSolicitados: 14,
+                 tipoLicencia: "2"
+             });
+             band=true;
         }
+        else if ((tipoAtencion =="1") && (edadG < 266) && (rnv ==1)){
+            var dias = 126 + (280-edadG)
+            this.setState({
+                diasSolicitados: dias,
+                tipoLicencia: "4"
+            });
+            band=true;
+        }
+        else if ((tipoAtencion =="1") && (edadG >= 266) && (rnv >=2)){
+            this.setState({
+                diasSolicitados: 140,
+                tipoLicencia: "5"
+            });
+            band=true;
+        }
+        else if ((tipoAtencion =="1") && (edadG < 266) && (rnv>=2)){
+            var dias = 126 + (280-edadG) + 14
+            this.setState({
+                diasSolicitados: dias,
+                tipoLicencia: "6"
+            });
+            band=true;
+        }
+        else if( tipoAtencion=="1" && rnv == 0){
+            //alert("Puede escoger 14 o 28 días máximo")
+            this.setState({
+                diasSolicitados: 14,
+                tipoLicencia: "2"
+            });
+            band=true;
+        }
+        else{
+            
+            this.setState({
+                tipoLicencia:'',
+                diasSolicitados: 0
+            });
+        }
+        console.log(this.state.tipoLicencia)
+
     }
     validartipoLicencia(tipoLicencia){
         //let tipoLicencia = this.state.tipoLicencia;
@@ -284,44 +354,45 @@ class LicenciaFront extends Component {
 
         let band = false;
 
-        console.log(tipoLicencia)
+        /*console.log(tipoLicencia)
         console.log(tipoAtencion)
         console.log(edadG)
-        console.log(rnv)
+        console.log(rnv)*/
 
-        if ((tipoLicencia =="1") && (tipoAtencion =="1") && (edadG >= 266) && (rnv <=1)){
+        if ((tipoLicencia =="1") && (tipoAtencion =="1") && (edadG >= 266) && (rnv ==1)){
             this.setState({
                 diasSolicitados: 126
             });
             band=true;
         }
-        if ((tipoLicencia =="4") && (tipoAtencion =="1") && (edadG < 266) && (rnv <=1)){
-            var dias = 126 + (280-edadG)
-            this.setState({
-                diasSolicitados: dias
-            });
-            band=true;
-        }
-        if ((tipoLicencia =="5") && (tipoAtencion =="1") && (edadG >= 266) && (rnv >2)){
-            this.setState({
-                diasSolicitados: 140
-            });
-            band=true;
-        }
-        if ((tipoLicencia =="6") && (tipoAtencion =="1") && (edadG < 266) && (rnv>2)){
-            var dias = 126 + (280-edadG) + 14
-            this.setState({
-                diasSolicitados: dias
-            });
-            band=true;
-        }
-        if ((tipoLicencia == "2" && (tipoAtencion =="2" || tipoAtencion=="3"))|| (tipoLicencia == "2" && tipoAtencion=="1" && rnv == 0)){
+        else if ((tipoLicencia == "2" && (tipoAtencion =="2" || tipoAtencion=="3"))|| (tipoLicencia == "2" && tipoAtencion=="1" && rnv == 0)){
             alert("Puede escoger 14 o 28 días máximo")
             this.setState({
                 diasSolicitados: 14
             });
             band=true;
         }
+        else if ((tipoLicencia =="4") && (tipoAtencion =="1") && (edadG < 266) && (rnv ==1)){
+            var dias = 126 + (280-edadG)
+            this.setState({
+                diasSolicitados: dias
+            });
+            band=true;
+        }
+        else if ((tipoLicencia =="5") && (tipoAtencion =="1") && (edadG >= 266) && (rnv >=2)){
+            this.setState({
+                diasSolicitados: 140
+            });
+            band=true;
+        }
+        else if ((tipoLicencia =="6") && (tipoAtencion =="1") && (edadG < 266) && (rnv>=2)){
+            var dias = 126 + (280-edadG) + 14
+            this.setState({
+                diasSolicitados: dias
+            });
+            band=true;
+        }
+        
         if (tipoLicencia == "3" && this.state.medico_id !=0){
             alert("Esta licencia NO la generan los médicos, es administrativa por solicitud del aportante.")
         }
@@ -330,6 +401,9 @@ class LicenciaFront extends Component {
         }
         if (tipoLicencia == "12"  || tipoLicencia == "13" || tipoLicencia == "14"  ){
             alert("La licencia la da la EPS. Se resuelve por via administrativa. Se debe mostrar aviso para solicitar ante la EPS")
+        }
+        if (tipoLicencia == "15"  ){
+            band=true
         }
         if (band == false){
             alert("No cumple las condiciones para este tipo de licencia")
@@ -361,7 +435,10 @@ class LicenciaFront extends Component {
         //console.log(calculado);
         this.setState({
             diasGestacionC: calculado
+        }, () => {
+            this.seleccionartipoLicencia();
         });
+        
     }
     
     //diagnosticos 
@@ -444,15 +521,15 @@ class LicenciaFront extends Component {
         }
     }
     handleFechaFin(e) {
-        let l1 = new Date(this.state.fechaInicioIncapacidad);
+        let l1 = new Date(this.state.fechaInicioLicencia);
         let dias = this.state.diasSolicitados - 1;
         l1 = new Date(l1.setTime(l1.getTime() + dias * 86400000)).getTime()
         this.setState({
-            fechaFinIncapacidad: new Date(l1).toISOString().slice(0, 10),
+            fechaFinLicencia: new Date(l1).toISOString().slice(0, 10),
         });
-        this.getBusinessDatesCount(new Date(this.state.fechaInicioIncapacidad), new Date(l1))
+        //this.getBusinessDatesCount(new Date(this.state.fechaInicioIncapacidad), new Date(l1))
 
-        this.reviewProrroga()
+        //this.reviewProrroga()
     }
     handleCausa(e) {
         console.log(e);
@@ -903,7 +980,7 @@ class LicenciaFront extends Component {
                                         </div>
                                         <div className="col-sm-3">
                                             <label htmlFor="nacidoViable">Recién nacido viable</label>
-                                            <input type="number" className="form-control" min="1" max="9" name="nacidoViable" onChange={this.handleChange} disabled={this.state.nacidoViableState} onKeyUp={this.partoMultiple}/>
+                                            <input type="number" className="form-control" min="0" max="9" name="nacidoViable" value={ this.state.nacidoViable} onChange={this.handleChange} disabled={this.state.nacidoViableState} onKeyUp={this.partoMultiple} onClick={this.partoMultiple}/>
 
                                             <label>
                                                 Parto múltiple&nbsp;
@@ -966,7 +1043,7 @@ class LicenciaFront extends Component {
                                     </div>
                                     <div className="row">
                                         <div className="col-sm-12">
-                                            <AutocompleteDescripcion title="Diagnostico principal" handleDiagnostico={this.handleDiagnostico} handleCodigoDiagnostico={this.handleCodigoDiagnostico} handleCapituloDiagnostico={this.handleCapituloDiagnostico} handleMaximosCie10={this.handleMaximosCie10} error={this.state.errors['diagnostico']} mensaje={this.state.errorMensajes['diagnostico']} />
+                                            <AutocompleteDescripcionL title="Diagnostico principal" handleDiagnostico={this.handleDiagnostico} handleCodigoDiagnostico={this.handleCodigoDiagnostico} handleCapituloDiagnostico={this.handleCapituloDiagnostico} handleMaximosCie10={this.handleMaximosCie10} error={this.state.errors['diagnostico']} mensaje={this.state.errorMensajes['diagnostico']} />
                                         </div>
                                     </div>
                                     <div className="row">
@@ -988,7 +1065,7 @@ class LicenciaFront extends Component {
                                         <div className="col-sm-4">
                                             <div className="form-group">
                                                 <label htmlFor="diasSolicitados">Dias solicitados</label>
-                                                <input type="number" id="diasSolicitados" className="form-control" onChange={this.handleDiasSolicitados} value={this.state.diasSolicitados} />
+                                                <input type="number" name="diasSolicitados" className="form-control" onChange={this.handleChange} value={this.state.diasSolicitados} />
                                                 <div className={this.state.errors['diasSolicitados']}>
                                                     <div className={"invalid-feedback  " + (this.state.errors['diasSolicitados'] || "")}>{this.state.errorMensajes['diasSolicitados']}</div>
                                                 </div>
@@ -996,8 +1073,8 @@ class LicenciaFront extends Component {
                                         </div>  
                                         <div className="col-sm-4">
                                             <div className="form-group">
-                                                <label htmlFor="fechaFinIncapacidad">Fecha fin licencia</label>
-                                                <input type="date" id="fechaFinIncapacidad" className="form-control" value={this.state.fechaFinIncapacidad} onSelect={this.handleFechaFin} readOnly />
+                                                <label htmlFor="fechaFinLicencia">Fecha fin licencia</label>
+                                                <input type="date" id="fechaFinLicencia" className="form-control" value={this.state.fechaFinLicencia} onSelect={this.handleFechaFin} readOnly />
                                             </div>
                                         </div>  
                                     </div>
@@ -1005,7 +1082,7 @@ class LicenciaFront extends Component {
                                         <div className="col-sm-12">
                                             <div className="form-group">
                                                 <label htmlFor="observacionMedica">Resumen observacion médico</label>
-                                                <textarea rows="10" className="form-control" id="observacionMedica" onChange={this.handleObservacion}>
+                                                <textarea rows="10" className="form-control" name="observacion" onChange={this.handleObservacion}>
 
                                                 </textarea>
                                             </div>
