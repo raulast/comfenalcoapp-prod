@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCausaeTable extends Migration
+class CreateClasesAfiliacionTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,12 @@ class CreateCausaeTable extends Migration
      */
     public function up()
     {
-        Schema::create('causae', function (Blueprint $table) {
-            $table->increments('id')->index();
-            $table->string('causa_externa');
-            $table->integer('estado');
-            $table->timestamps();
-
-
-          
+        Schema::create('clases_afiliacion', function (Blueprint $table) {
+            $table->id();
+            $table->string('clase');
+            $table->string('abbr');
+            $table->integer('activo');
+           
         });
     }
 
@@ -31,6 +29,6 @@ class CreateCausaeTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('causae');
+        Schema::dropIfExists('clases_afiliacion');
     }
 }

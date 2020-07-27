@@ -9,13 +9,20 @@ use App\Medico;
 use App\Causae;
 use App\Incapacidad;
 use App\User;
+use App\Estadosi;
 use Illuminate\Support\Facades\Hash;
-
+use Carbon\Carbon;
+use App\Http\Controllers\IncapacidadController;
 
 use Auth;
 
 class ApiController extends Controller
 {
+    protected $IncapacidadController;
+    public function __construct(IncapacidadController $IncapacidadController)
+    {
+        $this->IncapacidadController = $IncapacidadController;
+    }
     //lists
     public function list($tipo){
         if ($tipo== "ips"){ 
@@ -99,6 +106,13 @@ class ApiController extends Controller
         ]);
         
         
+    }
+    public function historicoIncapacidades(){
+        $datos= Incapacidad::orderBy('created_at','desc')->get();
+       
+        return view('incapacidades.historicoIncapacidad',[
+            'datos' => $datos
+        ]);
     }
 
     //saves
@@ -237,6 +251,84 @@ class ApiController extends Controller
 
         return response()->json([
             'data' => $data
+        ]);
+    }
+    public function getSystemCausas(Request $request){
+        
+        $data=Causae::orderBy('id','asc')->get();
+
+        return response()->json([
+            'data' => $data
+        ]);
+    }
+    public function getSystemCie10(Request $request){
+        
+        $data=Cie10::where('id','<',100)->orderBy('id','asc')->get();
+
+        return response()->json([
+            'data' => $data
+        ]);
+    }
+    public function getSystemEstados(Request $request){
+        
+        $data=Estadosi::orderBy('id','asc')->get();
+
+        return response()->json([
+            'data' => $data
+        ]);
+    }
+    public function getSystemIps(Request $request){
+        
+        $data=Ips::orderBy('id','asc')->get();
+
+        return response()->json([
+            'data' => $data
+        ]);
+    }
+    //certificados
+
+    public function certificadoIncapacidad($id,$pid){
+        $fechahora= Carbon::now();
+        
+        $d =Incapacidad::where('id',$id)->where('prorrogaid',$pid)->first();
+        
+        $tipoDoc = $d->tipo_documento_afiliado;
+        $numDoc = $d->num_documento_afiliado;
+        $response = json_decode($this->IncapacidadController->validacion($tipoDoc,$numDoc));
+        $nombre = $response->responseMessageOut->body->response->validadorResponse->DsAfiliado->Afiliado->Nombre;
+        $primerApellido = $response->responseMessageOut->body->response->validadorResponse->DsAfiliado->Afiliado->PrimerApellido; 
+        $segundoApellido = $response->responseMessageOut->body->response->validadorResponse->DsAfiliado->Afiliado->SegundoApellido;
+        $nombreCompleto = $nombre." ".$primerApellido." ".$segundoApellido;
+        
+        //dd($validacion);
+
+        $i = collect([]);
+        $i->put('titulo','CERTIFICADO MEDICO INCAPACIDAD TEMPORAL');
+        $i->put('No',$d->id."-".$d->prorrogaid);
+
+        if ($d->tipo_prestador== 1){
+            $ips=Ips::where('id',$d->ips)->first();
+            $prestador = $ips->nombre_sede;
+            $nitprestador = $ips->nit;
+            $direccionprestador = $ips->direccion;
+        }
+        if ($d->tipo_prestador== 2){
+           $prestador="Consultorio";
+           $nitprestador = Medico::where('id',$d->medico_id)->first()->num_documento;
+           $direccionprestador ="";
+        }
+        $i->put('Nombre del prestador',$prestador);
+        $i->put('Nit del prestador',$nitprestador);
+        $i->put('Dirección del prestador',$direccionprestador);
+        $i->put('Ciudad',"");
+        $i->put('NombreEPS',"Comfenalco Valle de la gente EPS");
+        $i->put('Fecha de impresion', $fechahora ->toDateTimeString());
+        $i->put('Fecha de consulta médica',$d->fecha_atencion);
+        $i->put('Fecha y hora de generacion',$d->created_at);
+        $i->put('Nombre del paciente',$nombreCompleto);
+        $i->put('Tipo de identificacion del paciente',$tipoDoc);
+        return view('incapacidades.certificado',[
+            'i' => $i
         ]);
     }
 }

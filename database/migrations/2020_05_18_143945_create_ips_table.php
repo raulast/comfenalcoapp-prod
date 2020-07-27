@@ -14,7 +14,7 @@ class CreateIpsTable extends Migration
     public function up()
     {
         Schema::create('ips', function (Blueprint $table) {
-            $table->increments('id');
+            $table->increments('id')->index();
             $table->integer('cod_sede');
             $table->string('nombre_sede');
             $table->char('estado', 1);

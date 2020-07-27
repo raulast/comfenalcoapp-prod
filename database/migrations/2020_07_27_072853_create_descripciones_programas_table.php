@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEstadosTable extends Migration
+class CreateDescripcionesProgramasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,16 @@ class CreateEstadosTable extends Migration
      */
     public function up()
     {
-        Schema::create('estados_incapacidad', function (Blueprint $table) {
+        Schema::create('descripciones_programas', function (Blueprint $table) {
             $table->increments('id')->index();
-            $table->string('estado');
+            $table->foreignId('clases_afiliacion_id')->references('id')->on('clases_afiliacion');
+            $table->string('descripcion');
+            $table->integer('incapacidad');
+
+            $table->integer('licencia');
             $table->integer('activo');
+
+            
         });
     }
 
@@ -27,6 +33,6 @@ class CreateEstadosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('estados_incapacidad');
+        Schema::dropIfExists('descripciones_programas');
     }
 }

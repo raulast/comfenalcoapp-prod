@@ -15,7 +15,7 @@ class CreateCie10Table extends Migration
     {
         Schema::create('cie10', function (Blueprint $table) {
 
-            $table->increments('id');
+            $table->increments('id')->index();
             $table->char('codigo',10);
             $table->string('descripcion_diagnostico');
             $table->integer('estado');

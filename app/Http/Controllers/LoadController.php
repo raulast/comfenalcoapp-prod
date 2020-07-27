@@ -9,6 +9,9 @@ use App\Medico;
 use App\Cie10;
 use App\Causae;
 use App\Estadosi;
+use App\Estadosa;
+use App\Clasesa;
+use App\Descripcionesp;
 
 class LoadController extends Controller
 {
@@ -32,12 +35,24 @@ class LoadController extends Controller
         if ($tipo== "estados"){ 
             $this->loadEstados(); 
         }
+        if ($tipo== "estadosa"){ 
+            $this->loadEstadosa(); 
+        }
+        if ($tipo== "clasesa"){ 
+            $this->loadClasesa(); 
+        }
+        if ($tipo== "descripcionesp"){ 
+            $this->loadDescripcionesp(); 
+        }
         if($tipo == "todos"){
             $this->loadIps(); 
             $this->loadUsuarios(); 
             $this->loadMedicos();  
             $this->loadCausas();  
             $this->loadEstados(); 
+            $this->loadEstadosa(); 
+            $this->loadClasesa(); 
+            $this->loadDescripcionesp(); 
             $this->loadCie10();  
         }
         return 'Datos cargados';
@@ -91,6 +106,30 @@ class LoadController extends Controller
             //dd($customerArr[$i]['descripcion_diagnostico']);
             Cie10::create($customerArr[$i]);
         }    
+    }
+    private function loadEstadosa(){
+        $file = public_path('csv/estadosa.csv');
+        $customerArr = $this->csvToArray($file);
+        //dd($customerArr);
+        for ($i = 0; $i < count($customerArr); $i ++){
+            Estadosa::firstOrCreate($customerArr[$i]);
+        }   
+    }
+    private function loadClasesa(){
+        $file = public_path('csv/clasesa.csv');
+        $customerArr = $this->csvToArray($file);
+        //dd($customerArr);
+        for ($i = 0; $i < count($customerArr); $i ++){
+            Clasesa::firstOrCreate($customerArr[$i]);
+        }   
+    }
+    private function loadDescripcionesp(){
+        $file = public_path('csv/descripcionesp.csv');
+        $customerArr = $this->csvToArray($file);
+        //dd($customerArr);
+        for ($i = 0; $i < count($customerArr); $i ++){
+            Descripcionesp::firstOrCreate($customerArr[$i]);
+        }   
     }
     private function csvToArray($filename = '', $delimiter = ';'){
     if (!file_exists($filename) || !is_readable($filename))

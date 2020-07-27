@@ -1,15 +1,16 @@
 
 
 
-
+/*
 SELECT
 * 
 FROM
-users
+descripciones_programas
 GO
+*/
 
-
-/*s
+select * FROM   INFORMATION_SCHEMA.Columns where table_name = 'descripciones_programas';
+/*
 
 
 SELECT

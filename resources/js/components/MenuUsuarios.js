@@ -15,7 +15,7 @@ class MenuUsuarios extends Component {
     render() {
         return (
             <div>
-                <ul className="nav nav-pills">
+                <ul className="nav nav-tabs">
                     <li className="nav-item">
                         <a className="nav-link active" data-toggle="pill" href="#sistema">Sistema</a>
                     </li>
