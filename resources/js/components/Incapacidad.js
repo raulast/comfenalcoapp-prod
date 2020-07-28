@@ -140,6 +140,7 @@ class IncapacidadFront extends Component {
       
         this.activarGeneracion=this.activarGeneracion.bind(this);
         this.renderAfiliaciones=this.renderAfiliaciones.bind(this);
+        this.renderAportantes=this.renderAportantes.bind(this);
     }
     
     async getNumeroIncapacidad(){
@@ -159,6 +160,7 @@ class IncapacidadFront extends Component {
     }
     activarGeneracion(incapacidades,response,afiliaciones){
         let mensaje = response.data.responseMessageOut.body.response.validadorResponse.Derechos['MENSAJE'];
+       // mensaje = utf8_decode(mensaje)
         if (incapacidades.includes(1,0)){
                 
                     
@@ -193,9 +195,9 @@ class IncapacidadFront extends Component {
                 estado : estado,
                 tipoCotizante: tipoCotizante,
                 descripcionPrograma: descripcionPrograma,
-                tipoDocAportante: tipoDocAportante,
-                numDocAportante: numDocAportante,
-                nombreAportante:nombreAportante,
+                //tipoDocAportante: tipoDocAportante,
+                //numDocAportante: numDocAportante,
+                //nombreAportante:nombreAportante,
                 tipoMensaje: 'success',
                 visible:'visible',
                 loading:true,
@@ -706,6 +708,7 @@ class IncapacidadFront extends Component {
         <div className="afiliaciones white">
                 <p>Afiliaciones</p>
                 <table className="table table-hover table-sm">
+                    <tbody>
                     <tr>
                         <td>Tipo Doc</td>
                         <td>Num Doc</td>
@@ -714,8 +717,11 @@ class IncapacidadFront extends Component {
                         <td>Clase</td>
                         <td>Descripción</td>
                         <td>Generación de Incapacidad</td>
+                        <td>Nombre Empresa</td>
+                        
+                        <td>Num ID</td>
                     </tr>
-                        <tbody>
+                        
                             {Object.keys(validaciones).map((key) => (
                                 
                                 <tr key={key}>
@@ -726,9 +732,46 @@ class IncapacidadFront extends Component {
                                     <td>{validaciones[key]['ClaseAfiliacion']}</td>
                                     <td>{validaciones[key]['DescripcionPrograma']}</td>
                                     <td>{validaciones[key]['Incapacidad']}</td>
+                                    <td>{validaciones[key]['NombreEmpresa']}</td>
+                                   
+                                    <td>{validaciones[key]['IDEmpresa']}</td>
                                 </tr>
                             ))}
-                        </tbody>
+                    </tbody>   
+                </table>
+            </div>);
+    }
+    renderAportantes(){
+        const { validaciones } = this.state;
+        console.log(validaciones);
+        
+        return(
+        <div className="afiliaciones white">
+                <p>Aportantes</p>
+                <table className="table table-hover table-sm">
+                    <tbody>
+                        <tr>
+                        
+                        <td>Num ID</td>
+                       
+                        <td>Nombre</td>
+                        <td>Certificado</td>
+                        
+                            </tr>
+                        
+                            {Object.keys(validaciones).map((key) => (
+                                
+                                <tr key={key}>
+                                    
+                                    <td>{validaciones[key]['IDEmpresa']}</td>
+                                    
+                                    <td>{validaciones[key]['NombreEmpresa']}</td>
+                                    <td><a href="#">{ validaciones[key]['Incapacidad']}</a>
+                                
+                                    </td>
+                                </tr>
+                            ))}
+                    </tbody>   
                 </table>
             </div>);
     }
@@ -1053,6 +1096,9 @@ class IncapacidadFront extends Component {
                         <div className="card-header bg2 titulo">Datos del aportante</div>
         
                         <div className="card-body texto">
+                                { this.renderAportantes()}
+                                {/*
+
                                 <div className="row">
             
                                     <div className="col-sm-3">
@@ -1075,7 +1121,7 @@ class IncapacidadFront extends Component {
                                             <input type="text" id="tipoAportante" className="form-control"   readOnly  />
                                         </div>
                                     </div>
-                                        */}
+                                    
                                     <div className="col-sm-6">
                                         <div className="form-group">
                                             <label htmlFor="nombreAportante">Nombre aportante</label>
@@ -1083,7 +1129,7 @@ class IncapacidadFront extends Component {
                                         </div>
                                     </div>
                                 </div>  
-                                  
+                                    */} 
                         </div>
                     </div>
                 </div>

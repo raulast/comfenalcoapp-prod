@@ -352,6 +352,7 @@ class IncapacidadController extends Controller
         $descripcion=utf8_decode($descripcion);
         //dd($descripcion);
         $claseid = Clasesa::where('abbr',$clasea)->first()->id;
+        //dd($claseid);
         $value = Descripcionesp::where('clases_afiliacion_id',$claseid)->where('descripcion',$descripcion)->first()->incapacidad;
         return $value;
     }
