@@ -17,4 +17,8 @@ class Descripcionesp extends Model
     {
         return $this->hasMany('App\Incapacidades');
     }
+    public function estado()
+    {
+        return $this->belongsTo('App\Clasea');
+    }
 }

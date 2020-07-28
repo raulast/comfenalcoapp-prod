@@ -17,4 +17,8 @@ class Clasesa extends Model
     {
         return $this->hasMany('App\Incapacidades');
     }
+    public function descripciones()
+    {
+        return $this->hasMany('App\Descripcionesp');
+    }
 }

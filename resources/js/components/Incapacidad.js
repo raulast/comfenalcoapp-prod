@@ -5,8 +5,10 @@ import Comboips from './Comboips.js';
 import Combocausae from './Combocausae.js';
 import Medico from './Medico.js';
 import AutocompleteDescripcion from './AutocompleteDescripcion.js';
-
+//import ValidacionDerechos from './ValidacionDerechos.js';
 import axios from 'axios';
+import { size } from 'lodash';
+import ValidacionDerechos from './ValidacionDerechos';
 
 
 class IncapacidadFront extends Component {
@@ -90,7 +92,8 @@ class IncapacidadFront extends Component {
                 lateralidad:'',
                 diasSolicitados:'',
                 contingencia:''
-            }
+            },
+            validaciones : [],
             
         };
         this.initialState = { ...this.state } 
@@ -135,6 +138,8 @@ class IncapacidadFront extends Component {
         this.handleMaxDias =this.handleMaxDias.bind(this);
 
       
+        this.activarGeneracion=this.activarGeneracion.bind(this);
+        this.renderAfiliaciones=this.renderAfiliaciones.bind(this);
     }
     
     async getNumeroIncapacidad(){
@@ -152,67 +157,121 @@ class IncapacidadFront extends Component {
             })
        
     }
-    handleSubmit(e) {
+    activarGeneracion(incapacidades,response,afiliaciones){
+        let mensaje = response.data.responseMessageOut.body.response.validadorResponse.Derechos['MENSAJE'];
+        if (incapacidades.includes(1,0)){
+                
+                    
+            //console.log(response.data.responseMessageOut.body.response.validadorResponse);
+            let nombre = afiliaciones[0]['Nombre'];
+            let primerApellido = afiliaciones[0]['PrimerApellido']; 
+            let segundoApellido = afiliaciones[0]['SegundoApellido'];
+            let nombreCompleto = `${nombre} ${primerApellido} ${segundoApellido}`;
+
+            let tipoDocAfiliado = afiliaciones[0]['TipoDocAfiliado'];
+            let IDTrabajador = afiliaciones[0]['IDTrabajador'];
+            
+            let historiaClinica = afiliaciones[0]['IdHistoria12'];
+            let genero = afiliaciones[0]['Sexo'];
+            let estado = afiliaciones[0]['EstadoDescripcion'];
+            let tipoCotizante = afiliaciones[0]['ClaseAfiliacion'];
+            let descripcionPrograma = afiliaciones[0]['DescripcionPrograma'];
+
+            //datos aportante
+            //let tipoDocAportante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['TipoDocEmpresa'];
+            //let numDocAportante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['IDEmpresa'];
+            //let nombreAportante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['NombreEmpresa'];
+            // set state
+            
+            this.setState({
+                nombreCompleto: nombreCompleto,
+                tipoDocAfiliado : tipoDocAfiliado,
+                IDTrabajador : IDTrabajador,
+                historiaClinica : historiaClinica,
+                mensaje : mensaje,
+                genero : genero,
+                estado : estado,
+                tipoCotizante: tipoCotizante,
+                descripcionPrograma: descripcionPrograma,
+                tipoDocAportante: tipoDocAportante,
+                numDocAportante: numDocAportante,
+                nombreAportante:nombreAportante,
+                tipoMensaje: 'success',
+                visible:'visible',
+                loading:true,
+            });
+
+        }
+      
+    }
+    async handleSubmit(e) {
         e.preventDefault();
-        //console.log([this.state.tipoDocumento,this.state.numeroDocumento])
         let tipoDocumento=this.state.tipoDocumento;
         let numeroIdentificacion= this.state.numeroIdentificacion;
-        let url = '/validacionDerechos/'+tipoDocumento+"/"+numeroIdentificacion;
-        axios
+        //let validaciones=await ValidacionDerechos(tipoDocumento, numeroIdentificacion);
+       // console.log(validaciones);
+       
+        //this.getNumeroIncapacidad();
+        let url = '/validacionDerechos/' + tipoDocumento + "/" + numeroIdentificacion;
+        await axios
             .get(url, {
-                tipoDocumento: this.state.tipoDocumento,
-                numeroIdentificacion: this.state.numeroIdentificacion
+                tipoDocumento: tipoDocumento,
+                numeroIdentificacion: numeroIdentificacion
             })
             .then(response => {
                 // console
-                console.log(response);
-                
+                //console.log(response);
+
                 let mensaje = response.data.responseMessageOut.body.response.validadorResponse.Derechos['MENSAJE'];
                 let derecho = response.data.responseMessageOut.body.response.validadorResponse.Derechos['DerechoPrestacion']
-                console.log(derecho);
-                console.log(mensaje);
-                if (derecho =="SI"){
                 
-                        this.getNumeroIncapacidad();
-                        //console.log(response.data.responseMessageOut.body.response.validadorResponse);
-                        let nombre = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['Nombre'];
-                        let primerApellido = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['PrimerApellido']; 
-                        let segundoApellido = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['SegundoApellido'];
-                        let nombreCompleto = `${nombre} ${primerApellido} ${segundoApellido}`;
+                if (derecho == "SI"){
+                
+                    let afiliaciones = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado;
+                    //console.log(derecho);
+                    //console.log(mensaje);
+                    //console.log(afiliaciones);
+                    //console.log(Array.isArray(afiliaciones));
 
-                        let tipoDocAfiliado = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['TipoDocAfiliado'];
-                        let IDTrabajador = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['IDTrabajador'];
-                        
-                        let historiaClinica = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['IdHistoria12'];
-                        let genero = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['Sexo'];
-                        let estado = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['EstadoDescripcion'];
-                        let tipoCotizante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['ClaseAfiliacion'];
-                        let descripcionPrograma = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['DescripcionPrograma'];
+                    let validaciones = [];
 
-                        //datos aportante
-                        let tipoDocAportante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['TipoDocEmpresa'];
-                        let numDocAportante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['IDEmpresa'];
-                        let nombreAportante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['NombreEmpresa'];
-                        // set state
-                    
+                    if (Array.isArray(afiliaciones) == false) {
+                        afiliaciones = [afiliaciones]    
+                    }
+                
+                    let incapacidades = [];
+                    let promises = [];
+                    for (var i = 0; i < size(afiliaciones); i++) {
+                        var afiliacion = afiliaciones[i];
+                        var clasea = afiliacion.ClaseAfiliacion;
+                        var descripcion = afiliacion.DescripcionPrograma;
+                        let url = '/validacionDescripcion/' + clasea + "/" + descripcion;
+                        promises.push(
+                            axios.get(url).then(response => {
+                                // do something with response
+                                incapacidades.push(response.data);
+                            })
+                        )
+
+                    }
+                    Promise.all(promises).then(() => {
+
+                        console.log(incapacidades)
+                        for (var i = 0; i < size(afiliaciones); i++) {
+                            if (incapacidades[i] == 0) {
+                                afiliaciones[i]["Incapacidad"] = "NO"
+                            }
+                            if (incapacidades[i] == 1) {
+                                afiliaciones[i]["Incapacidad"] = "SI"
+                            }
+                        }
                         this.setState({
-                            nombreCompleto: nombreCompleto,
-                            tipoDocAfiliado : tipoDocAfiliado,
-                            IDTrabajador : IDTrabajador,
-                            historiaClinica : historiaClinica,
-                            mensaje : mensaje,
-                            genero : genero,
-                            estado : estado,
-                            tipoCotizante: tipoCotizante,
-                            descripcionPrograma: descripcionPrograma,
-                            tipoDocAportante: tipoDocAportante,
-                            numDocAportante: numDocAportante,
-                            nombreAportante:nombreAportante,
-                            tipoMensaje: 'success',
-                            visible:'visible',
-                            loading:true,
+                            validaciones: afiliaciones
                         });
+                        this.activarGeneracion(incapacidades, response,afiliaciones)
+                    });
 
+                    console.log(this.state.validaciones);
                 }
                 else{
                     this.setState({
@@ -221,8 +280,11 @@ class IncapacidadFront extends Component {
                         tipoMensaje: 'error',
                     });
                 }
+                
+                
+                
             });
-           
+        
        
     }
     handleTipo(e) {
@@ -637,6 +699,39 @@ class IncapacidadFront extends Component {
     showMessage(m){
         return (<div className="alert alert-success" role="alert">{ m }</div>);
     }
+    renderAfiliaciones(){
+        const { validaciones } = this.state;
+        
+        return(
+        <div className="afiliaciones white">
+                <p>Afiliaciones</p>
+                <table className="table table-hover table-sm">
+                    <tr>
+                        <td>Tipo Doc</td>
+                        <td>Num Doc</td>
+                        <td>Nombre</td>
+                        <td>Estado</td>
+                        <td>Clase</td>
+                        <td>Descripción</td>
+                        <td>Generación de Incapacidad</td>
+                    </tr>
+                        <tbody>
+                            {Object.keys(validaciones).map((key) => (
+                                
+                                <tr key={key}>
+                                    <td>{validaciones[key]['TipoDocAfiliado']}</td>
+                                    <td>{validaciones[key]['IDTrabajador']}</td>
+                                    <td>{validaciones[key]['Nombre'] + " " + validaciones[key]['PrimerApellido']+ " " + validaciones[key]['SegundoApellido']}</td>
+                                    <td>{validaciones[key]['EstadoDescripcion']}</td>
+                                    <td>{validaciones[key]['ClaseAfiliacion']}</td>
+                                    <td>{validaciones[key]['DescripcionPrograma']}</td>
+                                    <td>{validaciones[key]['Incapacidad']}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                </table>
+            </div>);
+    }
     render() {
         let mensaje=<div></div>;
        
@@ -653,8 +748,7 @@ class IncapacidadFront extends Component {
                     </div>);
                }
         }
-        
-              
+                            
         return (
         
        
@@ -704,9 +798,15 @@ class IncapacidadFront extends Component {
             
             
             { mensaje }
+           
+            <br/>
+            
+            {this.renderAfiliaciones()}
 
+            <br/>
 
             <div className={this.state.visible}>
+            
             <div className="row justify-content-center ">
                 <div className="col-md-10">
                     <div className="card">

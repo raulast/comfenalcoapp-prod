@@ -25,6 +25,7 @@ Route::get('/menu','HomeController@menu')->name('menu')->middleware('auth','twof
 Route::get('/incapacidad','IncapacidadController@inicio')->name('incapacidad')->middleware('auth','twofactor');
 Route::get('/licencia','LicenciaController@inicio')->name('licencia')->middleware('auth','twofactor');
 Route::get('/validacionDerechos/{tipo}/{numero}','IncapacidadController@validacion');
+Route::get('/validacionDescripcion/{clasea}/{descripcion}','IncapacidadController@validacionD');
 //Auth::routes();
 
 

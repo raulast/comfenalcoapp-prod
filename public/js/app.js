@@ -67926,6 +67926,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _AutocompleteDescripcion_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./AutocompleteDescripcion.js */ "./resources/js/components/AutocompleteDescripcion.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var _ValidacionDerechos__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./ValidacionDerechos */ "./resources/js/components/ValidacionDerechos.js");
 
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -67964,6 +67967,9 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
+
+ //import ValidacionDerechos from './ValidacionDerechos.js';
 
 
 
@@ -68059,7 +68065,8 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
         lateralidad: '',
         diasSolicitados: '',
         contingencia: ''
-      }
+      },
+      validaciones: []
     };
     _this.initialState = _objectSpread({}, _this.state); // bind
 
@@ -68097,6 +68104,8 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
     _this.clearErrors = _this.clearErrors.bind(_assertThisInitialized(_this));
     _this.reviewProrroga = _this.reviewProrroga.bind(_assertThisInitialized(_this));
     _this.handleMaxDias = _this.handleMaxDias.bind(_assertThisInitialized(_this));
+    _this.activarGeneracion = _this.activarGeneracion.bind(_assertThisInitialized(_this));
+    _this.renderAfiliaciones = _this.renderAfiliaciones.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -68138,72 +68147,153 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
       return getNumeroIncapacidad;
     }()
   }, {
-    key: "handleSubmit",
-    value: function handleSubmit(e) {
-      var _this3 = this;
+    key: "activarGeneracion",
+    value: function activarGeneracion(incapacidades, response, afiliaciones) {
+      var mensaje = response.data.responseMessageOut.body.response.validadorResponse.Derechos['MENSAJE'];
 
-      e.preventDefault(); //console.log([this.state.tipoDocumento,this.state.numeroDocumento])
+      if (incapacidades.includes(1, 0)) {
+        //console.log(response.data.responseMessageOut.body.response.validadorResponse);
+        var nombre = afiliaciones[0]['Nombre'];
+        var primerApellido = afiliaciones[0]['PrimerApellido'];
+        var segundoApellido = afiliaciones[0]['SegundoApellido'];
+        var nombreCompleto = "".concat(nombre, " ").concat(primerApellido, " ").concat(segundoApellido);
+        var tipoDocAfiliado = afiliaciones[0]['TipoDocAfiliado'];
+        var IDTrabajador = afiliaciones[0]['IDTrabajador'];
+        var historiaClinica = afiliaciones[0]['IdHistoria12'];
+        var genero = afiliaciones[0]['Sexo'];
+        var estado = afiliaciones[0]['EstadoDescripcion'];
+        var tipoCotizante = afiliaciones[0]['ClaseAfiliacion'];
+        var descripcionPrograma = afiliaciones[0]['DescripcionPrograma']; //datos aportante
+        //let tipoDocAportante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['TipoDocEmpresa'];
+        //let numDocAportante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['IDEmpresa'];
+        //let nombreAportante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['NombreEmpresa'];
+        // set state
 
-      var tipoDocumento = this.state.tipoDocumento;
-      var numeroIdentificacion = this.state.numeroIdentificacion;
-      var url = '/validacionDerechos/' + tipoDocumento + "/" + numeroIdentificacion;
-      axios__WEBPACK_IMPORTED_MODULE_8___default.a.get(url, {
-        tipoDocumento: this.state.tipoDocumento,
-        numeroIdentificacion: this.state.numeroIdentificacion
-      }).then(function (response) {
-        // console
-        console.log(response);
-        var mensaje = response.data.responseMessageOut.body.response.validadorResponse.Derechos['MENSAJE'];
-        var derecho = response.data.responseMessageOut.body.response.validadorResponse.Derechos['DerechoPrestacion'];
-        console.log(derecho);
-        console.log(mensaje);
-
-        if (derecho == "SI") {
-          _this3.getNumeroIncapacidad(); //console.log(response.data.responseMessageOut.body.response.validadorResponse);
-
-
-          var nombre = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['Nombre'];
-          var primerApellido = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['PrimerApellido'];
-          var segundoApellido = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['SegundoApellido'];
-          var nombreCompleto = "".concat(nombre, " ").concat(primerApellido, " ").concat(segundoApellido);
-          var tipoDocAfiliado = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['TipoDocAfiliado'];
-          var IDTrabajador = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['IDTrabajador'];
-          var historiaClinica = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['IdHistoria12'];
-          var genero = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['Sexo'];
-          var estado = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['EstadoDescripcion'];
-          var tipoCotizante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['ClaseAfiliacion'];
-          var descripcionPrograma = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['DescripcionPrograma']; //datos aportante
-
-          var tipoDocAportante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['TipoDocEmpresa'];
-          var numDocAportante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['IDEmpresa'];
-          var nombreAportante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['NombreEmpresa']; // set state
-
-          _this3.setState({
-            nombreCompleto: nombreCompleto,
-            tipoDocAfiliado: tipoDocAfiliado,
-            IDTrabajador: IDTrabajador,
-            historiaClinica: historiaClinica,
-            mensaje: mensaje,
-            genero: genero,
-            estado: estado,
-            tipoCotizante: tipoCotizante,
-            descripcionPrograma: descripcionPrograma,
-            tipoDocAportante: tipoDocAportante,
-            numDocAportante: numDocAportante,
-            nombreAportante: nombreAportante,
-            tipoMensaje: 'success',
-            visible: 'visible',
-            loading: true
-          });
-        } else {
-          _this3.setState({
-            mensaje: mensaje,
-            loading: true,
-            tipoMensaje: 'error'
-          });
-        }
-      });
+        this.setState({
+          nombreCompleto: nombreCompleto,
+          tipoDocAfiliado: tipoDocAfiliado,
+          IDTrabajador: IDTrabajador,
+          historiaClinica: historiaClinica,
+          mensaje: mensaje,
+          genero: genero,
+          estado: estado,
+          tipoCotizante: tipoCotizante,
+          descripcionPrograma: descripcionPrograma,
+          tipoDocAportante: tipoDocAportante,
+          numDocAportante: numDocAportante,
+          nombreAportante: nombreAportante,
+          tipoMensaje: 'success',
+          visible: 'visible',
+          loading: true
+        });
+      }
     }
+  }, {
+    key: "handleSubmit",
+    value: function () {
+      var _handleSubmit = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(e) {
+        var _this3 = this;
+
+        var tipoDocumento, numeroIdentificacion, url;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                e.preventDefault();
+                tipoDocumento = this.state.tipoDocumento;
+                numeroIdentificacion = this.state.numeroIdentificacion; //let validaciones=await ValidacionDerechos(tipoDocumento, numeroIdentificacion);
+                // console.log(validaciones);
+                //this.getNumeroIncapacidad();
+
+                url = '/validacionDerechos/' + tipoDocumento + "/" + numeroIdentificacion;
+                _context2.next = 6;
+                return axios__WEBPACK_IMPORTED_MODULE_8___default.a.get(url, {
+                  tipoDocumento: tipoDocumento,
+                  numeroIdentificacion: numeroIdentificacion
+                }).then(function (response) {
+                  // console
+                  //console.log(response);
+                  var mensaje = response.data.responseMessageOut.body.response.validadorResponse.Derechos['MENSAJE'];
+                  var derecho = response.data.responseMessageOut.body.response.validadorResponse.Derechos['DerechoPrestacion'];
+
+                  if (derecho == "SI") {
+                    var i;
+                    var afiliacion;
+                    var clasea;
+                    var descripcion;
+
+                    (function () {
+                      var afiliaciones = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado; //console.log(derecho);
+                      //console.log(mensaje);
+                      //console.log(afiliaciones);
+                      //console.log(Array.isArray(afiliaciones));
+
+                      var validaciones = [];
+
+                      if (Array.isArray(afiliaciones) == false) {
+                        afiliaciones = [afiliaciones];
+                      }
+
+                      var incapacidades = [];
+                      var promises = [];
+
+                      for (i = 0; i < Object(lodash__WEBPACK_IMPORTED_MODULE_9__["size"])(afiliaciones); i++) {
+                        afiliacion = afiliaciones[i];
+                        clasea = afiliacion.ClaseAfiliacion;
+                        descripcion = afiliacion.DescripcionPrograma;
+
+                        var _url = '/validacionDescripcion/' + clasea + "/" + descripcion;
+
+                        promises.push(axios__WEBPACK_IMPORTED_MODULE_8___default.a.get(_url).then(function (response) {
+                          // do something with response
+                          incapacidades.push(response.data);
+                        }));
+                      }
+
+                      Promise.all(promises).then(function () {
+                        console.log(incapacidades);
+
+                        for (var i = 0; i < Object(lodash__WEBPACK_IMPORTED_MODULE_9__["size"])(afiliaciones); i++) {
+                          if (incapacidades[i] == 0) {
+                            afiliaciones[i]["Incapacidad"] = "NO";
+                          }
+
+                          if (incapacidades[i] == 1) {
+                            afiliaciones[i]["Incapacidad"] = "SI";
+                          }
+                        }
+
+                        _this3.setState({
+                          validaciones: afiliaciones
+                        });
+
+                        _this3.activarGeneracion(incapacidades, response, afiliaciones);
+                      });
+                      console.log(_this3.state.validaciones);
+                    })();
+                  } else {
+                    _this3.setState({
+                      mensaje: mensaje,
+                      loading: true,
+                      tipoMensaje: 'error'
+                    });
+                  }
+                });
+
+              case 6:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function handleSubmit(_x) {
+        return _handleSubmit.apply(this, arguments);
+      }
+
+      return handleSubmit;
+    }()
   }, {
     key: "handleTipo",
     value: function handleTipo(e) {
@@ -68555,13 +68645,13 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
   }, {
     key: "guardarIncapacidad",
     value: function () {
-      var _guardarIncapacidad = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+      var _guardarIncapacidad = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
         var _this6 = this;
 
         var resp, url;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
                 //console.log(this.state)
                 //console.log(parseInt(this.state.diasSolicitados));
@@ -68592,10 +68682,10 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
 
               case 1:
               case "end":
-                return _context2.stop();
+                return _context3.stop();
             }
           }
-        }, _callee2, this);
+        }, _callee3, this);
       }));
 
       function guardarIncapacidad() {
@@ -68607,11 +68697,11 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
   }, {
     key: "validarForm",
     value: function () {
-      var _validarForm = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+      var _validarForm = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
         var resp, newState;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
                 this.clearErrors();
                 resp = true; //Auditoria
@@ -68675,22 +68765,22 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
                 this.setState(newState);
 
                 if (!(this.state.prorroga == "No")) {
-                  _context3.next = 16;
+                  _context4.next = 16;
                   break;
                 }
 
-                _context3.next = 16;
+                _context4.next = 16;
                 return this.getNumeroIncapacidad();
 
               case 16:
-                return _context3.abrupt("return", resp);
+                return _context4.abrupt("return", resp);
 
               case 17:
               case "end":
-                return _context3.stop();
+                return _context4.stop();
             }
           }
-        }, _callee3, this);
+        }, _callee4, this);
       }));
 
       function validarForm() {
@@ -68738,6 +68828,20 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
         className: "alert alert-success",
         role: "alert"
       }, m);
+    }
+  }, {
+    key: "renderAfiliaciones",
+    value: function renderAfiliaciones() {
+      var validaciones = this.state.validaciones;
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "afiliaciones white"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, "Afiliaciones"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("table", {
+        className: "table table-hover table-sm"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, "Tipo Doc"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, "Num Doc"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, "Nombre"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, "Estado"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, "Clase"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, "Descripci\xF3n"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, "Generaci\xF3n de Incapacidad")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("tbody", null, Object.keys(validaciones).map(function (key) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("tr", {
+          key: key
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, validaciones[key]['TipoDocAfiliado']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, validaciones[key]['IDTrabajador']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, validaciones[key]['Nombre'] + " " + validaciones[key]['PrimerApellido'] + " " + validaciones[key]['SegundoApellido']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, validaciones[key]['EstadoDescripcion']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, validaciones[key]['ClaseAfiliacion']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, validaciones[key]['DescripcionPrograma']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, validaciones[key]['Incapacidad']));
+      }))));
     }
   }, {
     key: "render",
@@ -68822,7 +68926,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
         id: "btnBuscar",
         className: "btn btn-primary",
         value: "Buscar"
-      })))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), mensaje, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      })))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), mensaje, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), this.renderAfiliaciones(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: this.state.visible
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "row justify-content-center "
@@ -72465,6 +72569,169 @@ if (document.getElementById('menuUsuarios')) {
     ReactDOM.render(<MenuUsuarios />, document.getElementById('menuUsuarios'));
 }
 */
+
+/***/ }),
+
+/***/ "./resources/js/components/ValidacionDerechos.js":
+/*!*******************************************************!*\
+  !*** ./resources/js/components/ValidacionDerechos.js ***!
+  \*******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ValidacionDerechos; });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_3__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+
+
+
+function validarEstadoa(afiliacion) {
+  var estadoa = afiliacion.Estado;
+
+  if (estadoa == "0") {
+    afiliacion = validarDescripcionp(afiliacion);
+  } else {
+    afiliacion["Incapacidad"] = "NO";
+  }
+
+  return afiliacion;
+}
+
+function validarDescripcionp(afiliacion) {
+  var clasea = afiliacion.ClaseAfiliacion;
+  var descripcion = afiliacion.DescripcionPrograma;
+  var url = '/validacionDescripcion/' + clasea + "/" + descripcion;
+  axios.get(url, {
+    clasea: clasea,
+    descripcion: descripcion
+  }).then(function (response) {
+    //console.log(response.data);
+    if (response.data == 1) {
+      afiliacion["Incapacidad"] = "SI";
+    } else {
+      afiliacion["Incapacidad"] = "NO";
+    }
+  });
+  return afiliacion;
+}
+
+function ValidacionDerechos(_x, _x2) {
+  return _ValidacionDerechos.apply(this, arguments);
+}
+
+function _ValidacionDerechos() {
+  _ValidacionDerechos = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(tipoDocumento, numeroIdentificacion) {
+    var url;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            // console.log(tipoDocumento);
+            //console.log(numeroIdentificacion);
+            url = '/validacionDerechos/' + tipoDocumento + "/" + numeroIdentificacion;
+            axios.get(url, {
+              tipoDocumento: tipoDocumento,
+              numeroIdentificacion: numeroIdentificacion
+            }).then(function (response) {
+              // console
+              //console.log(response);
+              //let mensaje = response.data.responseMessageOut.body.response.validadorResponse.Derechos['MENSAJE'];
+              //let derecho = response.data.responseMessageOut.body.response.validadorResponse.Derechos['DerechoPrestacion']
+              var afiliaciones = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado; //console.log(derecho);
+              //console.log(mensaje);
+              //console.log(afiliaciones);
+              //console.log(Array.isArray(afiliaciones));
+
+              var validaciones = [];
+
+              if (Array.isArray(afiliaciones) == false) {
+                afiliacion = afiliaciones;
+                afiliacion = validarEstadoa(afiliacion);
+                validaciones.push(afiliacion);
+              } else {
+                for (var i = 0; i < Object(lodash__WEBPACK_IMPORTED_MODULE_3__["size"])(afiliaciones); i++) {
+                  //console.log(afiliaciones[i]);
+                  var afiliacion = validarEstadoa(afiliaciones[i]);
+                  validaciones.push(afiliacion);
+                }
+              }
+
+              console.log(validaciones);
+              return validaciones;
+              /*
+              if (derecho =="SI"){
+              
+                     
+                      //console.log(response.data.responseMessageOut.body.response.validadorResponse);
+                      let nombre = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['Nombre'];
+                      let primerApellido = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['PrimerApellido']; 
+                      let segundoApellido = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['SegundoApellido'];
+                      let nombreCompleto = `${nombre} ${primerApellido} ${segundoApellido}`;
+                       let tipoDocAfiliado = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['TipoDocAfiliado'];
+                      let IDTrabajador = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['IDTrabajador'];
+                      
+                      let historiaClinica = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['IdHistoria12'];
+                      let genero = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['Sexo'];
+                      let estado = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['EstadoDescripcion'];
+                      let tipoCotizante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['ClaseAfiliacion'];
+                      let descripcionPrograma = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['DescripcionPrograma'];
+                       //datos aportante
+                      let tipoDocAportante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['TipoDocEmpresa'];
+                      let numDocAportante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['IDEmpresa'];
+                      let nombreAportante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['NombreEmpresa'];
+                      // set state
+                      /*
+                      this.setState({
+                          nombreCompleto: nombreCompleto,
+                          tipoDocAfiliado : tipoDocAfiliado,
+                          IDTrabajador : IDTrabajador,
+                          historiaClinica : historiaClinica,
+                          mensaje : mensaje,
+                          genero : genero,
+                          estado : estado,
+                          tipoCotizante: tipoCotizante,
+                          descripcionPrograma: descripcionPrograma,
+                          tipoDocAportante: tipoDocAportante,
+                          numDocAportante: numDocAportante,
+                          nombreAportante:nombreAportante,
+                          tipoMensaje: 'success',
+                          visible:'visible',
+                          loading:true,
+                      });
+               }
+              else{
+                  this.setState({
+                      mensaje : mensaje,
+                      loading: true,
+                      tipoMensaje: 'error',
+                  });
+              }*/
+            });
+
+          case 2:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee);
+  }));
+  return _ValidacionDerechos.apply(this, arguments);
+}
 
 /***/ }),
 
