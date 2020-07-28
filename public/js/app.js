@@ -68243,6 +68243,14 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
                         clasea = afiliacion.ClaseAfiliacion;
                         descripcion = afiliacion.DescripcionPrograma;
 
+                        if (Object.keys(afiliacion.NombreEmpresa).length === 0) {
+                          afiliacion.NombreEmpresa = '';
+                        }
+
+                        if (Object.keys(afiliacion.IDEmpresa).length === 0) {
+                          afiliacion.IDEmpresa = '';
+                        }
+
                         var _url = '/validacionDescripcion/' + clasea + "/" + descripcion;
 
                         promises.push(axios__WEBPACK_IMPORTED_MODULE_8___default.a.get(_url).then(function (response) {
@@ -68252,8 +68260,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
                       }
 
                       Promise.all(promises).then(function () {
-                        console.log(incapacidades);
-
+                        //console.log(incapacidades)
                         for (var i = 0; i < Object(lodash__WEBPACK_IMPORTED_MODULE_9__["size"])(afiliaciones); i++) {
                           if (incapacidades[i] == 0) {
                             afiliaciones[i]["Incapacidad"] = "NO";

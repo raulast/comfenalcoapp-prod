@@ -247,6 +247,12 @@ class IncapacidadFront extends Component {
                         var afiliacion = afiliaciones[i];
                         var clasea = afiliacion.ClaseAfiliacion;
                         var descripcion = afiliacion.DescripcionPrograma;
+                        if (Object.keys(afiliacion.NombreEmpresa).length ===0){
+                            afiliacion.NombreEmpresa=''
+                        }
+                        if (Object.keys(afiliacion.IDEmpresa).length ===0){
+                            afiliacion.IDEmpresa=''
+                        }
                         let url = '/validacionDescripcion/' + clasea + "/" + descripcion;
                         promises.push(
                             axios.get(url).then(response => {
@@ -258,7 +264,7 @@ class IncapacidadFront extends Component {
                     }
                     Promise.all(promises).then(() => {
 
-                        console.log(incapacidades)
+                        //console.log(incapacidades)
                         for (var i = 0; i < size(afiliaciones); i++) {
                             if (incapacidades[i] == 0) {
                                 afiliaciones[i]["Incapacidad"] = "NO"
@@ -732,9 +738,9 @@ class IncapacidadFront extends Component {
                                     <td>{validaciones[key]['ClaseAfiliacion']}</td>
                                     <td>{validaciones[key]['DescripcionPrograma']}</td>
                                     <td>{validaciones[key]['Incapacidad']}</td>
-                                    <td>{validaciones[key]['NombreEmpresa']}</td>
+                                    <td>{ validaciones[key]['NombreEmpresa']  }</td>
                                    
-                                    <td>{validaciones[key]['IDEmpresa']}</td>
+                                    <td>{ validaciones[key]['IDEmpresa'] }</td>
                                 </tr>
                             ))}
                     </tbody>   
