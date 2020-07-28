@@ -349,11 +349,28 @@ class IncapacidadController extends Controller
         }
     }
     public function validacionD($clasea,$descripcion){
-        $descripcion=utf8_decode($descripcion);
-        //dd($descripcion);
+      
+         
         $claseid = Clasesa::where('abbr',$clasea)->first()->id;
-        //dd($claseid);
-        $value = Descripcionesp::where('clases_afiliacion_id',$claseid)->where('descripcion',$descripcion)->first()->incapacidad;
-        return $value;
+        $v = Descripcionesp::where('clases_afiliacion_id',$claseid)->where('descripcion',$descripcion)->exists();
+        if ($v){
+            $value = Descripcionesp::where('clases_afiliacion_id',$claseid)->where('descripcion',$descripcion)->first()->incapacidad;
+            return $value;
+        }
+        else{
+            $descripcion=utf8_decode($descripcion);
+            $v = Descripcionesp::where('clases_afiliacion_id',$claseid)->where('descripcion',$descripcion)->exists();
+            if ($v){
+                $value = Descripcionesp::where('clases_afiliacion_id',$claseid)->where('descripcion',$descripcion)->first()->incapacidad;
+                return $value;
+            }
+            else{
+                return 0;
+            }
+        }
+        
+        
+        
+       
     }
 }
