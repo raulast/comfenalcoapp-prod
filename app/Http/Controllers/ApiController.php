@@ -295,16 +295,32 @@ class ApiController extends Controller
         $tipoDoc = $d->tipo_documento_afiliado;
         $numDoc = $d->num_documento_afiliado;
         $response = json_decode($this->IncapacidadController->validacion($tipoDoc,$numDoc));
-        $nombre = $response->responseMessageOut->body->response->validadorResponse->DsAfiliado->Afiliado->Nombre;
-        $primerApellido = $response->responseMessageOut->body->response->validadorResponse->DsAfiliado->Afiliado->PrimerApellido; 
-        $segundoApellido = $response->responseMessageOut->body->response->validadorResponse->DsAfiliado->Afiliado->SegundoApellido;
+        //dd($response);
+        $afiliado = $response->responseMessageOut->body->response->validadorResponse->DsAfiliado->Afiliado;
+        if (is_array($afiliado) == false) {
+            $afiliado = array($afiliado);
+        }
+        $nombre = $afiliado[0]->Nombre;
+        $primerApellido = $afiliado[0]->PrimerApellido; 
+        $segundoApellido = $afiliado[0]->SegundoApellido;
         $nombreCompleto = $nombre." ".$primerApellido." ".$segundoApellido;
-        
+        $numDoc = $afiliado[0]->IDTrabajador;
+        $tipoAfiliado = $afiliado[0]->ClaseAfiliacion;
+        $tipoCotizante = $afiliado[0]->DescripcionPrograma;
+        $tipoAportante="";
+
         //dd($validacion);
 
         $i = collect([]);
         $i->put('titulo','CERTIFICADO MEDICO INCAPACIDAD TEMPORAL');
         $i->put('No',$d->id."-".$d->prorrogaid);
+
+        if ($d->prorrogaid == 0){
+            $prorroga = "NO";
+        }
+        else{
+            $prorroga = "SI";
+        }
 
         if ($d->tipo_prestador== 1){
             $ips=Ips::where('id',$d->ips)->first();
@@ -317,6 +333,13 @@ class ApiController extends Controller
            $nitprestador = Medico::where('id',$d->medico_id)->first()->num_documento;
            $direccionprestador ="";
         }
+
+        $nombrePrestador=Medico::where('id',$d->medico_id)->first()->nombre;
+        $especialidad=Medico::where('id',$d->medico_id)->first()->especialidad;
+        $tipoDocProf=Medico::where('id',$d->medico_id)->first()->tipo_documento;
+        $numDocProf=Medico::where('id',$d->medico_id)->first()->num_documento;
+        $registroMedico=Medico::where('id',$d->medico_id)->first()->reg_medico;
+
         $i->put('Nombre del prestador',$prestador);
         $i->put('Nit del prestador',$nitprestador);
         $i->put('Dirección del prestador',$direccionprestador);
@@ -327,6 +350,37 @@ class ApiController extends Controller
         $i->put('Fecha y hora de generacion',$d->created_at);
         $i->put('Nombre del paciente',$nombreCompleto);
         $i->put('Tipo de identificacion del paciente',$tipoDoc);
+        $i->put('Numero de documento del paciente',$numDoc);
+        $i->put('Tipo afiliado',$tipoAfiliado);
+
+        $i->put('Tipo de cotizante',$tipoCotizante);
+        $i->put('Tipo de aportante',$tipoAportante);
+        $i->put('Nombre aportante',$afiliado[0]->NombreEmpresa);
+        $i->put('Numero historia clinica',$afiliado[0]->IdHistoria12);
+
+        $i->put('Tipo de certificado','Incapacidad temporal');
+        $i->put('Fecha de inicio de la incapacidad',$d->fecha_atencion);
+        $i->put('Fecha fin de la incapacidad',$d->fecha_fin_incapacidad);
+
+        $i->put('Días solicitados en letra','');
+        $i->put('Días solicitados',$d->dias_solicitados);
+        $i->put('Prorroga',$prorroga);
+
+        $i->put('Días acumulados',$d->dias_acumulados_previos);
+        $i->put('Diagnostico principal',$d->codigo_diagnostico);
+        $i->put('Diagnostico relacionado 1',$d->codigo_diagnostico1);
+        $i->put('Diagnostico relacionado 2',$d->codigo_diagnostico2);      
+        $i->put('Diagnostico relacionado 3',$d->codigo_diagnostico3);    
+
+        $i->put('SOAT','');
+        $i->put('Nombre del profesional que genera',$nombrePrestador);      
+        $i->put('Profesión profesional que genera',$especialidad);          
+        $i->put('Firma profesional que genera',''); 
+        $i->put('Tipo doc profesional que genera',$tipoDocProf); 
+        $i->put('Numero doc profesional que genera',$numDocProf); 
+        $i->put('Registro Médico',$registroMedico); 
+        $i->put('Observacion EPS',''); 
+
         return view('incapacidades.certificado',[
             'i' => $i
         ]);

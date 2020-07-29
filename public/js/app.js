@@ -68107,10 +68107,20 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
     _this.activarGeneracion = _this.activarGeneracion.bind(_assertThisInitialized(_this));
     _this.renderAfiliaciones = _this.renderAfiliaciones.bind(_assertThisInitialized(_this));
     _this.renderAportantes = _this.renderAportantes.bind(_assertThisInitialized(_this));
+    _this.generarCertificado = _this.generarCertificado.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(IncapacidadFront, [{
+    key: "generarCertificado",
+    value: function generarCertificado() {
+      var id = this.state.id;
+      var pid = this.state.prorrogaId; //let id=56;
+
+      var url = '/certificadoIncapacidad/' + id + "/" + pid;
+      window.open(url, "_blank");
+    }
+  }, {
     key: "getNumeroIncapacidad",
     value: function () {
       var _getNumeroIncapacidad = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
@@ -68153,7 +68163,8 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
       var mensaje = response.data.responseMessageOut.body.response.validadorResponse.Derechos['MENSAJE']; // mensaje = utf8_decode(mensaje)
 
       if (incapacidades.includes(1, 0)) {
-        //console.log(response.data.responseMessageOut.body.response.validadorResponse);
+        this.getNumeroIncapacidad(); //console.log(response.data.responseMessageOut.body.response.validadorResponse);
+
         var nombre = afiliaciones[0]['Nombre'];
         var primerApellido = afiliaciones[0]['PrimerApellido'];
         var segundoApellido = afiliaciones[0]['SegundoApellido'];
@@ -68200,7 +68211,8 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                e.preventDefault();
+                e.preventDefault(); //this.setState(this.initialState);
+
                 tipoDocumento = this.state.tipoDocumento;
                 numeroIdentificacion = this.state.numeroIdentificacion; //let validaciones=await ValidacionDerechos(tipoDocumento, numeroIdentificacion);
                 // console.log(validaciones);
@@ -68243,13 +68255,21 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
                         clasea = afiliacion.ClaseAfiliacion;
                         descripcion = afiliacion.DescripcionPrograma;
 
-                        if (Object.keys(afiliacion.NombreEmpresa).length === 0) {
+                        if (_typeof(afiliacion.NombreEmpresa) === 'object') {
                           afiliacion.NombreEmpresa = '';
                         }
 
-                        if (Object.keys(afiliacion.IDEmpresa).length === 0) {
-                          afiliacion.IDEmpresa = '';
+                        if (_typeof(afiliacion.IDEmpresa) === 'object') {
+                          afiliacion.IDEmpresa = 'N/A';
                         }
+                        /*
+                        if (Object.keys(afiliacion.NombreEmpresa).length ===0){
+                            afiliacion.NombreEmpresa=''
+                        }
+                        if (Object.keys(afiliacion.IDEmpresa).length ===0){
+                            afiliacion.IDEmpresa=''
+                        }*/
+
 
                         var _url = '/validacionDescripcion/' + clasea + "/" + descripcion;
 
@@ -68654,8 +68674,6 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
     key: "guardarIncapacidad",
     value: function () {
       var _guardarIncapacidad = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-        var _this6 = this;
-
         var resp, url;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
           while (1) {
@@ -68673,11 +68691,8 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
                       datos: this.state
                     }).then(function (resp) {
                       console.log(resp.data);
-                      alert(resp.data);
-
-                      _this6.setState(_this6.initialState);
-
-                      location.reload();
+                      alert(resp.data); //this.setState(this.initialState);
+                      // location.reload();
                     })["catch"](function (err) {
                       console.log(err);
                     });
@@ -68854,6 +68869,8 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
   }, {
     key: "renderAportantes",
     value: function renderAportantes() {
+      var _this6 = this;
+
       var validaciones = this.state.validaciones;
       console.log(validaciones);
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
@@ -68863,9 +68880,13 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("tbody", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, "Num ID"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, "Nombre"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, "Certificado")), Object.keys(validaciones).map(function (key) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("tr", {
           key: key
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, validaciones[key]['IDEmpresa']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, validaciones[key]['NombreEmpresa']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
-          href: "#"
-        }, validaciones[key]['Incapacidad'])));
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, validaciones[key]['IDEmpresa'] == 'N/A' ? validaciones[key]['TipoDocAfiliado'] : validaciones[key]['IDEmpresa']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, validaciones[key]['IDEmpresa'] == 'N/A' ? validaciones[key]['Nombre'] + " " + validaciones[key]['PrimerApellido'] + " " + validaciones[key]['SegundoApellido'] : validaciones[key]['NombreEmpresa']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, validaciones[key]['Incapacidad'] == "SI" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+          type: "button",
+          id: "btnBuscar",
+          onClick: _this6.generarCertificado,
+          className: "btn btn-primary",
+          value: "Certificado"
+        }) : ''));
       }))));
     }
   }, {

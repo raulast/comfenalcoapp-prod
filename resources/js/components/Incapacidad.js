@@ -141,6 +141,14 @@ class IncapacidadFront extends Component {
         this.activarGeneracion=this.activarGeneracion.bind(this);
         this.renderAfiliaciones=this.renderAfiliaciones.bind(this);
         this.renderAportantes=this.renderAportantes.bind(this);
+        this.generarCertificado=this.generarCertificado.bind(this);
+    }
+    generarCertificado(){
+        let id=this.state.id;
+        let pid= this.state.prorrogaId;
+        //let id=56;
+        let url = '/certificadoIncapacidad/'+id+"/"+pid;
+        window.open(url,"_blank");
     }
     
     async getNumeroIncapacidad(){
@@ -163,7 +171,7 @@ class IncapacidadFront extends Component {
        // mensaje = utf8_decode(mensaje)
         if (incapacidades.includes(1,0)){
                 
-                    
+            this.getNumeroIncapacidad()       
             //console.log(response.data.responseMessageOut.body.response.validadorResponse);
             let nombre = afiliaciones[0]['Nombre'];
             let primerApellido = afiliaciones[0]['PrimerApellido']; 
@@ -208,6 +216,7 @@ class IncapacidadFront extends Component {
     }
     async handleSubmit(e) {
         e.preventDefault();
+        //this.setState(this.initialState);
         let tipoDocumento=this.state.tipoDocumento;
         let numeroIdentificacion= this.state.numeroIdentificacion;
         //let validaciones=await ValidacionDerechos(tipoDocumento, numeroIdentificacion);
@@ -247,12 +256,19 @@ class IncapacidadFront extends Component {
                         var afiliacion = afiliaciones[i];
                         var clasea = afiliacion.ClaseAfiliacion;
                         var descripcion = afiliacion.DescripcionPrograma;
+                        if(typeof afiliacion.NombreEmpresa === 'object' ){
+                            afiliacion.NombreEmpresa=''
+                        }
+                        if(typeof afiliacion.IDEmpresa === 'object' ){
+                            afiliacion.IDEmpresa='N/A'
+                        }
+                        /*
                         if (Object.keys(afiliacion.NombreEmpresa).length ===0){
                             afiliacion.NombreEmpresa=''
                         }
                         if (Object.keys(afiliacion.IDEmpresa).length ===0){
                             afiliacion.IDEmpresa=''
-                        }
+                        }*/
                         let url = '/validacionDescripcion/' + clasea + "/" + descripcion;
                         promises.push(
                             axios.get(url).then(response => {
@@ -594,8 +610,8 @@ class IncapacidadFront extends Component {
                         .then(resp => {
                             console.log(resp.data)
                             alert(resp.data)
-                            this.setState(this.initialState);
-                            location.reload();
+                            //this.setState(this.initialState);
+                           // location.reload();
                         })
                         .catch(err => {
                             console.log(err)
@@ -769,12 +785,12 @@ class IncapacidadFront extends Component {
                                 
                                 <tr key={key}>
                                     
-                                    <td>{validaciones[key]['IDEmpresa']}</td>
+                                    <td>{validaciones[key]['IDEmpresa'] == 'N/A' ? validaciones[key]['TipoDocAfiliado'] : validaciones[key]['IDEmpresa'] }</td>
                                     
-                                    <td>{validaciones[key]['NombreEmpresa']}</td>
-                                    <td><a href="#">{ validaciones[key]['Incapacidad']}</a>
+                                    <td>{validaciones[key]['IDEmpresa'] == 'N/A' ? validaciones[key]['Nombre'] + " " + validaciones[key]['PrimerApellido']+ " " + validaciones[key]['SegundoApellido'] :validaciones[key]['NombreEmpresa']}</td>
+                                    <td>{ validaciones[key]['Incapacidad'] == "SI" ? <input type="button" id="btnBuscar" onClick={this.generarCertificado} className="btn btn-primary" value="Certificado"/> : ''}</td>
                                 
-                                    </td>
+                                   
                                 </tr>
                             ))}
                     </tbody>   
