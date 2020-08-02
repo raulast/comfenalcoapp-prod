@@ -77,8 +77,7 @@ class CausasAdmin extends Component {
                         <div className="card">
                             <div className="card-header bg2 titulo">Causas</div>
                             <div className="card-body texto">
-                                <form onSubmit={this.handleSubmit}>
-                                    <div className="form-group">
+                                <form onSubmit={this.handleSubmit}>  
                                         <div className="row">
                                             <div className="col-md-4">
                                                 <label htmlFor="nombre">Nombre</label>
@@ -86,16 +85,12 @@ class CausasAdmin extends Component {
                                                 <div className={this.state.errors['nombre']}>
                                                     <div className={ "invalid-feedback  " + ( this.state.errors['nombre'] || "") }>{this.state.errorMensajes['nombre']}</div>
                                                 </div>
-                                                <div className="col-md-2">
-                                                   <br/>
-                                                    <button type="submit" className="btn btn-success btn-sm">Guardar</button>
-                                                </div>
                                             </div>
-                                            
-                                            
+                                            <div className="col-md-2">
+                                                <br/>
+                                                <button type="submit" className="btn btn-success btn-sm">Guardar</button>
+                                            </div>
                                         </div>
-                                       
-                                    </div>
                                 </form>
                             </div>
                         </div>

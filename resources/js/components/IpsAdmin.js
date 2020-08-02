@@ -56,7 +56,7 @@ class IpsAdmin extends Component {
         let url = 'getSystemIps'
         axios.get(url)
             .then(resp => {
-                console.log(resp.data.data);
+               // console.log(resp.data.data);
                 this.setState({
                     ips: resp.data.data,
                 });

@@ -9,10 +9,14 @@ use App\Medico;
 use App\Causae;
 use App\Incapacidad;
 use App\User;
+use App\Clasesa;
+use App\Descripcionesp;
 use App\Estadosi;
+use App\Estadosa;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 use App\Http\Controllers\IncapacidadController;
+use PDF;
 
 use Auth;
 
@@ -263,7 +267,7 @@ class ApiController extends Controller
     }
     public function getSystemCie10(Request $request){
         
-        $data=Cie10::where('id','<',100)->orderBy('id','asc')->get();
+        $data=Cie10::where('id','<',50)->orderBy('id','asc')->get();
 
         return response()->json([
             'data' => $data
@@ -281,6 +285,28 @@ class ApiController extends Controller
         
         $data=Ips::orderBy('id','asc')->get();
 
+        return response()->json([
+            'data' => $data
+        ]);
+    }
+    public function getSystemClasesa(Request $request){
+        
+        $data=Clasesa::orderBy('id','asc')->get();
+
+        return response()->json([
+            'data' => $data
+        ]);
+    }
+    public function getSystemDescripciones(Request $request){
+        
+        $data=Descripcionesp::orderBy('id','asc')->get();
+
+        return response()->json([
+            'data' => $data
+        ]);
+    }
+    public function getSystemEstadosa(Request $request){
+        $data=Estadosa::orderBy('id','asc')->get();
         return response()->json([
             'data' => $data
         ]);
@@ -312,7 +338,7 @@ class ApiController extends Controller
         //dd($validacion);
 
         $i = collect([]);
-        $i->put('titulo','CERTIFICADO MEDICO INCAPACIDAD TEMPORAL');
+        $i->put('titulo','CERTIFICADO MÉDICO INCAPACIDAD TEMPORAL');
         $i->put('No',$d->id."-".$d->prorrogaid);
 
         if ($d->prorrogaid == 0){
@@ -332,6 +358,13 @@ class ApiController extends Controller
            $prestador="Consultorio";
            $nitprestador = Medico::where('id',$d->medico_id)->first()->num_documento;
            $direccionprestador ="";
+        }
+
+        if ($d->contingencia_origen=="2"){
+            $soat="SI";
+        }
+        else{
+            $soat="NO";
         }
 
         $nombrePrestador=Medico::where('id',$d->medico_id)->first()->nombre;
@@ -370,16 +403,25 @@ class ApiController extends Controller
         $i->put('Diagnostico principal',$d->codigo_diagnostico);
         $i->put('Diagnostico relacionado 1',$d->codigo_diagnostico1);
         $i->put('Diagnostico relacionado 2',$d->codigo_diagnostico2);      
-        $i->put('Diagnostico relacionado 3',$d->codigo_diagnostico3);    
+        $i->put('Contingencia origen',$d->contingencia_origen);
 
-        $i->put('SOAT','');
+        $i->put('SOAT',$soat);
+       
         $i->put('Nombre del profesional que genera',$nombrePrestador);      
         $i->put('Profesión profesional que genera',$especialidad);          
         $i->put('Firma profesional que genera',''); 
         $i->put('Tipo doc profesional que genera',$tipoDocProf); 
         $i->put('Numero doc profesional que genera',$numDocProf); 
+        $i->put('Especialidad',$especialidad); 
         $i->put('Registro Médico',$registroMedico); 
         $i->put('Observacion EPS',''); 
+
+        $pdf = PDF::loadView('incapacidades.certificado',[
+            'i' => $i
+
+        ])->setPaper('US Legal', 'landscape');
+        
+        return $pdf->stream('certificado.pdf');
 
         return view('incapacidades.certificado',[
             'i' => $i

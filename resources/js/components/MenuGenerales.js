@@ -5,6 +5,7 @@ import CausasAdmin from './CausasAdmin.js';
 import Cie10Admin from './Cie10Admin.js';
 import EstadosAdmin from './EstadosAdmin';
 import IpsAdmin from './IpsAdmin';
+import DerechosAdmin from './DerechosAdmin';
 
 class MenuGenerales extends Component {
     constructor(props) {
@@ -45,7 +46,7 @@ class MenuGenerales extends Component {
                     <div className="tab-pane container active" id="diase"></div>
                     <div className="tab-pane container fade" id="estados"><EstadosAdmin /></div>
                     <div className="tab-pane container active" id="ips"><IpsAdmin /></div>
-                    <div className="tab-pane container fade" id="validacion"></div>
+                    <div className="tab-pane container fade" id="validacion"><DerechosAdmin /></div>
                     
                 </div>
             </div>

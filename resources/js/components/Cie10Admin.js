@@ -38,7 +38,7 @@ class Cie10Admin extends Component {
         });
     }
     handleEdition(id){
-        
+        document.getElementById("modalCie10").modal();
     }
     handleEliminar(id){
         
@@ -56,7 +56,7 @@ class Cie10Admin extends Component {
         let url = 'getSystemCie10'
         axios.get(url)
             .then(resp => {
-                console.log(resp.data.data);
+                //console.log(resp.data.data);
                 this.setState({
                     cies: resp.data.data,
                 });
@@ -96,7 +96,31 @@ class Cie10Admin extends Component {
                         </div>
                     </div>
                 </div>
+
+
+                <div className="modal" tabIndex="-1" role="dialog" id="modalCie10">
+                    <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                        <h5 className="modal-title">Modal title</h5>
+                        <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        <div className="modal-body">
+                        <p>Modal body text goes here.</p>
+                        </div>
+                        <div className="modal-footer">
+                        <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" className="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                    </div>
+                </div>  
+
+
             </div>
+            
         );
     }
 
