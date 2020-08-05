@@ -946,7 +946,7 @@ class ApiController extends Controller
                 curl_close($process);
             
                 //finally print your API response
-                echo utf8_encode($return);
+                return utf8_encode($return);
         }
     }
 }
