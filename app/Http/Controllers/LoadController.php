@@ -12,6 +12,7 @@ use App\Estadosi;
 use App\Estadosa;
 use App\Clasesa;
 use App\Descripcionesp;
+use App\Diasmax;
 
 class LoadController extends Controller
 {
@@ -44,6 +45,9 @@ class LoadController extends Controller
         if ($tipo== "descripcionesp"){ 
             $this->loadDescripcionesp(); 
         }
+        if ($tipo== "diasmax"){ 
+            $this->loadDiasmax(); 
+        }
         if($tipo == "todos"){
             $this->loadIps(); 
             $this->loadUsuarios(); 
@@ -53,6 +57,7 @@ class LoadController extends Controller
             $this->loadEstadosa(); 
             $this->loadClasesa(); 
             $this->loadDescripcionesp(); 
+            $this->loadDiasmax(); 
             $this->loadCie10();  
         }
         return 'Datos cargados';
@@ -129,6 +134,14 @@ class LoadController extends Controller
         //dd($customerArr);
         for ($i = 0; $i < count($customerArr); $i ++){
             Descripcionesp::firstOrCreate($customerArr[$i]);
+        }   
+    }
+    private function loadDiasmax(){
+        $file = public_path('csv/diasmax.csv');
+        $customerArr = $this->csvToArray($file);
+        //dd($customerArr);
+        for ($i = 0; $i < count($customerArr); $i ++){
+            Diasmax::firstOrCreate($customerArr[$i]);
         }   
     }
     private function csvToArray($filename = '', $delimiter = ';'){

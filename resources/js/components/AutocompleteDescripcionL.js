@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import Axios from 'axios'
+import Axios from 'axios';
+import { size } from 'lodash';
 
-export default class AutocompleteDescripcion extends Component {
+export default class AutocompleteDescripcionL extends Component {
     constructor(props) {
         super(props);
         this.items = [
@@ -16,61 +17,64 @@ export default class AutocompleteDescripcion extends Component {
             diasMaximos:0,
            
         }
-        this.onTextChanged = this.onTextChanged.bind(this);
-        this.suggestionSelected = this.suggestionSelected.bind(this);
-        
+       
+        this.handleChange = this.handleChange.bind(this);
+        this.loadMenu = this.loadMenu.bind(this);
+       
     }
-    onTextChanged(e) {
-        const value = e.target.value;
+    componentDidUpdate(prevProps) {
+        if (prevProps.licencia !== this.props.licencia) {
+          this.loadMenu();
+        }
+    }
+    componentDidMount(){
+        this.loadMenu();
+    }
+    handleChange(e){
+        console.log(e.target.value)
+        
+        for (var i = 0; i < size(this.state.suggestions); i++) {
+            var suggestion = this.state.suggestions[i];
+            if (suggestion.id == e.target.value){
+                this.setState({
+                    text: e.target.value,
+                    codigo: suggestion.codigo,
+                    capitulo: suggestion.capitulo_grupo,
+                    diasMaximos: suggestion.num_dias_maximo_solicitud
+                },() => {
+                    this.props.handleDiagnostico(this.state.text)
+                    this.props.handleCodigoDiagnostico(this.state.codigo)
+                    this.props.handleCapituloDiagnostico(this.state.capitulo)
+                    this.props.handleMaximosCie10(this.state.diasMaximos)
+                });
+                
+            }
+        }
+        
 
+    }
+    loadMenu(){
+        const { licencia } = this.props;
         let suggestions = [];
-        if (value.length > 4) {
-            /*
-            const regex = new RegExp(`^${value}`,'i');
-            suggestions = this.items.sort().filter(v => regex.test(v));   
-            */
-            let url = 'search/diagnostico/' + value;
-            //console.log(url);
+        if (licencia !="0"){
+            let url = 'search/diagnosticoLicencia/' + licencia;
             Axios.get(url)
                 .then(resp => {
-                    // console.log(resp.data.data);
-
                     suggestions = resp.data.data;
-                    // suggestions = [1,2,3];
-                    //console.log(suggestions);
                     this.setState({
                         suggestions: suggestions,
-
                     });
-                    //suggestions.map((item) => console.log(<li key={item.id} onClick={() => this.suggestionSelected(item.descripcion_diagnostico)}>{item.descripcion_diagnostico}</li>));
+                    
                 })
                 .catch(err => {
                     console.log(err)
                 })
+            
+            this.setState({
+                suggestions: suggestions,
+            });
         }
-        this.setState({
-            suggestions: suggestions,
-            text: value,
-        });
-        //this.setState(() => ({ suggestions,text:value}));
-
-
     }
-    suggestionSelected(value,cod,capitulo,diasMaximos) {
-        cod = cod.trim()
-        this.setState({
-            suggestions: [],
-            text: value,
-            codigo : cod,
-            capitulo:capitulo,
-            diasMaximos: diasMaximos,
-        });
-        this.props.handleDiagnostico(value)
-        this.props.handleCodigoDiagnostico(cod)
-        this.props.handleCapituloDiagnostico(capitulo)
-        this.props.handleMaximosCie10(diasMaximos)
-    }
-
     renderSuggestions() {
         const { suggestions } = this.state;
         //console.log(suggestions);
@@ -78,9 +82,9 @@ export default class AutocompleteDescripcion extends Component {
             return null;
         }
         return (
-            <ul>
-                {suggestions.map((item) => <li key={item.id} onClick={() => this.suggestionSelected(item.descripcion_diagnostico,item.codigo,item.capitulo_grupo,item.num_dias_maximo_solicitud)}>{item.descripcion_diagnostico}</li>)}
-            </ul>
+            
+            suggestions.map((item) => <option value={item.id} key={item.id}>{item.descripcion_diagnostico}</option>)
+           
         );
     }
     render() {
@@ -95,8 +99,10 @@ export default class AutocompleteDescripcion extends Component {
 
                     <label htmlFor="descripcionDiagnostico">{ title }</label>
                     <div className="AutoCompleteDescripcion">
-                        <input value={text} onChange={this.onTextChanged} type="text" id="descripcionDiagnostico" className="form-control" />
+                        <select value={text} onChange={ this.handleChange} id="descripcionDiagnostico" className="form-control">
+                        <option value=""></option>
                         {this.renderSuggestions()}
+                        </select>
                         <div className={error}>
                             <div className={ "invalid-feedback  " + ( error || "") }>{ mensaje}</div>
                         </div>

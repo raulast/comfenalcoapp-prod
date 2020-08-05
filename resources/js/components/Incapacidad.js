@@ -197,7 +197,8 @@ class IncapacidadFront extends Component {
                 nombreCompleto: nombreCompleto,
                 tipoDocAfiliado : tipoDocAfiliado,
                 IDTrabajador : IDTrabajador,
-                historiaClinica : historiaClinica,
+                //historiaClinica : historiaClinica,
+                historiaClinica : IDTrabajador,
                 mensaje : mensaje,
                 genero : genero,
                 estado : estado,
@@ -727,11 +728,11 @@ class IncapacidadFront extends Component {
         const { validaciones } = this.state;
         
         return(
-        <div className="afiliaciones white">
+        <div className="afiliaciones white texto">
                 <p>Afiliaciones</p>
-                <table className="table table-hover table-sm">
+                <table className="table table-hover table-bordered table-sm">
                     <tbody>
-                    <tr>
+                    <tr className="white">
                         <td>Tipo Doc</td>
                         <td>Num Doc</td>
                         <td>Nombre</td>
@@ -773,26 +774,23 @@ class IncapacidadFront extends Component {
                 <table className="table table-hover table-sm">
                     <tbody>
                         <tr>
-                        
-                        <td>Num ID</td>
-                       
-                        <td>Nombre</td>
-                        <td>Certificado</td>
-                        
+                            <td>Num ID</td>
+                            <td>Nombre</td>
+                            <td>Certificado</td>
+                        </tr>
+
+                        {Object.keys(validaciones).map((key) => (
+
+                            <tr key={key}>
+
+                                <td>{validaciones[key]['IDEmpresa'] == 'N/A' ? validaciones[key]['TipoDocAfiliado'] : validaciones[key]['IDEmpresa']}</td>
+
+                                <td>{validaciones[key]['IDEmpresa'] == 'N/A' ? validaciones[key]['Nombre'] + " " + validaciones[key]['PrimerApellido'] + " " + validaciones[key]['SegundoApellido'] : validaciones[key]['NombreEmpresa']}</td>
+                                <td>{validaciones[key]['Incapacidad'] == "SI" ? <input type="button" id="btnBuscar" onClick={this.generarCertificado} className="btn btn-primary" value="Certificado" /> : ''}</td>
+
+
                             </tr>
-                        
-                            {Object.keys(validaciones).map((key) => (
-                                
-                                <tr key={key}>
-                                    
-                                    <td>{validaciones[key]['IDEmpresa'] == 'N/A' ? validaciones[key]['TipoDocAfiliado'] : validaciones[key]['IDEmpresa'] }</td>
-                                    
-                                    <td>{validaciones[key]['IDEmpresa'] == 'N/A' ? validaciones[key]['Nombre'] + " " + validaciones[key]['PrimerApellido']+ " " + validaciones[key]['SegundoApellido'] :validaciones[key]['NombreEmpresa']}</td>
-                                    <td>{ validaciones[key]['Incapacidad'] == "SI" ? <input type="button" id="btnBuscar" onClick={this.generarCertificado} className="btn btn-primary" value="Certificado"/> : ''}</td>
-                                
-                                   
-                                </tr>
-                            ))}
+                        ))}
                     </tbody>   
                 </table>
             </div>);
@@ -818,7 +816,7 @@ class IncapacidadFront extends Component {
         
        
         
-        <div className="container">
+        <div className="container texto">
             <div className="row justify-content-center">
                 <div className="col-md-10">
                     <div className="card">

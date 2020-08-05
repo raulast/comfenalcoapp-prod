@@ -34,36 +34,53 @@ Route::get('/admin','AdminController@index')->name('admin');
 Route::get('/admin/usuarios','AdminController@users')->name('adminUsers');
 Route::get('/admin/incapacidades','AdminController@incapacidades')->name('adminIncapacidades');
 
-
-
-
 //load csv
 Route::get('/load/{tipo}','LoadController@datos');
 
 //api masters
 Route::get('/list/{tipo}','ApiController@list');
-
 Route::get('/search/{tipo}/{value}','ApiController@search');
 Route::get('datosMedico','ApiController@datosMedico');
+
+//creates
 Route::post('saveIncapacidad','ApiController@saveIncapacidad');
+Route::post('saveLicencia','ApiController@saveLicencia');
 Route::post('saveUser','ApiController@saveUser');
+
+
+//updates
+Route::post('updateCie10','ApiController@updateCie10');
+
+
+//deletes
+Route::post('deleteUser','ApiController@deleteUser');
+
+//reads
 Route::get('getNumeroIncapacidad','ApiController@getNumeroIncapacidad');
 Route::get('getNumeroLicencia','ApiController@getNumeroLicencia');
-Route::get('buscarHistorico/{tipo}/{numero}','ApiController@buscarHistorico')->middleware('auth','twofactor');
-Route::get('historicoIncapacidades','ApiController@historicoIncapacidades');
-Route::get('certificadoIncapacidad/{id}/{pid}','ApiController@certificadoIncapacidad');
 Route::get('buscarHistoricoUltimaDias/{tipo}/{numero}','ApiController@buscarHistoricoUltimaDias');
 Route::get('getSystemUsers','ApiController@getSystemUsers');
 Route::get('getSystemCausas','ApiController@getSystemCausas');
 Route::get('getSystemCie10','ApiController@getSystemCie10');
+Route::get('getCie10/{id}','ApiController@getCie10');
 Route::get('getSystemEstados','ApiController@getSystemEstados');
 Route::get('getSystemIps','ApiController@getSystemIps');
 Route::get('getSystemClasesa','ApiController@getSystemClasesa');
 Route::get('getSystemDescripciones','ApiController@getSystemDescripciones');
 Route::get('getSystemEstadosa','ApiController@getSystemEstadosa');
+Route::get('getSystemDiasmax','ApiController@getSystemDiasmax');
 Route::post('getUser','ApiController@getUser');
-Route::post('deleteUser','ApiController@deleteUser');
 Route::get('getMedicosUsers','ApiController@getMedicosUsers');
+Route::get('buscarCie10/{campo}/{texto}','ApiController@buscarCie10');
+
+
+//reports 
+Route::get('buscarHistorico/{tipo}/{numero}','ApiController@buscarHistorico')->middleware('auth','twofactor');
+Route::get('historicoIncapacidades','ApiController@historicoIncapacidades');
+Route::get('certificadoIncapacidad/{id}/{pid}','ApiController@certificadoIncapacidad');
+Route::get('certificadoLicencia/{id}','ApiController@certificadoLicencia');
+
+
 
 
 

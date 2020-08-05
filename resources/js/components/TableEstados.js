@@ -22,7 +22,7 @@ export default function TableEstados(props) {
                 <tr key={key}><td></td><td>{estados[key]['estado']}</td>
                 <td>{estadoTypes[estados[key]['activo']]}</td>
                     <td><button className="btn btn-warning btn-sm" id={estados[key]['id']} onClick={editar}>Editar</button></td>
-                    <td><button className="btn btn-primary btn-sm" id={estados[key]['id']} onClick={eliminar}>Cambiar estado</button></td>
+                   
                 </tr>
             ))}
         </tbody>

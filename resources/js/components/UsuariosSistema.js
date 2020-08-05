@@ -203,6 +203,7 @@ class UsuariosSistema extends Component {
                                                     <option value=""></option>
                                                     <option value="0">Admin</option>
                                                     <option value="1">Médico</option>
+                                                    <option value="2">Administrativo</option>
                                                 </select>
                                                 <div className={this.state.errors['tipo']}>
                                                     <div className={ "invalid-feedback  " + ( this.state.errors['tipo'] || "") }>{this.state.errorMensajes['tipo']}</div>

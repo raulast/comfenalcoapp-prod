@@ -15,7 +15,7 @@ export default function TableUsers(props) {
     }
     const users = props.users;
     //const { users } = this.state;
-    const userTypes = ["Admin", "Médico"]
+    const userTypes = ["Admin", "Médico","Administrativo"]
     return (
         <tbody>
             {Object.keys(users).map((key) => (

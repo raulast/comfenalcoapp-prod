@@ -17,7 +17,7 @@ export default function TableDescripciones(props) {
         <tbody>
             {Object.keys(descripciones).map((key) => (
                 <tr key={key}><td></td>
-                <td>00000</td>
+                <td>{descripciones[key]['codigo']}</td>
                 <td>{descripciones[key]['clases_afiliacion_id']}</td>
                 <td>{descripciones[key]['descripcion'] }</td>
                 <td>{licenciaTypes[descripciones[key]['incapacidad']]}</td>

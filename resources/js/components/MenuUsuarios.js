@@ -17,10 +17,10 @@ class MenuUsuarios extends Component {
             <div>
                 <ul className="nav nav-tabs">
                     <li className="nav-item">
-                        <a className="nav-link active" data-toggle="pill" href="#sistema">Sistema</a>
+                        <a className="nav-link active" data-toggle="tab" href="#sistema">Sistema</a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" data-toggle="pill" href="#medicos">Médicos</a>
+                        <a className="nav-link" data-toggle="tab" href="#medicos">Médicos</a>
                     </li>
                 </ul>
 

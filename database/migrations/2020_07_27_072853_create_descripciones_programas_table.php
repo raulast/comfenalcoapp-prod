@@ -15,6 +15,7 @@ class CreateDescripcionesProgramasTable extends Migration
     {
         Schema::create('descripciones_programas', function (Blueprint $table) {
             $table->increments('id')->index();
+            $table->string('codigo');
             $table->foreignId('clases_afiliacion_id')->references('id')->on('clases_afiliacion');
             $table->string('descripcion');
             $table->integer('incapacidad');

@@ -6,14 +6,15 @@ import axios from 'axios';
 
 
 export default function TableCausas(props) {
-
+    const cies = props.cies;
     const eliminar = (u) => {
         props.handleEliminar(u.target.id)
     }
-    const editar = (u) =>{
-        props.handleEdition(u.target.id)
+    const editar = (key) =>{
+        //console.log(key.target.id);
+        props.handleEdition(key.target.id)
     }
-    const cies = props.cies;
+    
     //const { users } = this.state;
     //const estadoTypes = ["Inactiva", "Activa"]
     return (

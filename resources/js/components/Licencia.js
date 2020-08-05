@@ -6,7 +6,8 @@ import Combocausae from './Combocausae.js';
 import Medico from './Medico.js';
 import AutocompleteDescripcion from './AutocompleteDescripcion.js';
 import AutocompleteDescripcionL from './AutocompleteDescripcionL.js';
-
+import ValidacionDerechos from './ValidacionDerechos';
+import { size } from 'lodash';
 import axios from 'axios';
 
 
@@ -41,6 +42,7 @@ class LicenciaFront extends Component {
             fechaAtencion: today,
             fechaInicioLicencia: today,
             diasSolicitados: 0,
+            diasSugerencia:'', 
             diasMaximosCie10: 0,
             diasMaximosEspecialidad: 0,
             fechaFinLicencia: today,
@@ -57,7 +59,7 @@ class LicenciaFront extends Component {
             partoMultiple:'',
 
 
-            tipoLicencia:'',
+            tipoLicencia:'0',
             
             contingencia: '1',
             tipoDocAportante: '',
@@ -99,7 +101,8 @@ class LicenciaFront extends Component {
                 lateralidad: '',
                 diasSolicitados: '',
                 contingencia: ''
-            }
+            },
+            validaciones : [],
 
         };
         this.initialState = { ...this.state }
@@ -132,6 +135,11 @@ class LicenciaFront extends Component {
         this.handleCapituloDiagnostico = this.handleCapituloDiagnostico.bind(this);
         this.handleMaximosCie10 = this.handleMaximosCie10.bind(this);
         this.guardarLicencia = this.guardarLicencia.bind(this);
+
+        this.activarGeneracion=this.activarGeneracion.bind(this);
+        this.renderAfiliaciones=this.renderAfiliaciones.bind(this);
+        this.renderAportantes=this.renderAportantes.bind(this);
+        this.generarCertificado=this.generarCertificado.bind(this);
 
         /*
         this.handlePrestador = this.handlePrestador.bind(this);
@@ -166,76 +174,158 @@ class LicenciaFront extends Component {
                 console.log(err)
             })
 
+            
     }
-    handleSubmit(e) {
+    generarCertificado(){
+        let id=this.state.id;
+        let pid= this.state.prorrogaId;
+        //let id=1;
+        let url = '/certificadoLicencia/'+id;
+        window.open(url,"_blank");
+    }
+    activarGeneracion(incapacidades,response,afiliaciones){
+        let mensaje = response.data.responseMessageOut.body.response.validadorResponse.Derechos['MENSAJE'];
+       // mensaje = utf8_decode(mensaje)
+        if (incapacidades.includes(1,0)){
+                
+            this.getNumeroLicencia()       
+            //console.log(response.data.responseMessageOut.body.response.validadorResponse);
+            let nombre = afiliaciones[0]['Nombre'];
+            let primerApellido = afiliaciones[0]['PrimerApellido']; 
+            let segundoApellido = afiliaciones[0]['SegundoApellido'];
+            let nombreCompleto = `${nombre} ${primerApellido} ${segundoApellido}`;
+
+            let tipoDocAfiliado = afiliaciones[0]['TipoDocAfiliado'];
+            let IDTrabajador = afiliaciones[0]['IDTrabajador'];
+            
+            let historiaClinica = afiliaciones[0]['IdHistoria12'];
+            let genero = afiliaciones[0]['Sexo'];
+            let estado = afiliaciones[0]['EstadoDescripcion'];
+            let tipoCotizante = afiliaciones[0]['ClaseAfiliacion'];
+            let descripcionPrograma = afiliaciones[0]['DescripcionPrograma'];
+
+            //datos aportante
+            //let tipoDocAportante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['TipoDocEmpresa'];
+            //let numDocAportante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['IDEmpresa'];
+            //let nombreAportante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['NombreEmpresa'];
+            // set state
+            
+            this.setState({
+                nombreCompleto: nombreCompleto,
+                tipoDocAfiliado : tipoDocAfiliado,
+                IDTrabajador : IDTrabajador,
+                //historiaClinica : historiaClinica,
+                historiaClinica : IDTrabajador,
+                mensaje : mensaje,
+                genero : genero,
+                estado : estado,
+                tipoCotizante: tipoCotizante,
+                descripcionPrograma: descripcionPrograma,
+                //tipoDocAportante: tipoDocAportante,
+                //numDocAportante: numDocAportante,
+                //nombreAportante:nombreAportante,
+                tipoMensaje: 'success',
+                visible:'visible',
+                loading:true,
+            });
+
+        }
+      
+    }
+    async handleSubmit(e) {
         e.preventDefault();
-        //console.log([this.state.tipoDocumento,this.state.numeroDocumento])
-        let tipoDocumento = this.state.tipoDocumento;
-        let numeroIdentificacion = this.state.numeroIdentificacion;
+        //this.setState(this.initialState);
+        let tipoDocumento=this.state.tipoDocumento;
+        let numeroIdentificacion= this.state.numeroIdentificacion;
+        //let validaciones=await ValidacionDerechos(tipoDocumento, numeroIdentificacion);
+       // console.log(validaciones);
+       
+        //this.getNumeroIncapacidad();
         let url = '/validacionDerechos/' + tipoDocumento + "/" + numeroIdentificacion;
-        axios
+        await axios
             .get(url, {
-                tipoDocumento: this.state.tipoDocumento,
-                numeroIdentificacion: this.state.numeroIdentificacion
+                tipoDocumento: tipoDocumento,
+                numeroIdentificacion: numeroIdentificacion
             })
             .then(response => {
                 // console
-                console.log(response);
+                //console.log(response);
 
                 let mensaje = response.data.responseMessageOut.body.response.validadorResponse.Derechos['MENSAJE'];
                 let derecho = response.data.responseMessageOut.body.response.validadorResponse.Derechos['DerechoPrestacion']
-                console.log(derecho);
-                console.log(mensaje);
-                if (derecho == "SI") {
+                
+                if (derecho == "SI"){
+                
+                    let afiliaciones = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado;
+                    //console.log(derecho);
+                    //console.log(mensaje);
+                    //console.log(afiliaciones);
+                    //console.log(Array.isArray(afiliaciones));
 
-                    this.getNumeroLicencia();
-                    //console.log(response.data.responseMessageOut.body.response.validadorResponse);
-                    let nombre = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['Nombre'];
-                    let primerApellido = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['PrimerApellido'];
-                    let segundoApellido = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['SegundoApellido'];
-                    let nombreCompleto = `${nombre} ${primerApellido} ${segundoApellido}`;
+                    let validaciones = [];
 
-                    let tipoDocAfiliado = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['TipoDocAfiliado'];
-                    let IDTrabajador = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['IDTrabajador'];
+                    if (Array.isArray(afiliaciones) == false) {
+                        afiliaciones = [afiliaciones]    
+                    }
+                
+                    let incapacidades = [];
+                    let promises = [];
+                    for (var i = 0; i < size(afiliaciones); i++) {
+                        var afiliacion = afiliaciones[i];
+                        var clasea = afiliacion.ClaseAfiliacion;
+                        var descripcion = afiliacion.DescripcionPrograma;
+                        if(typeof afiliacion.NombreEmpresa === 'object' ){
+                            afiliacion.NombreEmpresa=''
+                        }
+                        if(typeof afiliacion.IDEmpresa === 'object' ){
+                            afiliacion.IDEmpresa='N/A'
+                        }
+                        /*
+                        if (Object.keys(afiliacion.NombreEmpresa).length ===0){
+                            afiliacion.NombreEmpresa=''
+                        }
+                        if (Object.keys(afiliacion.IDEmpresa).length ===0){
+                            afiliacion.IDEmpresa=''
+                        }*/
+                        let url = '/validacionDescripcion/' + clasea + "/" + descripcion;
+                        promises.push(
+                            axios.get(url).then(response => {
+                                // do something with response
+                                incapacidades.push(response.data);
+                            })
+                        )
 
-                    let historiaClinica = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['IdHistoria12'];
-                    let genero = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['Sexo'];
-                    let estado = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['EstadoDescripcion'];
-                    let tipoCotizante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['ClaseAfiliacion'];
+                    }
+                    Promise.all(promises).then(() => {
 
-                    //datos aportante
-                    let tipoDocAportante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['TipoDocEmpresa'];
-                    let numDocAportante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['IDEmpresa'];
-                    let nombreAportante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['NombreEmpresa'];
-                    // set state
-
-                    this.setState({
-                        nombreCompleto: nombreCompleto,
-                        tipoDocAfiliado: tipoDocAfiliado,
-                        IDTrabajador: IDTrabajador,
-                        historiaClinica: historiaClinica,
-                        mensaje: mensaje,
-                        genero: genero,
-                        estado: estado,
-                        tipoCotizante: tipoCotizante,
-                        tipoDocAportante: tipoDocAportante,
-                        numDocAportante: numDocAportante,
-                        nombreAportante: nombreAportante,
-                        tipoMensaje: 'success',
-                        visible: 'visible',
-                        loading: true,
+                        //console.log(incapacidades)
+                        for (var i = 0; i < size(afiliaciones); i++) {
+                            if (incapacidades[i] == 0) {
+                                afiliaciones[i]["Incapacidad"] = "NO"
+                            }
+                            if (incapacidades[i] == 1) {
+                                afiliaciones[i]["Incapacidad"] = "SI"
+                            }
+                        }
+                        this.setState({
+                            validaciones: afiliaciones
+                        });
+                        this.activarGeneracion(incapacidades, response,afiliaciones)
                     });
 
+                    //console.log(this.state.validaciones)
                 }
-                else {
+                else{
                     this.setState({
-                        mensaje: mensaje,
+                        mensaje : mensaje,
                         loading: true,
                         tipoMensaje: 'error',
                     });
                 }
+                
+                
+                
             });
-
 
     }
     handleChange({ target }) {
@@ -260,8 +350,10 @@ class LicenciaFront extends Component {
                
                 if (target.value == 15){
                     this.setState({
-                        fechaProbableState: 'visible'
+                        fechaProbableState: 'visible', 
+                        diasSolicitados: 7,
                       });
+                    alert("Los días solicitados pueden ser 7 o 14 días")
                 }
                 else{
                     this.setState({
@@ -446,6 +538,7 @@ class LicenciaFront extends Component {
         this.setState({ diagnostico: dato })
     }
     handleCodigoDiagnostico(dato) {
+        console.log(dato);
         this.setState({ codigoDiagnostico: dato })
     }
     handleDiagnostico1(dato) {
@@ -615,9 +708,23 @@ class LicenciaFront extends Component {
             diasReconocidos: reconocidos
         });
     }
-    async guardarLicencia() {
-        //console.log(this.state)
+    guardarLicencia() {
+        console.log(this.state)
         //console.log(parseInt(this.state.diasSolicitados));
+        let url = 'saveLicencia'
+                axios.post(url, { datos: this.state })
+                    .then(resp => {
+                        console.log(resp.data)
+                        alert(resp.data)
+                        //this.setState(this.initialState);
+                        //location.reload();
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    })
+                        
+
+        /*
         if (parseInt(this.state.diasSolicitados) <= this.state.diasMaximosEspecialidad) {
             let resp = this.validarForm()
 
@@ -646,7 +753,7 @@ class LicenciaFront extends Component {
             alert("Los días solicitados exceden el máximo definido para su especialidad médica");
         }
 
-
+        */
     }
     async validarForm() {
         this.clearErrors()
@@ -743,6 +850,77 @@ class LicenciaFront extends Component {
     showMessage(m) {
         return (<div className="alert alert-success" role="alert">{m}</div>);
     }
+    renderAfiliaciones(){
+        const { validaciones } = this.state;
+        
+        return(
+        <div className="afiliaciones white texto">
+                <p>Afiliaciones</p>
+                <table className="table table-hover table-bordered table-sm">
+                    <tbody>
+                    <tr className="white">
+                        <td>Tipo Doc</td>
+                        <td>Num Doc</td>
+                        <td>Nombre</td>
+                        <td>Estado</td>
+                        <td>Clase</td>
+                        <td>Descripción</td>
+                        <td>Generación de Incapacidad</td>
+                        <td>Nombre Empresa</td>
+                        
+                        <td>Num ID</td>
+                    </tr>
+                        
+                            {Object.keys(validaciones).map((key) => (
+                                
+                                <tr key={key}>
+                                    <td>{validaciones[key]['TipoDocAfiliado']}</td>
+                                    <td>{validaciones[key]['IDTrabajador']}</td>
+                                    <td>{validaciones[key]['Nombre'] + " " + validaciones[key]['PrimerApellido']+ " " + validaciones[key]['SegundoApellido']}</td>
+                                    <td>{validaciones[key]['EstadoDescripcion']}</td>
+                                    <td>{validaciones[key]['ClaseAfiliacion']}</td>
+                                    <td>{validaciones[key]['DescripcionPrograma']}</td>
+                                    <td>{validaciones[key]['Incapacidad']}</td>
+                                    <td>{ validaciones[key]['NombreEmpresa']  }</td>
+                                   
+                                    <td>{ validaciones[key]['IDEmpresa'] }</td>
+                                </tr>
+                            ))}
+                    </tbody>   
+                </table>
+            </div>);
+    }
+    renderAportantes(){
+        const { validaciones } = this.state;
+        console.log(validaciones);
+        
+        return(
+        <div className="afiliaciones white">
+                <p>Aportantes</p>
+                <table className="table table-hover table-sm">
+                    <tbody>
+                        <tr>
+                            <td>Num ID</td>
+                            <td>Nombre</td>
+                            <td>Certificado</td>
+                        </tr>
+
+                        {Object.keys(validaciones).map((key) => (
+
+                            <tr key={key}>
+
+                                <td>{validaciones[key]['IDEmpresa'] == 'N/A' ? validaciones[key]['TipoDocAfiliado'] : validaciones[key]['IDEmpresa']}</td>
+
+                                <td>{validaciones[key]['IDEmpresa'] == 'N/A' ? validaciones[key]['Nombre'] + " " + validaciones[key]['PrimerApellido'] + " " + validaciones[key]['SegundoApellido'] : validaciones[key]['NombreEmpresa']}</td>
+                                <td>{validaciones[key]['Incapacidad'] == "SI" ? <input type="button" id="btnBuscar" onClick={this.generarCertificado} className="btn btn-primary" value="Certificado" /> : ''}</td>
+
+
+                            </tr>
+                        ))}
+                    </tbody>   
+                </table>
+            </div>);
+    }
     render() {
         let mensaje = <div></div>;
 
@@ -792,7 +970,7 @@ class LicenciaFront extends Component {
                                             </select>
                                         </div>
                                         <div className="col-sm-4">
-                                            <label htmlFor="numeroIdentificacion">Número de identificacion</label>
+                                            <label htmlFor="numeroIdentificacion">Número de identificación</label>
                                             <input type="text" name="numeroIdentificacion" className="form-control" onChange={this.handleChange} value={this.state.numeroIdentificacion} />
                                         </div>
                                         <div className="col-sm-4">
@@ -811,6 +989,11 @@ class LicenciaFront extends Component {
 
                 {mensaje}
 
+                <br/>
+            
+                {this.renderAfiliaciones()}
+
+                <br/>
 
                 <div className={this.state.visible}>
                     <div className="row justify-content-center ">
@@ -824,20 +1007,20 @@ class LicenciaFront extends Component {
                                         <div className="col-sm-3">
                                             <div className="form-group">
                                                 <label htmlFor="tipoDocumento">Tipo documento</label>
-                                                <input type="text" className="form-control" defaultValue={this.state.tipoDocAfiliado} readOnly />
+                                                <input type="text" className="form-control texto " defaultValue={this.state.tipoDocAfiliado} readOnly />
                                             </div>
                                         </div>
 
                                         <div className="col-sm-3">
                                             <div className="form-group">
                                                 <label htmlFor="numeroIdentificacion">Número de identificacion</label>
-                                                <input type="text" className="form-control" defaultValue={this.state.IDTrabajador} readOnly />
+                                                <input type="text" className="form-control texto" defaultValue={this.state.IDTrabajador} readOnly />
                                             </div>
                                         </div>
                                         <div className="col-sm-6">
                                             <div className="form-group">
                                                 <label htmlFor="nombreAfiliado">Nombre completo</label>
-                                                <input type="text" id="nombreAfiliado" className="form-control" defaultValue={this.state.nombreCompleto} readOnly />
+                                                <input type="text" id="nombreAfiliado" className="form-control texto" defaultValue={this.state.nombreCompleto} readOnly />
                                             </div>
                                         </div>
                                     </div>
@@ -846,26 +1029,32 @@ class LicenciaFront extends Component {
                                         <div className="col-sm-3">
                                             <div className="form-group">
                                                 <label htmlFor="historiaClinica">Numero de historia clínica</label>
-                                                <input type="text" id="historiaClinica" className="form-control" defaultValue={this.state.historiaClinica} readOnly />
+                                                <input type="text" id="historiaClinica" className="form-control texto" defaultValue={this.state.historiaClinica} readOnly />
                                             </div>
                                         </div>
 
                                         <div className="col-sm-1">
                                             <div className="form-group">
                                                 <label htmlFor="genero">Género</label>
-                                                <input type="text" id="genero" className="form-control" defaultValue={this.state.genero} readOnly />
+                                                <input type="text" id="genero" className="form-control texto" defaultValue={this.state.genero} readOnly />
                                             </div>
                                         </div>
                                         <div className="col-sm-4">
                                             <div className="form-group">
                                                 <label htmlFor="estado">Estado</label>
-                                                <input type="text" id="estado" className="form-control" defaultValue={this.state.estado} readOnly />
+                                                <input type="text" id="estado" className="form-control texto" defaultValue={this.state.estado} readOnly />
                                             </div>
                                         </div>
                                         <div className="col-sm-4">
                                             <div className="form-group">
                                                 <label htmlFor="tipoCotizante">Tipo de cotizante</label>
-                                                <input type="text" id="tipoCotizante" className="form-control" defaultValue={this.state.tipoCotizante} readOnly />
+                                                <input type="text" id="tipoCotizante" className="form-control texto" defaultValue={this.state.tipoCotizante} readOnly />
+                                            </div>
+                                        </div>
+                                        <div className="col-sm-4">
+                                            <div className="form-group">
+                                                <label htmlFor="tipoCotizante">Descripción programa</label>
+                                                <input type="text" id="descripcionPrograma" className="form-control texto" defaultValue={this.state.descripcionPrograma} readOnly />
                                             </div>
                                         </div>
                                     </div>
@@ -910,7 +1099,7 @@ class LicenciaFront extends Component {
                                             <div className="form-group">
                                                 <div className="form-group">
                                                     <label htmlFor="contingenciaOrigen">Contingencia origen</label>
-                                                    <select id="contingenciaOrigen" className="form-control" onChange={this.handleChange} value={this.state.contingencia}>
+                                                    <select id="contingenciaOrigen" className="form-control texto" onChange={this.handleChange} value={this.state.contingencia}>
                                                         <option value="1">Licencia</option>
                                                     </select>
                                                     <div className={this.state.errors['contingencia']}>
@@ -922,7 +1111,7 @@ class LicenciaFront extends Component {
                                         <div className="col-sm-4">
                                             <div className="form-group">
                                                 <label htmlFor="numeroIncapacidad">Número de licencia</label>
-                                                <input type="text" name="numeroLicencia" className="form-control" value={this.state.id + "-" + this.state.prorrogaId} readOnly />
+                                                <input type="text" name="numeroLicencia" className="form-control texto" value={this.state.id + "-" + this.state.prorrogaId} readOnly />
                                             </div>
                                         </div>
                                     </div>
@@ -930,7 +1119,7 @@ class LicenciaFront extends Component {
                                         <div className="col-sm-4">
                                             <div className="form-group">
                                                 <label htmlFor="fechaAtencion">Fecha de atención</label>
-                                                <input type="date" name="fechaAtencion" className="form-control" defaultValue={this.state.fechaAtencion} onChange={this.handleChange} />
+                                                <input type="date" name="fechaAtencion" className="form-control texto" defaultValue={this.state.fechaAtencion} onChange={this.handleChange} />
                                                 <div className={this.state.errors['fechaAtencion']}>
                                                     <div className={"invalid-feedback  " + (this.state.errors['fechaAtencion'] || "")}>{this.state.errorMensajes['fechaAtencion']}</div>
                                                 </div>
@@ -939,7 +1128,7 @@ class LicenciaFront extends Component {
                                         <div className="col-sm-4">
                                             <div className="form-group">
                                                 <label htmlFor="fechaInicioLicencia">Fecha inicio licencia</label>
-                                                <input type="date" name="fechaInicioLicencia" className="form-control" value={this.state.fechaInicioLicencia} onChange={this.handleFechaInicioLicencia} />
+                                                <input type="date" name="fechaInicioLicencia" className="form-control texto" value={this.state.fechaInicioLicencia} onChange={this.handleFechaInicioLicencia} />
                                                 <div className={this.state.errors['fechaInicioLicencia']}>
                                                     <div className={"invalid-feedback  " + (this.state.errors['fechaInicioLicencia'] || "")}>{this.state.errorMensajes['fechaInicioLicencia']}</div>
                                                 </div>
@@ -953,7 +1142,7 @@ class LicenciaFront extends Component {
                                         <div className="col-sm-3">
                                             <div className="form-group">
                                                 <label htmlFor="tipoAtencion">Tipo atención</label>
-                                                <select name="tipoAtencion" className="form-control" onChange={this.handleChange} value={this.state.tipoAtencion}>
+                                                <select name="tipoAtencion" className="form-control texto" onChange={this.handleChange} value={this.state.tipoAtencion}>
                                                     <option value=""></option>
                                                     <option value="1">Vaginal/Cesárea</option>
                                                     <option value="2">Aborto</option>
@@ -967,20 +1156,20 @@ class LicenciaFront extends Component {
                                         <div className="col-sm-3">
                                             <div className="form-group">
                                                 <label htmlFor="edadGestacional">Edad gestacional al parto</label>
-                                                Semanas<input type="number" class="form-control" name="semanasGestacion" value={ this.state.semanasGestacion} onChange={this.handleChange} onKeyUp={this.diasGestacionC}/>
+                                                Semanas<input type="number" className="form-control texto" name="semanasGestacion" value={ this.state.semanasGestacion} onChange={this.handleChange} onKeyUp={this.diasGestacionC}/>
                                                 <div className={this.state.errors['semanasGestacion']}>
                                                     <div className={"invalid-feedback  " + (this.state.errors['semanasGestacion'] || "")}>{this.state.errorMensajes['contingencia']}</div>
                                                 </div>
-                                                Días<input type="number" class="form-control" name="diasGestacion" value={ this.state.diasGestacion} onChange={this.handleChange} onKeyUp={this.diasGestacionC}/>
+                                                Días<input type="number" className="form-control texto" name="diasGestacion" value={ this.state.diasGestacion} onChange={this.handleChange} onKeyUp={this.diasGestacionC}/>
                                             </div>
                                         </div>
                                         <div className="col-sm-3">
                                             <label htmlFor="edadGestacional">Días de gestación</label>
-                                            <input type="number" className="form-control" name="diasGestacionC" value={ this.state.diasGestacionC} readOnly />
+                                            <input type="number" className="form-control texto" name="diasGestacionC" value={ this.state.diasGestacionC} readOnly />
                                         </div>
                                         <div className="col-sm-3">
                                             <label htmlFor="nacidoViable">Recién nacido viable</label>
-                                            <input type="number" className="form-control" min="0" max="9" name="nacidoViable" value={ this.state.nacidoViable} onChange={this.handleChange} disabled={this.state.nacidoViableState} onKeyUp={this.partoMultiple} onClick={this.partoMultiple}/>
+                                            <input type="number" className="form-control texto" min="0" max="9" name="nacidoViable" value={ this.state.nacidoViable} onChange={this.handleChange} disabled={this.state.nacidoViableState} onKeyUp={this.partoMultiple} onClick={this.partoMultiple}/>
 
                                             <label>
                                                 Parto múltiple&nbsp;
@@ -995,7 +1184,7 @@ class LicenciaFront extends Component {
                                     <div className="row">
                                         <div className="col-sm-6">
                                             <label htmlFor="tipoLicencia">Tipo licencia</label>
-                                            <select name="tipoLicencia" className="form-control" onChange={this.handleChange} value={this.state.tipoLicencia}>
+                                            <select name="tipoLicencia" className="form-control texto" onChange={this.handleChange} value={this.state.tipoLicencia}>
                                                 <option value=""></option>
                                                 <option value="1">Maternidad Normal</option>
                                                 <option value="2">Parto no viable</option> 	
@@ -1020,7 +1209,7 @@ class LicenciaFront extends Component {
                                                     
                                                         <div className="form-group">
                                                             <label htmlFor="fechaProbable">Fecha probable de parto</label>
-                                                            <input type="date" id="fechaProbable" className="form-control" defaultValue={this.state.fechaProbable} onChange={this.handlefechaProbable}  />
+                                                            <input type="date" id="fechaProbable" className="form-control texto" defaultValue={this.state.fechaProbable} onChange={this.handlefechaProbable}  />
                                                             <div className={this.state.errors['fechaProbable']}>
                                                                 <div className={"invalid-feedback  " + (this.state.errors['fechaProbable'] || "")}>{this.state.errorMensajes['fechaProbable']}</div>
                                                             </div>
@@ -1028,7 +1217,7 @@ class LicenciaFront extends Component {
                                                   
                                                    
                                                         <label htmlFor="tipoLicencia">Soporte definición fecha probable parto</label>
-                                                        <select id="soporte" className="form-control" onChange={this.handleChange} value={this.state.soporte}>
+                                                        <select id="soporte" className="form-control texto" onChange={this.handleChange} value={this.state.soporte}>
                                                             <option value=""></option>
                                                             <option value="1">Fecha última regla confiable</option>
                                                             <option value="2">Ecografía primer trimestre</option>
@@ -1043,9 +1232,10 @@ class LicenciaFront extends Component {
                                     </div>
                                     <div className="row">
                                         <div className="col-sm-12">
-                                            <AutocompleteDescripcionL title="Diagnostico principal" handleDiagnostico={this.handleDiagnostico} handleCodigoDiagnostico={this.handleCodigoDiagnostico} handleCapituloDiagnostico={this.handleCapituloDiagnostico} handleMaximosCie10={this.handleMaximosCie10} error={this.state.errors['diagnostico']} mensaje={this.state.errorMensajes['diagnostico']} />
+                                            <AutocompleteDescripcionL licencia={this.state.tipoLicencia} title="Diagnostico principal" handleDiagnostico={this.handleDiagnostico} handleCodigoDiagnostico={this.handleCodigoDiagnostico} handleCapituloDiagnostico={this.handleCapituloDiagnostico} handleMaximosCie10={this.handleMaximosCie10} error={this.state.errors['diagnostico']} mensaje={this.state.errorMensajes['diagnostico']} />
                                         </div>
                                     </div>
+                                    {/*
                                     <div className="row">
                                         <div className="col-sm-12">
                                             <AutocompleteDescripcion title="Diagnóstico relacionado 1" handleDiagnostico={this.handleDiagnostico1} handleCodigoDiagnostico={this.handleCodigoDiagnostico1} />
@@ -1061,11 +1251,12 @@ class LicenciaFront extends Component {
                                             <AutocompleteDescripcion title="Diagnóstico relacionado 3" handleDiagnostico={this.handleDiagnostico3} handleCodigoDiagnostico={this.handleCodigoDiagnostico3} />
                                         </div>
                                     </div>
+                                    */}
                                     <div className="row">
                                         <div className="col-sm-4">
                                             <div className="form-group">
                                                 <label htmlFor="diasSolicitados">Dias solicitados</label>
-                                                <input type="number" name="diasSolicitados" className="form-control" onChange={this.handleChange} value={this.state.diasSolicitados} />
+                                                <input type="number" name="diasSolicitados" className="form-control texto" onChange={this.handleChange} value={this.state.diasSolicitados} />
                                                 <div className={this.state.errors['diasSolicitados']}>
                                                     <div className={"invalid-feedback  " + (this.state.errors['diasSolicitados'] || "")}>{this.state.errorMensajes['diasSolicitados']}</div>
                                                 </div>
@@ -1074,15 +1265,15 @@ class LicenciaFront extends Component {
                                         <div className="col-sm-4">
                                             <div className="form-group">
                                                 <label htmlFor="fechaFinLicencia">Fecha fin licencia</label>
-                                                <input type="date" id="fechaFinLicencia" className="form-control" value={this.state.fechaFinLicencia} onSelect={this.handleFechaFin} readOnly />
+                                                <input type="date" id="fechaFinLicencia" className="form-control texto" value={this.state.fechaFinLicencia} onSelect={this.handleFechaFin} readOnly />
                                             </div>
                                         </div>  
                                     </div>
                                     <div className="row">
                                         <div className="col-sm-12">
                                             <div className="form-group">
-                                                <label htmlFor="observacionMedica">Resumen observacion médico</label>
-                                                <textarea rows="10" className="form-control" name="observacion" onChange={this.handleObservacion}>
+                                                <label htmlFor="observacionMedica">Resumen observación médico</label>
+                                                <textarea rows="10" className="form-control texto" name="observacion" onChange={this.handleChange}>
 
                                                 </textarea>
                                             </div>
@@ -1104,37 +1295,39 @@ class LicenciaFront extends Component {
                                 <div className="card-header bg2 titulo">Datos del aportante</div>
 
                                 <div className="card-body texto">
+                                    { this.renderAportantes()}
+                                    {/*
                                     <div className="row">
 
                                         <div className="col-sm-3">
                                             <div className="form-group">
                                                 <label htmlFor="tipoIdentificacionAportante">Tipo identificación</label>
-                                                <input type="text" id="tipoDocAportante" className="form-control" value={this.state.tipoDocAportante} readOnly />
+                                                <input type="text" id="tipoDocAportante" className="form-control texto" value={this.state.tipoDocAportante} readOnly />
                                             </div>
                                         </div>
 
                                         <div className="col-sm-3">
                                             <div className="form-group">
                                                 <label htmlFor="numeroIdentificacionAportante">Número de identificacion</label>
-                                                <input type="text" id="numDocAportante" className="form-control" value={this.state.numDocAportante} readOnly />
+                                                <input type="text" id="numDocAportante" className="form-control texto" value={this.state.numDocAportante} readOnly />
                                             </div>
                                         </div>
                                         {/* Comment goes here 
                                     <div className="col-sm-3">
                                         <div className="form-group">
                                             <label htmlFor="tipoAportante">Tipo aportante</label>
-                                            <input type="text" id="tipoAportante" className="form-control"   readOnly  />
+                                            <input type="text" id="tipoAportante" className="form-control texto"   readOnly  />
                                         </div>
                                     </div>
-                                        */}
+                                        
                                         <div className="col-sm-6">
                                             <div className="form-group">
                                                 <label htmlFor="nombreAportante">Nombre aportante</label>
-                                                <input type="text" id="nombreAportante" className="form-control" value={this.state.nombreAportante} readOnly />
+                                                <input type="text" id="nombreAportante" className="form-control texto" value={this.state.nombreAportante} readOnly />
                                             </div>
                                         </div>
                                     </div>
-
+                                     */} 
                                 </div>
                             </div>
                         </div>
@@ -1146,7 +1339,7 @@ class LicenciaFront extends Component {
                 <div className={this.state.visible}>
                     <div className="row justify-content-center">
                         <div className="col-md-10">
-                            <button className="btn btn-block btn-success" onClick={this.guardarIncapacidad}>GUARDAR LICENCIA</button>
+                            <button className="btn btn-block btn-success" onClick={this.guardarLicencia}>GUARDAR LICENCIA</button>
                         </div>
                     </div>
                 </div>

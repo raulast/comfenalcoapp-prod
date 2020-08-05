@@ -38,7 +38,7 @@ tr td{
     <div class="col-sm-12  mx-auto">
         <table class="table table-bordered">
             <tr>
-            <td ><img  src="img/comfenalcovalle.png" width="100" height="35"></td>
+            <td ><img  src="img/comfenalcovalle.png" width="50" height="17"></td>
             <td class="font-weight-bold">{{ $i["titulo"] }}</td>
             <td class="font-weight-bold">Incapacidad No.</td><td>{{ $i["No"] }}</td>
             <td class="font-weight-bold">Fecha consulta</td><td>{{ $i["Fecha de consulta médica"] }}</td>
@@ -48,7 +48,7 @@ tr td{
     </div>
 
 </div>
-<br><br><br>
+<br><br>
 <div class="row">
     <div class="col-sm-12  mx-auto">
     <table class="table table-bordered table-sm">
@@ -127,12 +127,12 @@ tr td{
 
 
 <!--COPIA-->
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 <div class="row">
     <div class="col-sm-12  mx-auto">
         <table class="table table-bordered">
             <tr>
-            <td ><img  src="img/comfenalcovalle.png" width="100" height="35"></td>
+            <td ><img  src="img/comfenalcovalle.png" width="50" height="17"></td>
             <td class="font-weight-bold">{{ $i["titulo"] }}</td>
             <td class="font-weight-bold">Incapacidad No.</td><td>{{ $i["No"] }}</td>
             <td class="font-weight-bold">Fecha consulta</td><td>{{ $i["Fecha de consulta médica"] }}</td>
@@ -142,7 +142,7 @@ tr td{
     </div>
 
 </div>
-<br><br><br>
+<br><br>
 <div class="row">
     <div class="col-sm-12  mx-auto">
     <table class="table table-bordered table-sm">
@@ -171,6 +171,7 @@ tr td{
     </table>
     <table class="table table-bordered table-sm">
             <tr><td class="font-weight-bold">Incapacidad</td>
+            
                 <td class="font-weight-bold">Fecha Inicio</td><td>{{ $i["Fecha de inicio de la incapacidad"] }}</td>
                 <td class="font-weight-bold">Fecha Fin</td><td>{{ $i["Fecha fin de la incapacidad"] }}</td>
                 <td class="font-weight-bold">Prorroga</td><td>{{ $i["Prorroga"] }}</td>

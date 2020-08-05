@@ -13,6 +13,7 @@ class EstadosAdmin extends Component {
         this.state = {
             estados: '',
             nombre: '',
+            nuevo: 'oculto',
             errors : {
                 nombre : 'oculto',      
             },
@@ -29,9 +30,15 @@ class EstadosAdmin extends Component {
         this.handleChange=this.handleChange.bind(this);
         this.handleEdition = this.handleEdition.bind(this);
         this.handleEliminar = this.handleEliminar.bind(this);
+        this.handleCrear = this.handleCrear.bind(this);
+        //this.handleCerrarModal = this.handleCerrarModal.bind(this);
         this.getSystemEstados();
     }
-    
+    handleCrear(){
+        this.setState({
+            nuevo:'visible'
+          });
+    }
     handleChange({ target }) {
         this.setState({
           [target.name]: target.value
@@ -72,36 +79,34 @@ class EstadosAdmin extends Component {
         const { estados } = this.state;
         return (
             <div>
-                <div className="row mt-5">
+                <br/><br/>
+                <button className="btn btn-success btn-sm" onClick={this.handleCrear}>+ Crear</button>
+                <div className="row mt-2">
+                    <div className={this.state.nuevo}>          
                     <div className="col-md-12">
-                        <div className="card">
-                            <div className="card-header bg2 titulo">Estados</div>
+                        <div className="card">     
                             <div className="card-body texto">
-                                <form onSubmit={this.handleSubmit}>
-                                    <div className="form-group">
-                                        <div className="row">
-                                            <div className="col-md-4">
-                                                <label htmlFor="nombre">Nombre</label>
-                                                <input type="text" className="form-control" id="nombre" name="nombre" onChange={this.handleChange} value={this.state.nombre}></input>
-                                                <div className={this.state.errors['nombre']}>
-                                                    <div className={ "invalid-feedback  " + ( this.state.errors['nombre'] || "") }>{this.state.errorMensajes['nombre']}</div>
-                                                </div>
-                                                <div className="col-md-2">
-                                                   <br/>
-                                                    <button type="submit" className="btn btn-success btn-sm">Guardar</button>
-                                                </div>
-                                            </div>
-                                            
-                                            
+                                <div className="row">
+                                    <div className="col-sm-12">
+                                        <table>
+                                            <tr>
+                                                <td>Nombre</td>
+                                                <td><input type="text" className="form-control" id="nombre" name="nombre" onChange={this.handleChange} value={this.state.nombre}></input></td>
+                                                <td><button type="submit" className="btn btn-success btn-sm">Guardar</button></td>
+                                            </tr>
+                                        </table>
+                                  
+                                        <div className={this.state.errors['nombre']}>
+                                            <div className={"invalid-feedback  " + (this.state.errors['nombre'] || "")}>{this.state.errorMensajes['nombre']}</div>
                                         </div>
-                                       
                                     </div>
-                                </form>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    </div>
                 </div>
-                <div className="row mt-5">
+                <div className="row mt-2">
                     <div className="col-md-12">
                         <div className="card">
                             <div className="card-header bg2 titulo">Estados en la generación</div>

@@ -8,11 +8,13 @@ use App\Cie10;
 use App\Medico;
 use App\Causae;
 use App\Incapacidad;
+use App\Licencia;
 use App\User;
 use App\Clasesa;
 use App\Descripcionesp;
 use App\Estadosi;
 use App\Estadosa;
+use App\Diasmax;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 use App\Http\Controllers\IncapacidadController;
@@ -50,7 +52,9 @@ class ApiController extends Controller
     public function search($tipo,$value){
         if ($tipo="diagnostico"){
             $data=Cie10::where('descripcion_diagnostico','like','%'.$value.'%')->where('num_dias_maximo_solicitud','>',0)->get();
-
+        }
+        if ($tipo="diagnosticoLicencia"){
+            $data=Cie10::where('tipo_licencia',$value)->get();
         }
         return response()->json([
             'data' => $data
@@ -119,6 +123,15 @@ class ApiController extends Controller
         ]);
     }
 
+    public function updateCie10(Request $request){
+        $datos = $request->datos;
+        $id = $datos['id'];
+        $update = Cie10::find($id)->update($datos);
+
+        return  "Código actualizado";
+        
+    }
+
     //saves
 
     public function saveIncapacidad(Request $request){
@@ -169,6 +182,52 @@ class ApiController extends Controller
             return  "Incapacidad almacenada";
         
     }
+    public function saveLicencia(Request $request){
+        $datos = $request->datos;
+        //return $datos;
+        
+        $i = Licencia::create([
+
+            'id' => $datos['id'],
+            
+            'tipo_prestador' => $datos['tipoPrestador'],
+            'tipo_documento_afiliado' =>$datos['tipoDocAfiliado'],
+            'num_documento_afiliado' => $datos['IDTrabajador'],
+            'nombre_afiliado' =>$datos['nombreCompleto'],
+            'estado_afiliado' =>$datos['estado'],
+            'tipo_cotizante' =>$datos['tipoCotizante'],
+            'programa_afiliado'  =>$datos['descripcionPrograma'],
+
+            'fecha_atencion' => $datos['fechaAtencion'],
+            'fecha_inicio_licencia' => $datos['fechaInicioLicencia'],
+            'dias_solicitados' => $datos['diasSolicitados'],
+            'fecha_fin_licencia' => $datos['fechaFinLicencia'],
+
+            'tipo_atencion' => $datos['tipoAtencion'],
+            'edad_gestacional_semanas'=> $datos['semanasGestacion'],
+            'edad_gestacional_dias'=> $datos['diasGestacion'],
+            'dias_gestacion'=> $datos['diasGestacionC'],
+            'recien_nacido_viable'=> $datos['nacidoViable'],
+            'tipo_licencia'=> $datos['tipoLicencia'],
+            
+            'causa_externa' => $datos['causae'],
+            'contingencia_origen' =>$datos['contingencia'], 
+            'observacion' => $datos['observacion'],
+            
+            'codigo_diagnostico' => $datos['codigoDiagnostico'],
+            'codigo_diagnostico1' => $datos['codigoDiagnostico1'],
+            'codigo_diagnostico2' =>$datos['codigoDiagnostico2'],
+            'codigo_diagnostico3' => $datos['codigoDiagnostico3'],
+            'ips' => $datos['ips_id'],
+            'medico_id' => $datos['medico_id'],
+            
+            'estado_id' => $datos['estado_id'],
+            'observacion_estado' => $datos['observacion_estado'],
+        ]);
+            
+        return  "Licencia almacenada";
+    
+}
     public function saveUser(Request $request){
         $data = $request->datos;
         //return $data;
@@ -267,12 +326,29 @@ class ApiController extends Controller
     }
     public function getSystemCie10(Request $request){
         
-        $data=Cie10::where('id','<',50)->orderBy('id','asc')->get();
+        $data=Cie10::where('id','<',10)->orderBy('id','asc')->get();
 
         return response()->json([
             'data' => $data
         ]);
     }
+    public function getCie10($id){
+        
+        $data=Cie10::where('id',$id)->orderBy('id','asc')->first();
+
+        return response()->json([
+            'data' => $data
+        ]);
+    }
+    public function buscarCie10($campo,$texto){
+        $data=Cie10::where($campo,'like','%'.$texto.'%')->get();
+
+        return response()->json([
+            'data' => $data
+        ]);
+    }
+    
+
     public function getSystemEstados(Request $request){
         
         $data=Estadosi::orderBy('id','asc')->get();
@@ -307,6 +383,12 @@ class ApiController extends Controller
     }
     public function getSystemEstadosa(Request $request){
         $data=Estadosa::orderBy('id','asc')->get();
+        return response()->json([
+            'data' => $data
+        ]);
+    }
+    public function getSystemDiasmax(Request $request){
+        $data=Diasmax::orderBy('id','asc')->get();
         return response()->json([
             'data' => $data
         ]);
@@ -389,10 +471,10 @@ class ApiController extends Controller
         $i->put('Tipo de cotizante',$tipoCotizante);
         $i->put('Tipo de aportante',$tipoAportante);
         $i->put('Nombre aportante',$afiliado[0]->NombreEmpresa);
-        $i->put('Numero historia clinica',$afiliado[0]->IdHistoria12);
+        $i->put('Numero historia clinica',$numDoc);
 
         $i->put('Tipo de certificado','Incapacidad temporal');
-        $i->put('Fecha de inicio de la incapacidad',$d->fecha_atencion);
+        $i->put('Fecha de inicio de la incapacidad',$d->fecha_inicio_incapacidad);
         $i->put('Fecha fin de la incapacidad',$d->fecha_fin_incapacidad);
 
         $i->put('Días solicitados en letra','');
@@ -424,6 +506,109 @@ class ApiController extends Controller
         return $pdf->stream('certificado.pdf');
 
         return view('incapacidades.certificado',[
+            'i' => $i
+        ]);
+    }
+    public function certificadoLicencia($id){
+        $fechahora= Carbon::now();
+        
+        $d =Licencia::where('id',$id)->first();
+        
+        $tipoDoc = $d->tipo_documento_afiliado;
+        $numDoc = $d->num_documento_afiliado;
+        $response = json_decode($this->IncapacidadController->validacion($tipoDoc,$numDoc));
+        //dd($response);
+        $afiliado = $response->responseMessageOut->body->response->validadorResponse->DsAfiliado->Afiliado;
+        if (is_array($afiliado) == false) {
+            $afiliado = array($afiliado);
+        }
+        $nombre = $afiliado[0]->Nombre;
+        $primerApellido = $afiliado[0]->PrimerApellido; 
+        $segundoApellido = $afiliado[0]->SegundoApellido;
+        $nombreCompleto = $nombre." ".$primerApellido." ".$segundoApellido;
+        $numDoc = $afiliado[0]->IDTrabajador;
+        $tipoAfiliado = $afiliado[0]->ClaseAfiliacion;
+        $tipoCotizante = $afiliado[0]->DescripcionPrograma;
+        $tipoAportante="";
+
+        //dd($validacion);
+
+        $i = collect([]);
+        $i->put('titulo','CERTIFICADO MÉDICO LICENCIA DE MATERNIDAD');
+        $i->put('No',$d->id);
+
+       
+
+        if ($d->tipo_prestador== 1){
+            $ips=Ips::where('id',$d->ips)->first();
+            $prestador = $ips->nombre_sede;
+            $nitprestador = $ips->nit;
+            $direccionprestador = $ips->direccion;
+        }
+        if ($d->tipo_prestador== 2){
+           $prestador="Consultorio";
+           $nitprestador = Medico::where('id',$d->medico_id)->first()->num_documento;
+           $direccionprestador ="";
+        }
+
+       
+
+        $nombrePrestador=Medico::where('id',$d->medico_id)->first()->nombre;
+        $especialidad=Medico::where('id',$d->medico_id)->first()->especialidad;
+        $tipoDocProf=Medico::where('id',$d->medico_id)->first()->tipo_documento;
+        $numDocProf=Medico::where('id',$d->medico_id)->first()->num_documento;
+        $registroMedico=Medico::where('id',$d->medico_id)->first()->reg_medico;
+
+        $i->put('Nombre del prestador',$prestador);
+        $i->put('Nit del prestador',$nitprestador);
+        $i->put('Dirección del prestador',$direccionprestador);
+        $i->put('Ciudad',"");
+        $i->put('NombreEPS',"Comfenalco Valle de la gente EPS");
+        $i->put('Fecha de impresion', $fechahora ->toDateTimeString());
+        $i->put('Fecha de consulta médica',$d->fecha_atencion);
+        $i->put('Fecha y hora de generacion',$d->created_at);
+        $i->put('Nombre del paciente',$nombreCompleto);
+        $i->put('Tipo de identificacion del paciente',$tipoDoc);
+        $i->put('Numero de documento del paciente',$numDoc);
+        $i->put('Tipo afiliado',$tipoAfiliado);
+
+        $i->put('Tipo de cotizante',$tipoCotizante);
+        $i->put('Tipo de aportante',$tipoAportante);
+        $i->put('Nombre aportante',$afiliado[0]->NombreEmpresa);
+        $i->put('Numero historia clinica',$numDoc);
+
+        $i->put('Tipo de certificado','Licencia de maternidad');
+        $i->put('Tipo de licencia',$d->tipo_licencia);
+        $i->put('Fecha de inicio de la licencia',$d->fecha_inicio_licencia);
+        $i->put('Fecha fin de la licencia',$d->fecha_fin_licencia);
+
+        $i->put('Días solicitados en letra','');
+        $i->put('Días solicitados',$d->dias_solicitados);
+
+
+        $i->put('Diagnostico principal',$d->codigo_diagnostico);
+           
+        $i->put('Contingencia origen',$d->contingencia_origen);
+
+        
+       
+        $i->put('Nombre del profesional que genera',$nombrePrestador);      
+        $i->put('Profesión profesional que genera',$especialidad);          
+        $i->put('Firma profesional que genera',''); 
+        $i->put('Tipo doc profesional que genera',$tipoDocProf); 
+        $i->put('Numero doc profesional que genera',$numDocProf); 
+        $i->put('Especialidad',$especialidad); 
+        $i->put('Registro Médico',$registroMedico); 
+        $i->put('Observacion EPS',''); 
+
+        $pdf = PDF::loadView('incapacidades.certificadoLicencia',[
+            'i' => $i
+
+        ])->setPaper('US Legal', 'landscape');
+        
+        return $pdf->stream('certificado.pdf');
+
+        return view('incapacidades.certificadoLicencia',[
             'i' => $i
         ]);
     }
