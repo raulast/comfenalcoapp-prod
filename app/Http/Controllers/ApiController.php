@@ -402,7 +402,7 @@ class ApiController extends Controller
         
         $tipoDoc = $d->tipo_documento_afiliado;
         $numDoc = $d->num_documento_afiliado;
-        $response = $this->validacion($tipoDoc,$numDoc);
+        $response = json_decode($this->validacion($tipoDoc,$numDoc));
         //dd($response);
         $afiliado = $response->responseMessageOut->body->response->validadorResponse->DsAfiliado->Afiliado;
         if (is_array($afiliado) == false) {
