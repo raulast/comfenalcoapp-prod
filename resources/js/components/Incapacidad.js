@@ -500,7 +500,7 @@ class IncapacidadFront extends Component {
                 observacion_estado: `${observacion_estado} ${observacion}`,
             })
         }
-       
+        
     }
     handleFechaFin(e){
         let l1 = new Date(this.state.fechaInicioIncapacidad);
@@ -1033,7 +1033,7 @@ class IncapacidadFront extends Component {
                                     <div className="col-sm-2">
                                         <div className="form-group">
                                             <label htmlFor="diasSolicitados">Dias solicitados</label>
-                                            <input type="number" id="diasSolicitados" className="form-control" onChange={this.handleDiasSolicitados} value={this.state.diasSolicitados}/>
+                                            <input type="number" id="diasSolicitados" className="form-control" onChange={this.handleDiasSolicitados} value={this.state.diasSolicitados} onKeyUp={this.handleFechaFin}/>
                                             <div className={this.state.errors['diasSolicitados']}>
                                                 <div className={ "invalid-feedback  " + ( this.state.errors['diasSolicitados'] || "") }>{this.state.errorMensajes['diasSolicitados']}</div>
                                             </div>
@@ -1108,6 +1108,13 @@ class IncapacidadFront extends Component {
             </div>
             </div>
             <br/>
+            <div className={this.state.visible}>
+                <div className="row justify-content-center">
+                    <div className="col-md-10">
+                        <button className="btn btn-block btn-success" onClick={this.guardarIncapacidad}>GUARDAR INCAPACIDAD</button>
+                    </div>
+                </div>
+            </div>
 
             <div className={this.state.visible}>
             <div className="row justify-content-center">
@@ -1158,13 +1165,7 @@ class IncapacidadFront extends Component {
             </div>
             <br />
             
-            <div className={this.state.visible}>
-            <div className="row justify-content-center">
-                <div className="col-md-10">
-                    <button className="btn btn-block btn-success" onClick={this.guardarIncapacidad}>GUARDAR INCAPACIDAD</button>
-                </div>
-            </div>
-            </div>
+           
         
         </div>
        
