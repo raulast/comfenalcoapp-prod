@@ -20,3 +20,5 @@ require('./components/AdminNav');
 require('./components/MenuUsuarios');
 require('./components/UsuariosSistema');
 require('./components/MedicosSistema');
+require('./components/CronicosPanel');
+require('./components/Cronico');

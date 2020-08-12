@@ -71439,6 +71439,10 @@ __webpack_require__(/*! ./components/UsuariosSistema */ "./resources/js/componen
 
 __webpack_require__(/*! ./components/MedicosSistema */ "./resources/js/components/MedicosSistema.js");
 
+__webpack_require__(/*! ./components/CronicosPanel */ "./resources/js/components/CronicosPanel.js");
+
+__webpack_require__(/*! ./components/Cronico */ "./resources/js/components/Cronico.js");
+
 /***/ }),
 
 /***/ "./resources/js/bootstrap.js":
@@ -73460,6 +73464,627 @@ function Comboips(props) {
 
 /***/ }),
 
+/***/ "./resources/js/components/Cronico.js":
+/*!********************************************!*\
+  !*** ./resources/js/components/Cronico.js ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _TableCronicos_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TableCronicos.js */ "./resources/js/components/TableCronicos.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+
+
+
+
+var Cronico = /*#__PURE__*/function (_Component) {
+  _inherits(Cronico, _Component);
+
+  var _super = _createSuper(Cronico);
+
+  function Cronico(props) {
+    var _this;
+
+    _classCallCheck(this, Cronico);
+
+    _this = _super.call(this, props); // console.log(props)
+
+    _this.state = {
+      id: props.id,
+      cronico: '',
+      fp: []
+    }; // bind
+
+    _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
+    _this.getCronico = _this.getCronico.bind(_assertThisInitialized(_this));
+    _this.calcularfp = _this.calcularfp.bind(_assertThisInitialized(_this));
+
+    _this.getCronico();
+
+    return _this;
+  }
+
+  _createClass(Cronico, [{
+    key: "getCronico",
+    value: function getCronico() {
+      var _this2 = this;
+
+      var url = '/getCronico/' + this.state.id;
+      axios__WEBPACK_IMPORTED_MODULE_4___default.a.get(url).then(function (resp) {
+        console.log(resp.data.data);
+
+        _this2.setState({
+          cronico: resp.data.data
+        });
+
+        _this2.calcularfp();
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    }
+  }, {
+    key: "handleChange",
+    value: function handleChange(_ref) {
+      var target = _ref.target;
+      this.setState(_defineProperty({}, target.name, target.value));
+    }
+  }, {
+    key: "calcularfp",
+    value: function calcularfp() {
+      var f120 = new Date(this.state.cronico["fecha_it_inicio_ciclo"]);
+      f120 = new Date(f120.setTime(f120.getTime() + 119 * 86400000)).getTime();
+      f120 = new Date(f120).toISOString().slice(0, 10);
+      console.log(f120);
+      var f150 = new Date(this.state.cronico["fecha_it_inicio_ciclo"]);
+      f150 = new Date(f150.setTime(f150.getTime() + 149 * 86400000)).getTime();
+      f150 = new Date(f150).toISOString().slice(0, 10);
+      console.log(f150);
+      var f180 = new Date(this.state.cronico["fecha_it_inicio_ciclo"]);
+      f180 = new Date(f180.setTime(f180.getTime() + 179 * 86400000)).getTime();
+      f180 = new Date(f180).toISOString().slice(0, 10);
+      console.log(f180);
+      var f540 = new Date(this.state.cronico["fecha_it_inicio_ciclo"]);
+      f540 = new Date(f540.setTime(f540.getTime() + 539 * 86400000)).getTime();
+      f540 = new Date(f540).toISOString().slice(0, 10);
+      console.log(f540);
+      var fp = [f120, f150, f180, f540];
+      this.setState({
+        fp: fp
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var cronico = this.state.cronico;
+      console.log(cronico);
+
+      if (_typeof(this.state.cronico) === 'object') {
+        var cols = Object.keys(this.state.cronico); //console.log(cols);
+      }
+
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row mt-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-12 texto"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+        className: "nav nav-tabs"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        className: "nav-item"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "nav-link active",
+        "data-toggle": "tab",
+        href: "#ns"
+      }, "Notificaci\xF3n SIR")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        className: "nav-item"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "nav-link",
+        "data-toggle": "tab",
+        href: "#esu"
+      }, "Empresa sede usuario")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        className: "nav-item"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "nav-link",
+        "data-toggle": "tab",
+        href: "#ic"
+      }, "Informaci\xF3n caso")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        className: "nav-item"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "nav-link ",
+        "data-toggle": "tab",
+        href: "#ii"
+      }, "Informaci\xF3n incapacidad")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        className: "nav-item"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "nav-link",
+        "data-toggle": "tab",
+        href: "#fp"
+      }, "Fechas proyectadas")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        className: "nav-item"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "nav-link",
+        "data-toggle": "tab",
+        href: "#scrh"
+      }, "Seguimiento CRH")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        className: "nav-item"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "nav-link ",
+        "data-toggle": "tab",
+        href: "#scplo"
+      }, "Seguimiento CPLO")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        className: "nav-item"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "nav-link",
+        "data-toggle": "tab",
+        href: "#idd"
+      }, "Informaci\xF3n demanda dict\xE1men")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        className: "nav-item"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "nav-link",
+        "data-toggle": "tab",
+        href: "#cplocierre"
+      }, "CPLO al cierre")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        className: "nav-item"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "nav-link ",
+        "data-toggle": "tab",
+        href: "#abuso"
+      }, "Abuso del derecho")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        className: "nav-item"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "nav-link",
+        "data-toggle": "tab",
+        href: "#cr"
+      }, "Cierre reintegro")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        className: "nav-item"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "nav-link",
+        "data-toggle": "tab",
+        href: "#observ"
+      }, "Observaciones"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "tab-content"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "tab-pane container active",
+        id: "ns"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row mt-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-6 texto"
+      }, Object(lodash__WEBPACK_IMPORTED_MODULE_3__["size"])(cols) > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+        className: "table table-sm table-striped table-bordered texto mt-5"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[2]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        id: cols[2],
+        value: cronico[cols[2]]
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[3]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        id: cols[3],
+        value: cronico[cols[3]]
+      }))))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "tab-pane container fade",
+        id: "esu"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row mt-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-8 texto"
+      }, Object(lodash__WEBPACK_IMPORTED_MODULE_3__["size"])(cols) > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+        className: "table table-sm table-striped table-bordered texto mt-5"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, cols.map(function (col, index) {
+        return index > 3 && index < 29 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          type: "text",
+          id: cols[index],
+          value: cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : '',
+          size: "50"
+        }))) : '';
+      }))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "tab-pane container fade",
+        id: "ic"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row mt-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-8 texto"
+      }, Object(lodash__WEBPACK_IMPORTED_MODULE_3__["size"])(cols) > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+        className: "table table-sm table-striped table-bordered texto mt-5"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, cols.map(function (col, index) {
+        return index > 28 && index < 36 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          type: "text",
+          id: cols[index],
+          value: cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : '',
+          size: "50"
+        }))) : '';
+      }))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "tab-pane container fade",
+        id: "ii"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-8 texto"
+      }, Object(lodash__WEBPACK_IMPORTED_MODULE_3__["size"])(cols) > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+        className: "table table-sm table-striped table-bordered texto mt-5"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, cols.map(function (col, index) {
+        return index > 35 && index < 40 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          type: "text",
+          id: cols[index],
+          value: cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : '',
+          size: "50"
+        }))) : '';
+      }))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "tab-pane container fade",
+        id: "fp"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row mt-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-6 texto"
+      }, Object(lodash__WEBPACK_IMPORTED_MODULE_3__["size"])(cols) > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+        className: "table table-sm table-striped table-bordered texto mt-5"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, "Fecha d\xEDa 120"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, this.state.fp[0])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, "Fecha d\xEDa 150"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, this.state.fp[1])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, "Fecha d\xEDa 180"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, this.state.fp[2])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, "Fecha d\xEDa 540"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, this.state.fp[3])))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "tab-pane container fade",
+        id: "scrh"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-8 texto"
+      }, Object(lodash__WEBPACK_IMPORTED_MODULE_3__["size"])(cols) > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+        className: "table table-sm table-striped table-bordered texto mt-5"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, cols.map(function (col, index) {
+        return index > 39 && index < 56 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          type: "text",
+          id: cols[index],
+          value: cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : '',
+          size: "50"
+        }))) : '';
+      }))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "tab-pane container fade",
+        id: "scplo"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-8 texto"
+      }, Object(lodash__WEBPACK_IMPORTED_MODULE_3__["size"])(cols) > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+        className: "table table-sm table-striped table-bordered texto mt-5"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, cols.map(function (col, index) {
+        return index > 55 && index < 75 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          type: "text",
+          id: cols[index],
+          value: cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : '',
+          size: "50"
+        }))) : '';
+      }))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "tab-pane container fade",
+        id: "idd"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-8 texto"
+      }, Object(lodash__WEBPACK_IMPORTED_MODULE_3__["size"])(cols) > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+        className: "table table-sm table-striped table-bordered texto mt-5"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, cols.map(function (col, index) {
+        return index >= 75 && index <= 78 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          type: "text",
+          id: cols[index],
+          value: cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : '',
+          size: "50"
+        }))) : '';
+      }))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "tab-pane container fade",
+        id: "cplocierre"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-8 texto"
+      }, Object(lodash__WEBPACK_IMPORTED_MODULE_3__["size"])(cols) > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+        className: "table table-sm table-striped table-bordered texto mt-5"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, cols.map(function (col, index) {
+        return index >= 79 && index <= 85 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          type: "text",
+          id: cols[index],
+          value: cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : '',
+          size: "50"
+        }))) : '';
+      }))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "tab-pane container fade",
+        id: "abuso"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-8 texto"
+      }, Object(lodash__WEBPACK_IMPORTED_MODULE_3__["size"])(cols) > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+        className: "table table-sm table-striped table-bordered texto mt-5"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, cols.map(function (col, index) {
+        return index >= 86 && index <= 91 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          type: "text",
+          id: cols[index],
+          value: cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''
+        }))) : '';
+      }))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "tab-pane container fade",
+        id: "cr"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-8 texto"
+      }, Object(lodash__WEBPACK_IMPORTED_MODULE_3__["size"])(cols) > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+        className: "table table-sm table-striped table-bordered texto mt-5"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, cols.map(function (col, index) {
+        return index >= 92 && index <= 97 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          type: "text",
+          id: cols[index],
+          value: cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : '',
+          size: "50"
+        }))) : '';
+      }))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "tab-pane container fade",
+        id: "observ"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-8 texto"
+      }, Object(lodash__WEBPACK_IMPORTED_MODULE_3__["size"])(cols) > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+        className: "table table-sm table-striped table-bordered texto mt-5"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, cols.map(function (col, index) {
+        return index >= 98 && index <= 100 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          type: "text",
+          id: cols[index],
+          value: cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : '',
+          size: "50"
+        }))) : '';
+      }))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null)))))));
+    }
+  }]);
+
+  return Cronico;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+
+/* harmony default export */ __webpack_exports__["default"] = (Cronico);
+
+if (document.getElementById('cronicoContent')) {
+  var cronico = document.getElementById('cronico').value;
+  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Cronico, {
+    id: cronico
+  }), document.getElementById('cronicoContent'));
+}
+
+/***/ }),
+
+/***/ "./resources/js/components/CronicosPanel.js":
+/*!**************************************************!*\
+  !*** ./resources/js/components/CronicosPanel.js ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _TableCronicos_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TableCronicos.js */ "./resources/js/components/TableCronicos.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+
+
+var CronicosPanel = /*#__PURE__*/function (_Component) {
+  _inherits(CronicosPanel, _Component);
+
+  var _super = _createSuper(CronicosPanel);
+
+  function CronicosPanel(props) {
+    var _this;
+
+    _classCallCheck(this, CronicosPanel);
+
+    _this = _super.call(this, props);
+    _this.state = {
+      cronicos: '',
+      conductas: ['CASOS CERRAR', 'PSICOLOGÍA', 'SEGUIMIENTO', 'TRAMITE PENSIÓN NO FIRME', 'TRAMITE PENSIÓN FIRME', 'IPP NO FIRME', 'IPP FIRME', 'CITAR CRH 150', 'CITAR NUEVO', 'PERDIDOS', 'CRH 480', 'CRH NO FAV CPCLO', 'ICP > 540 SIN CPCLO', 'IT MEL'],
+      estados: ['CERRADO', 'SEGUIMIENTO'],
+      motivos: ['FALLECIDO', 'IPP', 'NUEVO', 'PENSIONADO', 'REINTEGRADO', 'RETIRADO', 'SEGUIMIENTO', 'TRAMITE DE PENSION'],
+      identificacion: '',
+      conducta: '',
+      estado: '',
+      motivo: ''
+    }; // bind
+
+    _this.getCronicos = _this.getCronicos.bind(_assertThisInitialized(_this));
+    _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
+    _this.buscar = _this.buscar.bind(_assertThisInitialized(_this));
+
+    _this.getCronicos();
+
+    return _this;
+  }
+
+  _createClass(CronicosPanel, [{
+    key: "handleChange",
+    value: function handleChange(_ref) {
+      var target = _ref.target;
+      this.setState(_defineProperty({}, target.name, target.value));
+    }
+  }, {
+    key: "getCronicos",
+    value: function getCronicos() {
+      var _this2 = this;
+
+      var url = 'getCronicos';
+      axios__WEBPACK_IMPORTED_MODULE_3___default.a.get(url).then(function (resp) {
+        console.log(resp.data.data);
+
+        _this2.setState({
+          cronicos: resp.data.data
+        });
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {}
+  }, {
+    key: "buscar",
+    value: function buscar() {
+      var _this3 = this;
+
+      var url = 'buscarCronicos';
+      axios__WEBPACK_IMPORTED_MODULE_3___default.a.post(url, {
+        datos: this.state
+      }).then(function (resp) {
+        console.log(resp.data);
+
+        _this3.setState({
+          cronicos: resp.data.data
+        });
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row mt-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card-header bg2 titulo"
+      }, "B\xFAsqueda y filtros "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card-body texto"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: ""
+      }, "Identificaci\xF3n del usuario"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        className: "form-control",
+        name: "identificacion",
+        value: this.state.identificacion,
+        onChange: this.handleChange
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: ""
+      }, "Conducta"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        className: "form-control",
+        name: "conducta",
+        value: this.state.conducta,
+        onChange: this.handleChange
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: ""
+      }), this.state.conductas.map(function (c) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: c
+        }, c);
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: ""
+      }, "Estado"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        className: "form-control",
+        name: "estado",
+        value: this.state.estado,
+        onChange: this.handleChange
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: ""
+      }), this.state.estados.map(function (e) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: e
+        }, e);
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: ""
+      }, "Motivo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        className: "form-control",
+        name: "motivo",
+        value: this.state.motivo,
+        onChange: this.handleChange
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: ""
+      }), this.state.motivos.map(function (m) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: m
+        }, m);
+      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row mt-1"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "btn btn-success",
+        onClick: this.buscar
+      }, "Buscar")))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row mt-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card-header bg2 titulo"
+      }, "Listado de Pacientes"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card-body texto"
+      })), this.state.cronicos != '' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TableCronicos_js__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        cronicos: this.state.cronicos
+      }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "No hay datos"))));
+    }
+  }]);
+
+  return CronicosPanel;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+
+/* harmony default export */ __webpack_exports__["default"] = (CronicosPanel);
+
+if (document.getElementById('cronicosContent')) {
+  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(CronicosPanel, null), document.getElementById('cronicosContent'));
+}
+
+/***/ }),
+
 /***/ "./resources/js/components/DerechosAdmin.js":
 /*!**************************************************!*\
   !*** ./resources/js/components/DerechosAdmin.js ***!
@@ -74330,7 +74955,8 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
         diasSolicitados: '',
         contingencia: ''
       },
-      validaciones: []
+      validaciones: [],
+      cronico: 0
     };
     _this.initialState = _objectSpread({}, _this.state); // bind
 
@@ -74574,6 +75200,9 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
                 });
 
               case 6:
+                this.buscarCronico();
+
+              case 7:
               case "end":
                 return _context2.stop();
             }
@@ -74587,6 +75216,24 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
 
       return handleSubmit;
     }()
+  }, {
+    key: "buscarCronico",
+    value: function buscarCronico() {
+      var _this4 = this;
+
+      var url = 'buscarCronico';
+      axios__WEBPACK_IMPORTED_MODULE_8___default.a.post(url, {
+        id: this.state.numeroIdentificacion
+      }).then(function (resp) {
+        console.log(resp.data);
+
+        _this4.setState({
+          cronico: resp.data.data
+        });
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    }
   }, {
     key: "handleTipo",
     value: function handleTipo(e) {
@@ -74682,7 +75329,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
   }, {
     key: "reviewProrroga",
     value: function reviewProrroga() {
-      var _this4 = this;
+      var _this5 = this;
 
       var tipoDocumento = this.state.tipoDocumento;
       var numeroIdentificacion = this.state.numeroIdentificacion;
@@ -74690,11 +75337,11 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
       var diasSolicitados = this.state.diasSolicitados;
       axios__WEBPACK_IMPORTED_MODULE_8___default.a.get(url).then(function (resp) {
         //console.log(resp.data)
-        if (resp.data.capitulo == _this4.state.capitulo) {
+        if (resp.data.capitulo == _this5.state.capitulo) {
           var id = "0000" + resp.data.idant;
           var prorrogaId = resp.data.prorrogaidant + 1; //console.log(prorrogaId);
 
-          _this4.setState({
+          _this5.setState({
             id: id,
             prorroga: "Si",
             prorrogaId: prorrogaId,
@@ -74702,11 +75349,11 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
             diasAcumuladosUltima: parseInt(resp.data.dias) + parseInt(diasSolicitados)
           });
         } else {
-          var observacion_estado = _this4.state.observacion_estado;
+          var observacion_estado = _this5.state.observacion_estado;
           var observacion = "Ruptura por escoger otro capítulo";
           alert("El diagnóstico seleccionado no pertenece al mismo capítulo de la última incapacidad");
 
-          _this4.setState({
+          _this5.setState({
             diasAcumuladosPrevios: resp.data.dias,
             diasAcumuladosUltima: parseInt(resp.data.dias) + parseInt(diasSolicitados),
             estado_id: 1,
@@ -74735,7 +75382,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
   }, {
     key: "handleProrroga",
     value: function handleProrroga(e) {
-      var _this5 = this;
+      var _this6 = this;
 
       this.setState({
         prorroga: e.target.value
@@ -74748,12 +75395,12 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
         var diasSolicitados = this.state.diasSolicitados;
         axios__WEBPACK_IMPORTED_MODULE_8___default.a.get(url).then(function (resp) {
           //console.log(resp.data)
-          if (resp.data.capitulo == _this5.state.capitulo) {
+          if (resp.data.capitulo == _this6.state.capitulo) {
             var id = "0000" + resp.data.idant;
             var prorrogaId = resp.data.prorrogaidant + 1;
             console.log(prorrogaId);
 
-            _this5.setState({
+            _this6.setState({
               id: id,
               prorrogaId: prorrogaId,
               diasAcumuladosPrevios: resp.data.dias,
@@ -74762,7 +75409,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
           } else {
             alert("El diagnóstico seleccionado no pertenece al mismo capítulo de la última incapacidad");
 
-            _this5.setState({
+            _this6.setState({
               diasAcumuladosPrevios: resp.data.dias,
               diasAcumuladosUltima: parseInt(resp.data.dias) + parseInt(diasSolicitados),
               estado_id: 1
@@ -75136,7 +75783,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
   }, {
     key: "renderAportantes",
     value: function renderAportantes() {
-      var _this6 = this;
+      var _this7 = this;
 
       var validaciones = this.state.validaciones;
       console.log(validaciones);
@@ -75150,7 +75797,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, validaciones[key]['IDEmpresa'] == 'N/A' ? validaciones[key]['TipoDocAfiliado'] : validaciones[key]['IDEmpresa']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, validaciones[key]['IDEmpresa'] == 'N/A' ? validaciones[key]['Nombre'] + " " + validaciones[key]['PrimerApellido'] + " " + validaciones[key]['SegundoApellido'] : validaciones[key]['NombreEmpresa']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, validaciones[key]['Incapacidad'] == "SI" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
           type: "button",
           id: "btnBuscar",
-          onClick: _this6.generarCertificado,
+          onClick: _this7.generarCertificado,
           className: "btn btn-primary",
           value: "Certificado"
         }) : ''));
@@ -75160,6 +75807,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
     key: "render",
     value: function render() {
       var mensaje = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null);
+      var mensaje2 = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null);
 
       if (this.state.loading) {
         if (this.state.tipoMensaje == 'success') {
@@ -75175,6 +75823,16 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
             role: "alert"
           }, this.state.mensaje);
         }
+      }
+
+      if (this.state.cronico != 0) {
+        mensaje2 = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+          className: "alert alert-warning reco",
+          role: "alert"
+        }, "El usuario se encuentra registrado en la base de seguimiento por ICP ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
+          href: 'verCronico/' + this.state.cronico,
+          target: "_blank"
+        }, "Ver detalle"));
       }
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
@@ -75239,7 +75897,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
         id: "btnBuscar",
         className: "btn btn-primary",
         value: "Buscar"
-      })))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), mensaje, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), this.renderAfiliaciones(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      })))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), mensaje, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), mensaje2, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), this.renderAfiliaciones(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: this.state.visible
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "row justify-content-center "
@@ -77968,6 +78626,22 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         value: this.state.confirmar
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "rethus"
+      }, "Rethus"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        className: "form-control",
+        id: "rethus",
+        name: "rethus",
+        onChange: this.handleChange,
+        value: this.state.rethus
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: ""
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "Si"
+      }, "Si"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "No"
+      }, "No"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "submit",
         className: "btn btn-success btn-sm"
@@ -78414,6 +79088,67 @@ function TableClasesa(props) {
       onClick: editar
     }, "Editar")));
   }));
+}
+
+/***/ }),
+
+/***/ "./resources/js/components/TableCronicos.js":
+/*!**************************************************!*\
+  !*** ./resources/js/components/TableCronicos.js ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TableCronicos; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+
+
+
+function TableCronicos(props) {
+  var eliminar = function eliminar(u) {
+    props.handleEliminar(u.target.id);
+  };
+
+  var editar = function editar(u) {
+    props.handleEdition(u.target.id);
+  };
+
+  var cronicos = props.cronicos; //console.log(Object.keys(cronicos[0]))
+  //console.log(typeof cronicos[0])
+
+  if (_typeof(cronicos) === 'object') {
+    var cols = Object.keys(cronicos[0]);
+    var columnas = cols.map(function (col) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, col);
+    });
+
+    var openCronico = function openCronico(u) {
+      window.open('verCronico/' + u.target.id, '_blank');
+    };
+
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+      className: "table table-sm table-striped table-bordered texto"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+      className: "table-success"
+    }, columnas), Object.keys(cronicos).map(function (key) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+        key: key
+      }, cols.map(function (col) {
+        return col != 'id' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cronicos[key][col]) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+          className: "btn btn-sm btn-success",
+          id: cronicos[key][col],
+          onClick: openCronico
+        }, "Ver"));
+      }));
+    }))));
+  }
 }
 
 /***/ }),
@@ -79037,8 +79772,6 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "0"
       }, "Admin"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "1"
-      }, "M\xE9dico"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "2"
       }, "Administrativo")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: this.state.errors['tipo']

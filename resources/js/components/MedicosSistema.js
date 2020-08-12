@@ -220,6 +220,15 @@ class MedicosSistema extends Component {
                                                     <input type="text" className="form-control" id="confirmar" name="confirmar" onChange={this.handleChange} value={this.state.confirmar}></input>
                                                 </div>
                                                 <div className="col-md-2">
+                                                    <label htmlFor="rethus">Rethus</label>
+                                                    <select className="form-control" id="rethus" name="rethus" onChange={this.handleChange} value={this.state.rethus}>
+                                                        <option value=""></option>
+                                                        <option value="Si">Si</option>
+                                                        <option value="No">No</option>
+                                                    </select>
+                                                   
+                                                </div>
+                                                <div className="col-md-2">
                                                     <br />
                                                     <button type="submit" className="btn btn-success btn-sm">Guardar</button>
                                                 </div>

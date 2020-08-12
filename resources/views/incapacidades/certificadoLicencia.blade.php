@@ -117,7 +117,7 @@ tr td{
     </table>
     <br>
     <table class="table" > 
-        <tr><td class="font-weight-bold">{{ $i["Nombre del profesional que genera"]  ." - ".  $i["Tipo doc profesional que genera"]." ".$i["Numero doc profesional que genera"] }}</td></tr> 
+        <tr><td class="font-weight-bold">{{ $i["Nombre del profesional que genera"]  ." - ".  $i["Tipo doc profesional que genera"]." ".$i["Numero doc profesional que genera"]." ".$i["Especialidad"] }}</td></tr> 
     </table>
 
     </div>
@@ -209,7 +209,7 @@ tr td{
     </table>
     <br>
     <table class="table" > 
-        <tr><td class="font-weight-bold">{{ $i["Nombre del profesional que genera"]  ." - ".  $i["Tipo doc profesional que genera"]." ".$i["Numero doc profesional que genera"] }}</td></tr> 
+        <tr><td class="font-weight-bold">{{ $i["Nombre del profesional que genera"]  ." - ".  $i["Tipo doc profesional que genera"]." ".$i["Numero doc profesional que genera"]." ".$i["Especialidad"] }}</td></tr> 
     </table>
 
     </div>

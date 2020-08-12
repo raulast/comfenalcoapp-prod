@@ -13,6 +13,7 @@ use App\Estadosa;
 use App\Clasesa;
 use App\Descripcionesp;
 use App\Diasmax;
+use App\Cronicos;
 
 class LoadController extends Controller
 {
@@ -48,6 +49,9 @@ class LoadController extends Controller
         if ($tipo== "diasmax"){ 
             $this->loadDiasmax(); 
         }
+        if ($tipo== "cronicos"){ 
+            $this->loadCronicos(); 
+        }
         if($tipo == "todos"){
             $this->loadIps(); 
             $this->loadUsuarios(); 
@@ -58,9 +62,21 @@ class LoadController extends Controller
             $this->loadClasesa(); 
             $this->loadDescripcionesp(); 
             $this->loadDiasmax(); 
+            $this->loadCronicos(); 
             $this->loadCie10();  
         }
         return 'Datos cargados';
+    }
+    private function loadCronicos(){
+        $file = public_path('csv/cronicos.csv');
+        $customerArr = $this->csvToArray($file);
+        //dd($customerArr);
+        for ($i = 0; $i < count($customerArr); $i ++){
+            //dd($customerArr[$i]);
+            Cronicos::firstOrCreate($customerArr[$i]);
+            //Cronicos::create($customerArr[$i]);
+        }   
+     
     }
     private function loadIps(){
         $file = public_path('csv/IPS.csv');
@@ -154,15 +170,16 @@ class LoadController extends Controller
     if (($handle = fopen($filename, 'r')) !== false)
     {
         
-        while (($row = fgetcsv($handle, 1000, $delimiter)) !== false)
+        while (($row = fgetcsv($handle, 0, $delimiter)) !== false)
         {
             //array_push($data,$row);
             
             if (!$header)
                 $header = $row;
             else
+                //dd(count($row));
                 $data[] = array_combine($header, $row);
-            
+                //dd($data);
             
         }
         fclose($handle);

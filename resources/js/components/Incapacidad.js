@@ -94,6 +94,7 @@ class IncapacidadFront extends Component {
                 contingencia:''
             },
             validaciones : [],
+            cronico :0
             
         };
         this.initialState = { ...this.state } 
@@ -310,7 +311,22 @@ class IncapacidadFront extends Component {
                 
             });
         
+        this.buscarCronico()
        
+    }
+    buscarCronico(){
+        let url = 'buscarCronico'
+        axios.post(url, { id : this.state.numeroIdentificacion })
+            .then(resp => {
+                console.log(resp.data)
+                this.setState({
+                    cronico: resp.data.data,
+                });
+            })
+            .catch(err => {
+                console.log(err)
+            })
+        
     }
     handleTipo(e) {
         this.setState({
@@ -797,7 +813,8 @@ class IncapacidadFront extends Component {
     }
     render() {
         let mensaje=<div></div>;
-       
+        let mensaje2 =<div></div>;
+          
         if (this.state.loading ){ 
             if (this.state.tipoMensaje == 'success'){
                 mensaje = (<div className="alert alert-success reco" role="alert">
@@ -810,7 +827,14 @@ class IncapacidadFront extends Component {
                     { this.state.mensaje }
                     </div>);
                }
+            
         }
+        if(this.state.cronico != 0){
+            mensaje2 = (<div className="alert alert-warning reco" role="alert">
+            El usuario se encuentra registrado en la base de seguimiento por ICP <a href={ 'verCronico/' + this.state.cronico } target="_blank">Ver detalle</a>
+             </div>);
+        }
+
                             
         return (
         
@@ -857,13 +881,16 @@ class IncapacidadFront extends Component {
                     </div>
                 </div>
             </div>
-            <br/>
-            
+            <br/> 
             
             { mensaje }
            
             <br/>
-            
+
+            { mensaje2 }
+           
+            <br/>
+
             {this.renderAfiliaciones()}
 
             <br/>
