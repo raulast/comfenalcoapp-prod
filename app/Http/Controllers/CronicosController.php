@@ -46,7 +46,7 @@ class CronicosController extends Controller
         $id =$request['id'];
         $consec=0;
         if (Cronicos::where('nit_usuario',$id)->exists()){
-            $consec = Cronicos::where('nit_usuario',$id)->get()->id;
+            $consec = Cronicos::where('nit_usuario',$id)->first()->id;
         }    
         return response()->json([
             'data' => $consec
