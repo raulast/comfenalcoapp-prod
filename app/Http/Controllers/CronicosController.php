@@ -43,7 +43,7 @@ class CronicosController extends Controller
     }
     public function buscarCronico(Request $request){
         $id = $request->id;
-        
+        return $request;
         if (Cronicos::where('nit_usuario',$id)->exists()){
             $consec = Cronicos::where('nit_usuario',$id)->get()->id;
         }
@@ -51,6 +51,7 @@ class CronicosController extends Controller
             $consec= 0;
         }
         return response()->json([
+            +
             'data' => $consec
         ]);
     }
