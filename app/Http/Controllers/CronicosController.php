@@ -44,6 +44,7 @@ class CronicosController extends Controller
     public function buscarCronico(Request $request){
         
         $id =$request['id'];
+        return $id;
         if (Cronicos::where('nit_usuario',$id)->exists()){
             $consec = Cronicos::where('nit_usuario',$id)->get()->id;
         }
