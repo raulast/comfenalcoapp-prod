@@ -103,6 +103,8 @@ class LicenciaFront extends Component {
                 contingencia: ''
             },
             validaciones : [],
+            cronico :0,
+            flagCertificado: 'disabled'
 
         };
         this.initialState = { ...this.state }
@@ -226,7 +228,7 @@ class LicenciaFront extends Component {
                 //nombreAportante:nombreAportante,
                 tipoMensaje: 'success',
                 visible:'visible',
-                loading:true,
+                loading:true
             });
 
         }
@@ -273,9 +275,11 @@ class LicenciaFront extends Component {
                     for (var i = 0; i < size(afiliaciones); i++) {
                         var afiliacion = afiliaciones[i];
                         var clasea = afiliacion.ClaseAfiliacion;
+                        var estado = afiliacion.Estado;
                         var descripcion = afiliacion.DescripcionPrograma;
+                        var programa = afiliacion.IdPrograma 
                         if(typeof afiliacion.NombreEmpresa === 'object' ){
-                            afiliacion.NombreEmpresa=''
+                           afiliacion.NombreEmpresa=''
                         }
                         if(typeof afiliacion.IDEmpresa === 'object' ){
                             afiliacion.IDEmpresa='N/A'
@@ -287,7 +291,7 @@ class LicenciaFront extends Component {
                         if (Object.keys(afiliacion.IDEmpresa).length ===0){
                             afiliacion.IDEmpresa=''
                         }*/
-                        let url = '/validacionDescripcion/' + clasea + "/" + descripcion;
+                        let url = '/validacionDescripcion/'+ estado + "/" + clasea + "/" + programa;
                         promises.push(
                             axios.get(url).then(response => {
                                 // do something with response
@@ -313,7 +317,7 @@ class LicenciaFront extends Component {
                         this.activarGeneracion(incapacidades, response,afiliaciones)
                     });
 
-                    //console.log(this.state.validaciones)
+                    console.log(this.state.validaciones);
                 }
                 else{
                     this.setState({
@@ -326,7 +330,23 @@ class LicenciaFront extends Component {
                 
                 
             });
+        
+        this.buscarCronico()
 
+    }
+    buscarCronico(){
+        let url = 'buscarCronico'
+        axios.post(url, { id : this.state.numeroIdentificacion })
+            .then(resp => {
+                console.log(resp.data)
+                this.setState({
+                    cronico: resp.data.data,
+                });
+            })
+            .catch(err => {
+                console.log(err)
+            })
+        
     }
     handleChange({ target }) {
         
@@ -718,6 +738,9 @@ class LicenciaFront extends Component {
                         alert(resp.data)
                         //this.setState(this.initialState);
                         //location.reload();
+                        this.setState({
+                            flagCertificado: ''
+                        })
                     })
                     .catch(err => {
                         console.log(err)
@@ -912,7 +935,7 @@ class LicenciaFront extends Component {
                                 <td>{validaciones[key]['IDEmpresa'] == 'N/A' ? validaciones[key]['TipoDocAfiliado'] : validaciones[key]['IDEmpresa']}</td>
 
                                 <td>{validaciones[key]['IDEmpresa'] == 'N/A' ? validaciones[key]['Nombre'] + " " + validaciones[key]['PrimerApellido'] + " " + validaciones[key]['SegundoApellido'] : validaciones[key]['NombreEmpresa']}</td>
-                                <td>{validaciones[key]['Incapacidad'] == "SI" ? <input type="button" id="btnBuscar" onClick={this.generarCertificado} className="btn btn-primary" value="Certificado" /> : ''}</td>
+                                <td>{validaciones[key]['Incapacidad'] == "SI" ? <input type="button" id="btnBuscar" onClick={this.generarCertificado} className="btn btn-primary" value="Certificado" disabled={this.state.flagCertificado}/> : ''}</td>
 
 
                             </tr>

@@ -1,11 +1,15 @@
 import React from 'react'
-import Axios from 'axios'
+import axios from 'axios'
 import { size } from 'lodash';
 
 
 
 export default async function ValidacionDerechos(tipoDocumento, numeroIdentificacion) {
+    var result = [];
+    
     let url = '/validacionDerechos/' + tipoDocumento + "/" + numeroIdentificacion;
+   
+    
     await axios
         .get(url, {
             tipoDocumento: tipoDocumento,
@@ -13,7 +17,7 @@ export default async function ValidacionDerechos(tipoDocumento, numeroIdentifica
         })
         .then(response => {
             // console
-            //console.log(response);
+            console.log(response);
 
             let mensaje = response.data.responseMessageOut.body.response.validadorResponse.Derechos['MENSAJE'];
             let derecho = response.data.responseMessageOut.body.response.validadorResponse.Derechos['DerechoPrestacion']
@@ -37,9 +41,11 @@ export default async function ValidacionDerechos(tipoDocumento, numeroIdentifica
                 for (var i = 0; i < size(afiliaciones); i++) {
                     var afiliacion = afiliaciones[i];
                     var clasea = afiliacion.ClaseAfiliacion;
+                    var estado = afiliacion.Estado;
                     var descripcion = afiliacion.DescripcionPrograma;
+                    var programa = afiliacion.IdPrograma 
                     if(typeof afiliacion.NombreEmpresa === 'object' ){
-                        afiliacion.NombreEmpresa=''
+                       afiliacion.NombreEmpresa=''
                     }
                     if(typeof afiliacion.IDEmpresa === 'object' ){
                         afiliacion.IDEmpresa='N/A'
@@ -51,7 +57,7 @@ export default async function ValidacionDerechos(tipoDocumento, numeroIdentifica
                     if (Object.keys(afiliacion.IDEmpresa).length ===0){
                         afiliacion.IDEmpresa=''
                     }*/
-                    let url = '/validacionDescripcion/' + clasea + "/" + descripcion;
+                    let url = '/validacionDescripcion/'+ estado + "/" + clasea + "/" + programa;
                     promises.push(
                         axios.get(url).then(response => {
                             // do something with response
@@ -71,24 +77,29 @@ export default async function ValidacionDerechos(tipoDocumento, numeroIdentifica
                             afiliaciones[i]["Incapacidad"] = "SI"
                         }
                     }
-                    this.setState({
+                    //console.log(incapacidades,response,afiliaciones)
+                    result=[incapacidades,response,afiliaciones] 
+                    
+                    /*this.setState({
                         validaciones: afiliaciones
                     });
-                    this.activarGeneracion(incapacidades, response,afiliaciones)
+                    this.activarGeneracion(incapacidades, response,afiliaciones)*/
                 });
 
-                console.log(this.state.validaciones);
+                //console.log(this.state.validaciones);
             }
             else{
+                /*
                 this.setState({
                     mensaje : mensaje,
                     loading: true,
                     tipoMensaje: 'error',
                 });
-            }
-            
-            
-            
-        });
+                */
+               result = "NO"
+            }     
+            return result;                
+    });
     
+   
 }

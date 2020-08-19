@@ -73528,7 +73528,9 @@ var Cronico = /*#__PURE__*/function (_Component) {
     _this.state = {
       id: props.id,
       cronico: '',
-      fp: []
+      fp: [],
+      estados: ['CERRADO', 'SEGUIMIENTO'],
+      motivos: ['FALLECIDO', 'IPP', 'NUEVO', 'PENSIONADO', 'REINTEGRADO', 'RETIRADO', 'SEGUIMIENTO', 'TRAMITE DE PENSION']
     }; // bind
 
     _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
@@ -73591,6 +73593,8 @@ var Cronico = /*#__PURE__*/function (_Component) {
   }, {
     key: "render",
     value: function render() {
+      var _this3 = this;
+
       var cronico = this.state.cronico;
       console.log(cronico);
 
@@ -73705,12 +73709,7 @@ var Cronico = /*#__PURE__*/function (_Component) {
       }, Object(lodash__WEBPACK_IMPORTED_MODULE_3__["size"])(cols) > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
         className: "table table-sm table-striped table-bordered texto mt-5"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, cols.map(function (col, index) {
-        return index > 3 && index < 29 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-          type: "text",
-          id: cols[index],
-          value: cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : '',
-          size: "50"
-        }))) : '';
+        return index > 3 && index < 29 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : '')) : '';
       }))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tab-pane container fade",
         id: "ic"
@@ -73721,7 +73720,41 @@ var Cronico = /*#__PURE__*/function (_Component) {
       }, Object(lodash__WEBPACK_IMPORTED_MODULE_3__["size"])(cols) > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
         className: "table table-sm table-striped table-bordered texto mt-5"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, cols.map(function (col, index) {
-        return index > 28 && index < 36 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        return index > 28 && index < 36 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), cols[index] == "estado_seguimiento" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+          id: cols[index]
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: cronico[cols[index]]
+        }, cronico[cols[index]]), _this3.state.estados.map(function (e) {
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+            value: e
+          }, e);
+        }))) : cols[index] == "motivo_estado_seguimiento" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+          id: cols[index]
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: cronico[cols[index]]
+        }, cronico[cols[index]]), _this3.state.motivos.map(function (e) {
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+            value: e
+          }, e);
+        }))) : cols[index] == "motivo_estado_seguimiento" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+          id: cols[index]
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: cronico[cols[index]]
+        }, cronico[cols[index]]), _this3.state.motivos.map(function (e) {
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+            value: e
+          }, e);
+        }))) : cols[index] == "contingencia_origen_inicial" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+          id: cols[index]
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: cronico[cols[index]]
+        }, cronico[cols[index]]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: "EG"
+        }, "EG"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: "AT"
+        }, "AT"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: "EL"
+        }, "EL"))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
           type: "text",
           id: cols[index],
           value: cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : '',
@@ -73758,7 +73791,17 @@ var Cronico = /*#__PURE__*/function (_Component) {
       }, Object(lodash__WEBPACK_IMPORTED_MODULE_3__["size"])(cols) > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
         className: "table table-sm table-striped table-bordered texto mt-5"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, cols.map(function (col, index) {
-        return index > 39 && index < 56 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        return index > 39 && index < 56 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), cols[index] == "crh1" || cols[index] == "crh2_favorable" || cols[index] == "crh3__favorable" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+          id: cols[index]
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: cronico[cols[index]]
+        }, cronico[cols[index]]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: ""
+        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: "SI"
+        }, "SI"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: "NO"
+        }, "NO"))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
           type: "text",
           id: cols[index],
           value: cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : '',
@@ -73772,7 +73815,17 @@ var Cronico = /*#__PURE__*/function (_Component) {
       }, Object(lodash__WEBPACK_IMPORTED_MODULE_3__["size"])(cols) > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
         className: "table table-sm table-striped table-bordered texto mt-5"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, cols.map(function (col, index) {
-        return index > 55 && index < 75 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        return index > 55 && index < 75 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), cols[index].includes("contingencia") ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+          id: cols[index]
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: cronico[cols[index]]
+        }, cronico[cols[index]]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: "EG"
+        }, "EG"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: "AT"
+        }, "AT"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: "EL"
+        }, "EL"))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
           type: "text",
           id: cols[index],
           value: cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : '',
@@ -73786,7 +73839,17 @@ var Cronico = /*#__PURE__*/function (_Component) {
       }, Object(lodash__WEBPACK_IMPORTED_MODULE_3__["size"])(cols) > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
         className: "table table-sm table-striped table-bordered texto mt-5"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, cols.map(function (col, index) {
-        return index >= 75 && index <= 78 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        return index >= 75 && index <= 78 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), cols[index].includes("contingencia") ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+          id: cols[index]
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: cronico[cols[index]]
+        }, cronico[cols[index]]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: "EG"
+        }, "EG"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: "AT"
+        }, "AT"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: "EL"
+        }, "EL"))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
           type: "text",
           id: cols[index],
           value: cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : '',
@@ -73800,7 +73863,17 @@ var Cronico = /*#__PURE__*/function (_Component) {
       }, Object(lodash__WEBPACK_IMPORTED_MODULE_3__["size"])(cols) > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
         className: "table table-sm table-striped table-bordered texto mt-5"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, cols.map(function (col, index) {
-        return index >= 79 && index <= 85 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        return index >= 79 && index <= 85 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), cols[index].includes("contingencia") ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+          id: cols[index]
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: cronico[cols[index]]
+        }, cronico[cols[index]]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: "EG"
+        }, "EG"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: "AT"
+        }, "AT"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: "EL"
+        }, "EL"))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
           type: "text",
           id: cols[index],
           value: cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : '',
@@ -74956,7 +75029,8 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
         contingencia: ''
       },
       validaciones: [],
-      cronico: 0
+      cronico: 0,
+      flagCertificado: 'disabled'
     };
     _this.initialState = _objectSpread({}, _this.state); // bind
 
@@ -75009,6 +75083,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
 
       var url = '/certificadoIncapacidad/' + id + "/" + pid;
       window.open(url, "_blank");
+      location.reload();
     }
   }, {
     key: "getNumeroIncapacidad",
@@ -75124,7 +75199,9 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
                     var i;
                     var afiliacion;
                     var clasea;
+                    var estado;
                     var descripcion;
+                    var programa;
 
                     (function () {
                       var afiliaciones = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado; //console.log(derecho);
@@ -75144,7 +75221,9 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
                       for (i = 0; i < Object(lodash__WEBPACK_IMPORTED_MODULE_9__["size"])(afiliaciones); i++) {
                         afiliacion = afiliaciones[i];
                         clasea = afiliacion.ClaseAfiliacion;
+                        estado = afiliacion.Estado;
                         descripcion = afiliacion.DescripcionPrograma;
+                        programa = afiliacion.IdPrograma;
 
                         if (_typeof(afiliacion.NombreEmpresa) === 'object') {
                           afiliacion.NombreEmpresa = '';
@@ -75162,7 +75241,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
                         }*/
 
 
-                        var _url = '/validacionDescripcion/' + clasea + "/" + descripcion;
+                        var _url = '/validacionDescripcion/' + estado + "/" + clasea + "/" + programa;
 
                         promises.push(axios__WEBPACK_IMPORTED_MODULE_8___default.a.get(_url).then(function (response) {
                           // do something with response
@@ -75353,11 +75432,17 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
           var observacion = "Ruptura por escoger otro capítulo";
           alert("El diagnóstico seleccionado no pertenece al mismo capítulo de la última incapacidad");
 
+          if (!observacion_estado.includes(observacion)) {
+            var nuevaob = "".concat(observacion_estado, " ").concat(observacion);
+          } else {
+            var nuevaob = observacion_estado;
+          }
+
           _this5.setState({
             diasAcumuladosPrevios: resp.data.dias,
             diasAcumuladosUltima: parseInt(resp.data.dias) + parseInt(diasSolicitados),
             estado_id: 1,
-            observacion_estado: "".concat(observacion_estado, " ").concat(observacion),
+            observacion_estado: nuevaob,
             prorroga: "No"
           });
         }
@@ -75465,10 +75550,16 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
       var observacion_estado = this.state.observacion_estado;
       var observacion = "Dias solicitados mayor a especificado por Cie10";
 
+      if (!observacion_estado.includes(observacion)) {
+        var nuevaob = "".concat(observacion_estado, " ").concat(observacion);
+      } else {
+        var nuevaob = observacion_estado;
+      }
+
       if (this.state.diasSolicitados > this.state.diasMaximosCie10) {
         this.setState({
           estado_id: 1,
-          observacion_estado: "".concat(observacion_estado, " ").concat(observacion)
+          observacion_estado: nuevaob
         });
       }
     }
@@ -75586,6 +75677,8 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
     key: "guardarIncapacidad",
     value: function () {
       var _guardarIncapacidad = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        var _this7 = this;
+
         var resp, url;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
           while (1) {
@@ -75605,6 +75698,10 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
                       console.log(resp.data);
                       alert(resp.data); //this.setState(this.initialState);
                       // location.reload();
+
+                      _this7.setState({
+                        flagCertificado: ''
+                      });
                     })["catch"](function (err) {
                       console.log(err);
                     });
@@ -75783,7 +75880,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
   }, {
     key: "renderAportantes",
     value: function renderAportantes() {
-      var _this7 = this;
+      var _this8 = this;
 
       var validaciones = this.state.validaciones;
       console.log(validaciones);
@@ -75797,9 +75894,10 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, validaciones[key]['IDEmpresa'] == 'N/A' ? validaciones[key]['TipoDocAfiliado'] : validaciones[key]['IDEmpresa']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, validaciones[key]['IDEmpresa'] == 'N/A' ? validaciones[key]['Nombre'] + " " + validaciones[key]['PrimerApellido'] + " " + validaciones[key]['SegundoApellido'] : validaciones[key]['NombreEmpresa']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, validaciones[key]['Incapacidad'] == "SI" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
           type: "button",
           id: "btnBuscar",
-          onClick: _this7.generarCertificado,
+          onClick: _this8.generarCertificado,
           className: "btn btn-primary",
-          value: "Certificado"
+          value: "Certificado",
+          disabled: _this8.state.flagCertificado
         }) : ''));
       }))));
     }
@@ -76644,7 +76742,9 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
         diasSolicitados: '',
         contingencia: ''
       },
-      validaciones: []
+      validaciones: [],
+      cronico: 0,
+      flagCertificado: 'disabled'
     };
     _this.initialState = _objectSpread({}, _this.state); // bind
 
@@ -76819,7 +76919,9 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
                     var i;
                     var afiliacion;
                     var clasea;
+                    var estado;
                     var descripcion;
+                    var programa;
 
                     (function () {
                       var afiliaciones = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado; //console.log(derecho);
@@ -76839,7 +76941,9 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
                       for (i = 0; i < Object(lodash__WEBPACK_IMPORTED_MODULE_10__["size"])(afiliaciones); i++) {
                         afiliacion = afiliaciones[i];
                         clasea = afiliacion.ClaseAfiliacion;
+                        estado = afiliacion.Estado;
                         descripcion = afiliacion.DescripcionPrograma;
+                        programa = afiliacion.IdPrograma;
 
                         if (_typeof(afiliacion.NombreEmpresa) === 'object') {
                           afiliacion.NombreEmpresa = '';
@@ -76857,7 +76961,7 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
                         }*/
 
 
-                        var _url = '/validacionDescripcion/' + clasea + "/" + descripcion;
+                        var _url = '/validacionDescripcion/' + estado + "/" + clasea + "/" + programa;
 
                         promises.push(axios__WEBPACK_IMPORTED_MODULE_11___default.a.get(_url).then(function (response) {
                           // do something with response
@@ -76882,7 +76986,8 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
                         });
 
                         _this3.activarGeneracion(incapacidades, response, afiliaciones);
-                      }); //console.log(this.state.validaciones)
+                      });
+                      console.log(_this3.state.validaciones);
                     })();
                   } else {
                     _this3.setState({
@@ -76894,6 +76999,9 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
                 });
 
               case 6:
+                this.buscarCronico();
+
+              case 7:
               case "end":
                 return _context2.stop();
             }
@@ -76908,19 +77016,37 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
       return handleSubmit;
     }()
   }, {
+    key: "buscarCronico",
+    value: function buscarCronico() {
+      var _this4 = this;
+
+      var url = 'buscarCronico';
+      axios__WEBPACK_IMPORTED_MODULE_11___default.a.post(url, {
+        id: this.state.numeroIdentificacion
+      }).then(function (resp) {
+        console.log(resp.data);
+
+        _this4.setState({
+          cronico: resp.data.data
+        });
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    }
+  }, {
     key: "handleChange",
     value: function handleChange(_ref) {
-      var _this4 = this;
+      var _this5 = this;
 
       var target = _ref.target;
       this.setState(_defineProperty({}, target.name, target.value), function () {
         if (target.name == "tipoAtencion") {
           if (target.value == 1) {
-            _this4.setState({
+            _this5.setState({
               nacidoViableState: false
             });
           } else {
-            _this4.setState({
+            _this5.setState({
               nacidoViableState: true
             });
           }
@@ -76928,23 +77054,23 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
 
         if (target.name == "tipoLicencia") {
           if (target.value == 15) {
-            _this4.setState({
+            _this5.setState({
               fechaProbableState: 'visible',
               diasSolicitados: 7
             });
 
             alert("Los días solicitados pueden ser 7 o 14 días");
           } else {
-            _this4.setState({
+            _this5.setState({
               fechaProbableState: 'oculto'
             });
           }
 
-          _this4.validartipoLicencia(target.value);
+          _this5.validartipoLicencia(target.value);
         }
 
         if (target.name == "tipoAtencion" || target.name == "nacidoViable") {
-          _this4.seleccionartipoLicencia();
+          _this5.seleccionartipoLicencia();
         }
       });
     }
@@ -77093,7 +77219,7 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
   }, {
     key: "diasGestacionC",
     value: function diasGestacionC() {
-      var _this5 = this;
+      var _this6 = this;
 
       var semanas = parseInt(this.state.semanasGestacion);
       var dias = parseInt(this.state.diasGestacion);
@@ -77102,7 +77228,7 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
       this.setState({
         diasGestacionC: calculado
       }, function () {
-        _this5.seleccionartipoLicencia();
+        _this6.seleccionartipoLicencia();
       });
     } //diagnosticos 
 
@@ -77333,6 +77459,8 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
   }, {
     key: "guardarLicencia",
     value: function guardarLicencia() {
+      var _this7 = this;
+
       console.log(this.state); //console.log(parseInt(this.state.diasSolicitados));
 
       var url = 'saveLicencia';
@@ -77342,6 +77470,10 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
         console.log(resp.data);
         alert(resp.data); //this.setState(this.initialState);
         //location.reload();
+
+        _this7.setState({
+          flagCertificado: ''
+        });
       })["catch"](function (err) {
         console.log(err);
       });
@@ -77525,7 +77657,7 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
   }, {
     key: "renderAportantes",
     value: function renderAportantes() {
-      var _this6 = this;
+      var _this8 = this;
 
       var validaciones = this.state.validaciones;
       console.log(validaciones);
@@ -77539,9 +77671,10 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, validaciones[key]['IDEmpresa'] == 'N/A' ? validaciones[key]['TipoDocAfiliado'] : validaciones[key]['IDEmpresa']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, validaciones[key]['IDEmpresa'] == 'N/A' ? validaciones[key]['Nombre'] + " " + validaciones[key]['PrimerApellido'] + " " + validaciones[key]['SegundoApellido'] : validaciones[key]['NombreEmpresa']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, validaciones[key]['Incapacidad'] == "SI" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
           type: "button",
           id: "btnBuscar",
-          onClick: _this6.generarCertificado,
+          onClick: _this8.generarCertificado,
           className: "btn btn-primary",
-          value: "Certificado"
+          value: "Certificado",
+          disabled: _this8.state.flagCertificado
         }) : ''));
       }))));
     }
@@ -79887,21 +80020,20 @@ function ValidacionDerechos(_x, _x2) {
 
 function _ValidacionDerechos() {
   _ValidacionDerechos = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(tipoDocumento, numeroIdentificacion) {
-    var _this = this;
-
-    var url;
+    var result, url;
     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
+            result = [];
             url = '/validacionDerechos/' + tipoDocumento + "/" + numeroIdentificacion;
-            _context.next = 3;
-            return axios.get(url, {
+            _context.next = 4;
+            return axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(url, {
               tipoDocumento: tipoDocumento,
               numeroIdentificacion: numeroIdentificacion
             }).then(function (response) {
               // console
-              //console.log(response);
+              console.log(response);
               var mensaje = response.data.responseMessageOut.body.response.validadorResponse.Derechos['MENSAJE'];
               var derecho = response.data.responseMessageOut.body.response.validadorResponse.Derechos['DerechoPrestacion'];
 
@@ -79909,7 +80041,9 @@ function _ValidacionDerechos() {
                 var i;
                 var afiliacion;
                 var clasea;
+                var estado;
                 var descripcion;
+                var programa;
 
                 (function () {
                   var afiliaciones = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado; //console.log(derecho);
@@ -79929,7 +80063,9 @@ function _ValidacionDerechos() {
                   for (i = 0; i < Object(lodash__WEBPACK_IMPORTED_MODULE_3__["size"])(afiliaciones); i++) {
                     afiliacion = afiliaciones[i];
                     clasea = afiliacion.ClaseAfiliacion;
+                    estado = afiliacion.Estado;
                     descripcion = afiliacion.DescripcionPrograma;
+                    programa = afiliacion.IdPrograma;
 
                     if (_typeof(afiliacion.NombreEmpresa) === 'object') {
                       afiliacion.NombreEmpresa = '';
@@ -79947,9 +80083,9 @@ function _ValidacionDerechos() {
                     }*/
 
 
-                    var _url = '/validacionDescripcion/' + clasea + "/" + descripcion;
+                    var _url = '/validacionDescripcion/' + estado + "/" + clasea + "/" + programa;
 
-                    promises.push(axios.get(_url).then(function (response) {
+                    promises.push(axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(_url).then(function (response) {
                       // do something with response
                       incapacidades.push(response.data);
                     }));
@@ -79965,26 +80101,31 @@ function _ValidacionDerechos() {
                       if (incapacidades[i] == 1) {
                         afiliaciones[i]["Incapacidad"] = "SI";
                       }
-                    }
+                    } //console.log(incapacidades,response,afiliaciones)
 
-                    _this.setState({
-                      validaciones: afiliaciones
+
+                    result = [incapacidades, response, afiliaciones];
+                    /*this.setState({
+                        validaciones: afiliaciones
                     });
-
-                    _this.activarGeneracion(incapacidades, response, afiliaciones);
-                  });
-                  console.log(_this.state.validaciones);
+                    this.activarGeneracion(incapacidades, response,afiliaciones)*/
+                  }); //console.log(this.state.validaciones);
                 })();
               } else {
-                _this.setState({
-                  mensaje: mensaje,
-                  loading: true,
-                  tipoMensaje: 'error'
+                /*
+                this.setState({
+                    mensaje : mensaje,
+                    loading: true,
+                    tipoMensaje: 'error',
                 });
+                */
+                result = "NO";
               }
+
+              return result;
             });
 
-          case 3:
+          case 4:
           case "end":
             return _context.stop();
         }

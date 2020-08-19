@@ -15,6 +15,8 @@ class Cronico extends Component {
             id: props.id,
             cronico:'',
             fp:[],
+            estados: ['CERRADO', 'SEGUIMIENTO'],
+            motivos: ['FALLECIDO', 'IPP', 'NUEVO', 'PENSIONADO', 'REINTEGRADO', 'RETIRADO', 'SEGUIMIENTO', 'TRAMITE DE PENSION'],
         }
         // bind
         
@@ -157,7 +159,8 @@ class Cronico extends Component {
                                                         (index > 3 && index < 29) ?
                                                             <tr>
                                                                 <td>{cols[index]}</td>
-                                                                <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} size="50"/></td>
+                                                                <td>{cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''}</td>
+                                                                {/*<td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} size="50"/></td>*/}
                                                             </tr>
                                                             : ''
                                                     )}
@@ -177,7 +180,44 @@ class Cronico extends Component {
                                                         (index > 28 && index < 36) ?
                                                             <tr>
                                                                 <td>{cols[index]}</td>
-                                                                <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} size="50" /></td>
+                                                                { cols[index] == "estado_seguimiento" ?
+                                                                    <td><select id={cols[index]}>
+                                                                        <option value={cronico[cols[index]]}>{cronico[cols[index]]}</option>
+                                                                        {this.state.estados.map((e) =>
+                                                                            <option value={e}>{e}</option>
+
+                                                                        )}
+                                                                       
+                                                                    </select></td> :
+                                                                
+                                                                cols[index] == "motivo_estado_seguimiento" ?
+                                                                    <td><select id={cols[index]}>
+                                                                        <option value={cronico[cols[index]]}>{cronico[cols[index]]}</option>
+                                                                        {this.state.motivos.map((e) =>
+                                                                            <option value={e}>{e}</option>
+
+                                                                        )}
+                                                                    </select></td> :
+                        
+                                                                 cols[index] == "motivo_estado_seguimiento" ?
+                                                                    <td><select id={cols[index]}>
+                                                                        <option value={cronico[cols[index]]}>{cronico[cols[index]]}</option>
+                                                                        {this.state.motivos.map((e) =>
+                                                                            <option value={e}>{e}</option>
+
+                                                                        )}
+                                                                    </select></td> :
+                                                                 cols[index] == "contingencia_origen_inicial" ?
+                                                                 <td><select id={cols[index]}>
+                                                                     <option value={cronico[cols[index]]}>{cronico[cols[index]]}</option>
+                                                                     <option value="EG">EG</option>
+                                                                     <option value="AT">AT</option>
+                                                                     <option value="EL">EL</option>
+                                                                 </select></td> :
+
+                                                                    <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} size="50" /></td>  
+                                                                }
+                                                                
                                                             </tr>
                                                             : ''
                                                     )}
@@ -242,7 +282,16 @@ class Cronico extends Component {
                                                     (index > 39 && index < 56) ?
                                                         <tr>
                                                             <td>{cols[index]}</td>
+                                                            { (cols[index] == "crh1") || (cols[index] == "crh2_favorable") || (cols[index] == "crh3__favorable")?
+                                                                    <td><select id={cols[index]}>
+                                                                        <option value={cronico[cols[index]]}>{cronico[cols[index]]}</option>
+                                                                        <option value=""></option>
+                                                                        <option value="SI">SI</option>
+                                                                        <option value="NO">NO</option>
+                                                                       
+                                                                    </select></td> :
                                                             <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} size="50" /></td>
+                                                            }
                                                         </tr>
                                                         : ''
                                                 )}
@@ -260,7 +309,16 @@ class Cronico extends Component {
                                                     (index > 55 && index < 75) ?
                                                         <tr>
                                                             <td>{cols[index]}</td>
-                                                            <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} size="50" /></td>
+                                                            {cols[index].includes("contingencia") ?
+                                                                 <td><select id={cols[index]}>
+                                                                     <option value={cronico[cols[index]]}>{cronico[cols[index]]}</option>
+                                                                     <option value="EG">EG</option>
+                                                                     <option value="AT">AT</option>
+                                                                     <option value="EL">EL</option>
+                                                                 </select></td> :
+                                                                <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} size="50" /></td>
+                                                            }
+                                                            
                                                         </tr>
                                                         : ''
                                                 )}
@@ -278,7 +336,16 @@ class Cronico extends Component {
                                                     (index >= 75  && index <= 78) ?
                                                         <tr>
                                                             <td>{cols[index]}</td>
-                                                            <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} size="50" /></td>
+                                                            {cols[index].includes("contingencia") ?
+                                                                 <td><select id={cols[index]}>
+                                                                     <option value={cronico[cols[index]]}>{cronico[cols[index]]}</option>
+                                                                     <option value="EG">EG</option>
+                                                                     <option value="AT">AT</option>
+                                                                     <option value="EL">EL</option>
+                                                                 </select></td> :
+                                                                <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} size="50" /></td>
+                                                            }
+                                                            
                                                         </tr>
                                                         : ''
                                                 )}
@@ -296,7 +363,16 @@ class Cronico extends Component {
                                                     (index >= 79  && index <= 85) ?
                                                         <tr>
                                                             <td>{cols[index]}</td>
-                                                            <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} size="50" /></td>
+                                                            {cols[index].includes("contingencia") ?
+                                                                 <td><select id={cols[index]}>
+                                                                     <option value={cronico[cols[index]]}>{cronico[cols[index]]}</option>
+                                                                     <option value="EG">EG</option>
+                                                                     <option value="AT">AT</option>
+                                                                     <option value="EL">EL</option>
+                                                                 </select></td> :
+                                                                <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} size="50" /></td>
+                                                            }
+                                                            
                                                         </tr>
                                                         : ''
                                                 )}

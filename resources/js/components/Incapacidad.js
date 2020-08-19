@@ -94,7 +94,8 @@ class IncapacidadFront extends Component {
                 contingencia:''
             },
             validaciones : [],
-            cronico :0
+            cronico :0,
+            flagCertificado: 'disabled'
             
         };
         this.initialState = { ...this.state } 
@@ -150,6 +151,7 @@ class IncapacidadFront extends Component {
         //let id=56;
         let url = '/certificadoIncapacidad/'+id+"/"+pid;
         window.open(url,"_blank");
+        location.reload();
     }
     
     async getNumeroIncapacidad(){
@@ -257,9 +259,11 @@ class IncapacidadFront extends Component {
                     for (var i = 0; i < size(afiliaciones); i++) {
                         var afiliacion = afiliaciones[i];
                         var clasea = afiliacion.ClaseAfiliacion;
+                        var estado = afiliacion.Estado;
                         var descripcion = afiliacion.DescripcionPrograma;
+                        var programa = afiliacion.IdPrograma 
                         if(typeof afiliacion.NombreEmpresa === 'object' ){
-                            afiliacion.NombreEmpresa=''
+                           afiliacion.NombreEmpresa=''
                         }
                         if(typeof afiliacion.IDEmpresa === 'object' ){
                             afiliacion.IDEmpresa='N/A'
@@ -271,7 +275,7 @@ class IncapacidadFront extends Component {
                         if (Object.keys(afiliacion.IDEmpresa).length ===0){
                             afiliacion.IDEmpresa=''
                         }*/
-                        let url = '/validacionDescripcion/' + clasea + "/" + descripcion;
+                        let url = '/validacionDescripcion/'+ estado + "/" + clasea + "/" + programa;
                         promises.push(
                             axios.get(url).then(response => {
                                 // do something with response
@@ -401,13 +405,22 @@ class IncapacidadFront extends Component {
                 }
                 else {
                     let observacion_estado = this.state.observacion_estado;
-                    let observacion = "Ruptura por escoger otro capítulo"
+                    let observacion = "Ruptura por escoger otro capítulo";
+
                     alert("El diagnóstico seleccionado no pertenece al mismo capítulo de la última incapacidad")
+                    
+                    if (!observacion_estado.includes(observacion)){
+                        var nuevaob =`${observacion_estado} ${observacion}`
+                    }
+                    else{
+                        var nuevaob = observacion_estado
+                    }
+
                     this.setState({
                         diasAcumuladosPrevios: resp.data.dias,
                         diasAcumuladosUltima: parseInt(resp.data.dias) + parseInt(diasSolicitados),
                         estado_id: 1,
-                        observacion_estado: `${observacion_estado} ${observacion}`,
+                        observacion_estado: nuevaob,
                         prorroga : "No",
                     })
                 }
@@ -509,11 +522,19 @@ class IncapacidadFront extends Component {
        
         let observacion_estado = this.state.observacion_estado;
         let observacion = "Dias solicitados mayor a especificado por Cie10"
+
+
+        if (!observacion_estado.includes(observacion)){
+            var nuevaob =`${observacion_estado} ${observacion}`
+        }
+        else{
+            var nuevaob = observacion_estado
+        }
                     
         if (this.state.diasSolicitados > this.state.diasMaximosCie10) {
             this.setState({
                 estado_id : 1,
-                observacion_estado: `${observacion_estado} ${observacion}`,
+                observacion_estado: nuevaob,
             })
         }
         
@@ -526,7 +547,7 @@ class IncapacidadFront extends Component {
             fechaFinIncapacidad:new Date(l1).toISOString().slice(0,10),
         });
         this.getBusinessDatesCount(new Date(this.state.fechaInicioIncapacidad),new Date(l1))
-
+        
         this.reviewProrroga()
     }
     handleCausa(e){
@@ -629,6 +650,9 @@ class IncapacidadFront extends Component {
                             alert(resp.data)
                             //this.setState(this.initialState);
                            // location.reload();
+                           this.setState({
+                                flagCertificado: ''
+                            })
                         })
                         .catch(err => {
                             console.log(err)
@@ -802,7 +826,7 @@ class IncapacidadFront extends Component {
                                 <td>{validaciones[key]['IDEmpresa'] == 'N/A' ? validaciones[key]['TipoDocAfiliado'] : validaciones[key]['IDEmpresa']}</td>
 
                                 <td>{validaciones[key]['IDEmpresa'] == 'N/A' ? validaciones[key]['Nombre'] + " " + validaciones[key]['PrimerApellido'] + " " + validaciones[key]['SegundoApellido'] : validaciones[key]['NombreEmpresa']}</td>
-                                <td>{validaciones[key]['Incapacidad'] == "SI" ? <input type="button" id="btnBuscar" onClick={this.generarCertificado} className="btn btn-primary" value="Certificado" /> : ''}</td>
+                                <td>{validaciones[key]['Incapacidad'] == "SI" ? <input type="button" id="btnBuscar" onClick={this.generarCertificado} className="btn btn-primary" value="Certificado" disabled={this.state.flagCertificado}/> : ''}</td>
 
 
                             </tr>

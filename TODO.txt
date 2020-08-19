@@ -1,0 +1,4 @@
+Separar funciones de validación de derechos
+Validar formulario en licencia
+Revisar que todos los parámetros trasciendan a la aplicación
+Poner menus en la gestión de crónicos
