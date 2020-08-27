@@ -25,7 +25,17 @@ GO
 ALTER TABLE cronicos
 ADD CONSTRAINT PK_cronicos PRIMARY KEY (id);
 
-*/
+
 select *
 from INFORMATION_SCHEMA.COLUMNS
 where TABLE_NAME='cronicos'
+
+select *
+from INFORMATION_SCHEMA.COLUMNS
+where TABLE_NAME='TSIC_DATOS_COMUNES'
+*/
+SELECT
+* 
+FROM
+descripciones_programas
+GO

@@ -463,7 +463,7 @@ class Reporte extends Component {
                                         </div>
                                     </div>  
                                     <div className="col-md-6">
-                                        <button class="btn btn-success ">Exportar Datos</button>
+                                        <button class="btn btn-success" onclick={this.exportReport}>Exportar Datos</button>
                                     </div>
 
 

@@ -75195,11 +75195,12 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
   }, {
     key: "activarGeneracion",
     value: function activarGeneracion(incapacidades, response, afiliaciones) {
-      var mensaje = response.data.responseMessageOut.body.response.validadorResponse.Derechos['MENSAJE']; // mensaje = utf8_decode(mensaje)
+      var mensaje = response.data.responseMessageOut.body.response.validadorResponse.Derechos['MENSAJE'];
+      console.log(incapacidades); // mensaje = utf8_decode(mensaje)
 
       if (incapacidades.includes(1, 0)) {
-        this.getNumeroIncapacidad(); //console.log(response.data.responseMessageOut.body.response.validadorResponse);
-
+        this.getNumeroIncapacidad();
+        console.log(response.data.responseMessageOut.body.response.validadorResponse);
         var nombre = afiliaciones[0]['Nombre'];
         var primerApellido = afiliaciones[0]['PrimerApellido'];
         var segundoApellido = afiliaciones[0]['SegundoApellido'];
@@ -75234,6 +75235,13 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
           tipoMensaje: 'success',
           visible: visible,
           loading: true
+        });
+      } else {
+        this.setState({
+          mensaje: mensaje,
+          loading: true,
+          tipoMensaje: 'success',
+          visible: 'oculto'
         });
       }
     }
@@ -75337,13 +75345,14 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
                         });
 
                         _this3.activarGeneracion(incapacidades, response, afiliaciones);
-                      }); //console.log(this.state.validaciones);
+                      }); // console.log(this.state.validaciones);
                     })();
                   } else {
                     _this3.setState({
                       mensaje: mensaje,
                       loading: true,
-                      tipoMensaje: 'error'
+                      tipoMensaje: 'error',
+                      visible: 'oculto'
                     });
                   }
                 });
@@ -75374,8 +75383,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
       axios__WEBPACK_IMPORTED_MODULE_8___default.a.post(url, {
         id: this.state.numeroIdentificacion
       }).then(function (resp) {
-        console.log(resp.data);
-
+        //console.log(resp.data)
         _this4.setState({
           cronico: resp.data.data,
           visible: resp.data.data.visible
@@ -80165,7 +80173,8 @@ var Reporte = /*#__PURE__*/function (_Component) {
       }, "N\xFAmero de certificados: ", this.state.totales.total, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "Total d\xEDas solicitados: ", this.state.totales.dias)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-6"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        "class": "btn btn-success "
+        "class": "btn btn-success",
+        onclick: this.exportReport
       }, "Exportar Datos"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row"
       }, this.state.datos != '' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TableReportes_js__WEBPACK_IMPORTED_MODULE_7__["default"], {

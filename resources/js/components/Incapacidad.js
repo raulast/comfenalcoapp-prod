@@ -175,11 +175,12 @@ class IncapacidadFront extends Component {
     }
     activarGeneracion(incapacidades,response,afiliaciones){
         let mensaje = response.data.responseMessageOut.body.response.validadorResponse.Derechos['MENSAJE'];
+        console.log(incapacidades);
        // mensaje = utf8_decode(mensaje)
         if (incapacidades.includes(1,0)){
                 
             this.getNumeroIncapacidad()       
-            //console.log(response.data.responseMessageOut.body.response.validadorResponse);
+            console.log(response.data.responseMessageOut.body.response.validadorResponse);
             let nombre = afiliaciones[0]['Nombre'];
             let primerApellido = afiliaciones[0]['PrimerApellido']; 
             let segundoApellido = afiliaciones[0]['SegundoApellido'];
@@ -220,6 +221,14 @@ class IncapacidadFront extends Component {
                 loading:true,
             });
 
+        }
+        else{
+            this.setState({
+                mensaje : mensaje,
+                loading: true,
+                tipoMensaje: 'success',
+                visible:'oculto',
+            });
         }
       
     }
@@ -305,14 +314,14 @@ class IncapacidadFront extends Component {
                         });
                         this.activarGeneracion(incapacidades, response,afiliaciones)
                     });
-
-                    //console.log(this.state.validaciones);
+                   // console.log(this.state.validaciones);
                 }
                 else{
                     this.setState({
                         mensaje : mensaje,
                         loading: true,
                         tipoMensaje: 'error',
+                        visible:'oculto',
                     });
                 }
                 
@@ -327,7 +336,7 @@ class IncapacidadFront extends Component {
         let url = 'buscarCronico'
         axios.post(url, { id : this.state.numeroIdentificacion })
             .then(resp => {
-                console.log(resp.data)
+                //console.log(resp.data)
                 this.setState({
                     cronico: resp.data.data,
                     visible:resp.data.data.visible,
