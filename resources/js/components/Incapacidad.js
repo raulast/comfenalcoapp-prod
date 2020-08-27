@@ -94,7 +94,11 @@ class IncapacidadFront extends Component {
                 contingencia:''
             },
             validaciones : [],
-            cronico :0,
+            cronico :{
+                consec :'',
+                visible :'visible',
+                alarmas: [],
+            },
             flagCertificado: 'disabled'
             
         };
@@ -195,6 +199,7 @@ class IncapacidadFront extends Component {
             //let numDocAportante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['IDEmpresa'];
             //let nombreAportante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['NombreEmpresa'];
             // set state
+            var visible =this.state.cronico.visible;
             
             this.setState({
                 nombreCompleto: nombreCompleto,
@@ -211,7 +216,7 @@ class IncapacidadFront extends Component {
                 //numDocAportante: numDocAportante,
                 //nombreAportante:nombreAportante,
                 tipoMensaje: 'success',
-                visible:'visible',
+                visible:visible,
                 loading:true,
             });
 
@@ -301,7 +306,7 @@ class IncapacidadFront extends Component {
                         this.activarGeneracion(incapacidades, response,afiliaciones)
                     });
 
-                    console.log(this.state.validaciones);
+                    //console.log(this.state.validaciones);
                 }
                 else{
                     this.setState({
@@ -325,7 +330,9 @@ class IncapacidadFront extends Component {
                 console.log(resp.data)
                 this.setState({
                     cronico: resp.data.data,
+                    visible:resp.data.data.visible,
                 });
+                
             })
             .catch(err => {
                 console.log(err)
@@ -551,7 +558,7 @@ class IncapacidadFront extends Component {
         this.reviewProrroga()
     }
     handleCausa(e){
-        console.log(e);
+        //console.log(e);
         this.setState({
             causae : e,
         });
@@ -626,8 +633,8 @@ class IncapacidadFront extends Component {
     
             curDate.setDate(curDate.getDate() + 1);
         }
-        console.log(count);
-        console.log(countf);
+        //console.log(count);
+        //console.log(countf);
         var reconocidos = count-countf;
         this.setState({
             diasReconocidos : reconocidos
@@ -646,7 +653,7 @@ class IncapacidadFront extends Component {
                     let url = 'saveIncapacidad'
                     axios.post(url, { datos: this.state })
                         .then(resp => {
-                            console.log(resp.data)
+                            //console.log(resp.data)
                             alert(resp.data)
                             //this.setState(this.initialState);
                            // location.reload();
@@ -806,7 +813,7 @@ class IncapacidadFront extends Component {
     }
     renderAportantes(){
         const { validaciones } = this.state;
-        console.log(validaciones);
+        //console.log(validaciones);
         
         return(
         <div className="afiliaciones white">
@@ -853,9 +860,14 @@ class IncapacidadFront extends Component {
                }
             
         }
-        if(this.state.cronico != 0){
+        if(this.state.cronico.consec != 0){
             mensaje2 = (<div className="alert alert-warning reco" role="alert">
-            El usuario se encuentra registrado en la base de seguimiento por ICP <a href={ 'verCronico/' + this.state.cronico } target="_blank">Ver detalle</a>
+            El usuario se encuentra registrado en la base de seguimiento por ICP <a href={ 'verCronico/' + this.state.cronico.consec } target="_blank">Ver detalle</a>
+                <ul>
+                {this.state.cronico.alarmas.map((a, index) =>
+                     <li>{this.state.cronico.alarmas[index]}</li>                        
+                )} 
+                </ul> 
              </div>);
         }
 

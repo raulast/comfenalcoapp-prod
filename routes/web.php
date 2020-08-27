@@ -79,7 +79,9 @@ Route::get('buscarHistorico/{tipo}/{numero}','ApiController@buscarHistorico')->m
 Route::get('historicoIncapacidades','ApiController@historicoIncapacidades');
 Route::get('certificadoIncapacidad/{id}/{pid}','ApiController@certificadoIncapacidad');
 Route::get('certificadoLicencia/{id}','ApiController@certificadoLicencia');
-
+Route::get('/reportes','ReportesController@index')->name('reportes');
+Route::post('/reportIncapacidades','ReportesController@reportIncapacidades');
+Route::post('/reportLicencias','ReportesController@reportLicencias');
 
 //cronicos
 
@@ -89,3 +91,5 @@ Route::post('/buscarCronicos','CronicosController@buscarCronicos');
 Route::post('/buscarCronico','CronicosController@buscarCronico');
 Route::get('/verCronico/{id}','CronicosController@verCronico');
 Route::get('/getCronico/{id}','CronicosController@getCronico');
+
+

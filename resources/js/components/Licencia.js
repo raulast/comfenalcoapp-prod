@@ -103,7 +103,11 @@ class LicenciaFront extends Component {
                 contingencia: ''
             },
             validaciones : [],
-            cronico :0,
+            cronico :{
+                consec :'',
+                visible :'visible',
+                alarmas: [],
+            },
             flagCertificado: 'disabled'
 
         };
@@ -211,6 +215,8 @@ class LicenciaFront extends Component {
             //let numDocAportante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['IDEmpresa'];
             //let nombreAportante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['NombreEmpresa'];
             // set state
+
+            var visible =this.state.cronico.visible;
             
             this.setState({
                 nombreCompleto: nombreCompleto,
@@ -227,7 +233,7 @@ class LicenciaFront extends Component {
                 //numDocAportante: numDocAportante,
                 //nombreAportante:nombreAportante,
                 tipoMensaje: 'success',
-                visible:'visible',
+                visible: visible,
                 loading:true
             });
 
@@ -341,6 +347,7 @@ class LicenciaFront extends Component {
                 console.log(resp.data)
                 this.setState({
                     cronico: resp.data.data,
+                    visible:resp.data.data.visible,
                 });
             })
             .catch(err => {
@@ -946,7 +953,7 @@ class LicenciaFront extends Component {
     }
     render() {
         let mensaje = <div></div>;
-
+        let mensaje2 =<div></div>;
         if (this.state.loading) {
             if (this.state.tipoMensaje == 'success') {
                 mensaje = (<div className="alert alert-success reco" role="alert">
@@ -960,7 +967,16 @@ class LicenciaFront extends Component {
                 </div>);
             }
         }
-
+        if(this.state.cronico.consec != 0){
+            mensaje2 = (<div className="alert alert-warning reco" role="alert">
+            El usuario se encuentra registrado en la base de seguimiento por ICP <a href={ 'verCronico/' + this.state.cronico.consec } target="_blank">Ver detalle</a>
+                <ul>
+                {this.state.cronico.alarmas.map((a, index) =>
+                     <li>{this.state.cronico.alarmas[index]}</li>                        
+                )} 
+                </ul> 
+             </div>);
+        }
 
         return (
 
@@ -1012,6 +1028,10 @@ class LicenciaFront extends Component {
 
                 {mensaje}
 
+                <br/>
+
+                { mensaje2 }
+           
                 <br/>
             
                 {this.renderAfiliaciones()}

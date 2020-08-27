@@ -37,17 +37,38 @@ class ApiController extends Controller
         if ($tipo== "causas"){ 
             $data=$this->loadCausasDB(); 
         }
+        if ($tipo== "medicos"){ 
+            $data=$this->loadMedicosDB(); 
+        }
+        if ($tipo== "especialidades"){ 
+            $data=$this->loadEspDB(); 
+        }
+        if ($tipo== "tiposCotizante"){ 
+            $data=$this->loadTcDB(); 
+        }
         return response()->json([
             'data' => $data
         ]);
     }
     private function loadIpsDB(){
-        $ips=Ips::all();
+        $ips=Ips::orderBy('nombre_sede','asc')->get();
         return $ips;
+    }
+    private function loadMedicosDB(){
+        $medicos=Medico::orderBy('nombre','asc')->get();
+        return $medicos;
+    }
+    private function loadEspDB(){
+        $esp=Diasmax::orderBy('especialidad','asc')->get();
+        return $esp;
     }
     private function loadCausasDB(){
         $causas=Causae::all();
         return $causas;
+    }
+    private function loadTcDB(){
+        $tc=Descripcionesp::where('incapacidad',1)->orderBy('descripcion','asc')->get();
+        return $tc;
     }
     public function search($tipo,$value){
         if ($tipo=="diagnostico"){
@@ -470,7 +491,7 @@ class ApiController extends Controller
         }
         $contingencias=["","Enfermedad general","Enfermedad laboral","Accidente de trabajo"];
        
-        if ($d->contingencia_origen=="2"){
+        if ($d->causa_externa=="2"){
             $soat="SI";
         }
         else{

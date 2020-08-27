@@ -71443,6 +71443,8 @@ __webpack_require__(/*! ./components/CronicosPanel */ "./resources/js/components
 
 __webpack_require__(/*! ./components/Cronico */ "./resources/js/components/Cronico.js");
 
+__webpack_require__(/*! ./components/Reporte */ "./resources/js/components/Reporte.js");
+
 /***/ }),
 
 /***/ "./resources/js/bootstrap.js":
@@ -74624,6 +74626,70 @@ if (document.getElementById('menuUsuarios')) {
 
 /***/ }),
 
+/***/ "./resources/js/components/EspecialidadesSelect.js":
+/*!*********************************************************!*\
+  !*** ./resources/js/components/EspecialidadesSelect.js ***!
+  \*********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return EspecialidadesSelect; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+function EspecialidadesSelect(props) {
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+      _useState2 = _slicedToArray(_useState, 2),
+      esps = _useState2[0],
+      setEsp = _useState2[1];
+
+  var getEsp = function getEsp() {
+    var url = 'list/especialidades';
+    axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (resp) {
+      setEsp(resp.data.data);
+    })["catch"](function (err) {
+      console.log(err);
+    });
+  };
+
+  var handleEspChange = function handleEspChange(e) {
+    props.handleChange(e);
+  };
+
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(getEsp, []);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+    onChange: handleEspChange,
+    className: "form-control form-control-sm",
+    name: "especialidad"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: 0
+  }), esps.map(function (esp) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      key: esp.id,
+      value: esp.id
+    }, esp.especialidad);
+  })));
+}
+
+/***/ }),
+
 /***/ "./resources/js/components/EstadosAdmin.js":
 /*!*************************************************!*\
   !*** ./resources/js/components/EstadosAdmin.js ***!
@@ -75029,7 +75095,11 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
         contingencia: ''
       },
       validaciones: [],
-      cronico: 0,
+      cronico: {
+        consec: '',
+        visible: 'visible',
+        alarmas: []
+      },
       flagCertificado: 'disabled'
     };
     _this.initialState = _objectSpread({}, _this.state); // bind
@@ -75146,6 +75216,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
         //let nombreAportante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['NombreEmpresa'];
         // set state
 
+        var visible = this.state.cronico.visible;
         this.setState({
           nombreCompleto: nombreCompleto,
           tipoDocAfiliado: tipoDocAfiliado,
@@ -75161,7 +75232,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
           //numDocAportante: numDocAportante,
           //nombreAportante:nombreAportante,
           tipoMensaje: 'success',
-          visible: 'visible',
+          visible: visible,
           loading: true
         });
       }
@@ -75266,8 +75337,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
                         });
 
                         _this3.activarGeneracion(incapacidades, response, afiliaciones);
-                      });
-                      console.log(_this3.state.validaciones);
+                      }); //console.log(this.state.validaciones);
                     })();
                   } else {
                     _this3.setState({
@@ -75307,7 +75377,8 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
         console.log(resp.data);
 
         _this4.setState({
-          cronico: resp.data.data
+          cronico: resp.data.data,
+          visible: resp.data.data.visible
         });
       })["catch"](function (err) {
         console.log(err);
@@ -75578,7 +75649,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
   }, {
     key: "handleCausa",
     value: function handleCausa(e) {
-      console.log(e);
+      //console.log(e);
       this.setState({
         causae: e
       });
@@ -75664,10 +75735,10 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
 
         if (festivos.includes(curDate.toISOString().slice(0, 10))) countf++;
         curDate.setDate(curDate.getDate() + 1);
-      }
+      } //console.log(count);
+      //console.log(countf);
 
-      console.log(count);
-      console.log(countf);
+
       var reconocidos = count - countf;
       this.setState({
         diasReconocidos: reconocidos
@@ -75695,7 +75766,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
                     axios__WEBPACK_IMPORTED_MODULE_8___default.a.post(url, {
                       datos: this.state
                     }).then(function (resp) {
-                      console.log(resp.data);
+                      //console.log(resp.data)
                       alert(resp.data); //this.setState(this.initialState);
                       // location.reload();
 
@@ -75882,8 +75953,8 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
     value: function renderAportantes() {
       var _this8 = this;
 
-      var validaciones = this.state.validaciones;
-      console.log(validaciones);
+      var validaciones = this.state.validaciones; //console.log(validaciones);
+
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "afiliaciones white"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("p", null, "Aportantes"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("table", {
@@ -75904,6 +75975,8 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
   }, {
     key: "render",
     value: function render() {
+      var _this9 = this;
+
       var mensaje = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null);
       var mensaje2 = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null);
 
@@ -75923,14 +75996,16 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
         }
       }
 
-      if (this.state.cronico != 0) {
+      if (this.state.cronico.consec != 0) {
         mensaje2 = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
           className: "alert alert-warning reco",
           role: "alert"
         }, "El usuario se encuentra registrado en la base de seguimiento por ICP ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
-          href: 'verCronico/' + this.state.cronico,
+          href: 'verCronico/' + this.state.cronico.consec,
           target: "_blank"
-        }, "Ver detalle"));
+        }, "Ver detalle"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", null, this.state.cronico.alarmas.map(function (a, index) {
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("li", null, _this9.state.cronico.alarmas[index]);
+        })));
       }
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
@@ -76574,6 +76649,70 @@ if (document.getElementById('menuUsuarios')) {
 
 /***/ }),
 
+/***/ "./resources/js/components/IpsSelect.js":
+/*!**********************************************!*\
+  !*** ./resources/js/components/IpsSelect.js ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return IpsSelect; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+function IpsSelect(props) {
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+      _useState2 = _slicedToArray(_useState, 2),
+      ipss = _useState2[0],
+      setIpss = _useState2[1];
+
+  var getIpss = function getIpss() {
+    var url = 'list/ips';
+    axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (resp) {
+      setIpss(resp.data.data);
+    })["catch"](function (err) {
+      console.log(err);
+    });
+  };
+
+  var handleIpsChange = function handleIpsChange(e) {
+    props.handleChange(e);
+  };
+
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(getIpss, []);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+    onChange: handleIpsChange,
+    className: "form-control form-control-sm",
+    name: "ips"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: 0
+  }), ipss.map(function (ips) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      key: ips.id,
+      value: ips.id
+    }, ips.nombre_sede);
+  })));
+}
+
+/***/ }),
+
 /***/ "./resources/js/components/Licencia.js":
 /*!*********************************************!*\
   !*** ./resources/js/components/Licencia.js ***!
@@ -76743,7 +76882,11 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
         contingencia: ''
       },
       validaciones: [],
-      cronico: 0,
+      cronico: {
+        consec: '',
+        visible: 'visible',
+        alarmas: []
+      },
       flagCertificado: 'disabled'
     };
     _this.initialState = _objectSpread({}, _this.state); // bind
@@ -76866,6 +77009,7 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
         //let nombreAportante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['NombreEmpresa'];
         // set state
 
+        var visible = this.state.cronico.visible;
         this.setState({
           nombreCompleto: nombreCompleto,
           tipoDocAfiliado: tipoDocAfiliado,
@@ -76881,7 +77025,7 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
           //numDocAportante: numDocAportante,
           //nombreAportante:nombreAportante,
           tipoMensaje: 'success',
-          visible: 'visible',
+          visible: visible,
           loading: true
         });
       }
@@ -77027,7 +77171,8 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
         console.log(resp.data);
 
         _this4.setState({
-          cronico: resp.data.data
+          cronico: resp.data.data,
+          visible: resp.data.data.visible
         });
       })["catch"](function (err) {
         console.log(err);
@@ -77681,7 +77826,10 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
   }, {
     key: "render",
     value: function render() {
+      var _this9 = this;
+
       var mensaje = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null);
+      var mensaje2 = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null);
 
       if (this.state.loading) {
         if (this.state.tipoMensaje == 'success') {
@@ -77697,6 +77845,18 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
             role: "alert"
           }, this.state.mensaje);
         }
+      }
+
+      if (this.state.cronico.consec != 0) {
+        mensaje2 = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+          className: "alert alert-warning reco",
+          role: "alert"
+        }, "El usuario se encuentra registrado en la base de seguimiento por ICP ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
+          href: 'verCronico/' + this.state.cronico.consec,
+          target: "_blank"
+        }, "Ver detalle"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", null, this.state.cronico.alarmas.map(function (a, index) {
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("li", null, _this9.state.cronico.alarmas[index]);
+        })));
       }
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
@@ -77761,7 +77921,7 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
         id: "btnBuscar",
         className: "btn btn-primary",
         value: "Buscar"
-      })))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), mensaje, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), this.renderAfiliaciones(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      })))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), mensaje, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), mensaje2, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), this.renderAfiliaciones(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: this.state.visible
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "row justify-content-center "
@@ -78388,6 +78548,70 @@ function Medico(props) {
   }, "Odont\xF3logo general"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
     value: "4"
   }, "Odont\xF3logo especialista")))));
+}
+
+/***/ }),
+
+/***/ "./resources/js/components/MedicoSelect.js":
+/*!*************************************************!*\
+  !*** ./resources/js/components/MedicoSelect.js ***!
+  \*************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return MedicoSelect; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+function MedicoSelect(props) {
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+      _useState2 = _slicedToArray(_useState, 2),
+      medicos = _useState2[0],
+      setMedicos = _useState2[1];
+
+  var getMedicos = function getMedicos() {
+    var url = 'list/medicos';
+    axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (resp) {
+      setMedicos(resp.data.data);
+    })["catch"](function (err) {
+      console.log(err);
+    });
+  };
+
+  var handleMedicosChange = function handleMedicosChange(e) {
+    props.handleChange(e);
+  };
+
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(getMedicos, []);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+    onChange: handleMedicosChange,
+    className: "form-control form-control-sm",
+    name: "medico"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: 0
+  }), medicos.map(function (medico) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      key: medico.id,
+      value: medico.id
+    }, medico.nombre);
+  })));
 }
 
 /***/ }),
@@ -79096,6 +79320,871 @@ if (document.getElementById('menuUsuarios')) {
 
 /***/ }),
 
+/***/ "./resources/js/components/Reporte.js":
+/*!********************************************!*\
+  !*** ./resources/js/components/Reporte.js ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _IpsSelect_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./IpsSelect.js */ "./resources/js/components/IpsSelect.js");
+/* harmony import */ var _MedicoSelect_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./MedicoSelect.js */ "./resources/js/components/MedicoSelect.js");
+/* harmony import */ var _EspecialidadesSelect_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./EspecialidadesSelect.js */ "./resources/js/components/EspecialidadesSelect.js");
+/* harmony import */ var _TipoCotizanteSelect_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./TipoCotizanteSelect.js */ "./resources/js/components/TipoCotizanteSelect.js");
+/* harmony import */ var _AutocompleteDescripcion_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./AutocompleteDescripcion.js */ "./resources/js/components/AutocompleteDescripcion.js");
+/* harmony import */ var _TableReportes_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./TableReportes.js */ "./resources/js/components/TableReportes.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_8__);
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+
+
+
+
+
+
+
+var Reporte = /*#__PURE__*/function (_Component) {
+  _inherits(Reporte, _Component);
+
+  var _super = _createSuper(Reporte);
+
+  function Reporte(props) {
+    var _this;
+
+    _classCallCheck(this, Reporte);
+
+    _this = _super.call(this, props);
+    _this.state = {
+      ips: '',
+      medico: '',
+      especialidad: '',
+      paciente: '',
+      empresa: '',
+      tipoCotizante: '',
+      tipoLicencia: '',
+      desde: '',
+      hasta: '',
+      capitulo: '',
+      categoria: '',
+      diagnostico: '',
+      codigoDiagnostico: '',
+      contingencia: '',
+      soat: '',
+      datos: '',
+      totales: ''
+    }; // bind
+
+    _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
+    _this.handleDiagnostico = _this.handleDiagnostico.bind(_assertThisInitialized(_this));
+    _this.handleCodigoDiagnostico = _this.handleCodigoDiagnostico.bind(_assertThisInitialized(_this));
+    _this.reportIncapacidades = _this.reportIncapacidades.bind(_assertThisInitialized(_this));
+    _this.reportLicencias = _this.reportLicencias.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(Reporte, [{
+    key: "handleChange",
+    value: function handleChange(_ref) {
+      var target = _ref.target;
+      this.setState(_defineProperty({}, target.name, target.value));
+    }
+  }, {
+    key: "handleDiagnostico",
+    value: function handleDiagnostico(dato) {
+      this.setState({
+        diagnostico: dato
+      });
+    }
+  }, {
+    key: "handleCodigoDiagnostico",
+    value: function handleCodigoDiagnostico(dato) {
+      this.setState({
+        codigoDiagnostico: dato
+      });
+    }
+  }, {
+    key: "reportIncapacidades",
+    value: function reportIncapacidades() {
+      var _this2 = this;
+
+      var url = 'reportIncapacidades';
+      axios__WEBPACK_IMPORTED_MODULE_8___default.a.post(url, {
+        datos: this.state
+      }).then(function (resp) {
+        console.log(resp.data);
+
+        _this2.setState({
+          datos: resp.data.data,
+          totales: resp.data.totales
+        });
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    }
+  }, {
+    key: "reportLicencias",
+    value: function reportLicencias() {
+      var _this3 = this;
+
+      var url = 'reportLicencias';
+      axios__WEBPACK_IMPORTED_MODULE_8___default.a.post(url, {
+        datos: this.state
+      }).then(function (resp) {
+        console.log(resp.data);
+
+        _this3.setState({
+          datos: resp.data.data,
+          totales: resp.data.totales
+        });
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row mt-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card-header bg2 titulo"
+      }, "Generaci\xF3n de reportes - Datos Generales"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card-body texto"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: ""
+      }, "IPS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_IpsSelect_js__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        handleChange: this.handleChange
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: ""
+      }, "M\xE9dico"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MedicoSelect_js__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        handleChange: this.handleChange
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: ""
+      }, "Especialidad"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_EspecialidadesSelect_js__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        handleChange: this.handleChange
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: ""
+      }, "ID Paciente"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        name: "paciente",
+        className: "form-control form-control-sm",
+        onChange: this.handleChange
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: ""
+      }, "Empresa"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        name: "empresa",
+        className: "form-control form-control-sm",
+        onChange: this.handleChange
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: ""
+      }, "Tipo de Cotizante"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TipoCotizanteSelect_js__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        handleChange: this.handleChange
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: ""
+      }, "Tipo de licencia"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        name: "tipoLicencia",
+        className: "form-control form-control-sm",
+        onChange: this.handleChange,
+        value: this.state.tipoLicencia
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: ""
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "1"
+      }, "Maternidad Normal"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "2"
+      }, "Parto no viable"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "3"
+      }, "Paternidad"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "4"
+      }, "Parto prematuro"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "5"
+      }, "Parto normal m\xFAltiple"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "6"
+      }, "Parto prematuro m\xFAltiple"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "10"
+      }, "Fallecimiento de la madre"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "12"
+      }, "Fallo de tutela"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "13"
+      }, "Enfermedad materna grave"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "14"
+      }, "Adopci\xF3n"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "15"
+      }, "Prelicencia en \xE9poca de parto (anticipo)"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: ""
+      }, "Per\xEDodo de tiempo (desde)"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "date",
+        name: "desde",
+        className: "form-control form-control-sm",
+        onChange: this.handleChange
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: ""
+      }, "Per\xEDodo de tiempo (hasta)"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "date",
+        name: "hasta",
+        className: "form-control form-control-sm",
+        onChange: this.handleChange
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row mt-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "btn btn-primary btn-sm",
+        onClick: this.reportIncapacidades
+      }, "Incapacidades"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "btn btn-success btn-sm",
+        onClick: this.reportLicencias
+      }, "Licencias"))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row mt-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card-header bg2 titulo"
+      }, "Generaci\xF3n de reportes - CIE10"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card-body texto"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-6"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_AutocompleteDescripcion_js__WEBPACK_IMPORTED_MODULE_6__["default"], {
+        title: "Diagn\xF3stico",
+        handleDiagnostico: this.handleDiagnostico,
+        handleCodigoDiagnostico: this.handleCodigoDiagnostico
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "capitulo_grupo"
+      }, "Cap\xEDtulo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        className: "form-control form-control-sm",
+        name: "capitulo",
+        value: this.state.capitulo,
+        onChange: this.handleChange
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: ""
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "1"
+      }, "CIERTAS ENFERMEDADES INFECCIOSAS Y PARASITARIAS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "2"
+      }, "TUMORES [NEOPLASIAS]"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "3"
+      }, "ENFERMEDADES DE LA SANGRE Y DE LOS ORGANOS HEMATOPOYETICOS, Y CIERTOS TRASTORNOS QUE AFECTAN EL MECANISMO DE LA INMUNIDAD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "4"
+      }, "ENFERMEDADES ENDOCRINAS, NUTRICIONALES Y METABOLICAS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "5"
+      }, "TRASTORNOS MENTALES Y DEL COMPORTAMIENTO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "6"
+      }, "ENFERMEDADES DEL SISTEMA NERVIOSO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "7"
+      }, "ENFERMEDADES DEL OJO Y SUS ANEXOS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "8"
+      }, "ENFERMEDADES DEL OIDO Y DE LA APOFISIS MASTOIDES"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "9"
+      }, "ENFERMEDADES DEL SISTEMA CIRCULATORIO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "10"
+      }, "ENFERMEDADES DEL SISTEMA RESPIRATORIO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "11"
+      }, "ENFERMEDADES DEL SISTEMA DIGESTIVO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "12"
+      }, "ENEFERMEDADES DE LA PIEL Y DEL TEJIDO SUBCUTANEO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "13"
+      }, "ENFERMEDADES DEL SISTEMA OSTEOMUSCULAR Y DEL TEJIDO CONJUNTIVO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "14"
+      }, "ENFERMEDADES DEL SISTEMA GENITOURINARIO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "15"
+      }, "EMBARAZO, PARTO Y PUERPERIO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "16"
+      }, "CIERTAS AFECCIONES ORIGINADAS EN EL PERIODO PERINATAL"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "17"
+      }, "MALFORMACIONES CONGENITAS, DEFORMIDADES Y ANOMALIAS CROMOSOMICAS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "18"
+      }, "SINTOMAS, SIGNOS Y HALLAZGOS ANORMALES CLINICOS Y DE LABORATORIO, NO CLASIFICADOS EN OTRA PARTE"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "19"
+      }, "TRAUMATISMOS, ENVENENAMIENTOS Y ALGUNAS OTRAS CONSECUENCIAS DE CAUSAS EXTERNAS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "20"
+      }, "CAUSAS EXTERNAS DE MORBILIDAD Y DE MORTALIDAD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "21"
+      }, "FACTORES QUE INFLUYEN EN EL ESTADO DE SALUD Y CONTACTO CON LOS SERVICIOS DE SALUD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "22"
+      }, "ASIGNACI\xD3N PROVISIONAL DE NUEVAS ENFERMEDADES DE ETIOLOG\xCDA INCIERTA"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "categoria"
+      }, "Categor\xEDa"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        className: "form-control form-control-sm",
+        name: "categoria",
+        value: this.state.categoria,
+        onChange: this.handleChange
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: ""
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "1_1"
+      }, "ENFERMEDADES INFECCIOSAS INTESTINALES"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "1_2"
+      }, "TUBERCULOSIS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "1_3"
+      }, "CIERTAS ZOONOSIS BACTERIANA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "1_4"
+      }, "OTRAS ENFERMEDADES BACTERIANAS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "1_5"
+      }, "INFECCIONES CON MODO DE TRANSMISION PREDOMINANTEMENTE SEXUAL"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "1_6"
+      }, "OTRAS ENFERMEDADESA ESPIROQUETAS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "1_7"
+      }, "OTRAS ENFERMEDADES CAUSADAS POR CLAMIDIAS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "1_8"
+      }, "RICKETTSIOSIS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "1_9"
+      }, "INFECCIONES VIRALES DEL SISTEMA NERVIOSOS CENTRAL"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "1_10"
+      }, "FIEBRESVIRALES TRANSMITIDAS POR ARTROPODOS Y FIEBRES VIRALES HEMORRAGICAS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "1_11"
+      }, "INFECCCIONES VIRALES CARACTERIZADAS POR LESIONES DE LA PIEL Y DE LAS MEMBRANAS MUCOSAS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "1_12"
+      }, "HEPATISIRIS VIRAL"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "1_13"
+      }, "ENFERMEDAD POR VIRUS DE LA INMUNODEFICIENCIA HUMANA [HIH]"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "1_14"
+      }, "OTRAS ENFERMEDADES VIRALES"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "1_15"
+      }, "MICOSIS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "1_16"
+      }, "ENFERMEDADES DEBIDAS A PROTOZOARIOS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "1_17"
+      }, "HELMINTIASIS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "1_18"
+      }, "PEDICULOSIS, ACARIASIS Y OTRAS INFECCIONES"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "1_19"
+      }, "SECUELAS DE ENFERMEDADES INFECCIOSAS Y PARASITARIAS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "1_20"
+      }, "BACTERIAS, VIRUS, Y OTROS AGENTES INFECCIOSOS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "2_1"
+      }, "TUMORES (NEIPLASIAS MALIGNOS)"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "2_2"
+      }, "TUMORES [NEOPLASIAS] IN SITU"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "2_3"
+      }, "TUMORES [NEOPLASIAS] BENIGNOS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "2_4"
+      }, "TUMORES [NEOPLASIAS]DE COMPORTAMIENTO INCIERTO O DESCONOCIDO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "3_1"
+      }, "ANEMIAS NUTRICIONALES"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "3_2"
+      }, "ANEMIAS HEMILITICAS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "3_3"
+      }, "ANEMIAS APLASTICAS Y OTRAS ANEMIAS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "3_4"
+      }, "DEFECTOS DE LA COAGULACION, PURPURA Y OTRAS AFECCIONES HEMORRAGICAS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "3_5"
+      }, "OTRAS ENFERMEDADES DE LA SANGRE Y DE LOS ORGANOS HEMATOPOYETICOS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "3_6"
+      }, "CIERTOS TRASTORNOS QUE AFECTAN EL MECANISMO DE LA INMUNIDAD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "4_1"
+      }, "TRASTORNOS DE LA GLANDULA TIROIDES"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "4_2"
+      }, "DIABETES MELLITUS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "4_3"
+      }, "OTROS TRASTORNOS DE LA REGULACI\xD3N DE LA GLUCOSA Y DE LA SECRECION INTERNA DEL PANCREAS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "4_4"
+      }, "TRASTORNOS DE OTRAS GLANDULAS ENDOCRINAS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "4_5"
+      }, "DESNUTRICION"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "4_6"
+      }, "OTRAS DEFICIENCIAS NUTRICIONALES"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "4_7"
+      }, "OBESIDAD Y OTROS TIPOS DE HIPERALIMENTACION"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "4_8"
+      }, "TRASTORNOS METABILICOS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "5_1"
+      }, "TRASTORNOS MENTALES ORGANICOS, INCLUIDOS LOS TRASTORNOS SINTOMATICOS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "5_2"
+      }, "TRASTORNOS MENTALES Y DEL COMPORTAMIENTO DEBIDO AL USO DE SUSTANCIAS PSICOATIVAS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "5_3"
+      }, "ESQUIZOFRENIA, TRASTORNOS ESQUIZOTIPICOS Y TRASTORNOS DELIRANTES"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "5_4"
+      }, "TRASTORNOS DEL HUMOR [AFECTIVOS]"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "5_5"
+      }, "TRASTORNOS NEUROTICOS, TRASTORNOS RELACIONADOS CON EL ESTRES Y TRASTORNOS SOMATOMORFOS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "5_6"
+      }, "SINDROMES DEL COMPORTAMIENTO ASOCIADOS CON ALTERACIONES FISIOLOGICAS Y FACTORES FISICOS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "5_7"
+      }, "TRASTORNOS DE LA PERSONALIDAD Y DEL COMPORTAMIENTO EN ADULTOS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "5_8"
+      }, "RETRASO MENTAL"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "5_9"
+      }, "TRASTORNOS DEL DESARROLLO PSICOLOGICO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "5_10"
+      }, "TRASTORNOS EMOCIONALES Y DEL COMPORTAMIENTO QUE APARECEN HABITUALMENTE EN LA NI\xD1EZ Y EN LA ADOLESCENCIA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "6_1"
+      }, "ENFERMEDADES INFLAMATORIAS DEL SISTEMA NERVIOSO CENTRAL"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "6_2"
+      }, "ATROFIAS SISTEMATICAS QUE AFECTAN PRICIPALMENTE EL SISTEMA NERVIOSO CENTRAL"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "6_3"
+      }, "TRASTORNOS EXTRAPIRAMIDALES Y DEL MOVIMIENTO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "6_4"
+      }, "OTRAS ENFERMEDADES DEGENERATIVAS DEL SISTEMA NERVIOSO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "6_5"
+      }, "ENFERMEDADES DESMIELIZANTES DEL SISTEMA NERVIOSO CENTRAL"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "6_6"
+      }, "TRASTORNOS EPISODICOS Y PAROXISTICOS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "6_7"
+      }, "TRASTORNOS DE LOS NERVIOS, DE LAS RAICES DE LOS PLEXOS NERVIOSOS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "6_8"
+      }, "POLINEUROPATIAS Y OTROS TRASTORNOS DEL SISTEMA NERVIOSO PERIFERICO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "6_9"
+      }, "ENFERMEDADES MUSCULARES Y DE LA UNION NEUROMUSCULAR"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "6_10"
+      }, "PARALISIS CEREBRAL Y OTROS SINDROMES PARALITICOS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "6_11"
+      }, "OTROS TRASTORNOS DEL SITEMA NERVIOSO CENTRAL"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "7_1"
+      }, "TRASTORNOS DEL PARPADO, APARATO LAGRIMAL Y ORBITA "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "7_2"
+      }, "TRASTORNOS DE LA CONJUNTIVA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "7_3"
+      }, "TRASTORNOS DE LA ESCLEROTICA, CORNEA, IRIS Y CUERPO CILIAR"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "7_4"
+      }, "TRASTORNOS DEL CRISTALINO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "7_5"
+      }, "TRASTORNOS DE LA COROIDES Y DE LA RETINA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "7_6"
+      }, "GLAUCOMA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "7_7"
+      }, "TRASTORNOS DEL CUERPO VITREO Y DEL GLOBO OCULAR"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "7_8"
+      }, "TRASTORNOS DEL NERVIO OPTICO Y DE LAS VIAS OPTICA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "7_9"
+      }, "TRASTORNOS DE LOS MUSCULOS OCULARES, DEL MOVIEMIENTO BINOCULAR, DE LA ACOMODACION Y DE LA REFRACCION"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "7_10"
+      }, "ALTERACIONES DE LA VISION Y CEGUERA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "7_11"
+      }, "OTROS TRASTORNOS DEL OJO Y SUS ANEXOS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "8_1"
+      }, "ENFERMEDADES DEL OIDO EXTERNO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "8_2"
+      }, "ENFERMEDADES DEL OIDO MEDIO Y DE LA MASTOIDES"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "8_3"
+      }, "ENFERMEDADES DEL OIDO EINTERNO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "8_4"
+      }, "OTROS TRASTORNOS DEL OIDO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "9_1"
+      }, "FIEBRE REUMATICA AGUDA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "9_2"
+      }, "ENFERMEDADES CARDIACAS REUMATICAS CRONICAS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "9_3"
+      }, "ENFERMEDADES HIPERTENSIVAS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "9_4"
+      }, "ENFERMEDADES ISQUEMICAS DEL CORAZON"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "9_5"
+      }, "ENFERMEDAD CARDIOPULMONAR Y ENFERMEDADES DE LA CIRCULACION PULMONAR"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "9_6"
+      }, "OTRAS FORMAS DE ENFERMEDAD DEL CORAZON"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "9_7"
+      }, "ENFERMEDADES CEREBROVASCULARES"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "9_8"
+      }, "ENFERMEDADES DE LAS ARTERIAS, DE LAS ARTERIOLAS Y DE LOS VASOS CAPILARES"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "9_9"
+      }, "ENFERMEDADES DE LAS VENAS Y DE LOS VASOS GANGLIOS LINFATICOS, NO CLASIFICADAS EN OTRA PARTE"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "9_10"
+      }, "OTROS TRASTORNOS Y DE LOS NO ESPECIFICADOS DEL SISTEMA CIRCULATORIO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "10_1"
+      }, "INFECCIONES AGUDAS DE LAS VIAS RESPIRATORIAS SUPERIORES"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "10_2"
+      }, "INFLUENZA Y NEUMONIA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "10_3"
+      }, "OTRAS INFECCIONES AGUDAS DE LAS VIAS RESPIRATORIAS INFERIORES"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "10_4"
+      }, "OTRAS ENFERMEDADES DE LAS VIAS RESPIRATORIAS SUPERIORES"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "10_5"
+      }, "ENFERMEDADES CRONICAS DE LAS VIAS RESPIRATORIAS INFERIORES"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "10_6"
+      }, "ENFERMEDADES DEL PULMON DEBIDAS A AGENTES EXTERNOS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "10_7"
+      }, "OTRAS ENFERMEDADES RESPIRATORIAS QUE AFECTAN PRINCIPALMENTE AL INTERSTICO "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "10_8"
+      }, "AFECCIONES SUPURATIVAS Y NECROTICAS DE LAS VIAS RESPIRATORIAS INFERIORES"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "10_9"
+      }, "OTRAS ENFERMEDADES DEL SISTEMA RESPIRATORIO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "11_1"
+      }, "ENFERMEDADES DE LA CAVIDAD BUCAL DE LAS GLANDULAS SALIVALES Y DE LOS MAXILARES"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "11_2"
+      }, "ENFERMEDADES DEL ESOFAGO, DEL ESTOMAGO Y DEL DUODENO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "11_3"
+      }, "ENFERMEDADES DEL APENDICE"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "11_4"
+      }, "HERNIA HINGUINAL"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "11_5"
+      }, "ENTERITIS Y COLITIS NO INFECCIOSAS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "11_6"
+      }, "OTRAS ENFERMEDADES DE LOS INTESTINOS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "11_7"
+      }, "ENFERMEDADES DEL PERITONEO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "11_8"
+      }, "ENFERMEDADES DEL HIGADO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "11_9"
+      }, "TRASTORNOS DE LA VESICULA BILIAR, DE LAS VIAS BILIARES Y DEL PANCREAS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "11_10"
+      }, "OTRAS ENFERMEDADES DEL SISTEMA DIGESTIVO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "12_1"
+      }, "INFECCIONES DE LA PIEL Y DEL TEJIDO SUBCUTANEO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "12_2"
+      }, "TRASTORNOS FLICTENULARES"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "12_3"
+      }, "DERMATITIS Y ECZEMA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "12_4"
+      }, "TRASTORNOS PAPULOESCAMOSOS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "12_5"
+      }, "URTICARIA Y ERITEMA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "12_6"
+      }, "TRASTORNOS DE LA PIEL Y DEL TEJIDO SUBCUTANEO RELACIONADOS CON RADIACION"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "12_7"
+      }, "TRASTORNOS DE LAS FANERAS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "12_8"
+      }, "OTROS TRASTORNOS DE LA PIEL Y DEL TEJIDO SUBCUTANEO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "13_1"
+      }, "ARTROPATIAS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "13_2"
+      }, "ARTROSIS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "13_3"
+      }, "TRASTORNOS SISTEMICOS DEL TEJIDO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "13_4"
+      }, "DORSOPATIAS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "13_5"
+      }, "TRASTORNOS DE LOS TEJIDOS BLANDOS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "13_6"
+      }, "OSTEOPATIAS Y CONDROPATIAS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "13_7"
+      }, "OTROS TRASTORNOS DEL SISTEMA OSTEOMUSCULAR Y DEL TEJIDO CONJUNTIVO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "14_1"
+      }, "ENFERMEDADES GLOMERULARES"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "14_2"
+      }, "ENFERMEDAD RENAL TUBUINTERSTICIAL"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "14_3"
+      }, "INSUFICIENCIA RENAL"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "14_4"
+      }, "LITIASIS URINARIA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "14_5"
+      }, "OTROS TRASTORNOS DEL RI\xD1ON Y DEL URETER"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "14_6"
+      }, "ENFERMEDADES DE LOS ORGANOS GENITALES MASCULINOS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "14_7"
+      }, "TRASTORNOS DE LA MAMA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "14_8"
+      }, "ENFERMEDADES INFLAMATORIAS DE LOS ORGANOS PELVICOS FEMENINOS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "14_9"
+      }, "TRASTORNOS NO INFLAMATORIOS DE LOS ORGANOS GENITALES FEMENINOS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "14_10"
+      }, "OTROS TRASTORNOS DEL SITEMA GENITOURINARIO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "15_1"
+      }, "EMBARAZO TERMINADO EN ABORTO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "15_2"
+      }, "EDEMA, PROTEINURIA Y TRASTORNOS HIPERTENSIVOS EN EL EMBARAZO, EL PARTO Y EL PUERPERIO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "15_3"
+      }, "ATENCION MATERNA RELACIONADA CON EL FETO Y LA CAVIDAD AMNIOTICA Y CON POSIBLES PROBLEMAS DE PARTO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "15_4"
+      }, "COMPLICACIONES DEL TRABAJO DE PARTO Y DEL PARTO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "15_5"
+      }, "PARTO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "15_6"
+      }, "COMPLICACIONES PRINCIPALMENTE RELACIONADAS CON EL PUERPERIO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "16_1"
+      }, "FETO Y RECIEN NACIDO AFECTADOS POR FACTORES MATERNOS Y POR COMPLICACIONES DEL EMBARAZO, DEL TRABAJO DE PARTO Y DEL PARTO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "16_2"
+      }, "TRASTORNOS RELACIONADOS CON LA DURACION DE LA GESTACION Y EL CRECIMIENTO FETAL"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "16_3"
+      }, "TRAUMATISMO DEL NACIMIENTO "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "16_4"
+      }, "TRASTORNOS RESPIRATORIOS Y CARDIOVASCULARES ESPECIFICOS DEL PERIODO PERINATAL"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "16_5"
+      }, "INFECCIONES ESPECIFICAS DEL PERIODO PERINATAL"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "16_6"
+      }, "TRASTORNOS HEMORRAGICOS Y HEMATOLOGICOS DEL FETO Y DEL RECIEN NACIDO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "16_7"
+      }, "TRASTORNOS ENDOCRINOS Y METABOLICOS TRANSITORIOS ESPECIFICOS DEL FETO Y DEL RECIEN NACIDO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "16_8"
+      }, "TRASTORNOS DEL SISTEMA DIGESTIVO DEL FETO Y DEL RECIEN NACIDO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "16_9"
+      }, "AFECCIONES CON LA REGULACION TEGUMENTARIA Y DE LA TEMPERATURA DEL FETO Y DEL RECIEN NACIDO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "16_10"
+      }, "OTROS TRASTORNOS ORIGINADOS EN EL PERIODO PERINATAL"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "17_1"
+      }, "MALFORMACIONES CONGENITAS DEL SISTEMA NERVIOSO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "17_2"
+      }, "MALFORMACIONES CONGENITAS DEL OJO, DEL OIDO, DE LA CARA Y DEL CUELLO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "17_3"
+      }, "MALFORMACIONES CONGENITAS DEL SISTEMA CIRCULATORIO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "17_4"
+      }, "MALFORMACIONES CONGENITAS DEL SISTEMA RESPIRATORIO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "17_5"
+      }, "FISURA DEL PALADAR Y LABIO LEPORINO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "17_6"
+      }, "OTRAS MALFORMACIONES CONGENITAS DEL SISTEMA DIGESTIVO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "17_7"
+      }, "MALFORMACIONES CONGENITAS DE LOS ORGANOS GENITALES"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "17_8"
+      }, "MALFORMACIONES CONGENITAS DEL SISTEMA URINARIO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "17_9"
+      }, "MALFORMACIONES Y DEFORMIDADES CONGENITAS DEL SISTEMA OSTEOMUSCULAROTRAS MALFOMACIONES CONGENITAS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "17_10"
+      }, "OTRAS MALFORMACIONES CONGENITAS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "17_11"
+      }, "ANOMALIAS CROMOSOMICAS, NO CLASIFICADAS EN OTRA PARTE"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "18_1"
+      }, "SINTOMAS Y SIGNOS QUE INVOLUCRAN LOS SISTEMAS CIRCULATORIO Y RESPIRATORIO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "18_2"
+      }, "SINTOMAS Y SIGNOS QUE INVOLUCRAN EL SISTEMA DIGESTIVO Y EL ABDOMEN"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "18_3"
+      }, "SINTOMAS Y SIGNOS QUE INVOLUCRAN LA PIEL Y EL TEJIDO SUBCUTANEO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "18_4"
+      }, "SINTOMAS Y SIGNOS QUE INVOLUCRAN LOS SITEMAS NERVIOSO Y OSTEOMUSCULAR"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "18_5"
+      }, "SINTOMAS Y SIGNOS QUE INVOLUCRAN EL SISTEMA URINARIO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "18_6"
+      }, "SINTOMAS Y SIGNOS QUE INVOLUCRAN EL CONOCIMIENTO, LA PERCEPCION, EL ESTADO EMOCIONAL Y LA CONDUCTA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "18_7"
+      }, "SINTOMAS Y SIGNOS QUE INVOLUCRAN EL HABLA Y LA VOZ"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "18_8"
+      }, "SINTOMAS Y SIGNOS GENERALES"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "18_9"
+      }, "HALLAZGOS ANORMALES EN EL EXAMEN DE LA SANGRE, SIN DIAGNOSTICO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "18_10"
+      }, "HALLAZGOS ANORMALES EN EL EXAMEN DE ORINA, SIN DIAGNOSTICO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "18_11"
+      }, "HALLAZGOS ANORMALES EN EL EXAMEN DE OTROS LIQUIDOS SUSTANCIAS Y TEJIDOS CORPORALES, SIN DIAGNOSTICO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "18_12"
+      }, "HALLAZGOS ANORMALES EN DIAGNOSTICO POR IMAGENES Y EN ESTUDIOS FUNCIONALES, SIN DIAGNOSTICO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "18_13"
+      }, "CAUSAS DE MORTALIDAD MAL DEFINIDAS Y DESCONOCIDAS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "19_1"
+      }, "TRAUMATIZMOS DE LA CABEZA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "19_2"
+      }, "TRAUMATISMOS DEL CUELLO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "19_3"
+      }, "TRAUMATISMOS DEL TORAX"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "19_4"
+      }, "TRAUMATISMOS DEL ABDOMEN, DE LA REGION LUMBOSACRA, DE LA COLUMNA LUMBAR Y DE LA PELVIS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "19_5"
+      }, "TRAUMATISMOS DEL HOMBRO Y DEL BRAZO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "19_6"
+      }, "TRAUMATISMOS DEL ANTEBRAZO Y DEL CODO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "19_7"
+      }, "TRAUMATISMOS DE LA MU\xD1ECA Y DE LA MANO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "19_8"
+      }, "TRAUMATISMOS DE LA CADERA Y DEL MUSLO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "19_9"
+      }, "TRAUMATISMOS DE LA RODILLA Y DE LA PIERNA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "19_10"
+      }, "TRAUMATISMOS DE TOBILLO Y DEL PIE"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "19_11"
+      }, "TRAUMATISMOS QUE AFECTAN MULTIPLES REGIONES DEL CUERPO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "19_12"
+      }, "EFECTOS DE CUERPOS EXTRA\xD1OS QUE PENETRAN POR ORIFICIOS NATURALES"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "19_13"
+      }, "QUEMADURAS Y CORROSIONES DE LA SUPERFICIE EXTERNA DEL CUERPO, ESPECIFICADAS POR SITIO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "19_14"
+      }, "CONGELAMIENTO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "19_15"
+      }, "ENVENENAMIENTO POR DROGAS, MEDICAMENTOS Y SUSTANCIAS BIOLOGICAS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "19_16"
+      }, "EFECTOS TOXICOS DE SUSTANCIAS DE PROCEDENCIA PRINCIPALMENTE NO MEDICINAL"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "19_17"
+      }, "OTROS EFECTOS Y LOS NO ESPECIFICADOS DE CAUSAS EXTERNAS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "19_18"
+      }, "ALGUNAS COMPLICACIONES PRECOCES DE TRAUMATISMOS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "19_19"
+      }, "COMPLICACIONES DE LA ATENCION MEDICA Y QUIRURGICA NO CLASIFICADA EN OTRA PARTE"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "19_20"
+      }, "SECUELAS DE TRAUMATISMOS, DE ENVENENAMIENTOS Y DE OTRAS CONSECUENCIAS DE CAUSAS EXTERNAS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "20_1"
+      }, "ACCIDENTE DE TRANSPORTE"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "20_2"
+      }, "OTRAS CAUSAS EXTERNAS DE TRAUMATISMOS ACCIDENTALES"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "20_3"
+      }, "LESIONES AUTOINFLIGIDAS INTENCIONALMENTE"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "20_4"
+      }, "AGRESIONES"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "20_5"
+      }, "EVENTOS DE INTENCI\xD3N NO DETERMINADA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "20_6"
+      }, "INTERVENCI\xD3N LEGAL Y OPERACIONES DE GUERRA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "20_7"
+      }, "COMPLICACIONES DE LA ATENCION MEDICA Y QUIRURGICA "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "20_8"
+      }, "SECUELAS DE CAUSAS EXTERNAS DE MORBILIDAD Y DE MORTALIDAD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "20_9"
+      }, "FACTORES SUPLEMENTARIOS RELACIONADOS CON CAUSAS DE MORBILIDAD Y DE MORTALIDAD CLASIFICADAS EN OTRA PARTE"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "21_1"
+      }, "PERSONAS EN CONTACTO CON LOS SERVICIOS DE SALUD PARA INVESTIGACION Y EXAMENES"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "21_2"
+      }, "PERSONAS CON RIESGO DE POTENCIALES PARA SU SALUD, RELACIONADOS CON ENEFERMEDADES TRANSMISIBLES"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "21_3"
+      }, "PERSONAS EN CONTACTO CON LOS SERVICIOS DE SALUD EN CIRCUNSTANCIAS RELACIONADAS CON LA REPRODUCCION"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "21_4"
+      }, "PERSONAS EN CONTACTO CON LOS SERVICIOS DE SALUD PARA PROCEDIMIENTOS ESPECIFICOS Y CUIDADOS DE SALUD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "21_5"
+      }, "PERSONAS EN CONTACTO CON LOS SERVICIOS DE SALUD POR OTRAS CIRCUNSTANCIAS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "21_6"
+      }, "PERSONAS CON RIESGOS POTENCIALES PARA SU SALUD, RELACIONADOS CON SU HISTORIA FAMILIAR Y PERSONAL Y ALGUNAS CONDICIONES QUE INFLUYEN SOBRE SU ESTADO DE SALUD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "22_1"
+      }, "EL S\xCDNDROME RESPIRATORIO AGUDO [SARS], NO ESPECIFICADO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "22_2"
+      }, "LOS AGENTES BACTERIANOS RESISTENTES A LOS ANTIBI\xD3TICOS")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row mt-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "btn btn-primary btn-sm",
+        onClick: this.reportIncapacidades
+      }, "Incapacidades"))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row mt-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card-header bg2 titulo"
+      }, "Generaci\xF3n de reportes - Contingencia - SOAT"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card-body texto"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-6"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "contingencia"
+      }, "Contingencia origen"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        name: "contingencia",
+        className: "form-control form-constrol-sm",
+        onChange: this.handleChange,
+        value: this.state.contingencia
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: ""
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "1"
+      }, "Enfermedad general"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "2"
+      }, "Enfermedad laboral"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "3"
+      }, "Accidente de trabajo"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group form-check"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "checkbox",
+        className: "form-check-input",
+        name: "soat",
+        id: "soat",
+        value: "si",
+        onChange: this.handleChange
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        className: "form-check-label",
+        htmlFor: "soat"
+      }, "SOAT")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row mt-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "btn btn-primary btn-sm",
+        onClick: this.reportIncapacidades
+      }, "Incapacidades"))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row mt-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card-header bg2 titulo"
+      }, "Resultados"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card-body texto"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-6"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "alert alert-success reco",
+        role: "alert"
+      }, "N\xFAmero de certificados: ", this.state.totales.total, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "Total d\xEDas solicitados: ", this.state.totales.dias)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-6"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        "class": "btn btn-success "
+      }, "Exportar Datos"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row"
+      }, this.state.datos != '' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TableReportes_js__WEBPACK_IMPORTED_MODULE_7__["default"], {
+        datos: this.state.datos
+      }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "No hay datos")))))));
+    }
+  }]);
+
+  return Reporte;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+
+/* harmony default export */ __webpack_exports__["default"] = (Reporte);
+
+if (document.getElementById('reportesContent')) {
+  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Reporte, null), document.getElementById('reportesContent'));
+}
+
+/***/ }),
+
 /***/ "./resources/js/components/TableCausas.js":
 /*!************************************************!*\
   !*** ./resources/js/components/TableCausas.js ***!
@@ -79540,6 +80629,49 @@ function TableMedicos(props) {
 
 /***/ }),
 
+/***/ "./resources/js/components/TableReportes.js":
+/*!**************************************************!*\
+  !*** ./resources/js/components/TableReportes.js ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TableReportes; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+
+
+
+function TableReportes(props) {
+  var datos = props.datos;
+
+  if (_typeof(datos) === 'object') {
+    var cols = Object.keys(datos[0]);
+    var columnas = cols.map(function (col) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, col);
+    });
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+      className: "table table-sm table-striped table-bordered texto"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+      className: "table-success"
+    }, columnas), Object.keys(datos).map(function (key) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+        key: key
+      }, cols.map(function (col) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, datos[key][col]);
+      }));
+    }))));
+  }
+}
+
+/***/ }),
+
 /***/ "./resources/js/components/TableUsers.js":
 /*!***********************************************!*\
   !*** ./resources/js/components/TableUsers.js ***!
@@ -79582,6 +80714,70 @@ function TableUsers(props) {
       onClick: eliminar
     }, "Eliminar")));
   }));
+}
+
+/***/ }),
+
+/***/ "./resources/js/components/TipoCotizanteSelect.js":
+/*!********************************************************!*\
+  !*** ./resources/js/components/TipoCotizanteSelect.js ***!
+  \********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TipoCotizanteSelect; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+function TipoCotizanteSelect(props) {
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]),
+      _useState2 = _slicedToArray(_useState, 2),
+      tcs = _useState2[0],
+      setTc = _useState2[1];
+
+  var getTc = function getTc() {
+    var url = 'list/tiposCotizante';
+    axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url).then(function (resp) {
+      setTc(resp.data.data);
+    })["catch"](function (err) {
+      console.log(err);
+    });
+  };
+
+  var handleTcChange = function handleTcChange(e) {
+    props.handleChange(e);
+  };
+
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(getTc, []);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+    onChange: handleTcChange,
+    className: "form-control form-control-sm",
+    name: "tipoCotizante"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+    value: 0
+  }), tcs.map(function (tc) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      key: tc.id,
+      value: tc.id
+    }, tc.descripcion);
+  })));
 }
 
 /***/ }),
