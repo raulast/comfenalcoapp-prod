@@ -106,7 +106,7 @@ export default class AutocompleteDescripcion extends Component {
             <div className="col-sm-2">
                 <div className="form-group">
                     <label htmlFor="codigoDiagnostico">Código</label>
-                    <input type="text" id="codigoDiagnostico" className="form-control" value={ this.state.codigo } readOnly/>
+                    <input type="text" name="codigoDiagnostico" id="codigoDiagnostico" className="form-control" value={ this.state.codigo } readOnly/>
                 </div>
             </div>
             </div>

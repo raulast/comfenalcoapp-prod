@@ -93,5 +93,6 @@ Route::post('/buscarCronicos','CronicosController@buscarCronicos');
 Route::post('/buscarCronico','CronicosController@buscarCronico');
 Route::get('/verCronico/{id}','CronicosController@verCronico');
 Route::get('/getCronico/{id}','CronicosController@getCronico');
+Route::post('/updateCronico','CronicosController@updateCronico');
 
 

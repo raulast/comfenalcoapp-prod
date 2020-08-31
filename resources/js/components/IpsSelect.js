@@ -24,7 +24,7 @@ export default function IpsSelect(props) {
 
         <div>
             <select onChange={handleIpsChange} className="form-control form-control-sm"  name="ips" >
-                <option value={0}></option>
+                <option value=""></option>
                 {
                     ipss.map(ips => <option key={ips.id} value={ips.id}>{ips.nombre_sede}</option>)
                 }

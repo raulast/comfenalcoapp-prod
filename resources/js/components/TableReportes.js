@@ -25,8 +25,11 @@ export default function TableReportes(props) {
                     {Object.keys(datos).map((key) => (
                         <tr key={key}>
                             {cols.map((col) =>
-                            <td>{datos[key][col]}</td>   
-                
+                             
+                             (col!="validacion") ? (
+                            <td>{datos[key][col]}</td>) :
+                                (<td></td>)
+                            
                             )}
                     
                         </tr>

@@ -71765,6 +71765,7 @@ var AutocompleteDescripcion = /*#__PURE__*/function (_Component) {
         htmlFor: "codigoDiagnostico"
       }, "C\xF3digo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
+        name: "codigoDiagnostico",
         id: "codigoDiagnostico",
         className: "form-control",
         value: this.state.codigo,
@@ -73486,8 +73487,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -73538,6 +73537,7 @@ var Cronico = /*#__PURE__*/function (_Component) {
     _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
     _this.getCronico = _this.getCronico.bind(_assertThisInitialized(_this));
     _this.calcularfp = _this.calcularfp.bind(_assertThisInitialized(_this));
+    _this.guardarCronico = _this.guardarCronico.bind(_assertThisInitialized(_this));
 
     _this.getCronico();
 
@@ -73545,6 +73545,19 @@ var Cronico = /*#__PURE__*/function (_Component) {
   }
 
   _createClass(Cronico, [{
+    key: "guardarCronico",
+    value: function guardarCronico() {
+      var url = '/updateCronico';
+      axios__WEBPACK_IMPORTED_MODULE_4___default.a.post(url, {
+        datos: this.state.cronico
+      }).then(function (resp) {
+        console.log(resp.data);
+        alert(resp.data);
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    }
+  }, {
     key: "getCronico",
     value: function getCronico() {
       var _this2 = this;
@@ -73566,7 +73579,11 @@ var Cronico = /*#__PURE__*/function (_Component) {
     key: "handleChange",
     value: function handleChange(_ref) {
       var target = _ref.target;
-      this.setState(_defineProperty({}, target.name, target.value));
+      var ncronico = this.state.cronico;
+      ncronico[target.id] = target.value;
+      this.setState({
+        cronico: ncronico
+      });
     }
   }, {
     key: "calcularfp",
@@ -73731,15 +73748,18 @@ var Cronico = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[2]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         id: cols[2],
-        value: cronico[cols[2]]
+        value: this.state.cronico[cols[2]],
+        onChange: this.handleChange
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[3]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         id: cols[3],
-        value: cronico[cols[3]]
+        value: this.state.cronico[cols[3]],
+        onChange: this.handleChange
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[4]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         id: cols[4],
-        value: cronico[cols[4]]
+        value: cronico[cols[4]],
+        onChange: this.handleChange
       }))))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tab-pane container fade",
         id: "esu"
@@ -73765,7 +73785,8 @@ var Cronico = /*#__PURE__*/function (_Component) {
           type: "text",
           id: cols[index],
           value: cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : '',
-          size: "50"
+          size: "50",
+          onChange: _this3.handleChange
         }))) : '';
       }))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tab-pane container fade",
@@ -73781,7 +73802,8 @@ var Cronico = /*#__PURE__*/function (_Component) {
           type: "text",
           id: cols[index],
           value: cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : '',
-          size: "50"
+          size: "50",
+          onChange: _this3.handleChange
         }))) : '';
       }))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tab-pane container fade",
@@ -73794,7 +73816,8 @@ var Cronico = /*#__PURE__*/function (_Component) {
         className: "table table-sm table-striped table-bordered texto mt-5"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, cols.map(function (col, index) {
         return index >= 43 && index <= 50 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), cols[index] == "tipo_seguimiento" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-          id: cols[index]
+          id: cols[index],
+          onChange: _this3.handleChange
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
           value: cronico[cols[index]]
         }, cronico[cols[index]]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
@@ -73802,7 +73825,8 @@ var Cronico = /*#__PURE__*/function (_Component) {
         }, "CPCLO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
           value: "AT"
         }, "ICP"))) : cols[index] == "estado_seguimiento" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-          id: cols[index]
+          id: cols[index],
+          onChange: _this3.handleChange
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
           value: cronico[cols[index]]
         }, cronico[cols[index]]), _this3.state.estados.map(function (e) {
@@ -73810,7 +73834,8 @@ var Cronico = /*#__PURE__*/function (_Component) {
             value: e
           }, e);
         }))) : cols[index] == "motivo_estado_seguimiento" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-          id: cols[index]
+          id: cols[index],
+          onChange: _this3.handleChange
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
           value: cronico[cols[index]]
         }, cronico[cols[index]]), _this3.state.motivos.map(function (e) {
@@ -73818,7 +73843,8 @@ var Cronico = /*#__PURE__*/function (_Component) {
             value: e
           }, e);
         }))) : cols[index] == "contingencia_origen_inicial" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-          id: cols[index]
+          id: cols[index],
+          onChange: _this3.handleChange
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
           value: cronico[cols[index]]
         }, cronico[cols[index]]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
@@ -73831,7 +73857,8 @@ var Cronico = /*#__PURE__*/function (_Component) {
           type: "text",
           id: cols[index],
           value: cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : '',
-          size: "50"
+          size: "50",
+          onChange: _this3.handleChange
         }))) : '';
       }))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tab-pane container fade",
@@ -73845,7 +73872,8 @@ var Cronico = /*#__PURE__*/function (_Component) {
           type: "text",
           id: cols[index],
           value: cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : '',
-          size: "50"
+          size: "50",
+          onChange: _this3.handleChange
         }))) : '';
       }))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tab-pane container fade",
@@ -73861,7 +73889,8 @@ var Cronico = /*#__PURE__*/function (_Component) {
           type: "text",
           id: cols[index],
           value: cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : '',
-          size: "50"
+          size: "50",
+          onChange: _this3.handleChange
         }))) : '';
       }))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tab-pane container fade",
@@ -73872,7 +73901,8 @@ var Cronico = /*#__PURE__*/function (_Component) {
         className: "table table-sm table-striped table-bordered texto mt-5"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, cols.map(function (col, index) {
         return index >= 63 && index <= 82 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), cols[index] == "crh1" || cols[index] == "crh2_favorable" || cols[index] == "crh3__favorable" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-          id: cols[index]
+          id: cols[index],
+          onChange: _this3.handleChange
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
           value: cronico[cols[index]]
         }, cronico[cols[index]]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
@@ -73885,7 +73915,8 @@ var Cronico = /*#__PURE__*/function (_Component) {
           type: "text",
           id: cols[index],
           value: cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : '',
-          size: "50"
+          size: "50",
+          onChange: _this3.handleChange
         }))) : '';
       }))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tab-pane container fade",
@@ -73896,7 +73927,8 @@ var Cronico = /*#__PURE__*/function (_Component) {
         className: "table table-sm table-striped table-bordered texto mt-5"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, cols.map(function (col, index) {
         return index >= 83 && index <= 90 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), cols[index].includes("entidad_califica") ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-          id: cols[index]
+          id: cols[index],
+          onChange: _this3.handleChange
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
           value: cronico[cols[index]]
         }, cronico[cols[index]]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
@@ -73906,7 +73938,8 @@ var Cronico = /*#__PURE__*/function (_Component) {
         }, "ARL"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
           value: "EPS"
         }, "EPS"))) : cols[index].includes("quien_manifiesta") ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-          id: cols[index]
+          id: cols[index],
+          onChange: _this3.handleChange
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
           value: cronico[cols[index]]
         }, cronico[cols[index]]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
@@ -73920,7 +73953,8 @@ var Cronico = /*#__PURE__*/function (_Component) {
         }, "USUARIO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
           value: "EMPRESA"
         }, "EMPRESA"))) : cols[index].includes("contingencia") ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-          id: cols[index]
+          id: cols[index],
+          onChange: _this3.handleChange
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
           value: cronico[cols[index]]
         }, cronico[cols[index]]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
@@ -73933,7 +73967,8 @@ var Cronico = /*#__PURE__*/function (_Component) {
           type: "text",
           id: cols[index],
           value: cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : '',
-          size: "50"
+          size: "50",
+          onChange: _this3.handleChange
         }))) : '';
       }))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tab-pane container fade",
@@ -73944,7 +73979,8 @@ var Cronico = /*#__PURE__*/function (_Component) {
         className: "table table-sm table-striped table-bordered texto mt-5"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, cols.map(function (col, index) {
         return index >= 91 && index <= 97 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), cols[index].includes("entidad_califica") ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-          id: cols[index]
+          id: cols[index],
+          onChange: _this3.handleChange
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
           value: cronico[cols[index]]
         }, cronico[cols[index]]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
@@ -73954,7 +73990,8 @@ var Cronico = /*#__PURE__*/function (_Component) {
         }, "ARL"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
           value: "EPS"
         }, "EPS"))) : cols[index].includes("quien_manifiesta") ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-          id: cols[index]
+          id: cols[index],
+          onChange: _this3.handleChange
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
           value: cronico[cols[index]]
         }, cronico[cols[index]]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
@@ -73968,7 +74005,8 @@ var Cronico = /*#__PURE__*/function (_Component) {
         }, "USUARIO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
           value: "EMPRESA"
         }, "EMPRESA"))) : cols[index].includes("contingencia") ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-          id: cols[index]
+          id: cols[index],
+          onChange: _this3.handleChange
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
           value: cronico[cols[index]]
         }, cronico[cols[index]]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
@@ -73992,7 +74030,8 @@ var Cronico = /*#__PURE__*/function (_Component) {
         className: "table table-sm table-striped table-bordered texto mt-5"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, cols.map(function (col, index) {
         return index >= 98 && index <= 101 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), cols[index].includes("contingencia") ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-          id: cols[index]
+          id: cols[index],
+          onChange: _this3.handleChange
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
           value: cronico[cols[index]]
         }, cronico[cols[index]]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
@@ -74005,7 +74044,8 @@ var Cronico = /*#__PURE__*/function (_Component) {
           type: "text",
           id: cols[index],
           value: cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : '',
-          size: "50"
+          size: "50",
+          onChange: _this3.handleChange
         }))) : '';
       }))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tab-pane container fade",
@@ -74016,7 +74056,8 @@ var Cronico = /*#__PURE__*/function (_Component) {
         className: "table table-sm table-striped table-bordered texto mt-5"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, cols.map(function (col, index) {
         return index >= 102 && index <= 105 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), cols[index].includes("contingencia") ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-          id: cols[index]
+          id: cols[index],
+          onChange: _this3.handleChange
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
           value: cronico[cols[index]]
         }, cronico[cols[index]]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
@@ -74029,7 +74070,8 @@ var Cronico = /*#__PURE__*/function (_Component) {
           type: "text",
           id: cols[index],
           value: cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : '',
-          size: "50"
+          size: "50",
+          onChange: _this3.handleChange
         }))) : '';
       }))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tab-pane container fade",
@@ -74040,7 +74082,8 @@ var Cronico = /*#__PURE__*/function (_Component) {
         className: "table table-sm table-striped table-bordered texto mt-5"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, cols.map(function (col, index) {
         return index >= 106 && index <= 114 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), cols[index].includes("categoria_discapacidad") ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-          id: cols[index]
+          id: cols[index],
+          onChange: _this3.handleChange
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
           value: cronico[cols[index]]
         }, cronico[cols[index]]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
@@ -74058,7 +74101,8 @@ var Cronico = /*#__PURE__*/function (_Component) {
         }, "PSICOSOCIAL(MENTAL)"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
           value: "MULTIPLE"
         }, "MULTIPLE"))) : cols[index].includes("clasificacion_tipo_incpacidad") ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-          id: cols[index]
+          id: cols[index],
+          onChange: _this3.handleChange
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
           value: cronico[cols[index]]
         }, cronico[cols[index]]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
@@ -74066,7 +74110,8 @@ var Cronico = /*#__PURE__*/function (_Component) {
         }, "IPP"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
           value: "IPT"
         }, "IPT"))) : cols[index].includes("contingencia") ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-          id: cols[index]
+          id: cols[index],
+          onChange: _this3.handleChange
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
           value: cronico[cols[index]]
         }, cronico[cols[index]]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
@@ -74079,7 +74124,8 @@ var Cronico = /*#__PURE__*/function (_Component) {
           type: "text",
           id: cols[index],
           value: cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : '',
-          size: "50"
+          size: "50",
+          onChange: _this3.handleChange
         }))) : '';
       }))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tab-pane container fade",
@@ -74092,7 +74138,8 @@ var Cronico = /*#__PURE__*/function (_Component) {
         return index >= 115 && index <= 120 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
           type: "text",
           id: cols[index],
-          value: cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''
+          value: cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : '',
+          onChange: _this3.handleChange
         }))) : '';
       }))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tab-pane container fade",
@@ -74106,7 +74153,8 @@ var Cronico = /*#__PURE__*/function (_Component) {
           type: "text",
           id: cols[index],
           value: cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : '',
-          size: "50"
+          size: "50",
+          onChange: _this3.handleChange
         }))) : '';
       }))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tab-pane container fade",
@@ -74120,7 +74168,8 @@ var Cronico = /*#__PURE__*/function (_Component) {
           type: "text",
           id: cols[index],
           value: cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : '',
-          size: "50"
+          size: "50",
+          onChange: _this3.handleChange
         }))) : '';
       }))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tab-pane container fade",
@@ -74134,7 +74183,8 @@ var Cronico = /*#__PURE__*/function (_Component) {
           type: "text",
           id: cols[index],
           value: cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : '',
-          size: "50"
+          size: "50",
+          onChange: _this3.handleChange
         }))) : '';
       }))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tab-pane container fade",
@@ -74145,7 +74195,8 @@ var Cronico = /*#__PURE__*/function (_Component) {
         className: "table table-sm table-striped table-bordered texto mt-5"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, cols.map(function (col, index) {
         return index >= 136 && index <= 139 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), cols[index].includes("tutela_pe") ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-          id: cols[index]
+          id: cols[index],
+          onChange: _this3.handleChange
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
           value: cronico[cols[index]]
         }, cronico[cols[index]]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
@@ -74156,9 +74207,17 @@ var Cronico = /*#__PURE__*/function (_Component) {
           type: "text",
           id: cols[index],
           value: cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : '',
-          size: "50"
+          size: "50",
+          onChange: _this3.handleChange
         }))) : '';
-      }))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null)))))));
+      }))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null)))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row mt-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-6 offset-md-3 texto"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "btn btn-success btn-block",
+        onClick: this.guardarCronico
+      }, "GUARDAR CAMBIOS"))));
     }
   }]);
 
@@ -74240,7 +74299,9 @@ var CronicosPanel = /*#__PURE__*/function (_Component) {
       identificacion: '',
       conducta: '',
       estado: '',
-      motivo: ''
+      motivo: '',
+      desde: '',
+      hasta: ''
     }; // bind
 
     _this.getCronicos = _this.getCronicos.bind(_assertThisInitialized(_this));
@@ -74930,7 +74991,7 @@ function EspecialidadesSelect(props) {
     className: "form-control form-control-sm",
     name: "especialidad"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-    value: 0
+    value: ""
   }), esps.map(function (esp) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       key: esp.id,
@@ -76991,7 +77052,7 @@ function IpsSelect(props) {
     className: "form-control form-control-sm",
     name: "ips"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-    value: 0
+    value: ""
   }), ipss.map(function (ips) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       key: ips.id,
@@ -78920,7 +78981,7 @@ function MedicoSelect(props) {
     className: "form-control form-control-sm",
     name: "medico"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-    value: 0
+    value: ""
   }), medicos.map(function (medico) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       key: medico.id,
@@ -79718,7 +79779,8 @@ var Reporte = /*#__PURE__*/function (_Component) {
       contingencia: '',
       soat: '',
       datos: '',
-      totales: ''
+      totales: '',
+      "export": ''
     }; // bind
 
     _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
@@ -79763,7 +79825,8 @@ var Reporte = /*#__PURE__*/function (_Component) {
 
         _this2.setState({
           datos: resp.data.data,
-          totales: resp.data.totales
+          totales: resp.data.totales,
+          "export": 'incapacidad'
         });
       })["catch"](function (err) {
         console.log(err);
@@ -79782,7 +79845,8 @@ var Reporte = /*#__PURE__*/function (_Component) {
 
         _this3.setState({
           datos: resp.data.data,
-          totales: resp.data.totales
+          totales: resp.data.totales,
+          "export": 'licencia'
         });
       })["catch"](function (err) {
         console.log(err);
@@ -79791,12 +79855,21 @@ var Reporte = /*#__PURE__*/function (_Component) {
   }, {
     key: "exportReport",
     value: function exportReport() {
-      window.open('exportReporte', '_blank');
+      var url = 'exportReporte?datos=' + this.state.datos;
+      window.open(url, '_blank');
     }
   }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        action: "exportReporte",
+        method: "get",
+        target: "_blank"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "hidden",
+        value: this.state["export"],
+        name: "export"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row mt-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-12"
@@ -79910,9 +79983,11 @@ var Reporte = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-4"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        type: "button",
         className: "btn btn-primary btn-sm",
         onClick: this.reportIncapacidades
       }, "Incapacidades"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        type: "button",
         className: "btn btn-success btn-sm",
         onClick: this.reportLicencias
       }, "Licencias"))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -80414,6 +80489,7 @@ var Reporte = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-4"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        type: "button",
         className: "btn btn-primary btn-sm",
         onClick: this.reportIncapacidades
       }, "Incapacidades"))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -80464,6 +80540,7 @@ var Reporte = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-4"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        type: "button",
         className: "btn btn-primary btn-sm",
         onClick: this.reportIncapacidades
       }, "Incapacidades"))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -80486,13 +80563,13 @@ var Reporte = /*#__PURE__*/function (_Component) {
       }, "N\xFAmero de certificados: ", this.state.totales.total, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "Total d\xEDas solicitados: ", this.state.totales.dias)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-6"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "btn btn-success",
-        onClick: this.exportReport
+        type: "submit",
+        className: "btn btn-success"
       }, "Exportar Datos"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row"
       }, this.state.datos != '' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TableReportes_js__WEBPACK_IMPORTED_MODULE_7__["default"], {
         datos: this.state.datos
-      }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "No hay datos")))))));
+      }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "No hay datos"))))))));
     }
   }]);
 
@@ -80986,7 +81063,7 @@ function TableReportes(props) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
         key: key
       }, cols.map(function (col) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, datos[key][col]);
+        return col != "validacion" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, datos[key][col]) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null);
       }));
     }))));
   }
@@ -81093,7 +81170,7 @@ function TipoCotizanteSelect(props) {
     className: "form-control form-control-sm",
     name: "tipoCotizante"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-    value: 0
+    value: ""
   }), tcs.map(function (tc) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       key: tc.id,

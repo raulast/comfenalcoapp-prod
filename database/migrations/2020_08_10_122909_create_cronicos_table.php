@@ -34,11 +34,11 @@ class CreateCronicosTable extends Migration
             $table->string('estado_afiliado_poblacion_mayo2020')->nullable();
             $table->string('telefono_fijo_usuario')->nullable();
             $table->string('celular_usuario')->nullable();
-            $table->string('e mail_usuario')->nullable();
+            $table->string('email_usuario')->nullable();
             $table->string('apellidos_nombres_acudiente')->nullable();
             $table->string('telefono_fijo_acudiente')->nullable();
             $table->string('telefono_celular_acudiente')->nullable();
-            $table->string('e mail_acudiente')->nullable();
+            $table->string('email_acudiente')->nullable();
             $table->string('tipo_id_aportante')->nullable();
             $table->string('nit_aportante')->nullable();
             $table->string('nombre_aportante')->nullable();
@@ -101,8 +101,8 @@ class CreateCronicosTable extends Migration
             $table->string('cpclo_fecha_1a_oport')->nullable();
             $table->string('entidad_califica_1a_oportunidad')->nullable();
             $table->string('cpclo')->nullable();
-            $table->string('contingencia_origen_dictamen_1_oport ')->nullable();
-            $table->string('fecha_estructuracion_1_oport ')->nullable();
+            $table->string('contingencia_origen_dictamen_1_oport')->nullable();
+            $table->string('fecha_estructuracion_1_oport')->nullable();
             $table->string('quien_manifiesta_desacuerdo')->nullable();
             $table->string('fecha_manifestacion_desacuerdo')->nullable();
             $table->string('fecha_entrega_a_jrci')->nullable();

@@ -23,7 +23,19 @@ class Cronico extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.getCronico = this.getCronico.bind(this);
         this.calcularfp = this.calcularfp.bind(this);
+        this.guardarCronico = this.guardarCronico.bind(this);
         this.getCronico()
+    }
+    guardarCronico(){
+        let url = '/updateCronico'
+        axios.post(url, { datos: this.state.cronico })
+            .then(resp => {
+                console.log(resp.data)
+                alert(resp.data)
+            })
+            .catch(err => {
+                console.log(err)
+            })
     }
     getCronico() {
         let url = '/getCronico/'+this.state.id
@@ -40,9 +52,11 @@ class Cronico extends Component {
             })
     }
     handleChange({ target }) {
-        this.setState({
-            [target.name]: target.value
-        });
+       var ncronico = this.state.cronico;      
+       ncronico[target.id]=target.value;    
+       this.setState({
+        cronico: ncronico,
+    });
     }
     calcularfp(){
         
@@ -152,15 +166,15 @@ class Cronico extends Component {
                                             <tbody>
                                             <tr>
                                                     <td>{cols[2]}</td>
-                                                    <td><input type="text" id={cols[2]} value={cronico[cols[2]]}/></td>
+                                                    <td><input type="text" id={cols[2]} value={this.state.cronico[cols[2]]} onChange={this.handleChange}/></td>
                                                 </tr>
                                                 <tr>
                                                     <td>{cols[3]}</td>
-                                                    <td><input type="text" id={cols[3]} value={cronico[cols[3]]}/></td>
+                                                    <td><input type="text" id={cols[3]} value={this.state.cronico[cols[3]]} onChange={this.handleChange}/></td>
                                                 </tr>
                                                 <tr>
                                                     <td>{cols[4]}</td>
-                                                    <td><input type="text" id={cols[4]} value={cronico[cols[4]]}/></td>
+                                                    <td><input type="text" id={cols[4]} value={cronico[cols[4]]} onChange={this.handleChange}/></td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -200,7 +214,7 @@ class Cronico extends Component {
                                                             <tr>
                                                                 <td>{cols[index]}</td>
                                                                 {/*<td>{cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''}</td>*/}
-                                                                <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} size="50"/></td>
+                                                                <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} size="50" onChange={this.handleChange}/></td>
                                                             </tr>
                                                             : ''
                                                     )}
@@ -221,7 +235,7 @@ class Cronico extends Component {
                                                             <tr>
                                                                 <td>{cols[index]}</td>
                                                                 {/*<td>{cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''}</td>*/}
-                                                                <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} size="50"/></td>
+                                                                <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} size="50" onChange={this.handleChange}/></td>
                                                             </tr>
                                                             : ''
                                                     )}
@@ -242,7 +256,7 @@ class Cronico extends Component {
                                                             <tr>
                                                                 <td>{cols[index]}</td>
                                                                 { cols[index] == "tipo_seguimiento" ?
-                                                                    <td><select id={cols[index]}>
+                                                                    <td><select id={cols[index]} onChange={this.handleChange}>
                                                                         <option value={cronico[cols[index]]}>{cronico[cols[index]]}</option>
                                                                         <option value="EG">CPCLO</option>
                                                                         <option value="AT">ICP</option>
@@ -250,7 +264,7 @@ class Cronico extends Component {
                                                                     </select></td> :
                                                                 
                                                                 cols[index] == "estado_seguimiento" ?
-                                                                    <td><select id={cols[index]}>
+                                                                    <td><select id={cols[index]} onChange={this.handleChange}>
                                                                         <option value={cronico[cols[index]]}>{cronico[cols[index]]}</option>
                                                                         {this.state.estados.map((e) =>
                                                                             <option value={e}>{e}</option>
@@ -260,7 +274,7 @@ class Cronico extends Component {
                                                                     </select></td> :
                                                                 
                                                                 cols[index] == "motivo_estado_seguimiento" ?
-                                                                    <td><select id={cols[index]}>
+                                                                    <td><select id={cols[index]} onChange={this.handleChange}>
                                                                         <option value={cronico[cols[index]]}>{cronico[cols[index]]}</option>
                                                                         {this.state.motivos.map((e) =>
                                                                             <option value={e}>{e}</option>
@@ -269,14 +283,14 @@ class Cronico extends Component {
                                                                     </select></td> :
                     
                                                                  cols[index] == "contingencia_origen_inicial" ?
-                                                                 <td><select id={cols[index]}>
+                                                                 <td><select id={cols[index]} onChange={this.handleChange}>
                                                                      <option value={cronico[cols[index]]}>{cronico[cols[index]]}</option>
                                                                      <option value="EG">EG</option>
                                                                      <option value="AT">AT</option>
                                                                      <option value="EL">EL</option>
                                                                  </select></td> :
 
-                                                                    <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} size="50" /></td>  
+                                                                    <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} size="50" onChange={this.handleChange}/></td>  
                                                                 }
                                                                 
                                                             </tr>
@@ -297,7 +311,7 @@ class Cronico extends Component {
                                                         (index >= 51 && index <= 58) ?
                                                             <tr>
                                                                 <td>{cols[index]}</td>
-                                                                <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} size="50" /></td>
+                                                                <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} size="50" onChange={this.handleChange}/></td>
                                                             </tr>
                                                             : ''
                                                     )}
@@ -316,7 +330,7 @@ class Cronico extends Component {
                                                         (index >= 59 && index <= 62) ?
                                                             <tr>
                                                                 <td>{cols[index]}</td>
-                                                                <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} size="50" /></td>
+                                                                <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} size="50" onChange={this.handleChange}/></td>
                                                             </tr>
                                                             : ''
                                                     )}
@@ -336,14 +350,14 @@ class Cronico extends Component {
                                                         <tr>
                                                             <td>{cols[index]}</td>
                                                             { (cols[index] == "crh1") || (cols[index] == "crh2_favorable") || (cols[index] == "crh3__favorable")?
-                                                                    <td><select id={cols[index]}>
+                                                                    <td><select id={cols[index]} onChange={this.handleChange}>
                                                                         <option value={cronico[cols[index]]}>{cronico[cols[index]]}</option>
                                                                         <option value=""></option>
                                                                         <option value="SI">SI</option>
                                                                         <option value="NO">NO</option>
                                                                        
                                                                     </select></td> :
-                                                            <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} size="50" /></td>
+                                                            <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} size="50" onChange={this.handleChange}/></td>
                                                             }
                                                         </tr>
                                                         : ''
@@ -364,7 +378,7 @@ class Cronico extends Component {
                                                             <td>{cols[index]}</td>
                                                             {
                                                             cols[index].includes("entidad_califica") ?
-                                                            <td><select id={cols[index]}>
+                                                            <td><select id={cols[index]} onChange={this.handleChange}>
                                                                 <option value={cronico[cols[index]]}>{cronico[cols[index]]}</option>
                                                                 <option value="AFP">AFP</option>
                                                                 <option value="ARL">ARL</option>
@@ -372,7 +386,7 @@ class Cronico extends Component {
                                                             </select></td> :
                                                             
                                                             cols[index].includes("quien_manifiesta") ?
-                                                            <td><select id={cols[index]}>
+                                                            <td><select id={cols[index]} onChange={this.handleChange}>
                                                                 <option value={cronico[cols[index]]}>{cronico[cols[index]]}</option>
                                                                 <option value="AFP">AFP</option>
                                                                 <option value="ARL">ARL</option>
@@ -383,13 +397,13 @@ class Cronico extends Component {
 
 
                                                             cols[index].includes("contingencia") ?
-                                                                 <td><select id={cols[index]}>
+                                                                 <td><select id={cols[index]} onChange={this.handleChange}>
                                                                      <option value={cronico[cols[index]]}>{cronico[cols[index]]}</option>
                                                                      <option value="EG">EG</option>
                                                                      <option value="AT">AT</option>
                                                                      <option value="EL">EL</option>
                                                                  </select></td> :
-                                                                <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} size="50" /></td>
+                                                                <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} size="50" onChange={this.handleChange}/></td>
                                                             }
                                                             
                                                         </tr>
@@ -411,7 +425,7 @@ class Cronico extends Component {
                                                             <td>{cols[index]}</td>
                                                             {
                                                             cols[index].includes("entidad_califica") ?
-                                                            <td><select id={cols[index]}>
+                                                            <td><select id={cols[index]} onChange={this.handleChange}>
                                                                 <option value={cronico[cols[index]]}>{cronico[cols[index]]}</option>
                                                                 <option value="AFP">AFP</option>
                                                                 <option value="ARL">ARL</option>
@@ -419,7 +433,7 @@ class Cronico extends Component {
                                                             </select></td> :
                                                             
                                                             cols[index].includes("quien_manifiesta") ?
-                                                            <td><select id={cols[index]}>
+                                                            <td><select id={cols[index]} onChange={this.handleChange}>
                                                                 <option value={cronico[cols[index]]}>{cronico[cols[index]]}</option>
                                                                 <option value="AFP">AFP</option>
                                                                 <option value="ARL">ARL</option>
@@ -430,7 +444,7 @@ class Cronico extends Component {
 
 
                                                             cols[index].includes("contingencia") ?
-                                                                 <td><select id={cols[index]}>
+                                                                 <td><select id={cols[index]} onChange={this.handleChange}>
                                                                      <option value={cronico[cols[index]]}>{cronico[cols[index]]}</option>
                                                                      <option value="EG">EG</option>
                                                                      <option value="AT">AT</option>
@@ -458,13 +472,13 @@ class Cronico extends Component {
                                                             <td>{cols[index]}</td>
                                                             {
                                                             cols[index].includes("contingencia") ?
-                                                                 <td><select id={cols[index]}>
+                                                                 <td><select id={cols[index]} onChange={this.handleChange}>
                                                                      <option value={cronico[cols[index]]}>{cronico[cols[index]]}</option>
                                                                      <option value="EG">EG</option>
                                                                      <option value="AT">AT</option>
                                                                      <option value="EL">EL</option>
                                                                  </select></td> :
-                                                                <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} size="50" /></td>
+                                                                <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} size="50" onChange={this.handleChange}/></td>
                                                             }
                                                             
                                                         </tr>
@@ -486,13 +500,13 @@ class Cronico extends Component {
                                                             <td>{cols[index]}</td>
                                                             {
                                                             cols[index].includes("contingencia") ?
-                                                                 <td><select id={cols[index]}>
+                                                                 <td><select id={cols[index]} onChange={this.handleChange}>
                                                                      <option value={cronico[cols[index]]}>{cronico[cols[index]]}</option>
                                                                      <option value="EG">EG</option>
                                                                      <option value="AT">AT</option>
                                                                      <option value="EL">EL</option>
                                                                  </select></td> :
-                                                                <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} size="50" /></td>
+                                                                <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} size="50" onChange={this.handleChange}/></td>
                                                             }
                                                             
                                                         </tr>
@@ -514,7 +528,7 @@ class Cronico extends Component {
                                                             <td>{cols[index]}</td>
                                                             {
                                                             cols[index].includes("categoria_discapacidad") ?
-                                                            <td><select id={cols[index]}>
+                                                            <td><select id={cols[index]} onChange={this.handleChange}>
                                                                 <option value={cronico[cols[index]]}>{cronico[cols[index]]}</option>
                                                                 <option value="FISICA">FISICA</option>
                                                                 <option value="AUDITIVA">AUDITIVA</option>
@@ -525,19 +539,19 @@ class Cronico extends Component {
                                                                 <option value="MULTIPLE">MULTIPLE</option>
                                                             </select></td> :
                                                             cols[index].includes("clasificacion_tipo_incpacidad") ?
-                                                            <td><select id={cols[index]}>
+                                                            <td><select id={cols[index]} onChange={this.handleChange}>
                                                                 <option value={cronico[cols[index]]}>{cronico[cols[index]]}</option>
                                                                 <option value="IPP">IPP</option>
                                                                 <option value="IPT">IPT</option>
                                                             </select></td> :
                                                             cols[index].includes("contingencia") ?
-                                                                 <td><select id={cols[index]}>
+                                                                 <td><select id={cols[index]} onChange={this.handleChange}>
                                                                      <option value={cronico[cols[index]]}>{cronico[cols[index]]}</option>
                                                                      <option value="EG">EG</option>
                                                                      <option value="AT">AT</option>
                                                                      <option value="EL">EL</option>
                                                                  </select></td> :
-                                                                <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} size="50" /></td>
+                                                                <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} size="50" onChange={this.handleChange}/></td>
                                                             }
                                                             
                                                         </tr>
@@ -557,7 +571,7 @@ class Cronico extends Component {
                                                     (index >= 115 && index <= 120) ?
                                                         <tr>
                                                             <td>{cols[index]}</td>
-                                                            <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} /></td>
+                                                            <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} onChange={this.handleChange}/></td>
                                                         </tr>
                                                         : ''
                                                 )}
@@ -575,7 +589,7 @@ class Cronico extends Component {
                                                     (index >= 121  && index <= 126) ?
                                                         <tr>
                                                             <td>{cols[index]}</td>
-                                                            <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} size="50" /></td>
+                                                            <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} size="50" onChange={this.handleChange}/></td>
                                                         </tr>
                                                         : ''
                                                 )}
@@ -593,7 +607,7 @@ class Cronico extends Component {
                                                     (index >= 127  && index <= 129) ?
                                                         <tr>
                                                             <td>{cols[index]}</td>
-                                                            <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} size="50" /></td>
+                                                            <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} size="50" onChange={this.handleChange}/></td>
                                                         </tr>
                                                         : ''
                                                 )}
@@ -611,7 +625,7 @@ class Cronico extends Component {
                                                     (index >= 130  && index <= 135) ?
                                                         <tr>
                                                             <td>{cols[index]}</td>
-                                                            <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} size="50" /></td>
+                                                            <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} size="50" onChange={this.handleChange}/></td>
                                                         </tr>
                                                         : ''
                                                 )}
@@ -631,13 +645,13 @@ class Cronico extends Component {
                                                             <td>{cols[index]}</td>
                                                             {
                                                             cols[index].includes("tutela_pe") ?
-                                                            <td><select id={cols[index]}>
+                                                            <td><select id={cols[index]} onChange={this.handleChange}>
                                                                 <option value={cronico[cols[index]]}>{cronico[cols[index]]}</option>
                                                                 <option value="SI">SI</option>
                                                                 <option value="NO">NO</option>
                                                             </select></td> :
                                                            
-                                                                <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} size="50" /></td>
+                                                                <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} size="50" onChange={this.handleChange}/></td>
                                                             }
                                                             
                                                         </tr>
@@ -653,7 +667,11 @@ class Cronico extends Component {
             
                     </div>
                 </div>
-                
+                <div className="row mt-4">
+                    <div className="col-md-6 offset-md-3 texto">
+                        <button className="btn btn-success btn-block" onClick={this.guardarCronico}>GUARDAR CAMBIOS</button>
+                    </div>                                            
+                </div>
             </div>
         );
     }

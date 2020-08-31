@@ -21,22 +21,30 @@ class CronicosController extends Controller
         $datos = $request->datos;
         
         $identificacion = $datos['identificacion'];
+        $desde = $datos['desde'];
+        $hasta = $datos['hasta'];
+       // return $datos;
         
         $estado = $datos['estado'];
-        $conducta = $datos['conducta'];
+        //$conducta = $datos['conducta'];
         $motivo = $datos['motivo'];
 
         $cronicos = Cronicos::where('id','>',1);
         
         if ($identificacion != ""){
-            $data = $cronicos->where('id_usuario',$identificacion)->get();
+            $data = $cronicos->where('id_usuario',$identificacion);
         }
         if ($estado != ""){
-            $data = $cronicos->where('estado_seguimiento',$estado)->get();
+            $data = $cronicos->where('estado_seguimiento',$estado);
         }
         if ($motivo != ""){
-            $data = $cronicos->where('motivo_estado_seguimiento',$motivo)->get();
+            $data = $cronicos->where('motivo_estado_seguimiento',$motivo);
         }
+        
+        if (($datos['desde']!="")&&($datos['hasta'])){
+            $data = $cronicos->whereBetween('fecha_notificacion', [$desde, $hasta]);
+        }
+        $data = $data->get();
         return response()->json([
             'data' => $data
         ]);
@@ -101,4 +109,12 @@ class CronicosController extends Controller
             'data' => $data
         ]);
       }
+    public function updateCronico(Request $request){
+        $datos = $request->datos;
+        $id = $datos['id'];
+        $update = Cronicos::find($id)->update($datos);
+
+        return  "Información actualizada";
+
+    }
 }

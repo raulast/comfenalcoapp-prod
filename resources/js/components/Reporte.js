@@ -27,7 +27,8 @@ class Reporte extends Component {
            contingencia:'',
            soat: '',
            datos:'',
-           totales:''
+           totales:'',
+           export : ''
         }
         // bind
         
@@ -58,7 +59,8 @@ class Reporte extends Component {
                 console.log(resp.data)
                 this.setState({
                     datos: resp.data.data,
-                    totales: resp.data.totales
+                    totales: resp.data.totales,
+                    export: 'incapacidad'
                 });
             })
             .catch(err => {
@@ -72,7 +74,8 @@ class Reporte extends Component {
                 console.log(resp.data)
                 this.setState({
                     datos: resp.data.data,
-                    totales: resp.data.totales
+                    totales: resp.data.totales,
+                    export: 'licencia'
                 });
             })
             .catch(err => {
@@ -80,12 +83,16 @@ class Reporte extends Component {
             })
     }
     exportReport(){
-        window.open('exportReporte','_blank');
+       var url = 'exportReporte?datos='+this.state.datos
+       window.open(url,'_blank');
+       
     }
     render() {
         
         return (
             <div>
+                <form action="exportReporte" method="get" target="_blank">
+                <input type="hidden" value={this.state.export} name="export"/>
                 <div className="row mt-2">
                     <div className="col-md-12">
                         <div className="card">
@@ -149,8 +156,8 @@ class Reporte extends Component {
                                 </div>
                                 <div className="row mt-2">
                                     <div className="col-md-4">
-                                        <button className="btn btn-primary btn-sm" onClick={this.reportIncapacidades}>Incapacidades</button>
-                                        <button className="btn btn-success btn-sm" onClick={this.reportLicencias}>Licencias</button>
+                                        <button type="button" className="btn btn-primary btn-sm" onClick={this.reportIncapacidades}>Incapacidades</button>
+                                        <button type="button" className="btn btn-success btn-sm" onClick={this.reportLicencias}>Licencias</button>
                                     </div>
                                 </div>
                             </div>
@@ -412,7 +419,7 @@ class Reporte extends Component {
                                 
                                 <div className="row mt-2">
                                     <div className="col-md-4">
-                                        <button className="btn btn-primary btn-sm" onClick={this.reportIncapacidades}>Incapacidades</button> 
+                                        <button type="button" className="btn btn-primary btn-sm" onClick={this.reportIncapacidades}>Incapacidades</button> 
                                     </div>
                                 </div>
                             </div>
@@ -446,7 +453,7 @@ class Reporte extends Component {
                                 
                                 <div className="row mt-2">
                                     <div className="col-md-4">
-                                        <button className="btn btn-primary btn-sm" onClick={this.reportIncapacidades}>Incapacidades</button> 
+                                        <button type="button" className="btn btn-primary btn-sm" onClick={this.reportIncapacidades}>Incapacidades</button> 
                                     </div>
                                 </div>
                             </div>
@@ -467,7 +474,7 @@ class Reporte extends Component {
                                         </div>
                                     </div>  
                                     <div className="col-md-6">
-                                        <button className="btn btn-success" onClick={this.exportReport}>Exportar Datos</button>
+                                        <button type="submit" className="btn btn-success" >Exportar Datos</button>
                                     </div>
 
 
@@ -483,8 +490,9 @@ class Reporte extends Component {
                         </div>
                     </div>
                 </div>
-                
+                </form>
             </div>
+
         );
     }
 

@@ -24,7 +24,7 @@ export default function MedicoSelect(props) {
 
         <div>
             <select onChange={handleMedicosChange} className="form-control form-control-sm"  name="medico" >
-                <option value={0}></option>
+                <option value=""></option>
                 {
                     medicos.map(medico => <option key={medico.id} value={medico.id}>{medico.nombre}</option>)
                 }

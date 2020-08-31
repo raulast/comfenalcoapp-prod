@@ -2,24 +2,23 @@
 
 namespace App\Exports;
 
-use App\Incapacidad;
+use App\Licencias;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
-class IncapacidadExport implements FromCollection, WithHeadings, ShouldAutoSize
+
+class LicenciasExport implements FromCollection, WithHeadings, ShouldAutoSize
 {
     /**
     * @return \Illuminate\Support\Collection
     */
 
+    protected $licencias;
  
- 
-    protected $incapacidades;
- 
-    public function __construct($incapacidades= null)
+    public function __construct($licencias= null)
     {
-        $this->incapacidades = $incapacidades;
+        $this->licencias = $licencias;
     }
     
     /**
@@ -27,44 +26,51 @@ class IncapacidadExport implements FromCollection, WithHeadings, ShouldAutoSize
     */
     public function collection()
     {
-        return $this->incapacidades ?: Incapacidad::all();
+        return $this->licencias ?: Licencias::all();
         //return Inscripcion::all();
     }
 
     public function headings(): array
     {
         return [
-             'id',
-            'prorrogaid',
+            'id',             
             'tipo_documento_afiliado',
             'num_documento_afiliado',
+            'nombre_afiliado',
+            'estado_afiliado',
+            'tipo_cotizante',
+            'programa_afiliado',
+    
             'tipo_prestador',
             'ips',
             'medico_id',
+           
+    
+            'contingencia_origen',
             'fecha_atencion',
+            'fecha_inicio_licencia',
             'causa_externa',
+            'tipo_atencion',
+            'edad_gestacional_semanas',
+            'edad_gestacional_dias',
+            'dias_gestacion',
+            'recien_nacido_viable',
+            'tipo_licencia',
+    
             'codigo_diagnostico',
             'codigo_diagnostico1',
             'codigo_diagnostico2',
             'codigo_diagnostico3',
-            'lateralidad',
-            'fecha_inicio_incapacidad',
+            
             'dias_solicitados',
-            'dias_reconocidos',
-            'fecha_fin_incapacidad',
-            'prorroga',
-            'dias_acumulados_previos',
-            'contingencia_origen',
-            'dias_acumulados_ultima_incapacidad',
+            'fecha_fin_licencia',
+           
             'observacion',
             'estado_id',
             'observacion_estado',
             'created_at',	
             'updated_at',
-            'nombre_afiliado',
-            'estado_afiliado',
-            'tipo_cotizante',
-            'programa_afiliado',
+            'delete_at',
             'aportantes',
             'validacion'
         ];

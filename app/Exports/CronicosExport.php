@@ -12,6 +12,7 @@ class CronicosExport implements FromCollection
     */
     public function collection()
     {
-        return Cronicos::all();
+        ini_set('memory_limit','512M');
+        return Cronicos::first();
     }
 }

@@ -24,7 +24,7 @@ export default function EspecialidadesSelect(props) {
 
         <div>
             <select onChange={handleEspChange} className="form-control form-control-sm"  name="especialidad" >
-                <option value={0}></option>
+                <option value=""></option>
                 {
                     esps.map(esp => <option key={esp.id} value={esp.id}>{esp.especialidad}</option>)
                 }

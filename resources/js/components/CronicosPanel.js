@@ -20,7 +20,9 @@ class CronicosPanel extends Component {
             identificacion: '',
             conducta: '',
             estado: '',
-            motivo: ''
+            motivo: '',
+            desde: '',
+            hasta: ''
         }
         // bind
         this.getCronicos = this.getCronicos.bind(this);
