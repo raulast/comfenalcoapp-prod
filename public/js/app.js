@@ -75516,7 +75516,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
                 // console.log(validaciones);
                 //this.getNumeroIncapacidad();
 
-                url = '/validacionDerechos/' + tipoDocumento + "/" + numeroIdentificacion;
+                url = 'http://167.99.3.5/validacionDerechos/' + tipoDocumento + "/" + numeroIdentificacion;
                 _context2.next = 6;
                 return axios__WEBPACK_IMPORTED_MODULE_8___default.a.get(url, {
                   tipoDocumento: tipoDocumento,

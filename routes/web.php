@@ -24,7 +24,8 @@ Route::resource('verify', 'Auth\TwoFactorController')->only(['index', 'store']);
 Route::get('/menu','HomeController@menu')->name('menu')->middleware('auth','twofactor');;
 Route::get('/incapacidad','IncapacidadController@inicio')->name('incapacidad')->middleware('auth','twofactor');
 Route::get('/licencia','LicenciaController@inicio')->name('licencia')->middleware('auth','twofactor');
-Route::get('/validacionDerechos/{tipo}/{numero}','IncapacidadController@validacion');
+
+Route::get('/validacionDerechos/{tipo}/{numero}','IncapacidadController@validacion')->middleware('cors');
 Route::get('/validacionDescripcion/{estado}/{clasea}/{programa}','IncapacidadController@validacionD');
 //Auth::routes();
 
