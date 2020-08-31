@@ -26,7 +26,7 @@ export default function TableCronicos(props) {
             );
 
     const openCronico = (u) =>{
-        window.open('verCronico/'+ u.target.id,'_blank');
+        window.open('verCronico/'+ u.target.id + "/1",'_blank');
     }
     return (
 

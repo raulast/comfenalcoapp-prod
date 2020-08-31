@@ -95,11 +95,12 @@ class CronicosController extends Controller
             'data' => $data
         ]);
     }
-    public function verCronico($id){
+    public function verCronico($id,$enable){
       //  $cronico = Cronicos::where('id',$id)->first();
         //dd($cronico);
         return view('cronicos.verCronico',[
-            'id' => $id
+            'id' => $id,
+            'enable'=>$enable
         ]); 
     }
     public function getCronico($id){

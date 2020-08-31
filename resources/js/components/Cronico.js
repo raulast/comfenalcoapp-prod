@@ -13,6 +13,7 @@ class Cronico extends Component {
        // console.log(props)
         this.state = {
             id: props.id,
+            enable:props.enable,
             cronico:'',
             fp:[],
             estados: ['CERRADO', 'SEGUIMIENTO'],
@@ -667,11 +668,14 @@ class Cronico extends Component {
             
                     </div>
                 </div>
+                { this.state.enable == "1" ?
                 <div className="row mt-4">
                     <div className="col-md-6 offset-md-3 texto">
                         <button className="btn btn-success btn-block" onClick={this.guardarCronico}>GUARDAR CAMBIOS</button>
                     </div>                                            
                 </div>
+                : ''
+                }
             </div>
         );
     }
@@ -682,5 +686,6 @@ export default Cronico;
 
 if (document.getElementById('cronicoContent')) {
    const cronico =document.getElementById('cronico').value;
-    ReactDOM.render(<Cronico id={cronico}/>, document.getElementById('cronicoContent'));
+   const enable =document.getElementById('enable').value;
+   ReactDOM.render(<Cronico id={cronico} enable={enable}/>, document.getElementById('cronicoContent'));
 }

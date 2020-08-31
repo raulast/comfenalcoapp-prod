@@ -73528,6 +73528,7 @@ var Cronico = /*#__PURE__*/function (_Component) {
 
     _this.state = {
       id: props.id,
+      enable: props.enable,
       cronico: '',
       fp: [],
       estados: ['CERRADO', 'SEGUIMIENTO'],
@@ -74210,14 +74211,14 @@ var Cronico = /*#__PURE__*/function (_Component) {
           size: "50",
           onChange: _this3.handleChange
         }))) : '';
-      }))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null)))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null)))))), this.state.enable == "1" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row mt-4"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-6 offset-md-3 texto"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "btn btn-success btn-block",
         onClick: this.guardarCronico
-      }, "GUARDAR CAMBIOS"))));
+      }, "GUARDAR CAMBIOS"))) : '');
     }
   }]);
 
@@ -74228,8 +74229,10 @@ var Cronico = /*#__PURE__*/function (_Component) {
 
 if (document.getElementById('cronicoContent')) {
   var cronico = document.getElementById('cronico').value;
+  var enable = document.getElementById('enable').value;
   react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Cronico, {
-    id: cronico
+    id: cronico,
+    enable: enable
   }), document.getElementById('cronicoContent'));
 }
 
@@ -76351,7 +76354,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
           className: "alert alert-warning reco",
           role: "alert"
         }, "El usuario se encuentra registrado en la base de seguimiento por ICP ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
-          href: 'verCronico/' + this.state.cronico.consec,
+          href: 'verCronico/' + this.state.cronico.consec + '/0',
           target: "_blank"
         }, "Ver detalle"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", null, this.state.cronico.alarmas.map(function (a, index) {
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("li", null, _this9.state.cronico.alarmas[index]);
@@ -80751,7 +80754,7 @@ function TableCronicos(props) {
     });
 
     var openCronico = function openCronico(u) {
-      window.open('verCronico/' + u.target.id, '_blank');
+      window.open('verCronico/' + u.target.id + "/1", '_blank');
     };
 
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {

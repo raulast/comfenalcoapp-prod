@@ -891,7 +891,7 @@ class IncapacidadFront extends Component {
         }
         if(this.state.cronico.consec != 0){
             mensaje2 = (<div className="alert alert-warning reco" role="alert">
-            El usuario se encuentra registrado en la base de seguimiento por ICP <a href={ 'verCronico/' + this.state.cronico.consec } target="_blank">Ver detalle</a>
+            El usuario se encuentra registrado en la base de seguimiento por ICP <a href={ 'verCronico/' + this.state.cronico.consec + '/0' } target="_blank">Ver detalle</a>
                 <ul>
                 {this.state.cronico.alarmas.map((a, index) =>
                      <li>{this.state.cronico.alarmas[index]}</li>                        
