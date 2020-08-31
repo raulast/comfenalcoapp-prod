@@ -1,8 +1,9 @@
 <?php
 
 
-
-use App\Exports\InscripcionesExport;
+namespace App\Http\Controllers;
+use App\Exports\IncapacidadExport;
+use App\Exports\CronicosExport;
 use Maatwebsite\Excel\Facades\Excel;
 
 use App\Incapacidad;
@@ -11,13 +12,19 @@ use App\Licencia;
 use PDF;
 use DB;
 
-namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
 
 class ExcelController extends Controller
 {
     //
+    public function export(){
+        return Excel::download(new IncapacidadExport, 'incapacidades.xlsx');
+    }
+    public function exportCronicos(){
+        return Excel::download(new CronicosExport, 'cronicos.xlsx');
+    }
     public function Incapacidades(Request $request){
         $i = Inscripcion::where('aceptado','si')->get();
 

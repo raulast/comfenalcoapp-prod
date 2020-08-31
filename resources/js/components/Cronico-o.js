@@ -74,7 +74,7 @@ class Cronico extends Component {
    
     render() {
         const { cronico } = this.state;
-       // console.log(cronico);
+        console.log(cronico);
         
         if (typeof this.state.cronico === 'object'){
             var cols=Object.keys(this.state.cronico)
@@ -84,61 +84,46 @@ class Cronico extends Component {
             <div>
                 <div className="row mt-2">
                     <div className="col-md-12 texto">
+                   
                         <ul className="nav nav-tabs">
                             <li className="nav-item">
-                                <a className="nav-link active" data-toggle="tab" href="#ns">NOTIFICACIÓN (SIR)</a>
+                                <a className="nav-link active" data-toggle="tab" href="#ns">Notificación SIR</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" data-toggle="tab" href="#esu">INFORMACION DEMOGRAFICA USUARIO Y EMPRESA (REGISTRO CLIENTE)</a>
+                                <a className="nav-link" data-toggle="tab" href="#esu">Empresa sede usuario</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" data-toggle="tab" href="#mel">MEL CITAS AGENDA</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" data-toggle="tab" href="#sico">SICOLOGIA CITAS AGENDA</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" data-toggle="tab" href="#ic">GESTION DEL CASO MEL (SIR)</a>
+                                <a className="nav-link" data-toggle="tab" href="#ic">Información caso</a>
                             </li>
 
                             <li className="nav-item">
-                                <a className="nav-link " data-toggle="tab" href="#ii">INFORMACIÓN INCAPACIDADES (SISPOS)</a>
+                                <a className="nav-link " data-toggle="tab" href="#ii">Información incapacidad</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" data-toggle="tab" href="#fp">FECHAS PROYECTADAS</a>
+                                <a className="nav-link" data-toggle="tab" href="#fp">Fechas proyectadas</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" data-toggle="tab" href="#scrh">GESTION CRHs (SIR)</a>
+                                <a className="nav-link" data-toggle="tab" href="#scrh">Seguimiento CRH</a>
+                            </li>
+
+                            <li className="nav-item">
+                                <a className="nav-link " data-toggle="tab" href="#scplo">Seguimiento CPLO</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link " data-toggle="tab" href="#cplo1">1 INSTANCIA DE CPCLO </a>
+                                <a className="nav-link" data-toggle="tab" href="#idd">Información demanda dictámen</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link " data-toggle="tab" href="#cplo2">2 INSTANCIA DE CPCLO </a>
+                                <a className="nav-link" data-toggle="tab" href="#cplocierre">CPLO al cierre</a>
+                            </li>
+
+                            <li className="nav-item">
+                                <a className="nav-link " data-toggle="tab" href="#abuso">Abuso del derecho</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link " data-toggle="tab" href="#cplo3">3 INSTANCIA DE CPCLO </a>
+                                <a className="nav-link" data-toggle="tab" href="#cr">Cierre reintegro</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" data-toggle="tab" href="#ddc">DEMANDA DICTAMEN CPCLO</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" data-toggle="tab" href="#cplocierre">DICTAMEN CPCLO AL CIERRE</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link " data-toggle="tab" href="#abuso">ABUSO DEL DERECHO</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" data-toggle="tab" href="#cr">CIERRE REINTEGRO</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" data-toggle="tab" href="#gp">GESTION PERDIDOS</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" data-toggle="tab" href="#gd">GESTION DEUDA</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" data-toggle="tab" href="#observ">OBSERVACIONES - TUTELA</a>
+                                <a className="nav-link" data-toggle="tab" href="#observ">Observaciones</a>
                             </li>
                         </ul>
 
@@ -158,10 +143,6 @@ class Cronico extends Component {
                                                     <td>{cols[3]}</td>
                                                     <td><input type="text" id={cols[3]} value={cronico[cols[3]]}/></td>
                                                 </tr>
-                                                <tr>
-                                                    <td>{cols[4]}</td>
-                                                    <td><input type="text" id={cols[4]} value={cronico[cols[4]]}/></td>
-                                                </tr>
                                             </tbody>
                                         </table>
                                         : <table></table>}
@@ -175,53 +156,11 @@ class Cronico extends Component {
                                             <table className="table table-sm table-striped table-bordered texto mt-5">
                                                 <tbody>
                                                     {cols.map((col, index) =>
-                                                        (index >=5  && index <= 36) ?
+                                                        (index > 3 && index < 29) ?
                                                             <tr>
                                                                 <td>{cols[index]}</td>
                                                                 <td>{cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''}</td>
                                                                 {/*<td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} size="50"/></td>*/}
-                                                            </tr>
-                                                            : ''
-                                                    )}
-                                                </tbody>
-                                            </table>
-                                            : <table></table>}
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="tab-pane container fade" id="mel">
-                                <div className="row mt-2">
-                                    <div className="col-md-8 texto">
-                                        {size(cols) > 0 ?
-                                            <table className="table table-sm table-striped table-bordered texto mt-5">
-                                                <tbody>
-                                                    {cols.map((col, index) =>
-                                                        (index >=37  && index <= 39) ?
-                                                            <tr>
-                                                                <td>{cols[index]}</td>
-                                                                {/*<td>{cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''}</td>*/}
-                                                                <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} size="50"/></td>
-                                                            </tr>
-                                                            : ''
-                                                    )}
-                                                </tbody>
-                                            </table>
-                                            : <table></table>}
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="tab-pane container fade" id="sico">
-                                <div className="row mt-2">
-                                    <div className="col-md-8 texto">
-                                        {size(cols) > 0 ?
-                                            <table className="table table-sm table-striped table-bordered texto mt-5">
-                                                <tbody>
-                                                    {cols.map((col, index) =>
-                                                        (index >=40   && index <= 42) ?
-                                                            <tr>
-                                                                <td>{cols[index]}</td>
-                                                                {/*<td>{cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''}</td>*/}
-                                                                <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} size="50"/></td>
                                                             </tr>
                                                             : ''
                                                     )}
@@ -238,18 +177,10 @@ class Cronico extends Component {
                                             <table className="table table-sm table-striped table-bordered texto mt-5">
                                                 <tbody>
                                                     {cols.map((col, index) =>
-                                                        (index >= 43 && index <= 50) ?
+                                                        (index > 28 && index < 36) ?
                                                             <tr>
                                                                 <td>{cols[index]}</td>
-                                                                { cols[index] == "tipo_seguimiento" ?
-                                                                    <td><select id={cols[index]}>
-                                                                        <option value={cronico[cols[index]]}>{cronico[cols[index]]}</option>
-                                                                        <option value="EG">CPCLO</option>
-                                                                        <option value="AT">ICP</option>
-                                                                       
-                                                                    </select></td> :
-                                                                
-                                                                cols[index] == "estado_seguimiento" ?
+                                                                { cols[index] == "estado_seguimiento" ?
                                                                     <td><select id={cols[index]}>
                                                                         <option value={cronico[cols[index]]}>{cronico[cols[index]]}</option>
                                                                         {this.state.estados.map((e) =>
@@ -267,7 +198,15 @@ class Cronico extends Component {
 
                                                                         )}
                                                                     </select></td> :
-                    
+                        
+                                                                 cols[index] == "motivo_estado_seguimiento" ?
+                                                                    <td><select id={cols[index]}>
+                                                                        <option value={cronico[cols[index]]}>{cronico[cols[index]]}</option>
+                                                                        {this.state.motivos.map((e) =>
+                                                                            <option value={e}>{e}</option>
+
+                                                                        )}
+                                                                    </select></td> :
                                                                  cols[index] == "contingencia_origen_inicial" ?
                                                                  <td><select id={cols[index]}>
                                                                      <option value={cronico[cols[index]]}>{cronico[cols[index]]}</option>
@@ -294,7 +233,7 @@ class Cronico extends Component {
                                             <table className="table table-sm table-striped table-bordered texto mt-5">
                                                 <tbody>
                                                     {cols.map((col, index) =>
-                                                        (index >= 51 && index <= 58) ?
+                                                        (index > 35 && index < 40) ?
                                                             <tr>
                                                                 <td>{cols[index]}</td>
                                                                 <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} size="50" /></td>
@@ -309,20 +248,28 @@ class Cronico extends Component {
                             <div className="tab-pane container fade" id="fp">
                             <div className="row mt-2">
                                 <div className="col-md-6 texto">
-                                {size(cols) > 0 ?
-                                            <table className="table table-sm table-striped table-bordered texto mt-5">
-                                                <tbody>
-                                                    {cols.map((col, index) =>
-                                                        (index >= 59 && index <= 62) ?
-                                                            <tr>
-                                                                <td>{cols[index]}</td>
-                                                                <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} size="50" /></td>
-                                                            </tr>
-                                                            : ''
-                                                    )}
-                                                </tbody>
-                                            </table>
-                                            : <table></table>}
+                                        { size(cols) > 0 ?
+                                        <table className="table table-sm table-striped table-bordered texto mt-5">
+                                            <tbody>
+                                            <tr>
+                                                <td>Fecha día 120</td>
+                                                <td>{ this.state.fp[0]}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fecha día 150</td>
+                                                <td>{ this.state.fp[1]}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fecha día 180</td>
+                                                <td>{ this.state.fp[2]}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fecha día 540</td>
+                                                <td>{ this.state.fp[3]}</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                        : <table></table>}
                                     </div>
                                 </div>
                             </div>
@@ -332,7 +279,7 @@ class Cronico extends Component {
                                         <table className="table table-sm table-striped table-bordered texto mt-5">
                                             <tbody>
                                                 {cols.map((col, index) =>
-                                                    (index >= 63 && index <= 82) ?
+                                                    (index > 39 && index < 56) ?
                                                         <tr>
                                                             <td>{cols[index]}</td>
                                                             { (cols[index] == "crh1") || (cols[index] == "crh2_favorable") || (cols[index] == "crh3__favorable")?
@@ -353,36 +300,16 @@ class Cronico extends Component {
                                         : <table></table>}
                                 </div>
                             </div>
-                            <div className="tab-pane container fade" id="cplo1">
+                            <div className="tab-pane container fade" id="scplo">
                                 <div className="col-md-8 texto">
                                     {size(cols) > 0 ?
                                         <table className="table table-sm table-striped table-bordered texto mt-5">
                                             <tbody>
                                                 {cols.map((col, index) =>
-                                                    (index >= 83 && index <= 90) ?
+                                                    (index > 55 && index < 75) ?
                                                         <tr>
                                                             <td>{cols[index]}</td>
-                                                            {
-                                                            cols[index].includes("entidad_califica") ?
-                                                            <td><select id={cols[index]}>
-                                                                <option value={cronico[cols[index]]}>{cronico[cols[index]]}</option>
-                                                                <option value="AFP">AFP</option>
-                                                                <option value="ARL">ARL</option>
-                                                                <option value="EPS">EPS</option>
-                                                            </select></td> :
-                                                            
-                                                            cols[index].includes("quien_manifiesta") ?
-                                                            <td><select id={cols[index]}>
-                                                                <option value={cronico[cols[index]]}>{cronico[cols[index]]}</option>
-                                                                <option value="AFP">AFP</option>
-                                                                <option value="ARL">ARL</option>
-                                                                <option value="EPS">EPS</option>
-                                                                <option value="USUARIO">USUARIO</option>
-                                                                <option value="EMPRESA">EMPRESA</option>
-                                                            </select></td> :
-
-
-                                                            cols[index].includes("contingencia") ?
+                                                            {cols[index].includes("contingencia") ?
                                                                  <td><select id={cols[index]}>
                                                                      <option value={cronico[cols[index]]}>{cronico[cols[index]]}</option>
                                                                      <option value="EG">EG</option>
@@ -400,92 +327,16 @@ class Cronico extends Component {
                                         : <table></table>}
                                 </div>
                             </div>
-                            <div className="tab-pane container fade" id="cplo2">
+                            <div className="tab-pane container fade" id="idd">
                                 <div className="col-md-8 texto">
                                     {size(cols) > 0 ?
                                         <table className="table table-sm table-striped table-bordered texto mt-5">
                                             <tbody>
                                                 {cols.map((col, index) =>
-                                                    (index >= 91 && index <= 97) ?
+                                                    (index >= 75  && index <= 78) ?
                                                         <tr>
                                                             <td>{cols[index]}</td>
-                                                            {
-                                                            cols[index].includes("entidad_califica") ?
-                                                            <td><select id={cols[index]}>
-                                                                <option value={cronico[cols[index]]}>{cronico[cols[index]]}</option>
-                                                                <option value="AFP">AFP</option>
-                                                                <option value="ARL">ARL</option>
-                                                                <option value="EPS">EPS</option>
-                                                            </select></td> :
-                                                            
-                                                            cols[index].includes("quien_manifiesta") ?
-                                                            <td><select id={cols[index]}>
-                                                                <option value={cronico[cols[index]]}>{cronico[cols[index]]}</option>
-                                                                <option value="AFP">AFP</option>
-                                                                <option value="ARL">ARL</option>
-                                                                <option value="EPS">EPS</option>
-                                                                <option value="USUARIO">USUARIO</option>
-                                                                <option value="EMPRESA">EMPRESA</option>
-                                                            </select></td> :
-
-
-                                                            cols[index].includes("contingencia") ?
-                                                                 <td><select id={cols[index]}>
-                                                                     <option value={cronico[cols[index]]}>{cronico[cols[index]]}</option>
-                                                                     <option value="EG">EG</option>
-                                                                     <option value="AT">AT</option>
-                                                                     <option value="EL">EL</option>
-                                                                 </select></td> :
-                                                                <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} size="50" /></td>
-                                                            }
-                                                            
-                                                        </tr>
-                                                        : ''
-                                                )}
-                                            </tbody>
-                                        </table>
-                                        : <table></table>}
-                                </div>
-                            </div>
-                            <div className="tab-pane container fade" id="cplo3">
-                                <div className="col-md-8 texto">
-                                    {size(cols) > 0 ?
-                                        <table className="table table-sm table-striped table-bordered texto mt-5">
-                                            <tbody>
-                                                {cols.map((col, index) =>
-                                                    (index >= 98 && index <= 101) ?
-                                                        <tr>
-                                                            <td>{cols[index]}</td>
-                                                            {
-                                                            cols[index].includes("contingencia") ?
-                                                                 <td><select id={cols[index]}>
-                                                                     <option value={cronico[cols[index]]}>{cronico[cols[index]]}</option>
-                                                                     <option value="EG">EG</option>
-                                                                     <option value="AT">AT</option>
-                                                                     <option value="EL">EL</option>
-                                                                 </select></td> :
-                                                                <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} size="50" /></td>
-                                                            }
-                                                            
-                                                        </tr>
-                                                        : ''
-                                                )}
-                                            </tbody>
-                                        </table>
-                                        : <table></table>}
-                                </div>
-                            </div>
-                            <div className="tab-pane container fade" id="ddc">
-                                <div className="col-md-8 texto">
-                                    {size(cols) > 0 ?
-                                        <table className="table table-sm table-striped table-bordered texto mt-5">
-                                            <tbody>
-                                                {cols.map((col, index) =>
-                                                    (index >= 102 && index <= 105) ?
-                                                        <tr>
-                                                            <td>{cols[index]}</td>
-                                                            {
-                                                            cols[index].includes("contingencia") ?
+                                                            {cols[index].includes("contingencia") ?
                                                                  <td><select id={cols[index]}>
                                                                      <option value={cronico[cols[index]]}>{cronico[cols[index]]}</option>
                                                                      <option value="EG">EG</option>
@@ -509,28 +360,10 @@ class Cronico extends Component {
                                         <table className="table table-sm table-striped table-bordered texto mt-5">
                                             <tbody>
                                                 {cols.map((col, index) =>
-                                                    (index >= 106  && index <= 114) ?
+                                                    (index >= 79  && index <= 85) ?
                                                         <tr>
                                                             <td>{cols[index]}</td>
-                                                            {
-                                                            cols[index].includes("categoria_discapacidad") ?
-                                                            <td><select id={cols[index]}>
-                                                                <option value={cronico[cols[index]]}>{cronico[cols[index]]}</option>
-                                                                <option value="FISICA">FISICA</option>
-                                                                <option value="AUDITIVA">AUDITIVA</option>
-                                                                <option value="VISUAL">VISUAL</option>
-                                                                <option value="SORDOCEGUERA">SORDOCEGUERA</option>
-                                                                <option value="INTELECTUAL">INTELECTUAL</option>
-                                                                <option value="PSICOSOCIAL(MENTAL)">PSICOSOCIAL(MENTAL)</option>
-                                                                <option value="MULTIPLE">MULTIPLE</option>
-                                                            </select></td> :
-                                                            cols[index].includes("clasificacion_tipo_incpacidad") ?
-                                                            <td><select id={cols[index]}>
-                                                                <option value={cronico[cols[index]]}>{cronico[cols[index]]}</option>
-                                                                <option value="IPP">IPP</option>
-                                                                <option value="IPT">IPT</option>
-                                                            </select></td> :
-                                                            cols[index].includes("contingencia") ?
+                                                            {cols[index].includes("contingencia") ?
                                                                  <td><select id={cols[index]}>
                                                                      <option value={cronico[cols[index]]}>{cronico[cols[index]]}</option>
                                                                      <option value="EG">EG</option>
@@ -554,7 +387,7 @@ class Cronico extends Component {
                                         <table className="table table-sm table-striped table-bordered texto mt-5">
                                             <tbody>
                                                 {cols.map((col, index) =>
-                                                    (index >= 115 && index <= 120) ?
+                                                    (index >= 86  && index <= 91) ?
                                                         <tr>
                                                             <td>{cols[index]}</td>
                                                             <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} /></td>
@@ -572,43 +405,7 @@ class Cronico extends Component {
                                         <table className="table table-sm table-striped table-bordered texto mt-5">
                                             <tbody>
                                                 {cols.map((col, index) =>
-                                                    (index >= 121  && index <= 126) ?
-                                                        <tr>
-                                                            <td>{cols[index]}</td>
-                                                            <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} size="50" /></td>
-                                                        </tr>
-                                                        : ''
-                                                )}
-                                            </tbody>
-                                        </table>
-                                        : <table></table>}
-                                </div>
-                            </div>
-                            <div className="tab-pane container fade" id="gp">
-                                <div className="col-md-8 texto">
-                                    {size(cols) > 0 ?
-                                        <table className="table table-sm table-striped table-bordered texto mt-5">
-                                            <tbody>
-                                                {cols.map((col, index) =>
-                                                    (index >= 127  && index <= 129) ?
-                                                        <tr>
-                                                            <td>{cols[index]}</td>
-                                                            <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} size="50" /></td>
-                                                        </tr>
-                                                        : ''
-                                                )}
-                                            </tbody>
-                                        </table>
-                                        : <table></table>}
-                                </div>
-                            </div>
-                            <div className="tab-pane container fade" id="gd">
-                                <div className="col-md-8 texto">
-                                    {size(cols) > 0 ?
-                                        <table className="table table-sm table-striped table-bordered texto mt-5">
-                                            <tbody>
-                                                {cols.map((col, index) =>
-                                                    (index >= 130  && index <= 135) ?
+                                                    (index >= 92  && index <= 97) ?
                                                         <tr>
                                                             <td>{cols[index]}</td>
                                                             <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} size="50" /></td>
@@ -625,21 +422,11 @@ class Cronico extends Component {
                                     {size(cols) > 0 ?
                                         <table className="table table-sm table-striped table-bordered texto mt-5">
                                             <tbody>
-                                            {cols.map((col, index) =>
-                                                    (index >= 136  && index <= 139) ?
+                                                {cols.map((col, index) =>
+                                                    (index >= 98  && index <= 100) ?
                                                         <tr>
                                                             <td>{cols[index]}</td>
-                                                            {
-                                                            cols[index].includes("tutela_pe") ?
-                                                            <td><select id={cols[index]}>
-                                                                <option value={cronico[cols[index]]}>{cronico[cols[index]]}</option>
-                                                                <option value="SI">SI</option>
-                                                                <option value="NO">NO</option>
-                                                            </select></td> :
-                                                           
-                                                                <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} size="50" /></td>
-                                                            }
-                                                            
+                                                            <td><input type="text" id={cols[index]} value={cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''} size="50" /></td>
                                                         </tr>
                                                         : ''
                                                 )}

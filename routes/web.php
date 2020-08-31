@@ -82,7 +82,8 @@ Route::get('certificadoLicencia/{id}','ApiController@certificadoLicencia');
 Route::get('/reportes','ReportesController@index')->name('reportes');
 Route::post('/reportIncapacidades','ReportesController@reportIncapacidades');
 Route::post('/reportLicencias','ReportesController@reportLicencias');
-
+Route::get('/exportReporte','ExcelController@export');
+Route::get('/exportCronicos','ExcelController@exportCronicos');
 //cronicos
 
 Route::get('/cronicos','CronicosController@index')->name('cronicos');

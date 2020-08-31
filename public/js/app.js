@@ -73597,8 +73597,7 @@ var Cronico = /*#__PURE__*/function (_Component) {
     value: function render() {
       var _this3 = this;
 
-      var cronico = this.state.cronico;
-      console.log(cronico);
+      var cronico = this.state.cronico; // console.log(cronico);
 
       if (_typeof(this.state.cronico) === 'object') {
         var cols = Object.keys(this.state.cronico); //console.log(cols);
@@ -73616,73 +73615,109 @@ var Cronico = /*#__PURE__*/function (_Component) {
         className: "nav-link active",
         "data-toggle": "tab",
         href: "#ns"
-      }, "Notificaci\xF3n SIR")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+      }, "NOTIFICACI\xD3N (SIR)")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         className: "nav-item"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         className: "nav-link",
         "data-toggle": "tab",
         href: "#esu"
-      }, "Empresa sede usuario")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+      }, "INFORMACION DEMOGRAFICA USUARIO Y EMPRESA (REGISTRO CLIENTE)")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        className: "nav-item"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "nav-link",
+        "data-toggle": "tab",
+        href: "#mel"
+      }, "MEL CITAS AGENDA")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        className: "nav-item"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "nav-link",
+        "data-toggle": "tab",
+        href: "#sico"
+      }, "SICOLOGIA CITAS AGENDA")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         className: "nav-item"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         className: "nav-link",
         "data-toggle": "tab",
         href: "#ic"
-      }, "Informaci\xF3n caso")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+      }, "GESTION DEL CASO MEL (SIR)")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         className: "nav-item"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         className: "nav-link ",
         "data-toggle": "tab",
         href: "#ii"
-      }, "Informaci\xF3n incapacidad")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+      }, "INFORMACI\xD3N INCAPACIDADES (SISPOS)")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         className: "nav-item"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         className: "nav-link",
         "data-toggle": "tab",
         href: "#fp"
-      }, "Fechas proyectadas")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+      }, "FECHAS PROYECTADAS")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         className: "nav-item"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         className: "nav-link",
         "data-toggle": "tab",
         href: "#scrh"
-      }, "Seguimiento CRH")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+      }, "GESTION CRHs (SIR)")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         className: "nav-item"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         className: "nav-link ",
         "data-toggle": "tab",
-        href: "#scplo"
-      }, "Seguimiento CPLO")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        href: "#cplo1"
+      }, "1 INSTANCIA DE CPCLO ")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        className: "nav-item"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "nav-link ",
+        "data-toggle": "tab",
+        href: "#cplo2"
+      }, "2 INSTANCIA DE CPCLO ")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        className: "nav-item"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "nav-link ",
+        "data-toggle": "tab",
+        href: "#cplo3"
+      }, "3 INSTANCIA DE CPCLO ")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         className: "nav-item"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         className: "nav-link",
         "data-toggle": "tab",
-        href: "#idd"
-      }, "Informaci\xF3n demanda dict\xE1men")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        href: "#ddc"
+      }, "DEMANDA DICTAMEN CPCLO")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         className: "nav-item"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         className: "nav-link",
         "data-toggle": "tab",
         href: "#cplocierre"
-      }, "CPLO al cierre")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+      }, "DICTAMEN CPCLO AL CIERRE")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         className: "nav-item"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         className: "nav-link ",
         "data-toggle": "tab",
         href: "#abuso"
-      }, "Abuso del derecho")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+      }, "ABUSO DEL DERECHO")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         className: "nav-item"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         className: "nav-link",
         "data-toggle": "tab",
         href: "#cr"
-      }, "Cierre reintegro")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+      }, "CIERRE REINTEGRO")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        className: "nav-item"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "nav-link",
+        "data-toggle": "tab",
+        href: "#gp"
+      }, "GESTION PERDIDOS")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        className: "nav-item"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "nav-link",
+        "data-toggle": "tab",
+        href: "#gd"
+      }, "GESTION DEUDA")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         className: "nav-item"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         className: "nav-link",
         "data-toggle": "tab",
         href: "#observ"
-      }, "Observaciones"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "OBSERVACIONES - TUTELA"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tab-content"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tab-pane container active",
@@ -73701,6 +73736,10 @@ var Cronico = /*#__PURE__*/function (_Component) {
         type: "text",
         id: cols[3],
         value: cronico[cols[3]]
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[4]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        id: cols[4],
+        value: cronico[cols[4]]
       }))))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tab-pane container fade",
         id: "esu"
@@ -73711,7 +73750,39 @@ var Cronico = /*#__PURE__*/function (_Component) {
       }, Object(lodash__WEBPACK_IMPORTED_MODULE_3__["size"])(cols) > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
         className: "table table-sm table-striped table-bordered texto mt-5"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, cols.map(function (col, index) {
-        return index > 3 && index < 29 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : '')) : '';
+        return index >= 5 && index <= 36 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : '')) : '';
+      }))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "tab-pane container fade",
+        id: "mel"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row mt-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-8 texto"
+      }, Object(lodash__WEBPACK_IMPORTED_MODULE_3__["size"])(cols) > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+        className: "table table-sm table-striped table-bordered texto mt-5"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, cols.map(function (col, index) {
+        return index >= 37 && index <= 39 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          type: "text",
+          id: cols[index],
+          value: cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : '',
+          size: "50"
+        }))) : '';
+      }))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "tab-pane container fade",
+        id: "sico"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row mt-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-8 texto"
+      }, Object(lodash__WEBPACK_IMPORTED_MODULE_3__["size"])(cols) > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+        className: "table table-sm table-striped table-bordered texto mt-5"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, cols.map(function (col, index) {
+        return index >= 40 && index <= 42 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          type: "text",
+          id: cols[index],
+          value: cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : '',
+          size: "50"
+        }))) : '';
       }))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tab-pane container fade",
         id: "ic"
@@ -73722,19 +73793,19 @@ var Cronico = /*#__PURE__*/function (_Component) {
       }, Object(lodash__WEBPACK_IMPORTED_MODULE_3__["size"])(cols) > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
         className: "table table-sm table-striped table-bordered texto mt-5"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, cols.map(function (col, index) {
-        return index > 28 && index < 36 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), cols[index] == "estado_seguimiento" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        return index >= 43 && index <= 50 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), cols[index] == "tipo_seguimiento" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+          id: cols[index]
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: cronico[cols[index]]
+        }, cronico[cols[index]]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: "EG"
+        }, "CPCLO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: "AT"
+        }, "ICP"))) : cols[index] == "estado_seguimiento" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
           id: cols[index]
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
           value: cronico[cols[index]]
         }, cronico[cols[index]]), _this3.state.estados.map(function (e) {
-          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-            value: e
-          }, e);
-        }))) : cols[index] == "motivo_estado_seguimiento" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-          id: cols[index]
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-          value: cronico[cols[index]]
-        }, cronico[cols[index]]), _this3.state.motivos.map(function (e) {
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
             value: e
           }, e);
@@ -73770,7 +73841,7 @@ var Cronico = /*#__PURE__*/function (_Component) {
       }, Object(lodash__WEBPACK_IMPORTED_MODULE_3__["size"])(cols) > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
         className: "table table-sm table-striped table-bordered texto mt-5"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, cols.map(function (col, index) {
-        return index > 35 && index < 40 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        return index >= 51 && index <= 58 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
           type: "text",
           id: cols[index],
           value: cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : '',
@@ -73785,7 +73856,14 @@ var Cronico = /*#__PURE__*/function (_Component) {
         className: "col-md-6 texto"
       }, Object(lodash__WEBPACK_IMPORTED_MODULE_3__["size"])(cols) > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
         className: "table table-sm table-striped table-bordered texto mt-5"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, "Fecha d\xEDa 120"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, this.state.fp[0])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, "Fecha d\xEDa 150"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, this.state.fp[1])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, "Fecha d\xEDa 180"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, this.state.fp[2])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, "Fecha d\xEDa 540"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, this.state.fp[3])))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, cols.map(function (col, index) {
+        return index >= 59 && index <= 62 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          type: "text",
+          id: cols[index],
+          value: cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : '',
+          size: "50"
+        }))) : '';
+      }))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tab-pane container fade",
         id: "scrh"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -73793,7 +73871,7 @@ var Cronico = /*#__PURE__*/function (_Component) {
       }, Object(lodash__WEBPACK_IMPORTED_MODULE_3__["size"])(cols) > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
         className: "table table-sm table-striped table-bordered texto mt-5"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, cols.map(function (col, index) {
-        return index > 39 && index < 56 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), cols[index] == "crh1" || cols[index] == "crh2_favorable" || cols[index] == "crh3__favorable" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        return index >= 63 && index <= 82 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), cols[index] == "crh1" || cols[index] == "crh2_favorable" || cols[index] == "crh3__favorable" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
           id: cols[index]
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
           value: cronico[cols[index]]
@@ -73811,13 +73889,37 @@ var Cronico = /*#__PURE__*/function (_Component) {
         }))) : '';
       }))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tab-pane container fade",
-        id: "scplo"
+        id: "cplo1"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-8 texto"
       }, Object(lodash__WEBPACK_IMPORTED_MODULE_3__["size"])(cols) > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
         className: "table table-sm table-striped table-bordered texto mt-5"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, cols.map(function (col, index) {
-        return index > 55 && index < 75 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), cols[index].includes("contingencia") ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        return index >= 83 && index <= 90 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), cols[index].includes("entidad_califica") ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+          id: cols[index]
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: cronico[cols[index]]
+        }, cronico[cols[index]]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: "AFP"
+        }, "AFP"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: "ARL"
+        }, "ARL"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: "EPS"
+        }, "EPS"))) : cols[index].includes("quien_manifiesta") ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+          id: cols[index]
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: cronico[cols[index]]
+        }, cronico[cols[index]]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: "AFP"
+        }, "AFP"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: "ARL"
+        }, "ARL"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: "EPS"
+        }, "EPS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: "USUARIO"
+        }, "USUARIO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: "EMPRESA"
+        }, "EMPRESA"))) : cols[index].includes("contingencia") ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
           id: cols[index]
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
           value: cronico[cols[index]]
@@ -73835,13 +73937,85 @@ var Cronico = /*#__PURE__*/function (_Component) {
         }))) : '';
       }))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tab-pane container fade",
-        id: "idd"
+        id: "cplo2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-8 texto"
       }, Object(lodash__WEBPACK_IMPORTED_MODULE_3__["size"])(cols) > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
         className: "table table-sm table-striped table-bordered texto mt-5"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, cols.map(function (col, index) {
-        return index >= 75 && index <= 78 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), cols[index].includes("contingencia") ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        return index >= 91 && index <= 97 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), cols[index].includes("entidad_califica") ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+          id: cols[index]
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: cronico[cols[index]]
+        }, cronico[cols[index]]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: "AFP"
+        }, "AFP"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: "ARL"
+        }, "ARL"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: "EPS"
+        }, "EPS"))) : cols[index].includes("quien_manifiesta") ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+          id: cols[index]
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: cronico[cols[index]]
+        }, cronico[cols[index]]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: "AFP"
+        }, "AFP"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: "ARL"
+        }, "ARL"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: "EPS"
+        }, "EPS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: "USUARIO"
+        }, "USUARIO"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: "EMPRESA"
+        }, "EMPRESA"))) : cols[index].includes("contingencia") ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+          id: cols[index]
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: cronico[cols[index]]
+        }, cronico[cols[index]]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: "EG"
+        }, "EG"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: "AT"
+        }, "AT"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: "EL"
+        }, "EL"))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          type: "text",
+          id: cols[index],
+          value: cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : '',
+          size: "50"
+        }))) : '';
+      }))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "tab-pane container fade",
+        id: "cplo3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-8 texto"
+      }, Object(lodash__WEBPACK_IMPORTED_MODULE_3__["size"])(cols) > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+        className: "table table-sm table-striped table-bordered texto mt-5"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, cols.map(function (col, index) {
+        return index >= 98 && index <= 101 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), cols[index].includes("contingencia") ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+          id: cols[index]
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: cronico[cols[index]]
+        }, cronico[cols[index]]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: "EG"
+        }, "EG"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: "AT"
+        }, "AT"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: "EL"
+        }, "EL"))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          type: "text",
+          id: cols[index],
+          value: cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : '',
+          size: "50"
+        }))) : '';
+      }))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "tab-pane container fade",
+        id: "ddc"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-8 texto"
+      }, Object(lodash__WEBPACK_IMPORTED_MODULE_3__["size"])(cols) > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+        className: "table table-sm table-striped table-bordered texto mt-5"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, cols.map(function (col, index) {
+        return index >= 102 && index <= 105 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), cols[index].includes("contingencia") ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
           id: cols[index]
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
           value: cronico[cols[index]]
@@ -73865,7 +74039,33 @@ var Cronico = /*#__PURE__*/function (_Component) {
       }, Object(lodash__WEBPACK_IMPORTED_MODULE_3__["size"])(cols) > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
         className: "table table-sm table-striped table-bordered texto mt-5"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, cols.map(function (col, index) {
-        return index >= 79 && index <= 85 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), cols[index].includes("contingencia") ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        return index >= 106 && index <= 114 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), cols[index].includes("categoria_discapacidad") ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+          id: cols[index]
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: cronico[cols[index]]
+        }, cronico[cols[index]]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: "FISICA"
+        }, "FISICA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: "AUDITIVA"
+        }, "AUDITIVA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: "VISUAL"
+        }, "VISUAL"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: "SORDOCEGUERA"
+        }, "SORDOCEGUERA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: "INTELECTUAL"
+        }, "INTELECTUAL"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: "PSICOSOCIAL(MENTAL)"
+        }, "PSICOSOCIAL(MENTAL)"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: "MULTIPLE"
+        }, "MULTIPLE"))) : cols[index].includes("clasificacion_tipo_incpacidad") ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+          id: cols[index]
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: cronico[cols[index]]
+        }, cronico[cols[index]]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: "IPP"
+        }, "IPP"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: "IPT"
+        }, "IPT"))) : cols[index].includes("contingencia") ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
           id: cols[index]
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
           value: cronico[cols[index]]
@@ -73889,7 +74089,7 @@ var Cronico = /*#__PURE__*/function (_Component) {
       }, Object(lodash__WEBPACK_IMPORTED_MODULE_3__["size"])(cols) > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
         className: "table table-sm table-striped table-bordered texto mt-5"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, cols.map(function (col, index) {
-        return index >= 86 && index <= 91 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        return index >= 115 && index <= 120 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
           type: "text",
           id: cols[index],
           value: cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : ''
@@ -73902,7 +74102,35 @@ var Cronico = /*#__PURE__*/function (_Component) {
       }, Object(lodash__WEBPACK_IMPORTED_MODULE_3__["size"])(cols) > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
         className: "table table-sm table-striped table-bordered texto mt-5"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, cols.map(function (col, index) {
-        return index >= 92 && index <= 97 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        return index >= 121 && index <= 126 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          type: "text",
+          id: cols[index],
+          value: cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : '',
+          size: "50"
+        }))) : '';
+      }))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "tab-pane container fade",
+        id: "gp"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-8 texto"
+      }, Object(lodash__WEBPACK_IMPORTED_MODULE_3__["size"])(cols) > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+        className: "table table-sm table-striped table-bordered texto mt-5"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, cols.map(function (col, index) {
+        return index >= 127 && index <= 129 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          type: "text",
+          id: cols[index],
+          value: cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : '',
+          size: "50"
+        }))) : '';
+      }))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "tab-pane container fade",
+        id: "gd"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-8 texto"
+      }, Object(lodash__WEBPACK_IMPORTED_MODULE_3__["size"])(cols) > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+        className: "table table-sm table-striped table-bordered texto mt-5"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, cols.map(function (col, index) {
+        return index >= 130 && index <= 135 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
           type: "text",
           id: cols[index],
           value: cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : '',
@@ -73916,7 +74144,15 @@ var Cronico = /*#__PURE__*/function (_Component) {
       }, Object(lodash__WEBPACK_IMPORTED_MODULE_3__["size"])(cols) > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
         className: "table table-sm table-striped table-bordered texto mt-5"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, cols.map(function (col, index) {
-        return index >= 98 && index <= 100 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        return index >= 136 && index <= 139 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), cols[index].includes("tutela_pe") ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+          id: cols[index]
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: cronico[cols[index]]
+        }, cronico[cols[index]]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: "SI"
+        }, "SI"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+          value: "NO"
+        }, "NO"))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
           type: "text",
           id: cols[index],
           value: cronico[cols[index]] != '1900-01-01' ? cronico[cols[index]] : '',
@@ -74042,6 +74278,11 @@ var CronicosPanel = /*#__PURE__*/function (_Component) {
     key: "componentDidMount",
     value: function componentDidMount() {}
   }, {
+    key: "exportReport",
+    value: function exportReport() {
+      window.open('exportCronicos', '_blank');
+    }
+  }, {
     key: "buscar",
     value: function buscar() {
       var _this3 = this;
@@ -74087,21 +74328,6 @@ var CronicosPanel = /*#__PURE__*/function (_Component) {
         className: "col-md-3"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: ""
-      }, "Conducta"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-        className: "form-control",
-        name: "conducta",
-        value: this.state.conducta,
-        onChange: this.handleChange
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: ""
-      }), this.state.conductas.map(function (c) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-          value: c
-        }, c);
-      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-md-3"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: ""
       }, "Estado"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         className: "form-control",
         name: "estado",
@@ -74128,12 +74354,37 @@ var CronicosPanel = /*#__PURE__*/function (_Component) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
           value: m
         }, m);
-      })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "row mt-1"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "btn btn-success",
         onClick: this.buscar
-      }, "Buscar")))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "Buscar"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row mt-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: ""
+      }, "Fecha de notificaci\xF3n (desde)"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "date",
+        name: "desde",
+        className: "form-control form-control-sm",
+        onChange: this.handleChange
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: ""
+      }, "Fecha de notificaci\xF3n (hasta)"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "date",
+        name: "hasta",
+        className: "form-control form-control-sm",
+        onChange: this.handleChange
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "btn btn-success",
+        onClick: this.exportReport
+      }, "Exportar Datos"))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row mt-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-12"
@@ -75100,7 +75351,8 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
         visible: 'visible',
         alarmas: []
       },
-      flagCertificado: 'disabled'
+      flagCertificado: 'disabled',
+      aportantes: ''
     };
     _this.initialState = _objectSpread({}, _this.state); // bind
 
@@ -75229,6 +75481,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
           estado: estado,
           tipoCotizante: tipoCotizante,
           descripcionPrograma: descripcionPrograma,
+          validacion: JSON.stringify(response.data),
           //tipoDocAportante: tipoDocAportante,
           //numDocAportante: numDocAportante,
           //nombreAportante:nombreAportante,
@@ -75330,6 +75583,8 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
 
                       Promise.all(promises).then(function () {
                         //console.log(incapacidades)
+                        var aportantes = "";
+
                         for (var i = 0; i < Object(lodash__WEBPACK_IMPORTED_MODULE_9__["size"])(afiliaciones); i++) {
                           if (incapacidades[i] == 0) {
                             afiliaciones[i]["Incapacidad"] = "NO";
@@ -75337,11 +75592,26 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
 
                           if (incapacidades[i] == 1) {
                             afiliaciones[i]["Incapacidad"] = "SI";
+
+                            if (aportantes == "") {
+                              if (afiliaciones[i]["IDEmpresa"] != 'N/A') {
+                                aportantes = afiliaciones[i]["NombreEmpresa"];
+                              } else {
+                                aportantes = "afiliado";
+                              }
+                            } else {
+                              if (afiliaciones[i]["IDEmpresa"] != 'N/A') {
+                                aportantes = aportantes + ";" + afiliaciones[i]["NombreEmpresa"];
+                              } else {
+                                aportantes = aportantes + ";afiliado";
+                              }
+                            }
                           }
                         }
 
                         _this3.setState({
-                          validaciones: afiliaciones
+                          validaciones: afiliaciones,
+                          aportantes: aportantes
                         });
 
                         _this3.activarGeneracion(incapacidades, response, afiliaciones);
@@ -75774,7 +76044,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
                     axios__WEBPACK_IMPORTED_MODULE_8___default.a.post(url, {
                       datos: this.state
                     }).then(function (resp) {
-                      //console.log(resp.data)
+                      console.log(resp.data);
                       alert(resp.data); //this.setState(this.initialState);
                       // location.reload();
 
@@ -79419,6 +79689,7 @@ var Reporte = /*#__PURE__*/function (_Component) {
     _this.handleCodigoDiagnostico = _this.handleCodigoDiagnostico.bind(_assertThisInitialized(_this));
     _this.reportIncapacidades = _this.reportIncapacidades.bind(_assertThisInitialized(_this));
     _this.reportLicencias = _this.reportLicencias.bind(_assertThisInitialized(_this));
+    _this.exportReport = _this.exportReport.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -79479,6 +79750,11 @@ var Reporte = /*#__PURE__*/function (_Component) {
       })["catch"](function (err) {
         console.log(err);
       });
+    }
+  }, {
+    key: "exportReport",
+    value: function exportReport() {
+      window.open('exportReporte', '_blank');
     }
   }, {
     key: "render",
@@ -80173,8 +80449,8 @@ var Reporte = /*#__PURE__*/function (_Component) {
       }, "N\xFAmero de certificados: ", this.state.totales.total, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "Total d\xEDas solicitados: ", this.state.totales.dias)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-6"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        "class": "btn btn-success",
-        onclick: this.exportReport
+        className: "btn btn-success",
+        onClick: this.exportReport
       }, "Exportar Datos"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row"
       }, this.state.datos != '' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TableReportes_js__WEBPACK_IMPORTED_MODULE_7__["default"], {

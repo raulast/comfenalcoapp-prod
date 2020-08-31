@@ -1,6 +1,4 @@
 
-
-
 /*
 SELECT
 * 
@@ -33,9 +31,16 @@ where TABLE_NAME='cronicos'
 select *
 from INFORMATION_SCHEMA.COLUMNS
 where TABLE_NAME='TSIC_DATOS_COMUNES'
-*/
+
+
 SELECT
-* 
+  *
 FROM
-descripciones_programas
+  INFORMATION_SCHEMA.TABLES
+GO
+*/
+
+-- Get a list of tables and views in the current database
+SELECT table_catalog [database], table_schema [schema], table_name name, table_type type
+FROM INFORMATION_SCHEMA.TABLES
 GO

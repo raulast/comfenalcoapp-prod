@@ -36,6 +36,7 @@ class Reporte extends Component {
         this.handleCodigoDiagnostico = this.handleCodigoDiagnostico.bind(this);
         this.reportIncapacidades = this.reportIncapacidades.bind(this);
         this.reportLicencias = this.reportLicencias.bind(this);
+        this.exportReport = this.exportReport.bind(this);
         
     }
     
@@ -77,6 +78,9 @@ class Reporte extends Component {
             .catch(err => {
                 console.log(err)
             })
+    }
+    exportReport(){
+        window.open('exportReporte','_blank');
     }
     render() {
         
@@ -463,7 +467,7 @@ class Reporte extends Component {
                                         </div>
                                     </div>  
                                     <div className="col-md-6">
-                                        <button class="btn btn-success" onclick={this.exportReport}>Exportar Datos</button>
+                                        <button className="btn btn-success" onClick={this.exportReport}>Exportar Datos</button>
                                     </div>
 
 

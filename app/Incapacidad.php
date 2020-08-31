@@ -34,6 +34,13 @@ class Incapacidad extends Model
             'observacion',
             'observacion_estado',
             'estado_id',
+            'nombre_afiliado',
+            'estado_afiliado',
+            'tipo_cotizante',
+            'programa_afiliado',
+            'aportantes',
+            'validacion'
+          
     ];
     public function estado()
     {

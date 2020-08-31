@@ -50,6 +50,9 @@ class CronicosPanel extends Component {
     componentDidMount() {
 
     }
+    exportReport(){
+        window.open('exportCronicos','_blank');
+    }
     buscar() {
         let url = 'buscarCronicos'
         axios.post(url, { datos: this.state })
@@ -76,7 +79,7 @@ class CronicosPanel extends Component {
                                         <label htmlFor="">Identificación del usuario</label>
                                         <input className="form-control" name="identificacion" value={this.state.identificacion} onChange={this.handleChange} />
                                     </div>
-                                    <div className="col-md-3">
+                                   {/* <div className="col-md-3">
                                         <label htmlFor="">Conducta</label>
                                         <select className="form-control" name="conducta" value={this.state.conducta} onChange={this.handleChange}>
                                             <option value=""></option>
@@ -85,7 +88,8 @@ class CronicosPanel extends Component {
 
                                             )}
                                         </select>
-                                    </div><div className="col-md-3">
+                                            </div>*/}
+                                    <div className="col-md-3">
                                         <label htmlFor="">Estado</label>
                                         <select className="form-control" name="estado" value={this.state.estado} onChange={this.handleChange}>
                                             <option value=""></option>
@@ -105,10 +109,28 @@ class CronicosPanel extends Component {
                                             )}
                                         </select>
                                     </div>
+                                    <div className="col-md-3">
+                                        <br/>
+                                        <button className="btn btn-success" onClick={this.buscar}>Buscar</button>
+                                    </div>
                                 </div>
-                                <div className="row mt-1">
+                                <div className="row mt-2">
+                                    <div className="col-md-4">
+                                        <label htmlFor="">Fecha de notificación (desde)</label>
+                                        <input type="date" name="desde" className="form-control form-control-sm" onChange={this.handleChange}/>
+                                    </div>
+                                    <div className="col-md-4">
+                                        <label htmlFor="">Fecha de notificación (hasta)</label>
+                                        <input type="date" name="hasta" className="form-control form-control-sm" onChange={this.handleChange}/>
+                                    </div>
+                                    <div className="col-md-4">
+                                        <br/>
+                                        <button className="btn btn-success" onClick={this.exportReport}>Exportar Datos</button>
+                                    </div>
+                                </div>
+                                {/*<div className="row mt-1">
                                     <button className="btn btn-success" onClick={this.buscar}>Buscar</button>
-                                </div>
+                                            </div>*/}
                             </div>
                         </div>
                     </div>

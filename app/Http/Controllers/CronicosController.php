@@ -29,7 +29,7 @@ class CronicosController extends Controller
         $cronicos = Cronicos::where('id','>',1);
         
         if ($identificacion != ""){
-            $data = $cronicos->where('nit_usuario',$identificacion)->get();
+            $data = $cronicos->where('id_usuario',$identificacion)->get();
         }
         if ($estado != ""){
             $data = $cronicos->where('estado_seguimiento',$estado)->get();
@@ -49,14 +49,14 @@ class CronicosController extends Controller
         $alarmas = array();
         $data["consec"]=0;
         $data["visible"] = "visible";
-        if (Cronicos::where('nit_usuario',$id)->exists()){
-            $cr = Cronicos::where('nit_usuario',$id)->first();
+        if (Cronicos::where('id_usuario',$id)->exists()){
+            $cr = Cronicos::where('id_usuario',$id)->first();
             $consec = $cr->id;
             $motivo =$cr->motivo_estado_seguimiento;
-            $crh1 = $cr->crh1;
-            $crh2 = $cr->crh2_favorable;
+            $crh1 = $cr->decision_crh1;
+            $crh2 = $cr->decision_crh2_favorable;
             $estado = $cr->estado_seguimiento;
-            $reintegro = $cr->fecha_reintegro_por_mmm_;
+            $reintegro = $cr->fecha_reintegro_por_mmm;
            // dd($reintegro);
             $abuso = $cr->fecha_carta_suspension_abuso_del_derecho;
             if ($motivo == "TRAMITE DE PENSION"){
@@ -72,10 +72,10 @@ class CronicosController extends Controller
                 $data["visible"] = "oculto";
             }
             
-            if (($estado == "SEGUIMIENTO") && ($motivo!="IPP") &&  ($reintegro!="1900-01-01")){
+            if (($estado == "SEGUIMIENTO") && ($motivo!="IPP") &&  ($reintegro!="")){
                 array_push($alarmas, "Paciente seguimiento ICP - Reintegrado ".$reintegro);
             } 
-            if ($abuso !="1900-01-01"){
+            if ($abuso !=""){
                 array_push($alarmas, "Abuso del derecho - comunicado de abuso y suspensión en ".$abuso);
                 $data["visible"] = "oculto";
             }

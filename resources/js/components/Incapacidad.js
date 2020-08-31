@@ -99,7 +99,8 @@ class IncapacidadFront extends Component {
                 visible :'visible',
                 alarmas: [],
             },
-            flagCertificado: 'disabled'
+            flagCertificado: 'disabled',
+            aportantes:''
             
         };
         this.initialState = { ...this.state } 
@@ -213,6 +214,7 @@ class IncapacidadFront extends Component {
                 estado : estado,
                 tipoCotizante: tipoCotizante,
                 descripcionPrograma: descripcionPrograma,
+                validacion: JSON.stringify(response.data),
                 //tipoDocAportante: tipoDocAportante,
                 //numDocAportante: numDocAportante,
                 //nombreAportante:nombreAportante,
@@ -301,16 +303,34 @@ class IncapacidadFront extends Component {
                     Promise.all(promises).then(() => {
 
                         //console.log(incapacidades)
+                        var aportantes=""
                         for (var i = 0; i < size(afiliaciones); i++) {
                             if (incapacidades[i] == 0) {
                                 afiliaciones[i]["Incapacidad"] = "NO"
                             }
                             if (incapacidades[i] == 1) {
                                 afiliaciones[i]["Incapacidad"] = "SI"
+                                if (aportantes==""){
+                                    if (afiliaciones[i]["IDEmpresa"]!='N/A'){
+                                        aportantes=afiliaciones[i]["NombreEmpresa"];
+                                    }
+                                    else{
+                                        aportantes="afiliado";
+                                    }
+                                }
+                                else{
+                                    if (afiliaciones[i]["IDEmpresa"]!='N/A'){
+                                        aportantes=aportantes+";"+afiliaciones[i]["NombreEmpresa"];
+                                    }
+                                    else{
+                                        aportantes=aportantes+";afiliado";
+                                    }
+                                }
                             }
                         }
                         this.setState({
-                            validaciones: afiliaciones
+                            validaciones: afiliaciones,
+                            aportantes: aportantes
                         });
                         this.activarGeneracion(incapacidades, response,afiliaciones)
                     });
@@ -662,7 +682,7 @@ class IncapacidadFront extends Component {
                     let url = 'saveIncapacidad'
                     axios.post(url, { datos: this.state })
                         .then(resp => {
-                            //console.log(resp.data)
+                            console.log(resp.data)
                             alert(resp.data)
                             //this.setState(this.initialState);
                            // location.reload();

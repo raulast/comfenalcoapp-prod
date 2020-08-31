@@ -157,6 +157,7 @@ class ApiController extends Controller
 
     public function saveIncapacidad(Request $request){
             $datos = $request->datos;
+            
             if ($datos['prorroga']=="No"){
                 if(Incapacidad::latest()->first() !== null){
                     $id = Incapacidad::latest()->first()->id;
@@ -170,13 +171,23 @@ class ApiController extends Controller
                 $id =(int)$datos['id'];
             }       
 
-           // return $datos;
+            if (Incapacidad::where('id',$id)->where('prorrogaid',$datos['prorrogaId'])->exists()){
+                return "La incapacidad ya se encuentra almacenada";
+            }
+            else{
+
+           //return $datos;
             $i = Incapacidad::create([
                 'id' => $id,
                 'prorrogaid' => $datos['prorrogaId'],
                 'tipo_prestador' => $datos['tipoPrestador'],
                 'tipo_documento_afiliado' =>$datos['tipoDocAfiliado'],
                 'num_documento_afiliado' => $datos['IDTrabajador'],
+                'nombre_afiliado' =>$datos['nombreCompleto'],
+                'estado_afiliado' =>$datos['estado'],
+                'tipo_cotizante' =>$datos['tipoCotizante'],
+                'programa_afiliado'  =>$datos['descripcionPrograma'],
+
                 'fecha_atencion' => $datos['fechaAtencion'],
                 'fecha_inicio_incapacidad' => $datos['fechaInicioIncapacidad'],
                 'dias_solicitados' => $datos['diasSolicitados'],
@@ -198,9 +209,14 @@ class ApiController extends Controller
                 'dias_acumulados_ultima_incapacidad' => $datos['diasAcumuladosUltima'],
                 'estado_id' => $datos['estado_id'],
                 'observacion_estado' => $datos['observacion_estado'],
+
+                'validacion' => $datos['validacion'],
+                'aportantes' => $datos['aportantes'],
             ]);
                 
             return  "Incapacidad almacenada";
+
+            }
         
     }
     public function saveLicencia(Request $request){
@@ -423,7 +439,8 @@ class ApiController extends Controller
         
         $tipoDoc = $d->tipo_documento_afiliado;
         $numDoc = $d->num_documento_afiliado;
-        $response = json_decode($this->validacion($tipoDoc,$numDoc));
+        $response =json_decode($d->validacion);
+        //$response = json_decode($this->validacion($tipoDoc,$numDoc));
        // dd($response->responseMessageOut->body->response->validadorResponse->DsAfiliado->Afiliado);
         $afiliado = $response->responseMessageOut->body->response->validadorResponse->DsAfiliado->Afiliado;
         
@@ -567,7 +584,8 @@ class ApiController extends Controller
         
         $tipoDoc = $d->tipo_documento_afiliado;
         $numDoc = $d->num_documento_afiliado;
-        $response = json_decode($this->validacion($tipoDoc,$numDoc));
+        $response =json_decode($d->validacion);
+        //$response = json_decode($this->validacion($tipoDoc,$numDoc));
         //dd($response);
         //dd($response->responseMessageOut->body->response->validadorResponse->DsAfiliado->Afiliado);
         $afiliado = $response->responseMessageOut->body->response->validadorResponse->DsAfiliado->Afiliado;
