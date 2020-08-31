@@ -97,7 +97,7 @@ class EstadosAdmin extends Component {
                                         </table>
                                   
                                         <div className={this.state.errors['nombre']}>
-                                            <div className={"invalid-feedback  " + (this.state.errors['nombre'] || "")}>{this.state.errorMensajes['nombre']}</div>
+                                            <div className={"redf  " + (this.state.errors['nombre'] || "")}>{this.state.errorMensajes['nombre']}</div>
                                         </div>
                                     </div>
                                 </div>

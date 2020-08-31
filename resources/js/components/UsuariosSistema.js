@@ -187,14 +187,14 @@ class UsuariosSistema extends Component {
                                                 <label htmlFor="nombre">Nombre</label>
                                                 <input type="text" className="form-control" id="nombre" name="nombre" onChange={this.handleChange} value={this.state.nombre}></input>
                                                 <div className={this.state.errors['nombre']}>
-                                                    <div className={ "invalid-feedback  " + ( this.state.errors['nombre'] || "") }>{this.state.errorMensajes['nombre']}</div>
+                                                    <div className={ "redf  " + ( this.state.errors['nombre'] || "") }>{this.state.errorMensajes['nombre']}</div>
                                                 </div>
                                             </div>
                                             <div className="col-md-4">
                                                 <label htmlFor="nombre">Correo electrónico</label>
                                                 <input type="email" className="form-control" id="correo" name="correo" onChange={this.handleChange} value={this.state.correo}></input>
                                                 <div className={this.state.errors['correo']}>
-                                                    <div className={ "invalid-feedback  " + ( this.state.errors['correo'] || "") }>{this.state.errorMensajes['correo']}</div>
+                                                    <div className={ "redf  " + ( this.state.errors['correo'] || "") }>{this.state.errorMensajes['correo']}</div>
                                                 </div>
                                             </div>
                                             <div className="col-md-2">
@@ -206,7 +206,7 @@ class UsuariosSistema extends Component {
                                                     <option value="2">Administrativo</option>
                                                 </select>
                                                 <div className={this.state.errors['tipo']}>
-                                                    <div className={ "invalid-feedback  " + ( this.state.errors['tipo'] || "") }>{this.state.errorMensajes['tipo']}</div>
+                                                    <div className={ "redf  " + ( this.state.errors['tipo'] || "") }>{this.state.errorMensajes['tipo']}</div>
                                                 </div>
                                             </div>
 
@@ -216,14 +216,14 @@ class UsuariosSistema extends Component {
                                                 <label htmlFor="nombre">Contraseña</label>
                                                 <input type="password" className="form-control" id="contraseña" name="contraseña" onChange={this.handleChange}></input>
                                                 <div className={this.state.errors['contraseña']}>
-                                                    <div className={ "invalid-feedback  " + ( this.state.errors['contraseña'] || "") }>{this.state.errorMensajes['contraseña']}</div>
+                                                    <div className={ "redf  " + ( this.state.errors['contraseña'] || "") }>{this.state.errorMensajes['contraseña']}</div>
                                                 </div>
                                             </div>
                                             <div className="col-md-4">
                                                 <label htmlFor="nombre">Confirmar Contraseña</label>
                                                 <input type="password" className="form-control" id="confirmar" name="confirmar" onChange={this.handleChange}></input>
                                                 <div className={this.state.errors['confirmar']}>
-                                                    <div className={ "invalid-feedback  " + ( this.state.errors['confirmar'] || "") }>{this.state.errorMensajes['confirmar']}</div>
+                                                    <div className={ "redf  " + ( this.state.errors['confirmar'] || "") }>{this.state.errorMensajes['confirmar']}</div>
                                                 </div>
                                             </div>
                                             <div className="col-md-2">

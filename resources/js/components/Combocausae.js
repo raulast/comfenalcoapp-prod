@@ -39,7 +39,7 @@ export default function Combocausae(props){
                 }
             </select>
             <div className={props.error}>
-                <div className={ "invalid-feedback  " + ( props.error || "") }>{ props.mensaje}</div>
+                <div className={ ( props.error || "") + " redf"}>{ props.mensaje}</div>
             </div>
         </div>
     )

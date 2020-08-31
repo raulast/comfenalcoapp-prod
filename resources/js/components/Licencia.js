@@ -1146,7 +1146,7 @@ class LicenciaFront extends Component {
                                                         <option value="1">Licencia</option>
                                                     </select>
                                                     <div className={this.state.errors['contingencia']}>
-                                                        <div className={"invalid-feedback  " + (this.state.errors['contingencia'] || "")}>{this.state.errorMensajes['contingencia']}</div>
+                                                        <div className={"redf  " + (this.state.errors['contingencia'] || "")}>{this.state.errorMensajes['contingencia']}</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1164,7 +1164,7 @@ class LicenciaFront extends Component {
                                                 <label htmlFor="fechaAtencion">Fecha de atención</label>
                                                 <input type="date" name="fechaAtencion" className="form-control texto" defaultValue={this.state.fechaAtencion} onChange={this.handleChange} />
                                                 <div className={this.state.errors['fechaAtencion']}>
-                                                    <div className={"invalid-feedback  " + (this.state.errors['fechaAtencion'] || "")}>{this.state.errorMensajes['fechaAtencion']}</div>
+                                                    <div className={"redf  " + (this.state.errors['fechaAtencion'] || "")}>{this.state.errorMensajes['fechaAtencion']}</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -1173,7 +1173,7 @@ class LicenciaFront extends Component {
                                                 <label htmlFor="fechaInicioLicencia">Fecha inicio licencia</label>
                                                 <input type="date" name="fechaInicioLicencia" className="form-control texto" value={this.state.fechaInicioLicencia} onChange={this.handleFechaInicioLicencia} />
                                                 <div className={this.state.errors['fechaInicioLicencia']}>
-                                                    <div className={"invalid-feedback  " + (this.state.errors['fechaInicioLicencia'] || "")}>{this.state.errorMensajes['fechaInicioLicencia']}</div>
+                                                    <div className={"redf  " + (this.state.errors['fechaInicioLicencia'] || "")}>{this.state.errorMensajes['fechaInicioLicencia']}</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -1192,7 +1192,7 @@ class LicenciaFront extends Component {
                                                     <option value="3">Ectópico</option>
                                                 </select>
                                                 <div className={this.state.errors['tipoAtencion']}>
-                                                    <div className={"invalid-feedback  " + (this.state.errors['tipoAtencion'] || "")}>{this.state.errorMensajes['tipoAtencion']}</div>
+                                                    <div className={"redf  " + (this.state.errors['tipoAtencion'] || "")}>{this.state.errorMensajes['tipoAtencion']}</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -1201,7 +1201,7 @@ class LicenciaFront extends Component {
                                                 <label htmlFor="edadGestacional">Edad gestacional al parto</label>
                                                 Semanas<input type="number" className="form-control texto" name="semanasGestacion" value={ this.state.semanasGestacion} onChange={this.handleChange} onKeyUp={this.diasGestacionC}/>
                                                 <div className={this.state.errors['semanasGestacion']}>
-                                                    <div className={"invalid-feedback  " + (this.state.errors['semanasGestacion'] || "")}>{this.state.errorMensajes['contingencia']}</div>
+                                                    <div className={"redf  " + (this.state.errors['semanasGestacion'] || "")}>{this.state.errorMensajes['contingencia']}</div>
                                                 </div>
                                                 Días<input type="number" className="form-control texto" name="diasGestacion" value={ this.state.diasGestacion} onChange={this.handleChange} onKeyUp={this.diasGestacionC}/>
                                             </div>
@@ -1243,7 +1243,7 @@ class LicenciaFront extends Component {
 
                                             </select>
                                             <div className={this.state.errors['tipoLicencia']}>
-                                                <div className={"invalid-feedback  " + (this.state.errors['tipoLicencia'] || "")}>{this.state.errorMensajes['tipoLicencia']}</div>
+                                                <div className={"redf  " + (this.state.errors['tipoLicencia'] || "")}>{this.state.errorMensajes['tipoLicencia']}</div>
                                             </div>
                                         </div>
                                         <div className="col-sm-6">
@@ -1254,7 +1254,7 @@ class LicenciaFront extends Component {
                                                             <label htmlFor="fechaProbable">Fecha probable de parto</label>
                                                             <input type="date" id="fechaProbable" className="form-control texto" defaultValue={this.state.fechaProbable} onChange={this.handlefechaProbable}  />
                                                             <div className={this.state.errors['fechaProbable']}>
-                                                                <div className={"invalid-feedback  " + (this.state.errors['fechaProbable'] || "")}>{this.state.errorMensajes['fechaProbable']}</div>
+                                                                <div className={"redf  " + (this.state.errors['fechaProbable'] || "")}>{this.state.errorMensajes['fechaProbable']}</div>
                                                             </div>
                                                         </div>
                                                   
@@ -1266,7 +1266,7 @@ class LicenciaFront extends Component {
                                                             <option value="2">Ecografía primer trimestre</option>
                                                         </select>
                                                         <div className={this.state.errors['soporte']}>
-                                                            <div className={"invalid-feedback  " + (this.state.errors['soporte'] || "")}>{this.state.errorMensajes['soporte']}</div>
+                                                            <div className={"redf  " + (this.state.errors['soporte'] || "")}>{this.state.errorMensajes['soporte']}</div>
                                                         </div>
                                                    
                                                 </div>
@@ -1301,7 +1301,7 @@ class LicenciaFront extends Component {
                                                 <label htmlFor="diasSolicitados">Dias solicitados</label>
                                                 <input type="number" name="diasSolicitados" className="form-control texto" onChange={this.handleChange} value={this.state.diasSolicitados} />
                                                 <div className={this.state.errors['diasSolicitados']}>
-                                                    <div className={"invalid-feedback  " + (this.state.errors['diasSolicitados'] || "")}>{this.state.errorMensajes['diasSolicitados']}</div>
+                                                    <div className={"redf  " + (this.state.errors['diasSolicitados'] || "")}>{this.state.errorMensajes['diasSolicitados']}</div>
                                                 </div>
                                             </div>
                                         </div>  

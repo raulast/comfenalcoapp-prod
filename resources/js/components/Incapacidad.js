@@ -243,12 +243,12 @@ class IncapacidadFront extends Component {
        // console.log(validaciones);
        
         //this.getNumeroIncapacidad();
-        let url = 'http://167.99.3.5/validacionDerechos/' + tipoDocumento + "/" + numeroIdentificacion;
+        let url = 'validacionDerechos/' + tipoDocumento + "/" + numeroIdentificacion;
         await axios
             .get(url, {
                 tipoDocumento: tipoDocumento,
                 numeroIdentificacion: numeroIdentificacion
-            })
+                })
             .then(response => {
                 // console
                 //console.log(response);
@@ -673,8 +673,8 @@ class IncapacidadFront extends Component {
         //console.log(this.state)
         //console.log(parseInt(this.state.diasSolicitados));
         if (parseInt(this.state.diasSolicitados) <= this.state.diasMaximosEspecialidad) {
-                let resp=this.validarForm()
-
+                let resp= await this.validarForm()
+                //alert(resp)
                 if (resp){
                     
                     //alert(this.state.id);
@@ -709,7 +709,7 @@ class IncapacidadFront extends Component {
         this.clearErrors()
         
         let resp=true;
-
+        //alert(resp)
         //Auditoria
         if (this.state.diasSolicitados > this.state.diasMaximosCie10) {
             this.setState({
@@ -763,7 +763,7 @@ class IncapacidadFront extends Component {
         if (this.state.prorroga=="No"){
             await this.getNumeroIncapacidad();
         }
-      
+        //alert(resp)
         return resp;
         
     }
@@ -1112,7 +1112,7 @@ class IncapacidadFront extends Component {
                                                 <option value="4">No aplica</option>
                                             </select>
                                             <div className={this.state.errors['lateralidad']}>
-                                                <div className={ "invalid-feedback  " + ( this.state.errors['lateralidad'] || "") }>{this.state.errorMensajes['lateralidad']}</div>
+                                                <div className={ "redf  " + ( this.state.errors['lateralidad'] || "") }>{this.state.errorMensajes['lateralidad']}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -1127,7 +1127,7 @@ class IncapacidadFront extends Component {
                                             <label htmlFor="diasSolicitados">Dias solicitados</label>
                                             <input type="number" id="diasSolicitados" className="form-control" onChange={this.handleDiasSolicitados} value={this.state.diasSolicitados} onKeyUp={this.handleFechaFin}/>
                                             <div className={this.state.errors['diasSolicitados']}>
-                                                <div className={ "invalid-feedback  " + ( this.state.errors['diasSolicitados'] || "") }>{this.state.errorMensajes['diasSolicitados']}</div>
+                                                <div className={ "redf  " + ( this.state.errors['diasSolicitados'] || "") }>{this.state.errorMensajes['diasSolicitados']}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -1155,7 +1155,7 @@ class IncapacidadFront extends Component {
                                                 <option value="3">Accidente de trabajo</option>
                                             </select>
                                             <div className={this.state.errors['contingencia']}>
-                                            <div className={ "invalid-feedback  " + ( this.state.errors['contingencia'] || "") }>{this.state.errorMensajes['contingencia']}</div>
+                                            <div className={ "redf  " + ( this.state.errors['contingencia'] || "") }>{this.state.errorMensajes['contingencia']}</div>
                                             </div>
                                         </div>
                                     </div>

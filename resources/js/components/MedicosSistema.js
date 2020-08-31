@@ -158,7 +158,7 @@ class MedicosSistema extends Component {
                                                     <label htmlFor="codigoMedico">Código</label>
                                                     <input type="text" className="form-control" id="codigoMedico" name="codigoMedico" onChange={this.handleChange} value={this.state.codigoMedico}></input>
                                                     <div className={this.state.errors['codigoMedico']}>
-                                                        <div className={ "invalid-feedback  " + ( this.state.errors['codigoMedico'] || "") }>{this.state.errorMensajes['codigoMedico']}</div>
+                                                        <div className={ "redf  " + ( this.state.errors['codigoMedico'] || "") }>{this.state.errorMensajes['codigoMedico']}</div>
                                                     </div>
                                                 </div>
                                                 <div className="col-md-3">
@@ -177,7 +177,7 @@ class MedicosSistema extends Component {
                 
                                                     </select>
                                                     <div className={this.state.errors['tipoDocumento']}>
-                                                        <div className={ "invalid-feedback  " + ( this.state.errors['tipoDocumento'] || "") }>{this.state.errorMensajes['tipoDocumento']}</div>
+                                                        <div className={ "redf  " + ( this.state.errors['tipoDocumento'] || "") }>{this.state.errorMensajes['tipoDocumento']}</div>
                                                     </div>
                                                 </div>
                                                 <div className="col-md-3">

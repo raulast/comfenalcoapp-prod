@@ -84,7 +84,7 @@ class CausasAdmin extends Component {
                                                 <label htmlFor="nombre">Nombre</label>
                                                 <input type="text" className="form-control" id="nombre" name="nombre" onChange={this.handleChange} value={this.state.nombre}></input>
                                                 <div className={this.state.errors['nombre']}>
-                                                    <div className={ "invalid-feedback  " + ( this.state.errors['nombre'] || "") }>{this.state.errorMensajes['nombre']}</div>
+                                                    <div className={ "redf  " + ( this.state.errors['nombre'] || "") }>{this.state.errorMensajes['nombre']}</div>
                                                 </div>
                                             </div>
                                             

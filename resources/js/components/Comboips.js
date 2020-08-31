@@ -75,7 +75,7 @@ export default function Comboips(props) {
                             <option value="2">Consultorio</option>
                         </select>
                         <div className={props.error}>
-                            <div className={ "invalid-feedback  " + ( props.error || "") }>{ props.mensaje}</div>
+                            <div className={ ( props.error || "") + " redf"}>{ props.mensaje}</div>
                         </div>
                     </div>
                 </div>
@@ -93,7 +93,7 @@ export default function Comboips(props) {
                                 }
                             </select>
                             <div className={props.errorIps}>
-                                <div className={ "invalid-feedback  " + ( props.errorIps || "") }>{ props.mensajeIps}</div>
+                                <div className={ ( props.error || "") + " redf"}>{ props.mensajeIps}</div>
                             </div>
                         </div>
                     </div>

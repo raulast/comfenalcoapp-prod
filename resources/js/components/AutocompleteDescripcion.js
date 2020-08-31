@@ -98,7 +98,7 @@ export default class AutocompleteDescripcion extends Component {
                         <input value={text} onChange={this.onTextChanged} type="text" id="descripcionDiagnostico" className="form-control" />
                         {this.renderSuggestions()}
                         <div className={error}>
-                            <div className={ "invalid-feedback  " + ( error || "") }>{ mensaje}</div>
+                            <div className={ "redf  " + ( error || "") }>{ mensaje}</div>
                         </div>
                     </div>
                 </div>

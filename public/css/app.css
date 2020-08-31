@@ -10975,6 +10975,10 @@ a.text-dark:focus {
   background-color: lightyellow;
 }
 
+.redf {
+  color: red;
+}
+
 .verde1 {
   background-color: #00B496;
 }
