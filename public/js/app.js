@@ -71956,7 +71956,7 @@ var AutocompleteDescripcionL = /*#__PURE__*/function (_Component) {
       }), this.renderSuggestions()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: error
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: (props.error || "") + " redf"
+        className: "redf  " + (error || "")
       }, mensaje))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-sm-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -77277,11 +77277,12 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
   }, {
     key: "activarGeneracion",
     value: function activarGeneracion(incapacidades, response, afiliaciones) {
-      var mensaje = response.data.responseMessageOut.body.response.validadorResponse.Derechos['MENSAJE']; // mensaje = utf8_decode(mensaje)
+      var mensaje = response.data.responseMessageOut.body.response.validadorResponse.Derechos['MENSAJE'];
+      console.log(incapacidades); // mensaje = utf8_decode(mensaje)
 
       if (incapacidades.includes(1, 0)) {
-        this.getNumeroLicencia(); //console.log(response.data.responseMessageOut.body.response.validadorResponse);
-
+        this.getNumeroLicencia();
+        console.log(response.data.responseMessageOut.body.response.validadorResponse);
         var nombre = afiliaciones[0]['Nombre'];
         var primerApellido = afiliaciones[0]['PrimerApellido'];
         var segundoApellido = afiliaciones[0]['SegundoApellido'];
@@ -77310,12 +77311,20 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
           estado: estado,
           tipoCotizante: tipoCotizante,
           descripcionPrograma: descripcionPrograma,
+          validacion: JSON.stringify(response.data),
           //tipoDocAportante: tipoDocAportante,
           //numDocAportante: numDocAportante,
           //nombreAportante:nombreAportante,
           tipoMensaje: 'success',
           visible: visible,
           loading: true
+        });
+      } else {
+        this.setState({
+          mensaje: mensaje,
+          loading: true,
+          tipoMensaje: 'success',
+          visible: 'oculto'
         });
       }
     }
@@ -77337,7 +77346,7 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
                 // console.log(validaciones);
                 //this.getNumeroIncapacidad();
 
-                url = '/validacionDerechos/' + tipoDocumento + "/" + numeroIdentificacion;
+                url = 'validacionDerechos/' + tipoDocumento + "/" + numeroIdentificacion;
                 _context2.next = 6;
                 return axios__WEBPACK_IMPORTED_MODULE_11___default.a.get(url, {
                   tipoDocumento: tipoDocumento,
@@ -77404,6 +77413,8 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
 
                       Promise.all(promises).then(function () {
                         //console.log(incapacidades)
+                        var aportantes = "";
+
                         for (var i = 0; i < Object(lodash__WEBPACK_IMPORTED_MODULE_10__["size"])(afiliaciones); i++) {
                           if (incapacidades[i] == 0) {
                             afiliaciones[i]["Incapacidad"] = "NO";
@@ -77411,22 +77422,37 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
 
                           if (incapacidades[i] == 1) {
                             afiliaciones[i]["Incapacidad"] = "SI";
+
+                            if (aportantes == "") {
+                              if (afiliaciones[i]["IDEmpresa"] != 'N/A') {
+                                aportantes = afiliaciones[i]["NombreEmpresa"];
+                              } else {
+                                aportantes = "afiliado";
+                              }
+                            } else {
+                              if (afiliaciones[i]["IDEmpresa"] != 'N/A') {
+                                aportantes = aportantes + ";" + afiliaciones[i]["NombreEmpresa"];
+                              } else {
+                                aportantes = aportantes + ";afiliado";
+                              }
+                            }
                           }
                         }
 
                         _this3.setState({
-                          validaciones: afiliaciones
+                          validaciones: afiliaciones,
+                          aportantes: aportantes
                         });
 
                         _this3.activarGeneracion(incapacidades, response, afiliaciones);
-                      });
-                      console.log(_this3.state.validaciones);
+                      }); // console.log(this.state.validaciones);
                     })();
                   } else {
                     _this3.setState({
                       mensaje: mensaje,
                       loading: true,
-                      tipoMensaje: 'error'
+                      tipoMensaje: 'error',
+                      visible: 'oculto'
                     });
                   }
                 });

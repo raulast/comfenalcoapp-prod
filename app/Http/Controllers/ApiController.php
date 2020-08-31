@@ -260,6 +260,8 @@ class ApiController extends Controller
             
             'estado_id' => $datos['estado_id'],
             'observacion_estado' => $datos['observacion_estado'],
+            'validacion' => $datos['validacion'],
+            'aportantes' => $datos['aportantes'],
         ]);
             
         return  "Licencia almacenada";

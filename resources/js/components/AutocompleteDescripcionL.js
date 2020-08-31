@@ -104,7 +104,7 @@ export default class AutocompleteDescripcionL extends Component {
                         {this.renderSuggestions()}
                         </select>
                         <div className={error}>
-                            <div className={ ( props.error || "") + " redf"}>{ mensaje}</div>
+                            <div className={ "redf  " + ( error || "") }>{ mensaje}</div>
                         </div>
                     </div>
                 </div>

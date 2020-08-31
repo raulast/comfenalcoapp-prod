@@ -191,11 +191,12 @@ class LicenciaFront extends Component {
     }
     activarGeneracion(incapacidades,response,afiliaciones){
         let mensaje = response.data.responseMessageOut.body.response.validadorResponse.Derechos['MENSAJE'];
+        console.log(incapacidades);
        // mensaje = utf8_decode(mensaje)
         if (incapacidades.includes(1,0)){
                 
             this.getNumeroLicencia()       
-            //console.log(response.data.responseMessageOut.body.response.validadorResponse);
+            console.log(response.data.responseMessageOut.body.response.validadorResponse);
             let nombre = afiliaciones[0]['Nombre'];
             let primerApellido = afiliaciones[0]['PrimerApellido']; 
             let segundoApellido = afiliaciones[0]['SegundoApellido'];
@@ -215,7 +216,6 @@ class LicenciaFront extends Component {
             //let numDocAportante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['IDEmpresa'];
             //let nombreAportante = response.data.responseMessageOut.body.response.validadorResponse.DsAfiliado.Afiliado['NombreEmpresa'];
             // set state
-
             var visible =this.state.cronico.visible;
             
             this.setState({
@@ -229,14 +229,23 @@ class LicenciaFront extends Component {
                 estado : estado,
                 tipoCotizante: tipoCotizante,
                 descripcionPrograma: descripcionPrograma,
+                validacion: JSON.stringify(response.data),
                 //tipoDocAportante: tipoDocAportante,
                 //numDocAportante: numDocAportante,
                 //nombreAportante:nombreAportante,
                 tipoMensaje: 'success',
-                visible: visible,
-                loading:true
+                visible:visible,
+                loading:true,
             });
 
+        }
+        else{
+            this.setState({
+                mensaje : mensaje,
+                loading: true,
+                tipoMensaje: 'success',
+                visible:'oculto',
+            });
         }
       
     }
@@ -249,12 +258,12 @@ class LicenciaFront extends Component {
        // console.log(validaciones);
        
         //this.getNumeroIncapacidad();
-        let url = '/validacionDerechos/' + tipoDocumento + "/" + numeroIdentificacion;
+        let url = 'validacionDerechos/' + tipoDocumento + "/" + numeroIdentificacion;
         await axios
             .get(url, {
                 tipoDocumento: tipoDocumento,
                 numeroIdentificacion: numeroIdentificacion
-            })
+                })
             .then(response => {
                 // console
                 //console.log(response);
@@ -309,27 +318,45 @@ class LicenciaFront extends Component {
                     Promise.all(promises).then(() => {
 
                         //console.log(incapacidades)
+                        var aportantes=""
                         for (var i = 0; i < size(afiliaciones); i++) {
                             if (incapacidades[i] == 0) {
                                 afiliaciones[i]["Incapacidad"] = "NO"
                             }
                             if (incapacidades[i] == 1) {
                                 afiliaciones[i]["Incapacidad"] = "SI"
+                                if (aportantes==""){
+                                    if (afiliaciones[i]["IDEmpresa"]!='N/A'){
+                                        aportantes=afiliaciones[i]["NombreEmpresa"];
+                                    }
+                                    else{
+                                        aportantes="afiliado";
+                                    }
+                                }
+                                else{
+                                    if (afiliaciones[i]["IDEmpresa"]!='N/A'){
+                                        aportantes=aportantes+";"+afiliaciones[i]["NombreEmpresa"];
+                                    }
+                                    else{
+                                        aportantes=aportantes+";afiliado";
+                                    }
+                                }
                             }
                         }
                         this.setState({
-                            validaciones: afiliaciones
+                            validaciones: afiliaciones,
+                            aportantes: aportantes
                         });
                         this.activarGeneracion(incapacidades, response,afiliaciones)
                     });
-
-                    console.log(this.state.validaciones);
+                   // console.log(this.state.validaciones);
                 }
                 else{
                     this.setState({
                         mensaje : mensaje,
                         loading: true,
                         tipoMensaje: 'error',
+                        visible:'oculto',
                     });
                 }
                 
