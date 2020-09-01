@@ -203,7 +203,8 @@ class UsuariosSistema extends Component {
                                                     <option value=""></option>
                                                     <option value="0">Admin</option>
                                                     {/*<option value="1">Médico</option>*/}
-                                                    <option value="2">Administrativo</option>
+                                                    <option value="2">Auxiliar Pemel</option>
+                                                    <option value="3">Admin Pemel</option>
                                                 </select>
                                                 <div className={this.state.errors['tipo']}>
                                                     <div className={ "redf  " + ( this.state.errors['tipo'] || "") }>{this.state.errorMensajes['tipo']}</div>

@@ -16,4 +16,7 @@ class HomeController extends Controller
     public function menu(){
         return view('menu');
     }
+    public function pemel(){
+        return view('pemel');
+    }
 }

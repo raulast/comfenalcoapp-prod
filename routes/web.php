@@ -21,7 +21,9 @@ Route::get('verify/resend', 'Auth\TwoFactorController@resend')->name('verify.res
 Route::resource('verify', 'Auth\TwoFactorController')->only(['index', 'store']);
 //Route::redirect('/admin', '/login');
 
-Route::get('/menu','HomeController@menu')->name('menu')->middleware('auth','twofactor');;
+Route::get('/menu','HomeController@menu')->name('menu')->middleware('auth','twofactor');
+Route::get('/pemel','HomeController@pemel')->name('pemel');
+
 Route::get('/incapacidad','IncapacidadController@inicio')->name('incapacidad')->middleware('auth','twofactor');
 Route::get('/licencia','LicenciaController@inicio')->name('licencia')->middleware('auth','twofactor');
 
