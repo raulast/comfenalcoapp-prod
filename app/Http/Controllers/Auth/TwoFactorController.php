@@ -32,6 +32,9 @@ class TwoFactorController extends Controller
             if (auth()->user()->tipo == 1){
                 return redirect()->route('menu');
             }
+            if (auth()->user()->tipo == 2){
+                return redirect()->route('pemel');
+            }
             if (auth()->user()->tipo == 0){
                 return "Panel de admin";
             }

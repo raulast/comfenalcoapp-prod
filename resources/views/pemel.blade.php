@@ -9,6 +9,11 @@
                 <div class="card-header"></div>
 
                 <div class="card-body texto">
+                    <!--<div class="row">
+                        <div class="col-sm-12 col-md-12 offset-md-4">
+                            <button class="buttonm texto mx-auto" style="vertical-align:middle" onclick="window.open('{{ route('menu') }}')"><span>GENERACIÓN&nbsp;&nbsp;&nbsp;&nbsp;</span></button>
+                        </div>
+                    </div>-->
                     <div class="row">
                         <div class="col-sm-12 col-md-12 offset-md-4">
                             <button class="buttonm texto mx-auto" style="vertical-align:middle" onclick="window.open('{{ route('cronicos') }}')"><span>CRÓNICOS&nbsp;&nbsp;&nbsp;&nbsp;</span></button>
@@ -21,7 +26,7 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-12 col-md-12 offset-md-4">
-                                <button class="buttonm texto mx-auto" style="vertical-align:middle" onclick="window.open()"><span>PARÁMETROS</span></button>
+                                <button class="buttonm texto mx-auto" style="vertical-align:middle" onclick="window.open('{{ route('admin') }}')"><span>PARÁMETROS</span></button>
                         </div>
                     </div>
                 </div>
