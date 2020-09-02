@@ -69,6 +69,7 @@ class CronicosController extends Controller
             $abuso = $cr->fecha_carta_suspension_abuso_del_derecho;
             if ($motivo == "TRAMITE DE PENSION"){
                 array_push($alarmas,"Paciente con IPT");
+                $data["visible"] = "oculto";
             }
             if (($crh1 == "SI" && $crh2=="NO") || ($crh1 == "NO" && $crh2=="NO") || ($crh1 == "NO" && $crh2=="")){
                 array_push($alarmas,"Paciente CRH no favorable ");

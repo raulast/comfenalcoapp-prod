@@ -160,7 +160,7 @@ class ApiController extends Controller
             
             if ($datos['prorroga']=="No"){
                 if(Incapacidad::latest()->first() !== null){
-                    $id = Incapacidad::latest()->first()->id;
+                    $id = Incapacidad::latest()->where('prorrogaId',0)->first()->id;
                     $id+=1;
                 }
                 else{
@@ -223,6 +223,10 @@ class ApiController extends Controller
         $datos = $request->datos;
         //return $datos;
         
+        if (Licencia::where('id',$datos['id'])->exists()){
+            return "La licencia ya se encuentra almacenada";
+        }
+        else{
         $i = Licencia::create([
 
             'id' => $datos['id'],
@@ -265,7 +269,7 @@ class ApiController extends Controller
         ]);
             
         return  "Licencia almacenada";
-    
+        }
 }
     public function saveUser(Request $request){
         $data = $request->datos;
@@ -309,7 +313,7 @@ class ApiController extends Controller
     //gets
     public function getNumeroIncapacidad(){
         if(Incapacidad::latest()->first() !== null){
-         $id = Incapacidad::latest()->first()->id;
+         $id = Incapacidad::latest()->where('prorrogaId',0)->first()->id;
          $id+=1;
         }
         else{
