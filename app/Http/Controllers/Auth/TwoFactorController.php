@@ -36,7 +36,7 @@ class TwoFactorController extends Controller
                 return redirect()->route('pemel');
             }
             if (auth()->user()->tipo == 0){
-                return "Panel de admin";
+                return redirect()->route('pemel');
             }
         }
 

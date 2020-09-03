@@ -1,3 +1,5 @@
-select *
-from INFORMATION_SCHEMA.COLUMNS
-where TABLE_NAME='incapacidad'
+SELECT
+  *
+FROM
+  INFORMATION_SCHEMA.TABLES;
+GO   
