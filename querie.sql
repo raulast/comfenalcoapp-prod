@@ -1,5 +1,1 @@
-SELECT
-  *
-FROM
-  INFORMATION_SCHEMA.TABLES;
-GO   
+select top 1 * from [cronicos] where ([id] = 1 and [fecha_de_recepcion_juzgado] = 27/03/19)

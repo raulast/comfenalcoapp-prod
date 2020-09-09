@@ -87,6 +87,8 @@ Route::post('/reportIncapacidades','ReportesController@reportIncapacidades');
 Route::post('/reportLicencias','ReportesController@reportLicencias');
 Route::get('/exportReporte','ExcelController@export');
 Route::get('/exportCronicos','ExcelController@exportCronicos');
+
+
 //cronicos
 
 Route::get('/cronicos','CronicosController@index')->name('cronicos');
@@ -98,3 +100,9 @@ Route::get('/getCronico/{id}','CronicosController@getCronico');
 Route::post('/updateCronico','CronicosController@updateCronico');
 
 
+//juridicos
+Route::get('/juridicas','JuridicasController@index')->name('juridicas');
+Route::get('/getJuridicas','JuridicasController@getJuridicas');
+Route::get('/verJuridica/{id}/{enable}','JuridicasController@verJuridica');
+Route::get('/getJuridica/{id}','JuridicasController@getJuridica');
+Route::post('/buscarJuridicas','JuridicasController@buscarJuridicas');

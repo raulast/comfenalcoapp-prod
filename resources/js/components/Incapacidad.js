@@ -73,6 +73,7 @@ class IncapacidadFront extends Component {
             prorroga:'No',
             diasAcumuladosPrevios : 0,
             diasAcumuladosUltima : 0,
+            fechaFinUltima:'',
             visible : 'oculto',
             estado_id : 2,
             errors : {
@@ -149,6 +150,7 @@ class IncapacidadFront extends Component {
         this.renderAfiliaciones=this.renderAfiliaciones.bind(this);
         this.renderAportantes=this.renderAportantes.bind(this);
         this.generarCertificado=this.generarCertificado.bind(this);
+        this.verificarTraslapo=this.verificarTraslapo.bind(this);
     }
     generarCertificado(){
         let id=this.state.id;
@@ -304,6 +306,7 @@ class IncapacidadFront extends Component {
 
                         //console.log(incapacidades)
                         var aportantes=""
+                        var programas=""
                         for (var i = 0; i < size(afiliaciones); i++) {
                             if (incapacidades[i] == 0) {
                                 afiliaciones[i]["Incapacidad"] = "NO"
@@ -312,7 +315,7 @@ class IncapacidadFront extends Component {
                                 afiliaciones[i]["Incapacidad"] = "SI"
                                 if (aportantes==""){
                                     if (afiliaciones[i]["IDEmpresa"]!='N/A'){
-                                        aportantes=afiliaciones[i]["NombreEmpresa"];
+                                        aportantes=afiliaciones[i]["IDEmpresa"];
                                     }
                                     else{
                                         aportantes="afiliado";
@@ -320,17 +323,24 @@ class IncapacidadFront extends Component {
                                 }
                                 else{
                                     if (afiliaciones[i]["IDEmpresa"]!='N/A'){
-                                        aportantes=aportantes+";"+afiliaciones[i]["NombreEmpresa"];
+                                        aportantes=aportantes+";"+afiliaciones[i]["IDEmpresa"];
                                     }
                                     else{
                                         aportantes=aportantes+";afiliado";
                                     }
                                 }
+                                if (programas==""){
+                                        programas=afiliaciones[i]["IdPrograma"];          
+                                }
+                                else{
+                                        programas=programas+";"+afiliaciones[i]["IdPrograma"];
+                                }
                             }
                         }
                         this.setState({
                             validaciones: afiliaciones,
-                            aportantes: aportantes
+                            aportantes: aportantes,
+                            programas : programas
                         });
                         this.activarGeneracion(incapacidades, response,afiliaciones)
                     });
@@ -424,7 +434,7 @@ class IncapacidadFront extends Component {
         
         axios.get(url)
             .then(resp => {
-                //console.log(resp.data)
+                console.log(resp.data)
 
                 if (resp.data.capitulo == this.state.capitulo) {
                     let id = "0000" + resp.data.idant;
@@ -436,7 +446,8 @@ class IncapacidadFront extends Component {
                         prorroga : "Si",
                         prorrogaId: prorrogaId,
                         diasAcumuladosPrevios: resp.data.dias,
-                        diasAcumuladosUltima: parseInt(resp.data.dias) + parseInt(diasSolicitados)
+                        diasAcumuladosUltima: parseInt(resp.data.dias) + parseInt(diasSolicitados),
+                        fechaFinUltima : resp.data.fechaFinUltima
                     })
                 }
                 else {
@@ -458,6 +469,7 @@ class IncapacidadFront extends Component {
                         estado_id: 1,
                         observacion_estado: nuevaob,
                         prorroga : "No",
+                        fechaFinUltima : resp.data.fechaFinUltima
                     })
                 }
 
@@ -520,6 +532,16 @@ class IncapacidadFront extends Component {
         
         }
 
+    }
+    verificarTraslapo(){
+        let f1 = new Date(this.state.fechaInicioIncapacidad).getTime();
+        let f2 = new Date(this.state.fechaFinUltima).getTime();
+       
+        if (f1 < f2){
+            alert("La fecha de inicio no puede ser menor a la fecha de finalización de la última incapacidad")
+            return false;
+        }
+        return true;
     }
     handleFechaInicioIncapacidad(e){
         //var todayDate = new Date().toISOString().slice(0,10);
@@ -721,7 +743,7 @@ class IncapacidadFront extends Component {
                 estado_id : 1
             })
         }
-
+        resp=this.verificarTraslapo();
         let newState = Object.assign({}, this.state);
         if (this.state.tipoPrestador == ''){
             newState.errors.tipoPrestador = "visible";

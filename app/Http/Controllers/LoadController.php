@@ -14,6 +14,7 @@ use App\Clasesa;
 use App\Descripcionesp;
 use App\Diasmax;
 use App\Cronicos;
+use App\Judiciales;
 
 class LoadController extends Controller
 {
@@ -52,6 +53,9 @@ class LoadController extends Controller
         if ($tipo== "cronicos"){ 
             $this->loadCronicos(); 
         }
+        if ($tipo== "judiciales"){ 
+            $this->loadJudiciales(); 
+        }
         if($tipo == "todos"){
             $this->loadIps(); 
             $this->loadUsuarios(); 
@@ -63,9 +67,21 @@ class LoadController extends Controller
             $this->loadDescripcionesp(); 
             $this->loadDiasmax(); 
             $this->loadCronicos(); 
+            $this->loadJudiciales(); 
             $this->loadCie10();  
         }
         return 'Datos cargados';
+    }
+    private function loadJudiciales(){
+        $file = public_path('csv/judiciales.csv');
+        $customerArr = $this->csvToArray($file);
+        //dd($customerArr);
+        for ($i = 0; $i < count($customerArr); $i ++){
+            //dd($customerArr[$i]);
+            Judiciales::firstOrCreate($customerArr[$i]);
+            //Cronicos::create($customerArr[$i]);
+        }   
+     
     }
     private function loadCronicos(){
         $file = public_path('csv/cronicos.csv');

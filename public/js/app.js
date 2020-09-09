@@ -71443,6 +71443,10 @@ __webpack_require__(/*! ./components/CronicosPanel */ "./resources/js/components
 
 __webpack_require__(/*! ./components/Cronico */ "./resources/js/components/Cronico.js");
 
+__webpack_require__(/*! ./components/JuridicasPanel */ "./resources/js/components/JuridicasPanel.js");
+
+__webpack_require__(/*! ./components/Juridica */ "./resources/js/components/Juridica.js");
+
 __webpack_require__(/*! ./components/Reporte */ "./resources/js/components/Reporte.js");
 
 /***/ }),
@@ -75389,6 +75393,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
       prorroga: 'No',
       diasAcumuladosPrevios: 0,
       diasAcumuladosUltima: 0,
+      fechaFinUltima: '',
       visible: 'oculto',
       estado_id: 2,
       errors: {
@@ -75458,6 +75463,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
     _this.renderAfiliaciones = _this.renderAfiliaciones.bind(_assertThisInitialized(_this));
     _this.renderAportantes = _this.renderAportantes.bind(_assertThisInitialized(_this));
     _this.generarCertificado = _this.generarCertificado.bind(_assertThisInitialized(_this));
+    _this.verificarTraslapo = _this.verificarTraslapo.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -75648,6 +75654,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
                       Promise.all(promises).then(function () {
                         //console.log(incapacidades)
                         var aportantes = "";
+                        var programas = "";
 
                         for (var i = 0; i < Object(lodash__WEBPACK_IMPORTED_MODULE_9__["size"])(afiliaciones); i++) {
                           if (incapacidades[i] == 0) {
@@ -75659,23 +75666,30 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
 
                             if (aportantes == "") {
                               if (afiliaciones[i]["IDEmpresa"] != 'N/A') {
-                                aportantes = afiliaciones[i]["NombreEmpresa"];
+                                aportantes = afiliaciones[i]["IDEmpresa"];
                               } else {
                                 aportantes = "afiliado";
                               }
                             } else {
                               if (afiliaciones[i]["IDEmpresa"] != 'N/A') {
-                                aportantes = aportantes + ";" + afiliaciones[i]["NombreEmpresa"];
+                                aportantes = aportantes + ";" + afiliaciones[i]["IDEmpresa"];
                               } else {
                                 aportantes = aportantes + ";afiliado";
                               }
+                            }
+
+                            if (programas == "") {
+                              programas = afiliaciones[i]["IdPrograma"];
+                            } else {
+                              programas = programas + ";" + afiliaciones[i]["IdPrograma"];
                             }
                           }
                         }
 
                         _this3.setState({
                           validaciones: afiliaciones,
-                          aportantes: aportantes
+                          aportantes: aportantes,
+                          programas: programas
                         });
 
                         _this3.activarGeneracion(incapacidades, response, afiliaciones);
@@ -75828,7 +75842,8 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
       var url = '/buscarHistoricoUltimaDias/' + tipoDocumento + "/" + numeroIdentificacion;
       var diasSolicitados = this.state.diasSolicitados;
       axios__WEBPACK_IMPORTED_MODULE_8___default.a.get(url).then(function (resp) {
-        //console.log(resp.data)
+        console.log(resp.data);
+
         if (resp.data.capitulo == _this5.state.capitulo) {
           var id = "0000" + resp.data.idant;
           var prorrogaId = resp.data.prorrogaidant + 1; //console.log(prorrogaId);
@@ -75838,7 +75853,8 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
             prorroga: "Si",
             prorrogaId: prorrogaId,
             diasAcumuladosPrevios: resp.data.dias,
-            diasAcumuladosUltima: parseInt(resp.data.dias) + parseInt(diasSolicitados)
+            diasAcumuladosUltima: parseInt(resp.data.dias) + parseInt(diasSolicitados),
+            fechaFinUltima: resp.data.fechaFinUltima
           });
         } else {
           var observacion_estado = _this5.state.observacion_estado;
@@ -75856,7 +75872,8 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
             diasAcumuladosUltima: parseInt(resp.data.dias) + parseInt(diasSolicitados),
             estado_id: 1,
             observacion_estado: nuevaob,
-            prorroga: "No"
+            prorroga: "No",
+            fechaFinUltima: resp.data.fechaFinUltima
           });
         }
       })["catch"](function (err) {
@@ -75924,6 +75941,19 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
           diasAcumuladosUltima: 0
         });
       }
+    }
+  }, {
+    key: "verificarTraslapo",
+    value: function verificarTraslapo() {
+      var f1 = new Date(this.state.fechaInicioIncapacidad).getTime();
+      var f2 = new Date(this.state.fechaFinUltima).getTime();
+
+      if (f1 < f2) {
+        alert("La fecha de inicio no puede ser menor a la fecha de finalización de la última incapacidad");
+        return false;
+      }
+
+      return true;
     }
   }, {
     key: "handleFechaInicioIncapacidad",
@@ -76174,6 +76204,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
                   });
                 }
 
+                resp = this.verificarTraslapo();
                 newState = Object.assign({}, this.state);
 
                 if (this.state.tipoPrestador == '') {
@@ -76221,17 +76252,17 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
                 this.setState(newState);
 
                 if (!(this.state.prorroga == "No")) {
-                  _context4.next = 16;
+                  _context4.next = 17;
                   break;
                 }
 
-                _context4.next = 16;
+                _context4.next = 17;
                 return this.getNumeroIncapacidad();
 
-              case 16:
+              case 17:
                 return _context4.abrupt("return", resp);
 
-              case 17:
+              case 18:
               case "end":
                 return _context4.stop();
             }
@@ -77062,6 +77093,399 @@ function IpsSelect(props) {
       value: ips.id
     }, ips.nombre_sede);
   })));
+}
+
+/***/ }),
+
+/***/ "./resources/js/components/Juridica.js":
+/*!*********************************************!*\
+  !*** ./resources/js/components/Juridica.js ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _TableCronicos_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TableCronicos.js */ "./resources/js/components/TableCronicos.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+
+
+
+
+var Juridica = /*#__PURE__*/function (_Component) {
+  _inherits(Juridica, _Component);
+
+  var _super = _createSuper(Juridica);
+
+  function Juridica(props) {
+    var _this;
+
+    _classCallCheck(this, Juridica);
+
+    _this = _super.call(this, props); // console.log(props)
+
+    _this.state = {
+      id: props.id,
+      enable: props.enable,
+      juridica: '',
+      fp: [],
+      estados: ['CERRADO', 'SEGUIMIENTO'],
+      motivos: ['FALLECIDO', 'IPP', 'NUEVO', 'PENSIONADO', 'REINTEGRADO', 'RETIRADO', 'SEGUIMIENTO', 'TRAMITE DE PENSION']
+    }; // bind
+
+    _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
+    _this.getJuridica = _this.getJuridica.bind(_assertThisInitialized(_this)); //this.calcularfp = this.calcularfp.bind(this);
+
+    _this.guardarJuridica = _this.guardarJuridica.bind(_assertThisInitialized(_this));
+
+    _this.getJuridica();
+
+    return _this;
+  }
+
+  _createClass(Juridica, [{
+    key: "guardarJuridica",
+    value: function guardarJuridica() {
+      var url = '/updateJuridica';
+      axios__WEBPACK_IMPORTED_MODULE_4___default.a.post(url, {
+        datos: this.state.cronico
+      }).then(function (resp) {
+        console.log(resp.data);
+        alert(resp.data);
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    }
+  }, {
+    key: "getJuridica",
+    value: function getJuridica() {
+      var _this2 = this;
+
+      var url = '/getJuridica/' + this.state.id;
+      axios__WEBPACK_IMPORTED_MODULE_4___default.a.get(url).then(function (resp) {
+        console.log(resp.data.data);
+
+        _this2.setState({
+          juridica: resp.data.data
+        }); // this.calcularfp()
+
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    }
+  }, {
+    key: "handleChange",
+    value: function handleChange(_ref) {
+      var target = _ref.target;
+      var njuridica = this.state.juridica;
+      njuridica[target.id] = target.value;
+      this.setState({
+        juridica: njuridica
+      });
+    }
+  }, {
+    key: "calcularfp",
+    value: function calcularfp() {
+      var f120 = new Date(this.state.cronico["fecha_it_inicio_ciclo"]);
+      f120 = new Date(f120.setTime(f120.getTime() + 119 * 86400000)).getTime();
+      f120 = new Date(f120).toISOString().slice(0, 10);
+      console.log(f120);
+      var f150 = new Date(this.state.cronico["fecha_it_inicio_ciclo"]);
+      f150 = new Date(f150.setTime(f150.getTime() + 149 * 86400000)).getTime();
+      f150 = new Date(f150).toISOString().slice(0, 10);
+      console.log(f150);
+      var f180 = new Date(this.state.cronico["fecha_it_inicio_ciclo"]);
+      f180 = new Date(f180.setTime(f180.getTime() + 179 * 86400000)).getTime();
+      f180 = new Date(f180).toISOString().slice(0, 10);
+      console.log(f180);
+      var f540 = new Date(this.state.cronico["fecha_it_inicio_ciclo"]);
+      f540 = new Date(f540.setTime(f540.getTime() + 539 * 86400000)).getTime();
+      f540 = new Date(f540).toISOString().slice(0, 10);
+      console.log(f540);
+      var fp = [f120, f150, f180, f540];
+      this.setState({
+        fp: fp
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var juridica = this.state.juridica; // console.log(cronico);
+
+      if (_typeof(this.state.juridica) === 'object') {
+        var cols = Object.keys(this.state.juridica); //console.log(cols);
+      }
+
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row mt-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-12 texto"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+        className: "nav nav-tabs"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+        className: "nav-item"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        className: "nav-link active",
+        "data-toggle": "tab",
+        href: "#datos"
+      }, "DATOS"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "tab-content"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "tab-pane container active",
+        id: "datos"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row mt-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-6 texto"
+      }, Object(lodash__WEBPACK_IMPORTED_MODULE_3__["size"])(cols) > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+        className: "table table-sm table-striped table-bordered texto mt-5"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, cols.map(function (col, index) {
+        return index >= 1 && index <= 114 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          type: "text",
+          id: juridica[index],
+          value: juridica[cols[index]] != '1900-01-01' ? juridica[cols[index]] : '',
+          size: "50"
+        }))) : '';
+      }))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null))))))), this.state.enable == "1" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row mt-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-6 offset-md-3 texto"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "btn btn-success btn-block",
+        onClick: this.guardarJuridica
+      }, "GUARDAR CAMBIOS"))) : '');
+    }
+  }]);
+
+  return Juridica;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+
+/* harmony default export */ __webpack_exports__["default"] = (Juridica);
+
+if (document.getElementById('juridicaContent')) {
+  var juridica = document.getElementById('juridica').value;
+  var enable = document.getElementById('enable').value;
+  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Juridica, {
+    id: juridica,
+    enable: enable
+  }), document.getElementById('juridicaContent'));
+}
+
+/***/ }),
+
+/***/ "./resources/js/components/JuridicasPanel.js":
+/*!***************************************************!*\
+  !*** ./resources/js/components/JuridicasPanel.js ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _TableJuridicas_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TableJuridicas.js */ "./resources/js/components/TableJuridicas.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { return function () { var Super = _getPrototypeOf(Derived), result; if (_isNativeReflectConstruct()) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+
+
+var JuridicasPanel = /*#__PURE__*/function (_Component) {
+  _inherits(JuridicasPanel, _Component);
+
+  var _super = _createSuper(JuridicasPanel);
+
+  function JuridicasPanel(props) {
+    var _this;
+
+    _classCallCheck(this, JuridicasPanel);
+
+    _this = _super.call(this, props);
+    _this.state = {
+      juridicas: '',
+      conductas: ['CASOS CERRAR', 'PSICOLOGÍA', 'SEGUIMIENTO', 'TRAMITE PENSIÓN NO FIRME', 'TRAMITE PENSIÓN FIRME', 'IPP NO FIRME', 'IPP FIRME', 'CITAR CRH 150', 'CITAR NUEVO', 'PERDIDOS', 'CRH 480', 'CRH NO FAV CPCLO', 'ICP > 540 SIN CPCLO', 'IT MEL'],
+      estados: ['CERRADO', 'SEGUIMIENTO'],
+      motivos: ['FALLECIDO', 'IPP', 'NUEVO', 'PENSIONADO', 'REINTEGRADO', 'RETIRADO', 'SEGUIMIENTO', 'TRAMITE DE PENSION'],
+      identificacion: '',
+      conducta: '',
+      estado: '',
+      motivo: '',
+      desde: '',
+      hasta: ''
+    }; // bind
+
+    _this.getJuridicas = _this.getJuridicas.bind(_assertThisInitialized(_this));
+    _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
+    _this.buscar = _this.buscar.bind(_assertThisInitialized(_this));
+
+    _this.getJuridicas();
+
+    return _this;
+  }
+
+  _createClass(JuridicasPanel, [{
+    key: "handleChange",
+    value: function handleChange(_ref) {
+      var target = _ref.target;
+      this.setState(_defineProperty({}, target.name, target.value));
+    }
+  }, {
+    key: "getJuridicas",
+    value: function getJuridicas() {
+      var _this2 = this;
+
+      var url = 'getJuridicas';
+      axios__WEBPACK_IMPORTED_MODULE_3___default.a.get(url).then(function (resp) {
+        console.log(resp.data.data);
+
+        _this2.setState({
+          juridicas: resp.data.data
+        });
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {}
+  }, {
+    key: "exportReport",
+    value: function exportReport() {
+      window.open('exportCronicos', '_blank');
+    }
+  }, {
+    key: "buscar",
+    value: function buscar() {
+      var _this3 = this;
+
+      var url = 'buscarJuridicas';
+      axios__WEBPACK_IMPORTED_MODULE_3___default.a.post(url, {
+        datos: this.state
+      }).then(function (resp) {
+        console.log(resp.data);
+
+        _this3.setState({
+          juridicas: resp.data.data
+        });
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row mt-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card-header bg2 titulo"
+      }, "B\xFAsqueda y filtros "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card-body texto"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: ""
+      }, "Identificaci\xF3n del usuario"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        className: "form-control",
+        name: "identificacion",
+        value: this.state.identificacion,
+        onChange: this.handleChange
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "btn btn-success",
+        onClick: this.buscar
+      }, "Buscar"), "\xA0", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "btn btn-success",
+        onClick: this.exportReport
+      }, "Exportar Datos"))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row mt-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card-header bg2 titulo"
+      }, "Listado de Pacientes"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card-body texto"
+      })), this.state.juridicas != '' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TableJuridicas_js__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        juridicas: this.state.juridicas
+      }) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "No hay datos"))));
+    }
+  }]);
+
+  return JuridicasPanel;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+
+/* harmony default export */ __webpack_exports__["default"] = (JuridicasPanel);
+
+if (document.getElementById('juridicasContent')) {
+  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(JuridicasPanel, null), document.getElementById('juridicasContent'));
 }
 
 /***/ }),
@@ -80987,6 +81411,71 @@ function TableIps(props) {
 
 /***/ }),
 
+/***/ "./resources/js/components/TableJuridicas.js":
+/*!***************************************************!*\
+  !*** ./resources/js/components/TableJuridicas.js ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TableJuridicas; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+
+
+
+function TableJuridicas(props) {
+  var eliminar = function eliminar(u) {
+    props.handleEliminar(u.target.id);
+  };
+
+  var editar = function editar(u) {
+    props.handleEdition(u.target.id);
+  };
+
+  var juridicas = props.juridicas; //console.log(Object.keys(cronicos[0]))
+  //console.log(typeof cronicos[0])
+
+  if (_typeof(juridicas) === 'object') {
+    var cols = Object.keys(juridicas[0]);
+    var columnas = cols.map(function (col) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, col);
+    });
+
+    var openJuridica = function openJuridica(u) {
+      window.open('verJuridica/' + u.target.id + "/1", '_blank');
+    };
+
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      style: {
+        overflow: scroll
+      }
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+      className: "table table-sm table-striped table-bordered texto"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+      className: "table-success"
+    }, columnas), Object.keys(juridicas).map(function (key) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+        key: key
+      }, cols.map(function (col) {
+        return col != 'id' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, juridicas[key][col]) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+          className: "btn btn-sm btn-success",
+          id: juridicas[key][col],
+          onClick: openJuridica
+        }, "Ver"));
+      }));
+    }))));
+  }
+}
+
+/***/ }),
+
 /***/ "./resources/js/components/TableMedicos.js":
 /*!*************************************************!*\
   !*** ./resources/js/components/TableMedicos.js ***!
@@ -81177,7 +81666,7 @@ function TipoCotizanteSelect(props) {
   }), tcs.map(function (tc) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
       key: tc.id,
-      value: tc.id
+      value: tc.codigo
     }, tc.descripcion);
   })));
 }

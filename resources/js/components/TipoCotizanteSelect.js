@@ -26,7 +26,7 @@ export default function TipoCotizanteSelect(props) {
             <select onChange={handleTcChange} className="form-control form-control-sm"  name="tipoCotizante" >
                 <option value=""></option>
                 {
-                    tcs.map(tc => <option key={tc.id} value={tc.id}>{tc.descripcion}</option>)
+                    tcs.map(tc => <option key={tc.id} value={tc.codigo}>{tc.descripcion}</option>)
                 }
             </select>
         </div>

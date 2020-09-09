@@ -29,7 +29,7 @@ class CronicosController extends Controller
         //$conducta = $datos['conducta'];
         $motivo = $datos['motivo'];
 
-        $cronicos = Cronicos::where('id','>',1);
+        $cronicos = Cronicos::where('id','>=',1);
         
         if ($identificacion != ""){
             $data = $cronicos->where('id_usuario',$identificacion);
@@ -41,7 +41,7 @@ class CronicosController extends Controller
             $data = $cronicos->where('motivo_estado_seguimiento',$motivo);
         }
         
-        if (($datos['desde']!="")&&($datos['hasta'])){
+        if (($datos['desde']!="")&&($datos['hasta']!="")){
             $data = $cronicos->whereBetween('fecha_notificacion', [$desde, $hasta]);
         }
         $data = $data->get();

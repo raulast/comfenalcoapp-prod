@@ -14,7 +14,7 @@ require('./bootstrap');
 
 require('./components/Example');
 require('./components/index');
-require('./components/Incapacidad');
+require('./components/Incapacidad'); 
 require('./components/Licencia');
 require('./components/AdminNav');
 require('./components/MenuUsuarios');
@@ -22,4 +22,6 @@ require('./components/UsuariosSistema');
 require('./components/MedicosSistema');
 require('./components/CronicosPanel');
 require('./components/Cronico');
+require('./components/JuridicasPanel');
+require('./components/Juridica');
 require('./components/Reporte');

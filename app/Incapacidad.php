@@ -50,4 +50,5 @@ class Incapacidad extends Model
     {
         return $this->belongsTo('App\Cie10','codigo_diagnostico','codigo');
     }
+    
 }

@@ -13,7 +13,7 @@
             <br>
             <div className="row justify-content-center">
                 <div className="col-md-10">
-                    <table class="table table-hover table-bordered table-sm">
+                    <table class="table table-hover table-bordered table-sm texto">
                     <thead>
                         <tr class="bg-info">
                         <th scope="col">No</th>

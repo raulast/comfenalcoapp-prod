@@ -22,6 +22,9 @@ use PDF;
 
 use Auth;
 
+
+use Luecano\NumeroALetras\NumeroALetras;
+
 class ApiController extends Controller
 {
     protected $IncapacidadController;
@@ -122,6 +125,7 @@ class ApiController extends Controller
             $capitulo = $cie10->capitulo_grupo;
             $idant = $i->id;
             $prorrogaidant = $i->prorrogaid;
+            $fechaFinUltima = $i->fecha_fin_incapacidad;
         }
         else{
             $datos="no";
@@ -131,7 +135,8 @@ class ApiController extends Controller
             'dias' => (int)$dias,
             'capitulo' => $capitulo,
             'idant' => $idant,
-            'prorrogaidant' => (int)$prorrogaidant
+            'prorrogaidant' => (int)$prorrogaidant,
+            'fechaFinUltima' => $fechaFinUltima
         ]);
         
         
@@ -186,8 +191,8 @@ class ApiController extends Controller
                 'nombre_afiliado' =>$datos['nombreCompleto'],
                 'estado_afiliado' =>$datos['estado'],
                 'tipo_cotizante' =>$datos['tipoCotizante'],
-                'programa_afiliado'  =>$datos['descripcionPrograma'],
-
+                //'programa_afiliado'  =>$datos['descripcionPrograma'],
+                'programa_afiliado'  =>$datos['programas'],
                 'fecha_atencion' => $datos['fechaAtencion'],
                 'fecha_inicio_incapacidad' => $datos['fechaInicioIncapacidad'],
                 'dias_solicitados' => $datos['diasSolicitados'],
@@ -439,6 +444,11 @@ class ApiController extends Controller
     //certificados
 
     public function certificadoIncapacidad($id,$pid){
+        $formatter = new NumeroALetras;
+       // dd( $formatter->toWords(126, 0));
+
+
+
         $fechahora= Carbon::now();
         
         $d =Incapacidad::where('id',$id)->where('prorrogaid',$pid)->first();
@@ -549,7 +559,7 @@ class ApiController extends Controller
         $i->put('Fecha de inicio de la incapacidad',$d->fecha_inicio_incapacidad);
         $i->put('Fecha fin de la incapacidad',$d->fecha_fin_incapacidad);
 
-        $i->put('Días solicitados en letra','');
+        $i->put('Días solicitados en letra',$formatter->toWords($d->dias_solicitados, 0));
         $i->put('Días solicitados',$d->dias_solicitados);
         $i->put('Prorroga',$prorroga);
 
@@ -584,6 +594,7 @@ class ApiController extends Controller
         ]);
     }
     public function certificadoLicencia($id){
+        $formatter = new NumeroALetras;
         $fechahora= Carbon::now();
         
         $d =Licencia::where('id',$id)->first();
@@ -685,7 +696,7 @@ class ApiController extends Controller
         $i->put('Fecha de inicio de la licencia',$d->fecha_inicio_licencia);
         $i->put('Fecha fin de la licencia',$d->fecha_fin_licencia);
 
-        $i->put('Días solicitados en letra','');
+        $i->put('Días solicitados en letra',$formatter->toWords($d->dias_solicitados, 0));
         $i->put('Días solicitados',$d->dias_solicitados);
 
 

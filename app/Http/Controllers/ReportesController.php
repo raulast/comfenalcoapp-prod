@@ -16,7 +16,7 @@ class ReportesController extends Controller
         $datos = $request->datos;
         $desde = $datos['desde'];
         $hasta = $datos['hasta'];
-
+        
         
         $i = Incapacidad::where('id','>',0);
         if ($datos['ips']!=""){
@@ -28,6 +28,12 @@ class ReportesController extends Controller
         if ($datos['paciente']!=""){
             $i->where('num_documento_afiliado',$datos['paciente']);
         }
+        if ($datos['empresa']!=""){
+            $i->where('aportantes','like', '%'.$datos['empresa'].'%');
+        }
+        if ($datos['tipoCotizante']!=""){
+            $i->where('programa_afiliado','like', '%'.$datos['tipoCotizante'].'%');
+        }
         if ($datos['codigoDiagnostico']!=""){
             $i->where('codigo_diagnostico',$datos['codigoDiagnostico']);
         }
@@ -38,6 +44,8 @@ class ReportesController extends Controller
             $i->where('causa_externa',2);
         }
         if (($datos['desde']!="")&&($datos['hasta'])){
+            $desde = $desde." 00:00:00";
+            $hasta = $hasta." 11:59:59";
             $i->whereBetween('created_at', [$desde, $hasta]);
         }
         $totales=array();
