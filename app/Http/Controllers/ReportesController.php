@@ -52,6 +52,8 @@ class ReportesController extends Controller
         $totales["total"]=$i->count();
         $totales["dias"] = $i->sum('dias_solicitados');
         $i = $i->get();
+
+        
        //$i = Incapacidad::first();
         return response()->json([
             'data' => $i,
