@@ -1225,8 +1225,8 @@ class LicenciaFront extends Component {
                                         </div>
                                         <div className="col-sm-3">
                                             <div className="form-group">
-                                                <label htmlFor="edadGestacional">Edad gestacional al parto</label>
-                                                Semanas<input type="number" className="form-control texto" name="semanasGestacion" value={ this.state.semanasGestacion} onChange={this.handleChange} onKeyUp={this.diasGestacionC}/>
+                                                <label htmlFor="edadGestacional">Edad gestacional al parto Semanas</label>
+                                                <input type="number" className="form-control texto" name="semanasGestacion" value={ this.state.semanasGestacion} onChange={this.handleChange} onKeyUp={this.diasGestacionC}/>
                                                 <div className={this.state.errors['semanasGestacion']}>
                                                     <div className={"redf  " + (this.state.errors['semanasGestacion'] || "")}>{this.state.errorMensajes['contingencia']}</div>
                                                 </div>

@@ -49,6 +49,7 @@ Route::get('datosMedico','ApiController@datosMedico');
 Route::post('saveIncapacidad','ApiController@saveIncapacidad');
 Route::post('saveLicencia','ApiController@saveLicencia');
 Route::post('saveUser','ApiController@saveUser');
+Route::post('saveMedico','ApiController@saveMedico');
 
 
 //updates
@@ -73,6 +74,7 @@ Route::get('getSystemDescripciones','ApiController@getSystemDescripciones');
 Route::get('getSystemEstadosa','ApiController@getSystemEstadosa');
 Route::get('getSystemDiasmax','ApiController@getSystemDiasmax');
 Route::post('getUser','ApiController@getUser');
+Route::post('getMedico','ApiController@getMedico');
 Route::get('getMedicosUsers','ApiController@getMedicosUsers');
 Route::get('buscarCie10/{campo}/{texto}','ApiController@buscarCie10');
 

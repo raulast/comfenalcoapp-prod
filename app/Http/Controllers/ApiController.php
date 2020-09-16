@@ -278,8 +278,6 @@ class ApiController extends Controller
 }
     public function saveUser(Request $request){
         $data = $request->datos;
-        //return $data;
-
         if(User::where('email',$data['correo'])->exists()){
            User::where('email',$data['correo'])
             ->update([
@@ -307,6 +305,53 @@ class ApiController extends Controller
             
         //return  "Usuario almacenado";
     
+    }
+    public function saveMedico(Request $request){
+        $data = $request->datos;
+        if(User::where('email',$data['correo'])->exists()){
+            User::where('email',$data['correo'])
+             ->update([
+                 'name' => $data['nombre'],
+                 'email' => $data['correo'],
+                 'password' => Hash::make($data['contraseña']),
+             ]);
+             
+        }
+        else{
+             $u = User::create([
+                 'name' => $data['nombre'],
+                 'email' => $data['correo'],
+                 'password' => Hash::make($data['contraseña']),
+                 'tipo' =>2,
+             
+             ]);
+        }
+        if(Medico::where('num_documento',$data['numeroDocumento'])->exists()){
+            Medico::where('num_documento',$data['numeroDocumento'])
+            ->update([
+                'cod_medico' => $data['codigoMedico'],
+                'nombre' => $data['nombre'],
+                'tipo_documento'  => $data['tipoDocumento'],
+                'num_documento' => $data['numeroDocumento'],
+                'reg_medico' => $data['registroMedico'],
+                'especialidad' => $data['especialidad'],
+            ]);
+            $m=0;
+        }
+        else{
+            $m = Medico::create([
+                'user_id' => User::where('email',$data['correo'])->first()->id,
+                'cod_medico' => $data['codigoMedico'],
+                'nombre' => $data['nombre'],
+                'tipo_documento'  => $data['tipoDocumento'],
+                'num_documento' => $data['numeroDocumento'],
+                'reg_medico' => $data['registroMedico'],
+                'especialidad' => $data['especialidad'],
+            ]);
+            return response()->json([
+                'data' => $m
+            ]);
+        }
     }
     public function deleteUser(Request $request){
         if(User::where('id', $request->userId)->exists()){
@@ -352,6 +397,18 @@ class ApiController extends Controller
     public function getUser(Request $request){
         //return $request;
         $data=User::where('id', $request->userId)->get();
+        return response()->json([
+            'data' => $data
+        ]);
+    }
+    public function getMedico(Request $request){
+        //return $request;
+        $userId = Medico::where('id', $request->medicoId)->first()->user_id;
+        $u = User::where('id', $userId)->first();
+
+        $data=Medico::where('id', $request->medicoId)->get();
+        $data[0]['correo'] = $u->email;
+        
         return response()->json([
             'data' => $data
         ]);

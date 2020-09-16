@@ -1,1 +1,1 @@
-select * from cronicos;
+select * from users;

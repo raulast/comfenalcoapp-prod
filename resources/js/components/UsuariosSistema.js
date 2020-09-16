@@ -107,6 +107,7 @@ class UsuariosSistema extends Component {
                             users: [...this.state.users, user]
                         });  
                     }
+                    alert("Datos almacenados")
                 })
                 .catch(err => {
                     console.log(err)

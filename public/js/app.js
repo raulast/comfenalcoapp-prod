@@ -78981,7 +78981,7 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
         htmlFor: "edadGestacional"
-      }, "Edad gestacional al parto"), "Semanas", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
+      }, "Edad gestacional al parto Semanas"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
         type: "number",
         className: "form-control texto",
         name: "semanasGestacion",
@@ -79441,13 +79441,21 @@ function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArra
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
 function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(n); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -79491,8 +79499,10 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
       medicos: '',
       codigoMedico: '',
       tipoDocumento: '',
+      numeroDocumento: '',
       registroMedico: '',
       correo: '',
+      nombre: '',
       especialidad: '',
       contraseña: '',
       confirmar: '',
@@ -79539,7 +79549,27 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
   }, {
     key: "handleEdition",
     value: function handleEdition(id) {
+      var _this2 = this;
+
       console.log(id);
+      var url = 'getMedico';
+      axios__WEBPACK_IMPORTED_MODULE_3___default.a.post(url, {
+        medicoId: id
+      }).then(function (resp) {
+        //console.log(resp.data.data[0]);
+        _this2.setState({
+          codigoMedico: resp.data.data[0].cod_medico,
+          especialidad: resp.data.data[0].especialidad,
+          numeroDocumento: resp.data.data[0].num_documento,
+          nombre: resp.data.data[0].nombre,
+          registroMedico: resp.data.data[0].reg_medico,
+          tipoDocumento: resp.data.data[0].tipo_documento,
+          contraseña: '',
+          correo: resp.data.data[0].correo
+        });
+      })["catch"](function (err) {
+        console.log(err);
+      });
     }
   }, {
     key: "handleEliminar",
@@ -79549,8 +79579,38 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
   }, {
     key: "handleSubmit",
     value: function handleSubmit(e) {
+      var _this3 = this;
+
       e.preventDefault();
       var resp = this.validarForm();
+
+      if (resp) {
+        var url = 'saveMedico'; // console.log(this.state);
+
+        axios__WEBPACK_IMPORTED_MODULE_3___default.a.post(url, {
+          datos: this.state
+        }).then(function (resp) {
+          console.log(resp); //location.reload();
+
+          var medico = resp.data.data;
+
+          if (medico == 0) {
+            _this3.getSystemUsers();
+
+            _this3.setState({
+              medicos: _this3.state.medicos
+            });
+          } else {
+            _this3.setState({
+              medicos: [].concat(_toConsumableArray(_this3.state.medicos), [medico])
+            });
+          }
+
+          alert("Datos almacenados");
+        })["catch"](function (err) {
+          console.log(err);
+        });
+      }
     }
   }, {
     key: "validarForm",
@@ -79599,12 +79659,12 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
   }, {
     key: "getMedicosUsers",
     value: function getMedicosUsers() {
-      var _this2 = this;
+      var _this4 = this;
 
       var url = 'getMedicosUsers';
       axios__WEBPACK_IMPORTED_MODULE_3___default.a.get(url).then(function (resp) {
         //console.log(resp.data.data);
-        _this2.setState({
+        _this4.setState({
           medicos: resp.data.data
         });
       })["catch"](function (err) {
@@ -79722,14 +79782,14 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         className: "col-md-4"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "nombre"
-      }, "Nombre"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      }, "Nombre"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", _defineProperty({
         type: "text",
         className: "form-control",
-        id: "nombreUsuario",
-        name: "nombreUsuario",
+        id: "nombre",
+        name: "nombre",
         onChange: this.handleChange,
         value: this.state.nombreUsaurio
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "value", this.state.nombre))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-4"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "nombre"
@@ -79757,6 +79817,8 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
       }, "M\xE9dico general"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "2"
       }, "M\xE9dico especialista"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "5"
+      }, "M\xE9dico laboral"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "3"
       }, "Odont\xF3logo general"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "4"
@@ -79767,7 +79829,7 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "nombre"
       }, "Contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "text",
+        type: "password",
         className: "form-control",
         id: "contrase\xF1a",
         name: "contrase\xF1a",
@@ -79778,7 +79840,7 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "nombre"
       }, "Confirmar Contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "text",
+        type: "password",
         className: "form-control",
         id: "confirmar",
         name: "confirmar",
@@ -81862,6 +81924,8 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
               users: [].concat(_toConsumableArray(_this4.state.users), [user])
             });
           }
+
+          alert("Datos almacenados");
         })["catch"](function (err) {
           console.log(err);
         });
