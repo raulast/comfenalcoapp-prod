@@ -322,7 +322,7 @@ class ApiController extends Controller
                  'name' => $data['nombre'],
                  'email' => $data['correo'],
                  'password' => Hash::make($data['contraseña']),
-                 'tipo' =>2,
+                 'tipo' =>1,
              
              ]);
         }
@@ -348,10 +348,11 @@ class ApiController extends Controller
                 'reg_medico' => $data['registroMedico'],
                 'especialidad' => $data['especialidad'],
             ]);
-            return response()->json([
-                'data' => $m
-            ]);
+           
         }
+        return response()->json([
+            'data' => $m
+        ]);
     }
     public function deleteUser(Request $request){
         if(User::where('id', $request->userId)->exists()){

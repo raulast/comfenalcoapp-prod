@@ -33,7 +33,7 @@ Route::get('/validacionDescripcion/{estado}/{clasea}/{programa}','IncapacidadCon
 
 
 //admin
-Route::get('/admin','AdminController@index')->name('admin');
+Route::get('/admin','AdminController@index')->name('admin')->middleware('auth','twofactor');
 Route::get('/admin/usuarios','AdminController@users')->name('adminUsers');
 Route::get('/admin/incapacidades','AdminController@incapacidades')->name('adminIncapacidades');
 
@@ -84,7 +84,7 @@ Route::get('buscarHistorico/{tipo}/{numero}','ApiController@buscarHistorico')->m
 Route::get('historicoIncapacidades','ApiController@historicoIncapacidades');
 Route::get('certificadoIncapacidad/{id}/{pid}','ApiController@certificadoIncapacidad');
 Route::get('certificadoLicencia/{id}','ApiController@certificadoLicencia');
-Route::get('/reportes','ReportesController@index')->name('reportes');
+Route::get('/reportes','ReportesController@index')->name('reportes')->middleware('auth','twofactor');;
 Route::post('/reportIncapacidades','ReportesController@reportIncapacidades');
 Route::post('/reportLicencias','ReportesController@reportLicencias');
 Route::get('/exportReporte','ExcelController@export');
@@ -93,7 +93,7 @@ Route::get('/exportCronicos','ExcelController@exportCronicos');
 
 //cronicos
 
-Route::get('/cronicos','CronicosController@index')->name('cronicos');
+Route::get('/cronicos','CronicosController@index')->name('cronicos')->middleware('auth','twofactor');;
 Route::get('/getCronicos','CronicosController@getCronicos');
 Route::post('/buscarCronicos','CronicosController@buscarCronicos');
 Route::post('/buscarCronico','CronicosController@buscarCronico');
@@ -103,7 +103,7 @@ Route::post('/updateCronico','CronicosController@updateCronico');
 
 
 //juridicos
-Route::get('/juridicas','JuridicasController@index')->name('juridicas');
+Route::get('/juridicas','JuridicasController@index')->name('juridicas')->middleware('auth','twofactor');;
 Route::get('/getJuridicas','JuridicasController@getJuridicas');
 Route::get('/verJuridica/{id}/{enable}','JuridicasController@verJuridica');
 Route::get('/getJuridica/{id}','JuridicasController@getJuridica');

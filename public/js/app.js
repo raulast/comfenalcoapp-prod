@@ -79592,10 +79592,11 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         }).then(function (resp) {
           console.log(resp); //location.reload();
 
+          console.log(resp.data.data);
           var medico = resp.data.data;
 
           if (medico == 0) {
-            _this3.getSystemUsers();
+            _this3.getMedicosUsers();
 
             _this3.setState({
               medicos: _this3.state.medicos
@@ -82056,6 +82057,8 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "0"
       }, "Admin"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "1"
+      }, "M\xE9dico"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "2"
       }, "Auxiliar Pemel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "3"

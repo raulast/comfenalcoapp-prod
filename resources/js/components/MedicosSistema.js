@@ -93,10 +93,11 @@ class MedicosSistema extends Component {
                 .then(resp => {
                     console.log(resp);
                     //location.reload();
-                    
+                    console.log(resp.data.data);
                     let medico = resp.data.data;
                     if (medico == 0){
-                        this.getSystemUsers();
+                        
+                        this.getMedicosUsers();
                         this.setState({
                             medicos: this.state.medicos, 
                         });  

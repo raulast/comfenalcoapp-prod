@@ -203,7 +203,7 @@ class UsuariosSistema extends Component {
                                                 <select className="form-control" id="tipo" name="tipo" onChange={this.handleChange} value={this.state.tipo}>
                                                     <option value=""></option>
                                                     <option value="0">Admin</option>
-                                                    {/*<option value="1">Médico</option>*/}
+                                                    <option value="1">Médico</option>
                                                     <option value="2">Auxiliar Pemel</option>
                                                     <option value="3">Admin Pemel</option>
                                                 </select>
