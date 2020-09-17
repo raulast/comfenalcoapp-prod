@@ -105,7 +105,7 @@ tr td{
     </table>
 
     <table class="table table-bordered table-sm">
-    <tr><td>Este certificado no implica el reconocimiento de la certificación ni de la prestación económica. El trámite ante la EPS debe ser realizado por el aportantes (empresa, trabajador independiente). La pertinencia médica y  validación de los conceptos en días, prórroga, coberturas, origen  se verá reflejada posterior a la radicación auditoria, liquidación por parte de la EPS,  según se cumpla con requisitos y condiciones de aseguramiento definidos por el Sistema General de Seguridad social</td></tr>
+    <tr><td>Este certificado no implica el reconocimiento de la certificación ni de la prestación económica. El trámite ante la EPS debe ser realizado por el aportante (empresa, trabajador independiente). La pertinencia médica y  validación de los conceptos en días, prórroga, coberturas, origen  se verá reflejada posterior a la radicación auditoria, liquidación por parte de la EPS,  según se cumpla con requisitos y condiciones de aseguramiento definidos por el Sistema General de Seguridad social</td></tr>
     </table>
 
     <table class="table table-bordered table-sm">
