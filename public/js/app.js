@@ -75532,7 +75532,13 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
         console.log(response.data.responseMessageOut.body.response.validadorResponse);
         var nombre = afiliaciones[0]['Nombre'];
         var primerApellido = afiliaciones[0]['PrimerApellido'];
-        var segundoApellido = afiliaciones[0]['SegundoApellido'];
+
+        if (_typeof(afiliaciones[0]['SegundoApellido']) === 'object') {
+          var _segundoApellido = '';
+        } else {
+          var _segundoApellido2 = afiliaciones[0]['SegundoApellido'];
+        }
+
         var nombreCompleto = "".concat(nombre, " ").concat(primerApellido, " ").concat(segundoApellido);
         var tipoDocAfiliado = afiliaciones[0]['TipoDocAfiliado'];
         var IDTrabajador = afiliaciones[0]['IDTrabajador'];
@@ -77872,7 +77878,13 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
         console.log(response.data.responseMessageOut.body.response.validadorResponse);
         var nombre = afiliaciones[0]['Nombre'];
         var primerApellido = afiliaciones[0]['PrimerApellido'];
-        var segundoApellido = afiliaciones[0]['SegundoApellido'];
+
+        if (_typeof(afiliaciones[0]['SegundoApellido']) === 'object') {
+          var _segundoApellido = '';
+        } else {
+          var _segundoApellido2 = afiliaciones[0]['SegundoApellido'];
+        }
+
         var nombreCompleto = "".concat(nombre, " ").concat(primerApellido, " ").concat(segundoApellido);
         var tipoDocAfiliado = afiliaciones[0]['TipoDocAfiliado'];
         var IDTrabajador = afiliaciones[0]['IDTrabajador'];
