@@ -193,12 +193,11 @@ class IncapacidadFront extends Component {
             console.log(response.data.responseMessageOut.body.response.validadorResponse);
             let nombre = afiliaciones[0]['Nombre'];
             let primerApellido = afiliaciones[0]['PrimerApellido']; 
-            if(typeof afiliaciones[0]['SegundoApellido'] === 'object' ){
-                let segundoApellido = ''
+            let segundoApellido = ' ';
+            if(typeof afiliaciones[0]['SegundoApellido'] !== 'object' ){
+                segundoApellido = afiliaciones[0]['SegundoApellido'];
             }
-            else{
-                let segundoApellido = afiliaciones[0]['SegundoApellido'];
-            }
+           
             let nombreCompleto = `${nombre} ${primerApellido} ${segundoApellido}`;
 
             let tipoDocAfiliado = afiliaciones[0]['TipoDocAfiliado'];

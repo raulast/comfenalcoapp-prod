@@ -202,11 +202,9 @@ class LicenciaFront extends Component {
             let nombre = afiliaciones[0]['Nombre'];
             let primerApellido = afiliaciones[0]['PrimerApellido']; 
 
-            if(typeof afiliaciones[0]['SegundoApellido'] === 'object' ){
-                let segundoApellido = ''
-            }
-            else{
-                let segundoApellido = afiliaciones[0]['SegundoApellido'];
+            let segundoApellido = ' ';
+            if(typeof afiliaciones[0]['SegundoApellido'] !== 'object' ){
+                segundoApellido = afiliaciones[0]['SegundoApellido'];
             }
             let nombreCompleto = `${nombre} ${primerApellido} ${segundoApellido}`;
 
