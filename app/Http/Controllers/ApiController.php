@@ -555,7 +555,7 @@ class ApiController extends Controller
             $tipoCotizante = $afiliado[0]->DescripcionPrograma;
             $tipoAportante="";
             
-            if (property_exists("NombreEmpresa",$afiliado[$a])){
+            if (isset($afiliado[$a]->NombreEmpresa)){
                 if (gettype($afiliado[$a]->NombreEmpresa) == "string") {
                     $nombreEmpresa =$afiliado[$a]->NombreEmpresa;
                 }
@@ -692,7 +692,7 @@ class ApiController extends Controller
             $tipoCotizante = $afiliado->DescripcionPrograma;
             $tipoAportante="";
             
-            if (property_exists("NombreEmpresa",$afiliado)){
+            if (isset($afiliado->NombreEmpresa)){
                 if (gettype($afiliado->NombreEmpresa) == "string") {
                     $nombreEmpresa =$afiliado->NombreEmpresa;
                 }
@@ -714,7 +714,7 @@ class ApiController extends Controller
             $tipoAfiliado = $afiliado[0]->ClaseAfiliacion;
             $tipoCotizante = $afiliado[0]->DescripcionPrograma;
             $tipoAportante="";
-            if (array_key_exists("NombreEmpresa",$afiliado[$a])){
+            if (isset($afiliado[$a]->NombreEmpresa)){
                 if (gettype($afiliado[$a]->NombreEmpresa) == "string") {
                     $nombreEmpresa =$afiliado[$a]->NombreEmpresa;
                 }
