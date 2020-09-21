@@ -83,7 +83,7 @@ Route::get('buscarCie10/{campo}/{texto}','ApiController@buscarCie10');
 Route::get('buscarHistorico/{tipo}/{numero}','ApiController@buscarHistorico')->middleware('auth','twofactor');
 Route::get('historicoIncapacidades','ApiController@historicoIncapacidades');
 Route::get('certificadoIncapacidad/{id}/{pid}/{a}','ApiController@certificadoIncapacidad');
-Route::get('certificadoLicencia/{id}','ApiController@certificadoLicencia');
+Route::get('certificadoLicencia/{id}/{a}','ApiController@certificadoLicencia');
 Route::get('/reportes','ReportesController@index')->name('reportes')->middleware('auth','twofactor');;
 Route::post('/reportIncapacidades','ReportesController@reportIncapacidades');
 Route::post('/reportLicencias','ReportesController@reportLicencias');

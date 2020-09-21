@@ -209,6 +209,9 @@ class ApiController extends Controller
                 'ips' => $datos['ips_id'],
                 'medico_id' => $datos['medico_id'],
                 'lateralidad' => $datos['lateralidad_id'],
+                'lateralidad1' => $datos['lateralidad_id1'],
+                'lateralidad2' => $datos['lateralidad_id2'],
+                'lateralidad3' => $datos['lateralidad_id3'],
                 'prorroga' => $datos['prorroga'],
                 'dias_acumulados_previos' => $datos['diasAcumuladosPrevios'],
                 'dias_acumulados_ultima_incapacidad' => $datos['diasAcumuladosUltima'],
@@ -661,7 +664,12 @@ class ApiController extends Controller
             'i' => $i
         ]);
     }
-    public function certificadoLicencia($id){
+    public function certificadoLicencia($id,$a){
+
+        if (!Licencia::where('id',$id)->exists()){
+            dd("La licencia no se encueltra almacenada");
+        }
+
         $formatter = new NumeroALetras;
         $fechahora= Carbon::now();
         
@@ -669,6 +677,7 @@ class ApiController extends Controller
         
         $tipoDoc = $d->tipo_documento_afiliado;
         $numDoc = $d->num_documento_afiliado;
+        $nombreCompleto = $d->nombre_afiliado;
         $response =json_decode($d->validacion);
         //$response = json_decode($this->validacion($tipoDoc,$numDoc));
         //dd($response);
@@ -677,18 +686,19 @@ class ApiController extends Controller
         
         
         if (is_array($afiliado) == false) {
-            $nombre = $afiliado->Nombre;
-            $primerApellido = $afiliado->PrimerApellido; 
-            $segundoApellido = $afiliado->SegundoApellido;
-            $nombreCompleto = $nombre." ".$primerApellido." ".$segundoApellido;
+            /*nombreCompleto = $nombre." ".$primerApellido." ".$segundoApellido;*/
             $numDoc = $afiliado->IDTrabajador;
             $tipoAfiliado = $afiliado->ClaseAfiliacion;
             $tipoCotizante = $afiliado->DescripcionPrograma;
             $tipoAportante="";
             
-            if (gettype($afiliado->NombreEmpresa) == "string") {
-               
-                $nombreEmpresa =$afiliado->NombreEmpresa;
+            if (array_key_exists("NombreEmpresa",$afiliado)){
+                if (gettype($afiliado->NombreEmpresa) == "string") {
+                    $nombreEmpresa =$afiliado->NombreEmpresa;
+                }
+                else{
+                    $nombreEmpresa= $nombreCompleto;
+                }
             }
             else{
                 $nombreEmpresa= $nombreCompleto;
@@ -696,17 +706,21 @@ class ApiController extends Controller
         }
         else{
            
-            $nombre = $afiliado[0]->Nombre;
+            /*$nombre = $afiliado[0]->Nombre;
             $primerApellido = $afiliado[0]->PrimerApellido; 
             $segundoApellido = $afiliado[0]->SegundoApellido;
-            $nombreCompleto = $nombre." ".$primerApellido." ".$segundoApellido;
+            $nombreCompleto = $nombre." ".$primerApellido." ".$segundoApellido;*/
             $numDoc = $afiliado[0]->IDTrabajador;
             $tipoAfiliado = $afiliado[0]->ClaseAfiliacion;
             $tipoCotizante = $afiliado[0]->DescripcionPrograma;
             $tipoAportante="";
-            $nombreEmpresa= $afiliado[0]->NombreEmpresa;
-            if (gettype($afiliado[0]->NombreEmpresa) == "string") {
-                $nombreEmpresa =$afiliado[0]->NombreEmpresa;
+            if (array_key_exists("NombreEmpresa",$afiliado[$a])){
+                if (gettype($afiliado[$a]->NombreEmpresa) == "string") {
+                    $nombreEmpresa =$afiliado[$a]->NombreEmpresa;
+                }
+                else{
+                    $nombreEmpresa= $nombreCompleto;
+                }
             }
             else{
                 $nombreEmpresa= $nombreCompleto;

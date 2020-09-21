@@ -65,7 +65,7 @@ class LicenciaFront extends Component {
             tipoDocAportante: '',
             numDocAportante: '',
             nombreAportante: '',
-            observacion: '',
+            observacion: '-',
             observacion_estado: '',
             diagnostico: '',
             codigoDiagnostico: '',
@@ -89,7 +89,8 @@ class LicenciaFront extends Component {
                 tipoPrestador: 'oculto',
                 ips: 'oculto',
                 causae: 'oculto',
-                lateralidad: 'oculto',
+                tipoAtencion: 'oculto',
+                tipoLicencia: 'oculto',
                 diasSolicitados: 'oculto',
                 contingencia: 'oculto'
             },
@@ -98,7 +99,8 @@ class LicenciaFront extends Component {
                 tipoPrestador: '',
                 ips: '',
                 causae: '',
-                lateralidad: '',
+                tipoAtencion: '',
+                tipoLicencia:'',
                 diasSolicitados: '',
                 contingencia: ''
             },
@@ -182,11 +184,11 @@ class LicenciaFront extends Component {
 
             
     }
-    generarCertificado(){
+    generarCertificado(a){
         let id=this.state.id;
         let pid= this.state.prorrogaId;
         //let id=1;
-        let url = '/certificadoLicencia/'+id;
+        let url = '/certificadoLicencia/'+id+"/"+a;
         window.open(url,"_blank");
     }
     activarGeneracion(incapacidades,response,afiliaciones){
@@ -386,7 +388,7 @@ class LicenciaFront extends Component {
         
         this.setState({
           [target.name]: target.value
-        }, () => {
+        },  () => {
             if (target.name == "tipoAtencion"){
                 if (target.value == 1){
                     this.setState({
@@ -420,6 +422,9 @@ class LicenciaFront extends Component {
             if ((target.name == "tipoAtencion")||(target.name == "nacidoViable")){
                 this.seleccionartipoLicencia();
             }
+           
+          
+            
         });
        
         
@@ -490,6 +495,7 @@ class LicenciaFront extends Component {
             });
         }
         console.log(this.state.tipoLicencia)
+       
 
     }
     validartipoLicencia(tipoLicencia){
@@ -667,7 +673,7 @@ class LicenciaFront extends Component {
             })
         }
     }
-    handleFechaFin(e) {
+    handleFechaFin() {
         let l1 = new Date(this.state.fechaInicioLicencia);
         let dias = this.state.diasSolicitados - 1;
         l1 = new Date(l1.setTime(l1.getTime() + dias * 86400000)).getTime()
@@ -763,24 +769,35 @@ class LicenciaFront extends Component {
         });
     }
     guardarLicencia() {
-        console.log(this.state)
+        //console.log(this.state)
         //console.log(parseInt(this.state.diasSolicitados));
-        let url = 'saveLicencia'
-                axios.post(url, { datos: this.state })
-                    .then(resp => {
-                        console.log(resp.data)
-                        alert(resp.data)
-                        //this.setState(this.initialState);
-                        //location.reload();
-                        this.setState({
-                            flagCertificado: ''
-                        })
-                    })
-                    .catch(err => {
-                        console.log(err)
-                    })
-                        
+        let resp = this.validarForm()
+        if (this.state.fechaInicioLicencia == this.state.fechaFinLicencia){
+            alert("Verifique la fecha fin de licencia ")
+        }
+        else{
+            let resp = this.validarForm()
 
+            if (resp) {
+                let url = 'saveLicencia'
+                    axios.post(url, { datos: this.state })
+                        .then(resp => {
+                            console.log(resp.data)
+                            alert(resp.data)
+                            //this.setState(this.initialState);
+                            //location.reload();
+                            this.setState({
+                                flagCertificado: ''
+                            })
+                        })
+                        .catch(err => {
+                            console.log(err)
+                        })
+            }
+            else {
+                alert("Hay errores en algunos campos");
+            }
+        }
         /*
         if (parseInt(this.state.diasSolicitados) <= this.state.diasMaximosEspecialidad) {
             let resp = this.validarForm()
@@ -823,11 +840,12 @@ class LicenciaFront extends Component {
                 estado_id: 1
             })
         }
+        /*
         if (this.state.diasSolicitados > this.state.diasMaximosEspecialidad) {
             this.setState({
                 estado_id: 1
             })
-        }
+        }*/
 
         let newState = Object.assign({}, this.state);
         if (this.state.tipoPrestador == '') {
@@ -845,11 +863,11 @@ class LicenciaFront extends Component {
             newState.errorMensajes.causae = "Causa externa requerida";
             resp = false;
         }
-        if (this.state.lateralidad_id == 0) {
+        /*if (this.state.lateralidad_id == 0) {
             newState.errors.lateralidad = "visible";
             newState.errorMensajes.lateralidad = "Lateralidad requerida";
             resp = false;
-        }
+        }*/
         if (this.state.diagnostico == '') {
             newState.errors.diagnostico = "visible";
             newState.errorMensajes.diagnostico = "Diagnóstico requerido";
@@ -865,11 +883,21 @@ class LicenciaFront extends Component {
             newState.errorMensajes.contingencia = "Contingencia requerida";
             resp = false;
         }
+        if (this.state.tipoAtencion == '') {
+            newState.errors.tipoAtencion = "visible";
+            newState.errorMensajes.tipoAtencion = "Tipo de atención requerida";
+            resp = false;
+        }
+        if (this.state.tipoLicencia == '0') {
+            newState.errors.tipoLicencia = "visible";
+            newState.errorMensajes.tipoLicencia = "Tipo de licencia requerida";
+            resp = false;
+        }
         this.setState(newState);
 
-        if (this.state.prorroga == "No") {
-            await this.getNumeroIncapacidad();
-        }
+       
+            await this.getNumeroLicencia();
+    
 
         return resp;
 
@@ -969,7 +997,7 @@ class LicenciaFront extends Component {
                                 <td>{validaciones[key]['IDEmpresa'] == 'N/A' ? validaciones[key]['TipoDocAfiliado'] : validaciones[key]['IDEmpresa']}</td>
 
                                 <td>{validaciones[key]['IDEmpresa'] == 'N/A' ? validaciones[key]['Nombre'] + " " + validaciones[key]['PrimerApellido'] + " " + validaciones[key]['SegundoApellido'] : validaciones[key]['NombreEmpresa']}</td>
-                                <td>{validaciones[key]['Incapacidad'] == "SI" ? <input type="button" id="btnBuscar" onClick={this.generarCertificado} className="btn btn-primary" value="Certificado" disabled={this.state.flagCertificado}/> : ''}</td>
+                                <td>{validaciones[key]['Incapacidad'] == "SI" ? <input type="button" id={key} onClick={e => this.generarCertificado(e.target.id)} className="btn btn-primary" value="Certificado" disabled={this.state.flagCertificado}/> : ''}</td>
 
 
                             </tr>
@@ -1060,9 +1088,9 @@ class LicenciaFront extends Component {
                 { mensaje2 }
            
                 <br/>
-            
-                {this.renderAfiliaciones()}
-
+                <div className={this.state.visible}>
+                    {this.renderAfiliaciones()}
+                </div>
                 <br/>
 
                 <div className={this.state.visible}>
@@ -1344,7 +1372,7 @@ class LicenciaFront extends Component {
                                             <div className="form-group">
                                                 <label htmlFor="observacionMedica">Resumen observación médico</label>
                                                 <textarea rows="10" className="form-control texto" name="observacion" onChange={this.handleChange}>
-
+                                                    { this.state.observacion }
                                                 </textarea>
                                             </div>
                                         </div>
@@ -1372,38 +1400,7 @@ class LicenciaFront extends Component {
 
                                 <div className="card-body texto">
                                     { this.renderAportantes()}
-                                    {/*
-                                    <div className="row">
-
-                                        <div className="col-sm-3">
-                                            <div className="form-group">
-                                                <label htmlFor="tipoIdentificacionAportante">Tipo identificación</label>
-                                                <input type="text" id="tipoDocAportante" className="form-control texto" value={this.state.tipoDocAportante} readOnly />
-                                            </div>
-                                        </div>
-
-                                        <div className="col-sm-3">
-                                            <div className="form-group">
-                                                <label htmlFor="numeroIdentificacionAportante">Número de identificacion</label>
-                                                <input type="text" id="numDocAportante" className="form-control texto" value={this.state.numDocAportante} readOnly />
-                                            </div>
-                                        </div>
-                                        {/* Comment goes here 
-                                    <div className="col-sm-3">
-                                        <div className="form-group">
-                                            <label htmlFor="tipoAportante">Tipo aportante</label>
-                                            <input type="text" id="tipoAportante" className="form-control texto"   readOnly  />
-                                        </div>
-                                    </div>
-                                        
-                                        <div className="col-sm-6">
-                                            <div className="form-group">
-                                                <label htmlFor="nombreAportante">Nombre aportante</label>
-                                                <input type="text" id="nombreAportante" className="form-control texto" value={this.state.nombreAportante} readOnly />
-                                            </div>
-                                        </div>
-                                    </div>
-                                     */} 
+                                    
                                 </div>
                             </div>
                         </div>

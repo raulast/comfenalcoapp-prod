@@ -75373,7 +75373,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
       tipoDocAportante: '',
       numDocAportante: '',
       nombreAportante: '',
-      observacion: '',
+      observacion: '-',
       observacion_estado: '',
       diagnostico: '',
       codigoDiagnostico: '',
@@ -75390,6 +75390,9 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
       ips_id: 0,
       medico_id: 0,
       lateralidad_id: 0,
+      lateralidad_id1: 0,
+      lateralidad_id2: 0,
+      lateralidad_id3: 0,
       prorroga: 'No',
       diasAcumuladosPrevios: 0,
       diasAcumuladosUltima: 0,
@@ -75420,7 +75423,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
         visible: 'visible',
         alarmas: []
       },
-      flagCertificado: '',
+      flagCertificado: 'disabled',
       aportantes: ''
     };
     _this.initialState = _objectSpread({}, _this.state); // bind
@@ -75450,6 +75453,9 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
     _this.handleIpsChange = _this.handleIpsChange.bind(_assertThisInitialized(_this));
     _this.handleMedico = _this.handleMedico.bind(_assertThisInitialized(_this));
     _this.handleLateralidad = _this.handleLateralidad.bind(_assertThisInitialized(_this));
+    _this.handleLateralidad1 = _this.handleLateralidad1.bind(_assertThisInitialized(_this));
+    _this.handleLateralidad2 = _this.handleLateralidad2.bind(_assertThisInitialized(_this));
+    _this.handleLateralidad3 = _this.handleLateralidad3.bind(_assertThisInitialized(_this));
     _this.handleProrroga = _this.handleProrroga.bind(_assertThisInitialized(_this));
     _this.showMessage = _this.showMessage(_assertThisInitialized(_this));
     _this.getNumeroIncapacidad = _this.getNumeroIncapacidad.bind(_assertThisInitialized(_this));
@@ -75893,6 +75899,27 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
     value: function handleLateralidad(e) {
       this.setState({
         lateralidad_id: e.target.value
+      });
+    }
+  }, {
+    key: "handleLateralidad1",
+    value: function handleLateralidad1(e) {
+      this.setState({
+        lateralidad_id1: e.target.value
+      });
+    }
+  }, {
+    key: "handleLateralidad2",
+    value: function handleLateralidad2(e) {
+      this.setState({
+        lateralidad_id2: e.target.value
+      });
+    }
+  }, {
+    key: "handleLateralidad3",
+    value: function handleLateralidad3(e) {
+      this.setState({
+        lateralidad_id3: e.target.value
       });
     }
   }, {
@@ -76457,7 +76484,9 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
         id: "btnBuscar",
         className: "btn btn-primary",
         value: "Buscar"
-      })))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), mensaje, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), mensaje2, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), this.renderAfiliaciones(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      })))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), mensaje, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), mensaje2, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: this.state.visible
+      }, this.renderAfiliaciones()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: this.state.visible
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "row justify-content-center "
@@ -76645,7 +76674,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "row"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "col-sm-12"
+        className: "col-sm-10"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_AutocompleteDescripcion_js__WEBPACK_IMPORTED_MODULE_7__["default"], {
         title: "Diagnostico principal",
         handleDiagnostico: this.handleDiagnostico,
@@ -76654,33 +76683,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
         handleMaximosCie10: this.handleMaximosCie10,
         error: this.state.errors['diagnostico'],
         mensaje: this.state.errorMensajes['diagnostico']
-      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "row"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "col-sm-12"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_AutocompleteDescripcion_js__WEBPACK_IMPORTED_MODULE_7__["default"], {
-        title: "Diagn\xF3stico relacionado 1",
-        handleDiagnostico: this.handleDiagnostico1,
-        handleCodigoDiagnostico: this.handleCodigoDiagnostico1
-      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "row"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "col-sm-12"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_AutocompleteDescripcion_js__WEBPACK_IMPORTED_MODULE_7__["default"], {
-        title: "Diagn\xF3stico relacionado 2",
-        handleDiagnostico: this.handleDiagnostico2,
-        handleCodigoDiagnostico: this.handleCodigoDiagnostico2
-      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "row"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "col-sm-12"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_AutocompleteDescripcion_js__WEBPACK_IMPORTED_MODULE_7__["default"], {
-        title: "Diagn\xF3stico relacionado 3",
-        handleDiagnostico: this.handleDiagnostico3,
-        handleCodigoDiagnostico: this.handleCodigoDiagnostico3
-      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "row"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "col-sm-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "form-group"
@@ -76704,8 +76707,94 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
         className: this.state.errors['lateralidad']
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "redf  " + (this.state.errors['lateralidad'] || "")
-      }, this.state.errorMensajes['lateralidad'])))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "col-sm-3"
+      }, this.state.errorMensajes['lateralidad']))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-sm-10"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_AutocompleteDescripcion_js__WEBPACK_IMPORTED_MODULE_7__["default"], {
+        title: "Diagn\xF3stico relacionado 1",
+        handleDiagnostico: this.handleDiagnostico1,
+        handleCodigoDiagnostico: this.handleCodigoDiagnostico1
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-sm-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: "lateralidad1"
+      }, "Lateralidad 1"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
+        id: "lateralidad1",
+        className: "form-control",
+        onChange: this.handleLateralidad1
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: "0"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: "1"
+      }, "Derecha"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: "2"
+      }, "Izquierda"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: "3"
+      }, "Bilateral"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: "4"
+      }, "No aplica"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-sm-10"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_AutocompleteDescripcion_js__WEBPACK_IMPORTED_MODULE_7__["default"], {
+        title: "Diagn\xF3stico relacionado 2",
+        handleDiagnostico: this.handleDiagnostico2,
+        handleCodigoDiagnostico: this.handleCodigoDiagnostico2
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-sm-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: "lateralidad2"
+      }, "Lateralidad 2"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
+        id: "lateralidad2",
+        className: "form-control",
+        onChange: this.handleLateralidad2
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: "0"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: "1"
+      }, "Derecha"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: "2"
+      }, "Izquierda"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: "3"
+      }, "Bilateral"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: "4"
+      }, "No aplica"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-sm-10"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_AutocompleteDescripcion_js__WEBPACK_IMPORTED_MODULE_7__["default"], {
+        title: "Diagn\xF3stico relacionado 3",
+        handleDiagnostico: this.handleDiagnostico3,
+        handleCodigoDiagnostico: this.handleCodigoDiagnostico3
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-sm-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
+        htmlFor: "lateralidad3"
+      }, "Lateralidad 3"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("select", {
+        id: "lateralidad3",
+        className: "form-control",
+        onChange: this.handleLateralidad3
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: "0"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: "1"
+      }, "Derecha"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: "2"
+      }, "Izquierda"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: "3"
+      }, "Bilateral"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("option", {
+        value: "4"
+      }, "No aplica"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: "col-sm-4"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
@@ -76746,7 +76835,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
         value: this.state.diasReconocidos,
         readOnly: true
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: "col-sm-3"
+        className: "col-sm-4"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("label", {
@@ -76837,7 +76926,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
         className: "form-control",
         id: "observacionMedica",
         onChange: this.handleObservacion
-      }))))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      }, this.state.observacion))))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: this.state.visible
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "row justify-content-center"
@@ -77625,7 +77714,7 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
       tipoDocAportante: '',
       numDocAportante: '',
       nombreAportante: '',
-      observacion: '',
+      observacion: '-',
       observacion_estado: '',
       diagnostico: '',
       codigoDiagnostico: '',
@@ -77648,7 +77737,8 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
         tipoPrestador: 'oculto',
         ips: 'oculto',
         causae: 'oculto',
-        lateralidad: 'oculto',
+        tipoAtencion: 'oculto',
+        tipoLicencia: 'oculto',
         diasSolicitados: 'oculto',
         contingencia: 'oculto'
       },
@@ -77657,7 +77747,8 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
         tipoPrestador: '',
         ips: '',
         causae: '',
-        lateralidad: '',
+        tipoAtencion: '',
+        tipoLicencia: '',
         diasSolicitados: '',
         contingencia: ''
       },
@@ -77758,11 +77849,11 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
     }()
   }, {
     key: "generarCertificado",
-    value: function generarCertificado() {
+    value: function generarCertificado(a) {
       var id = this.state.id;
       var pid = this.state.prorrogaId; //let id=1;
 
-      var url = '/certificadoLicencia/' + id;
+      var url = '/certificadoLicencia/' + id + "/" + a;
       window.open(url, "_blank");
     }
   }, {
@@ -78302,7 +78393,7 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
     }
   }, {
     key: "handleFechaFin",
-    value: function handleFechaFin(e) {
+    value: function handleFechaFin() {
       var l1 = new Date(this.state.fechaInicioLicencia);
       var dias = this.state.diasSolicitados - 1;
       l1 = new Date(l1.setTime(l1.getTime() + dias * 86400000)).getTime();
@@ -78412,22 +78503,34 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
     value: function guardarLicencia() {
       var _this7 = this;
 
-      console.log(this.state); //console.log(parseInt(this.state.diasSolicitados));
+      //console.log(this.state)
+      //console.log(parseInt(this.state.diasSolicitados));
+      var resp = this.validarForm();
 
-      var url = 'saveLicencia';
-      axios__WEBPACK_IMPORTED_MODULE_11___default.a.post(url, {
-        datos: this.state
-      }).then(function (resp) {
-        console.log(resp.data);
-        alert(resp.data); //this.setState(this.initialState);
-        //location.reload();
+      if (this.state.fechaInicioLicencia == this.state.fechaFinLicencia) {
+        alert("Verifique la fecha fin de licencia ");
+      } else {
+        var _resp = this.validarForm();
 
-        _this7.setState({
-          flagCertificado: ''
-        });
-      })["catch"](function (err) {
-        console.log(err);
-      });
+        if (_resp) {
+          var url = 'saveLicencia';
+          axios__WEBPACK_IMPORTED_MODULE_11___default.a.post(url, {
+            datos: this.state
+          }).then(function (resp) {
+            console.log(resp.data);
+            alert(resp.data); //this.setState(this.initialState);
+            //location.reload();
+
+            _this7.setState({
+              flagCertificado: ''
+            });
+          })["catch"](function (err) {
+            console.log(err);
+          });
+        } else {
+          alert("Hay errores en algunos campos");
+        }
+      }
       /*
       if (parseInt(this.state.diasSolicitados) <= this.state.diasMaximosEspecialidad) {
           let resp = this.validarForm()
@@ -78453,6 +78556,7 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
           alert("Los días solicitados exceden el máximo definido para su especialidad médica");
       }
        */
+
     }
   }, {
     key: "validarForm",
@@ -78471,12 +78575,13 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
                     estado_id: 1
                   });
                 }
-
+                /*
                 if (this.state.diasSolicitados > this.state.diasMaximosEspecialidad) {
-                  this.setState({
-                    estado_id: 1
-                  });
-                }
+                    this.setState({
+                        estado_id: 1
+                    })
+                }*/
+
 
                 newState = Object.assign({}, this.state);
 
@@ -78497,12 +78602,12 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
                   newState.errorMensajes.causae = "Causa externa requerida";
                   resp = false;
                 }
+                /*if (this.state.lateralidad_id == 0) {
+                    newState.errors.lateralidad = "visible";
+                    newState.errorMensajes.lateralidad = "Lateralidad requerida";
+                    resp = false;
+                }*/
 
-                if (this.state.lateralidad_id == 0) {
-                  newState.errors.lateralidad = "visible";
-                  newState.errorMensajes.lateralidad = "Lateralidad requerida";
-                  resp = false;
-                }
 
                 if (this.state.diagnostico == '') {
                   newState.errors.diagnostico = "visible";
@@ -78522,20 +78627,26 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
                   resp = false;
                 }
 
-                this.setState(newState);
-
-                if (!(this.state.prorroga == "No")) {
-                  _context3.next = 16;
-                  break;
+                if (this.state.tipoAtencion == '') {
+                  newState.errors.tipoAtencion = "visible";
+                  newState.errorMensajes.tipoAtencion = "Tipo de atención requerida";
+                  resp = false;
                 }
 
-                _context3.next = 16;
-                return this.getNumeroIncapacidad();
+                if (this.state.tipoLicencia == '0') {
+                  newState.errors.tipoLicencia = "visible";
+                  newState.errorMensajes.tipoLicencia = "Tipo de licencia requerida";
+                  resp = false;
+                }
 
-              case 16:
+                this.setState(newState);
+                _context3.next = 15;
+                return this.getNumeroLicencia();
+
+              case 15:
                 return _context3.abrupt("return", resp);
 
-              case 17:
+              case 16:
               case "end":
                 return _context3.stop();
             }
@@ -78621,8 +78732,10 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
           key: key
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, validaciones[key]['IDEmpresa'] == 'N/A' ? validaciones[key]['TipoDocAfiliado'] : validaciones[key]['IDEmpresa']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, validaciones[key]['IDEmpresa'] == 'N/A' ? validaciones[key]['Nombre'] + " " + validaciones[key]['PrimerApellido'] + " " + validaciones[key]['SegundoApellido'] : validaciones[key]['NombreEmpresa']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, validaciones[key]['Incapacidad'] == "SI" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
           type: "button",
-          id: "btnBuscar",
-          onClick: _this8.generarCertificado,
+          id: key,
+          onClick: function onClick(e) {
+            return _this8.generarCertificado(e.target.id);
+          },
           className: "btn btn-primary",
           value: "Certificado",
           disabled: _this8.state.flagCertificado
@@ -78727,7 +78840,9 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
         id: "btnBuscar",
         className: "btn btn-primary",
         value: "Buscar"
-      })))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), mensaje, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), mensaje2, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), this.renderAfiliaciones(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      })))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), mensaje, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), mensaje2, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        className: this.state.visible
+      }, this.renderAfiliaciones()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: this.state.visible
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "row justify-content-center "
@@ -79163,7 +79278,7 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
         className: "form-control texto",
         name: "observacion",
         onChange: this.handleChange
-      }))))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      }, this.state.observacion))))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: this.state.visible
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "row justify-content-center"

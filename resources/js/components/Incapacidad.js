@@ -52,7 +52,7 @@ class IncapacidadFront extends Component {
             tipoDocAportante:'',
             numDocAportante: '',
             nombreAportante:'',
-            observacion:'',
+            observacion:'-',
             observacion_estado:'',
             diagnostico: '',
             codigoDiagnostico: '',
@@ -70,6 +70,9 @@ class IncapacidadFront extends Component {
             ips_id: 0,
             medico_id:0,
             lateralidad_id:0,
+            lateralidad_id1:0,
+            lateralidad_id2:0,
+            lateralidad_id3:0,
             prorroga:'No',
             diasAcumuladosPrevios : 0,
             diasAcumuladosUltima : 0,
@@ -100,7 +103,7 @@ class IncapacidadFront extends Component {
                 visible :'visible',
                 alarmas: [],
             },
-            flagCertificado: '',
+            flagCertificado: 'disabled',
             aportantes:''
             
         };
@@ -133,6 +136,9 @@ class IncapacidadFront extends Component {
         this.handleIpsChange = this.handleIpsChange.bind(this);
         this.handleMedico = this.handleMedico.bind(this);
         this.handleLateralidad= this.handleLateralidad.bind(this);
+        this.handleLateralidad1= this.handleLateralidad1.bind(this);
+        this.handleLateralidad2= this.handleLateralidad2.bind(this);
+        this.handleLateralidad3= this.handleLateralidad3.bind(this);
         this.handleProrroga = this.handleProrroga.bind(this);
         this.showMessage = this.showMessage(this)
 
@@ -484,6 +490,15 @@ class IncapacidadFront extends Component {
     }
     handleLateralidad(e){
         this.setState({lateralidad_id: e.target.value})
+    }
+    handleLateralidad1(e){
+        this.setState({lateralidad_id1: e.target.value})
+    }
+    handleLateralidad2(e){
+        this.setState({lateralidad_id2: e.target.value})
+    }
+    handleLateralidad3(e){
+        this.setState({lateralidad_id3: e.target.value})
     }
     handleProrroga(e){
         this.setState(
@@ -978,8 +993,9 @@ class IncapacidadFront extends Component {
             { mensaje2 }
            
             <br/>
-
+            <div className={this.state.visible}>
             {this.renderAfiliaciones()}
+            </div>
 
             <br/>
 
@@ -1104,26 +1120,9 @@ class IncapacidadFront extends Component {
                                     </div>
                                 </div>  
                                 <div className="row">
-                                    <div className="col-sm-12">
+                                    <div className="col-sm-10">
                                         <AutocompleteDescripcion title="Diagnostico principal" handleDiagnostico ={this.handleDiagnostico} handleCodigoDiagnostico ={this.handleCodigoDiagnostico} handleCapituloDiagnostico ={this.handleCapituloDiagnostico} handleMaximosCie10 ={this.handleMaximosCie10} error={this.state.errors['diagnostico']} mensaje={this.state.errorMensajes['diagnostico']}/>
                                     </div>
-                                </div> 
-                                <div className="row">
-                                    <div className="col-sm-12">
-                                    <AutocompleteDescripcion title="Diagnóstico relacionado 1" handleDiagnostico ={this.handleDiagnostico1} handleCodigoDiagnostico ={this.handleCodigoDiagnostico1}  />
-                                    </div>
-                                </div> 
-                                <div className="row">
-                                    <div className="col-sm-12">
-                                    <AutocompleteDescripcion title="Diagnóstico relacionado 2" handleDiagnostico ={this.handleDiagnostico2} handleCodigoDiagnostico ={this.handleCodigoDiagnostico2}  />
-                                    </div>
-                                </div> 
-                                <div className="row">
-                                    <div className="col-sm-12">
-                                    <AutocompleteDescripcion title="Diagnóstico relacionado 3" handleDiagnostico ={this.handleDiagnostico3} handleCodigoDiagnostico ={this.handleCodigoDiagnostico3}  />
-                                    </div>
-                                </div> 
-                                <div className="row">
                                     <div className="col-sm-2">
                                         <div className="form-group">
                                             <label htmlFor="lateralidad">Lateralidad</label>
@@ -1139,7 +1138,64 @@ class IncapacidadFront extends Component {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="col-sm-3">
+                                </div> 
+                                <div className="row">
+                                    <div className="col-sm-10">
+                                    <AutocompleteDescripcion title="Diagnóstico relacionado 1" handleDiagnostico ={this.handleDiagnostico1} handleCodigoDiagnostico ={this.handleCodigoDiagnostico1}  />
+                                    </div>
+                                    <div className="col-sm-2">
+                                        <div className="form-group">
+                                            <label htmlFor="lateralidad1">Lateralidad 1</label>
+                                            <select id="lateralidad1" className="form-control" onChange={this.handleLateralidad1}>
+                                                <option value="0"></option>
+                                                <option value="1">Derecha</option>
+                                                <option value="2">Izquierda</option>
+                                                <option value="3">Bilateral</option>
+                                                <option value="4">No aplica</option>
+                                            </select>
+                                           
+                                        </div>
+                                    </div>
+                                </div> 
+                                <div className="row">
+                                    <div className="col-sm-10">
+                                    <AutocompleteDescripcion title="Diagnóstico relacionado 2" handleDiagnostico ={this.handleDiagnostico2} handleCodigoDiagnostico ={this.handleCodigoDiagnostico2}  />
+                                    </div>
+                                    <div className="col-sm-2">
+                                        <div className="form-group">
+                                            <label htmlFor="lateralidad2">Lateralidad 2</label>
+                                            <select id="lateralidad2" className="form-control" onChange={this.handleLateralidad2}>
+                                                <option value="0"></option>
+                                                <option value="1">Derecha</option>
+                                                <option value="2">Izquierda</option>
+                                                <option value="3">Bilateral</option>
+                                                <option value="4">No aplica</option>
+                                            </select>
+    
+                                        </div>
+                                    </div>
+                                </div> 
+                                <div className="row">
+                                    <div className="col-sm-10">
+                                    <AutocompleteDescripcion title="Diagnóstico relacionado 3" handleDiagnostico ={this.handleDiagnostico3} handleCodigoDiagnostico ={this.handleCodigoDiagnostico3}  />
+                                    </div>
+                                    <div className="col-sm-2">
+                                        <div className="form-group">
+                                            <label htmlFor="lateralidad3">Lateralidad 3</label>
+                                            <select id="lateralidad3" className="form-control" onChange={this.handleLateralidad3}>
+                                                <option value="0"></option>
+                                                <option value="1">Derecha</option>
+                                                <option value="2">Izquierda</option>
+                                                <option value="3">Bilateral</option>
+                                                <option value="4">No aplica</option>
+                                            </select>
+                                           
+                                        </div>
+                                    </div>
+                                </div> 
+                                <div className="row">
+                                    
+                                    <div className="col-sm-4">
                                         <div className="form-group">
                                             <label htmlFor="fechaInicioIncapacidad">Fecha inicio incapacidad</label>
                                             <input type="date" id="fechaInicioIncapacidad" className="form-control" value={this.state.fechaInicioIncapacidad} onChange={this.handleFechaInicioIncapacidad} />
@@ -1160,7 +1216,7 @@ class IncapacidadFront extends Component {
                                             <input type="number" id="diasReconocidos" className="form-control" value={this.state.diasReconocidos} readOnly/>
                                         </div>
                                     </div>
-                                    <div className="col-sm-3">
+                                    <div className="col-sm-4">
                                         <div className="form-group">
                                             <label htmlFor="fechaFinIncapacidad">Fecha fin incapacidad</label>
                                             <input type="date" id="fechaFinIncapacidad" className="form-control" value={this.state.fechaFinIncapacidad} onSelect ={this.handleFechaFin} readOnly/>
@@ -1212,7 +1268,7 @@ class IncapacidadFront extends Component {
                                         <div className="form-group">
                                             <label htmlFor="observacionMedica">Resumen observacion médico</label>
                                             <textarea rows="10" className="form-control" id="observacionMedica" onChange={this.handleObservacion}>
-
+                                            { this.state.observacion}
                                             </textarea>
                                         </div>
                                     </div>
