@@ -373,11 +373,14 @@ class LicenciaFront extends Component {
         let url = 'buscarCronico'
         axios.post(url, { id : this.state.numeroIdentificacion })
             .then(resp => {
-                console.log(resp.data)
                 this.setState({
                     cronico: resp.data.data,
-                    visible:resp.data.data.visible,
                 });
+                if (this.state.visible != 'oculto'){
+                    this.setState({
+                        visible:resp.data.data.visible,
+                    });
+                }
             })
             .catch(err => {
                 console.log(err)
@@ -1088,9 +1091,9 @@ class LicenciaFront extends Component {
                 { mensaje2 }
            
                 <br/>
-                <div className={this.state.visible}>
+               
                     {this.renderAfiliaciones()}
-                </div>
+                
                 <br/>
 
                 <div className={this.state.visible}>

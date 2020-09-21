@@ -234,12 +234,14 @@ class IncapacidadFront extends Component {
 
         }
         else{
+            console.log(this.state)
             this.setState({
                 mensaje : mensaje,
                 loading: true,
                 tipoMensaje: 'success',
                 visible:'oculto',
             });
+
         }
       
     }
@@ -376,9 +378,12 @@ class IncapacidadFront extends Component {
                 //console.log(resp.data)
                 this.setState({
                     cronico: resp.data.data,
-                    visible:resp.data.data.visible,
                 });
-                
+                if (this.state.visible != 'oculto'){
+                    this.setState({
+                        visible:resp.data.data.visible,
+                    });
+                }
             })
             .catch(err => {
                 console.log(err)
@@ -993,9 +998,9 @@ class IncapacidadFront extends Component {
             { mensaje2 }
            
             <br/>
-            <div className={this.state.visible}>
+          
             {this.renderAfiliaciones()}
-            </div>
+            
 
             <br/>
 
@@ -1267,8 +1272,8 @@ class IncapacidadFront extends Component {
                                     <div className="col-sm-12">
                                         <div className="form-group">
                                             <label htmlFor="observacionMedica">Resumen observacion médico</label>
-                                            <textarea rows="10" className="form-control" id="observacionMedica" onChange={this.handleObservacion}>
-                                            { this.state.observacion}
+                                            <textarea rows="10" className="form-control" id="observacionMedica" onChange={this.handleObservacion} value={  this.state.observacion}>
+                                           
                                             </textarea>
                                         </div>
                                     </div>

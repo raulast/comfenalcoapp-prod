@@ -75567,6 +75567,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
           loading: true
         });
       } else {
+        console.log(this.state);
         this.setState({
           mensaje: mensaje,
           loading: true,
@@ -75740,9 +75741,14 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
       }).then(function (resp) {
         //console.log(resp.data)
         _this4.setState({
-          cronico: resp.data.data,
-          visible: resp.data.data.visible
+          cronico: resp.data.data
         });
+
+        if (_this4.state.visible != 'oculto') {
+          _this4.setState({
+            visible: resp.data.data.visible
+          });
+        }
       })["catch"](function (err) {
         console.log(err);
       });
@@ -76484,9 +76490,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
         id: "btnBuscar",
         className: "btn btn-primary",
         value: "Buscar"
-      })))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), mensaje, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), mensaje2, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: this.state.visible
-      }, this.renderAfiliaciones()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      })))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), mensaje, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), mensaje2, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), this.renderAfiliaciones(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: this.state.visible
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "row justify-content-center "
@@ -76925,8 +76929,9 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
         rows: "10",
         className: "form-control",
         id: "observacionMedica",
-        onChange: this.handleObservacion
-      }, this.state.observacion))))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+        onChange: this.handleObservacion,
+        value: this.state.observacion
+      }))))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: this.state.visible
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "row justify-content-center"
@@ -78065,12 +78070,15 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
       axios__WEBPACK_IMPORTED_MODULE_11___default.a.post(url, {
         id: this.state.numeroIdentificacion
       }).then(function (resp) {
-        console.log(resp.data);
-
         _this4.setState({
-          cronico: resp.data.data,
-          visible: resp.data.data.visible
+          cronico: resp.data.data
         });
+
+        if (_this4.state.visible != 'oculto') {
+          _this4.setState({
+            visible: resp.data.data.visible
+          });
+        }
       })["catch"](function (err) {
         console.log(err);
       });
@@ -78840,9 +78848,7 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
         id: "btnBuscar",
         className: "btn btn-primary",
         value: "Buscar"
-      })))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), mensaje, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), mensaje2, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-        className: this.state.visible
-      }, this.renderAfiliaciones()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
+      })))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), mensaje, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), mensaje2, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), this.renderAfiliaciones(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: this.state.visible
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: "row justify-content-center "
