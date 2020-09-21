@@ -75420,7 +75420,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
         visible: 'visible',
         alarmas: []
       },
-      flagCertificado: 'disabled',
+      flagCertificado: '',
       aportantes: ''
     };
     _this.initialState = _objectSpread({}, _this.state); // bind
@@ -75469,11 +75469,12 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
 
   _createClass(IncapacidadFront, [{
     key: "generarCertificado",
-    value: function generarCertificado() {
+    value: function generarCertificado(a) {
+      console.log(a);
       var id = this.state.id;
       var pid = this.state.prorrogaId; //let id=56;
 
-      var url = '/certificadoIncapacidad/' + id + "/" + pid;
+      var url = '/certificadoIncapacidad/' + id + "/" + pid + "/" + a;
       window.open(url, "_blank");
       location.reload();
     }
@@ -76348,8 +76349,10 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
           key: key
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, validaciones[key]['IDEmpresa'] == 'N/A' ? validaciones[key]['TipoDocAfiliado'] : validaciones[key]['IDEmpresa']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, validaciones[key]['IDEmpresa'] == 'N/A' ? validaciones[key]['Nombre'] + " " + validaciones[key]['PrimerApellido'] + " " + validaciones[key]['SegundoApellido'] : validaciones[key]['NombreEmpresa']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, validaciones[key]['Incapacidad'] == "SI" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("input", {
           type: "button",
-          id: "btnBuscar",
-          onClick: _this8.generarCertificado,
+          id: key,
+          onClick: function onClick(e) {
+            return _this8.generarCertificado(e.target.id);
+          },
           className: "btn btn-primary",
           value: "Certificado",
           disabled: _this8.state.flagCertificado

@@ -501,23 +501,22 @@ class ApiController extends Controller
     }
     //certificados
 
-    public function certificadoIncapacidad($id,$pid){
-        $formatter = new NumeroALetras;
+    public function certificadoIncapacidad($id,$pid,$a){
+        
        // dd( $formatter->toWords(126, 0));
 
+        if (!Incapacidad::where('id',$id)->where('prorrogaid',$pid)->exists()){
+            dd("La incapacidad no se encueltra almacenada");
+        }
 
-
+        $formatter = new NumeroALetras;
         $fechahora= Carbon::now();
-        
         $d =Incapacidad::where('id',$id)->where('prorrogaid',$pid)->first();
         
         $tipoDoc = $d->tipo_documento_afiliado;
         $numDoc = $d->num_documento_afiliado;
         $response =json_decode($d->validacion);
-        //$response = json_decode($this->validacion($tipoDoc,$numDoc));
-       // dd($response->responseMessageOut->body->response->validadorResponse->DsAfiliado->Afiliado);
         $afiliado = $response->responseMessageOut->body->response->validadorResponse->DsAfiliado->Afiliado;
-        
         
         if (is_array($afiliado) == false) {
             $nombre = $afiliado->Nombre;
@@ -529,13 +528,18 @@ class ApiController extends Controller
             $tipoCotizante = $afiliado->DescripcionPrograma;
             $tipoAportante="";
             
-            if (gettype($afiliado->NombreEmpresa) == "string") {
-               
-                $nombreEmpresa =$afiliado->NombreEmpresa;
+            if (array_key_exists("NombreEmpresa",$afiliado)){
+                if (gettype($afiliado->NombreEmpresa) == "string") {
+                    $nombreEmpresa =$afiliado->NombreEmpresa;
+                }
+                else{
+                    $nombreEmpresa= $nombreCompleto;
+                }
             }
             else{
                 $nombreEmpresa= $nombreCompleto;
             }
+            
         }
         else{
            
@@ -547,13 +551,19 @@ class ApiController extends Controller
             $tipoAfiliado = $afiliado[0]->ClaseAfiliacion;
             $tipoCotizante = $afiliado[0]->DescripcionPrograma;
             $tipoAportante="";
-            $nombreEmpresa= $afiliado[0]->NombreEmpresa;
-            if (gettype($afiliado[0]->NombreEmpresa) == "string") {
-                $nombreEmpresa =$afiliado[0]->NombreEmpresa;
+            
+            if (array_key_exists("NombreEmpresa",$afiliado[$a])){
+                if (gettype($afiliado[$a]->NombreEmpresa) == "string") {
+                    $nombreEmpresa =$afiliado[$a]->NombreEmpresa;
+                }
+                else{
+                    $nombreEmpresa= $nombreCompleto;
+                }
             }
             else{
                 $nombreEmpresa= $nombreCompleto;
             }
+           
         }
 
         //dd($validacion);

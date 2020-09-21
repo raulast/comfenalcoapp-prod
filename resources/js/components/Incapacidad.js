@@ -100,7 +100,7 @@ class IncapacidadFront extends Component {
                 visible :'visible',
                 alarmas: [],
             },
-            flagCertificado: 'disabled',
+            flagCertificado: '',
             aportantes:''
             
         };
@@ -152,11 +152,12 @@ class IncapacidadFront extends Component {
         this.generarCertificado=this.generarCertificado.bind(this);
         this.verificarTraslapo=this.verificarTraslapo.bind(this);
     }
-    generarCertificado(){
+    generarCertificado(a){
+        console.log(a)
         let id=this.state.id;
         let pid= this.state.prorrogaId;
         //let id=56;
-        let url = '/certificadoIncapacidad/'+id+"/"+pid;
+        let url = '/certificadoIncapacidad/'+id+"/"+pid+"/"+a;
         window.open(url,"_blank");
         location.reload();
     }
@@ -308,7 +309,7 @@ class IncapacidadFront extends Component {
                         var aportantes=""
                         var programas=""
                         for (var i = 0; i < size(afiliaciones); i++) {
-                            if (incapacidades[i] == 0) {
+                            if (incapacidades[i] == 0){
                                 afiliaciones[i]["Incapacidad"] = "NO"
                             }
                             if (incapacidades[i] == 1) {
@@ -884,7 +885,7 @@ class IncapacidadFront extends Component {
                                 <td>{validaciones[key]['IDEmpresa'] == 'N/A' ? validaciones[key]['TipoDocAfiliado'] : validaciones[key]['IDEmpresa']}</td>
 
                                 <td>{validaciones[key]['IDEmpresa'] == 'N/A' ? validaciones[key]['Nombre'] + " " + validaciones[key]['PrimerApellido'] + " " + validaciones[key]['SegundoApellido'] : validaciones[key]['NombreEmpresa']}</td>
-                                <td>{validaciones[key]['Incapacidad'] == "SI" ? <input type="button" id="btnBuscar" onClick={this.generarCertificado} className="btn btn-primary" value="Certificado" disabled={this.state.flagCertificado}/> : ''}</td>
+                                <td>{validaciones[key]['Incapacidad'] == "SI" ? <input type="button" id={key} onClick={e => this.generarCertificado(e.target.id)} className="btn btn-primary" value="Certificado" disabled={this.state.flagCertificado}/> : ''}</td>
 
 
                             </tr>
@@ -1238,39 +1239,7 @@ class IncapacidadFront extends Component {
         
                         <div className="card-body texto">
                                 { this.renderAportantes()}
-                                {/*
-
-                                <div className="row">
-            
-                                    <div className="col-sm-3">
-                                        <div className="form-group">
-                                            <label htmlFor="tipoIdentificacionAportante">Tipo identificación</label>
-                                            <input type="text" id="tipoDocAportante" className="form-control" value={ this.state.tipoDocAportante}  readOnly />
-                                        </div>
-                                    </div>
-
-                                    <div className="col-sm-3">
-                                        <div className="form-group">
-                                            <label htmlFor="numeroIdentificacionAportante">Número de identificacion</label>
-                                            <input type="text" id="numDocAportante" className="form-control" value={this.state.numDocAportante}  readOnly  />
-                                        </div>
-                                    </div>
-                                    {/* Comment goes here 
-                                    <div className="col-sm-3">
-                                        <div className="form-group">
-                                            <label htmlFor="tipoAportante">Tipo aportante</label>
-                                            <input type="text" id="tipoAportante" className="form-control"   readOnly  />
-                                        </div>
-                                    </div>
-                                    
-                                    <div className="col-sm-6">
-                                        <div className="form-group">
-                                            <label htmlFor="nombreAportante">Nombre aportante</label>
-                                            <input type="text" id="nombreAportante" className="form-control" value={this.state.nombreAportante}  readOnly  />
-                                        </div>
-                                    </div>
-                                </div>  
-                                    */} 
+                                
                         </div>
                     </div>
                 </div>
