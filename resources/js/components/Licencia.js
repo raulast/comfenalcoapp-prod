@@ -778,7 +778,7 @@ class LicenciaFront extends Component {
     guardarLicencia() {
         //console.log(this.state)
         //console.log(parseInt(this.state.diasSolicitados));
-        let resp = this.validarForm()
+        //let resp = this.validarForm()
         if (this.state.fechaInicioLicencia == this.state.fechaFinLicencia){
             alert("Verifique la fecha fin de licencia ")
         }
@@ -903,7 +903,7 @@ class LicenciaFront extends Component {
         this.setState(newState);
 
        
-            await this.getNumeroLicencia();
+        await this.getNumeroLicencia();
     
 
         return resp;

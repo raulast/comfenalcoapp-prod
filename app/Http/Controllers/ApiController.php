@@ -671,7 +671,7 @@ class ApiController extends Controller
     public function certificadoLicencia($id,$a){
 
         if (!Licencia::where('id',$id)->exists()){
-            dd("La licencia no se encueltra almacenada");
+            dd("La licencia no se encuentra almacenada");
         }
 
         $formatter = new NumeroALetras;

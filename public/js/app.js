@@ -78523,14 +78523,13 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
 
       //console.log(this.state)
       //console.log(parseInt(this.state.diasSolicitados));
-      var resp = this.validarForm();
-
+      //let resp = this.validarForm()
       if (this.state.fechaInicioLicencia == this.state.fechaFinLicencia) {
         alert("Verifique la fecha fin de licencia ");
       } else {
-        var _resp = this.validarForm();
+        var resp = this.validarForm();
 
-        if (_resp) {
+        if (resp) {
           var url = 'saveLicencia';
           axios__WEBPACK_IMPORTED_MODULE_11___default.a.post(url, {
             datos: this.state
