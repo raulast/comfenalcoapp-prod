@@ -388,6 +388,7 @@ class IncapacidadFront extends Component {
                         visible:resp.data.data.visible,
                     });
                 }
+
             })
             .catch(err => {
                 console.log(err)
@@ -944,6 +945,13 @@ class IncapacidadFront extends Component {
                      <li>{this.state.cronico.alarmas[index]}</li>                        
                 )} 
                 </ul> 
+               
+                {
+                   this.state.cronico.alarmas.includes("Paciente con IPT",0) ? 
+                   <a href={ 'certificadoInvalidez/' + this.state.cronico.consec  } target="_blank">Certificado invalidez</a>
+                   :
+                   ''
+                }
              </div>);
         }
 

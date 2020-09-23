@@ -76430,7 +76430,10 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
           target: "_blank"
         }, "Ver detalle"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", null, this.state.cronico.alarmas.map(function (a, index) {
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("li", null, _this9.state.cronico.alarmas[index]);
-        })));
+        })), this.state.cronico.alarmas.includes("Paciente con IPT", 0) ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
+          href: 'certificadoInvalidez/' + this.state.cronico.consec,
+          target: "_blank"
+        }, "Certificado invalidez") : '');
       }
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
@@ -79570,14 +79573,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -79706,8 +79701,7 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
     }
   }, {
     key: "handleEliminar",
-    value: function handleEliminar(id) {
-      console.log(id);
+    value: function handleEliminar(id) {//  console.log(id) 
     }
   }, {
     key: "handleSubmit",
@@ -79716,10 +79710,11 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
 
       e.preventDefault();
       var resp = this.validarForm();
+      console.log(resp);
 
       if (resp) {
-        var url = 'saveMedico'; // console.log(this.state);
-
+        var url = 'saveMedico';
+        console.log(this.state);
         axios__WEBPACK_IMPORTED_MODULE_3___default.a.post(url, {
           datos: this.state
         }).then(function (resp) {
@@ -79752,17 +79747,15 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
       this.clearErrors();
       var resp = true;
       var newState = Object.assign({}, this.state);
-      Object.entries(this.state).map(function (_ref2) {
-        var _ref3 = _slicedToArray(_ref2, 2),
-            key = _ref3[0],
-            value = _ref3[1];
-
-        if (value == '') {
-          newState.errors[key] = "visible"; //newState.errorMensajes[key] = key + " requerido"; 
-
-          resp = false;
-        }
+      /*
+      Object.entries(this.state).map(([key, value]) => {
+          if (value == ''){
+              newState.errors[key] = "visible";
+              //newState.errorMensajes[key] = key + " requerido"; 
+              resp = false;
+          }
       });
+      */
 
       if (resp) {
         if (newState.contraseña != newState.confirmar) {

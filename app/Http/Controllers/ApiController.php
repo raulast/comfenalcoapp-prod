@@ -15,12 +15,14 @@ use App\Descripcionesp;
 use App\Estadosi;
 use App\Estadosa;
 use App\Diasmax;
+use App\Cronicos;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 use App\Http\Controllers\IncapacidadController;
 use PDF;
 
 use Auth;
+
 
 
 use Luecano\NumeroALetras\NumeroALetras;
@@ -812,6 +814,69 @@ class ApiController extends Controller
         return $pdf->stream('certificado.pdf');
 
         return view('incapacidades.certificadoLicencia',[
+            'i' => $i
+        ]);
+    }
+    public function certificadoInvalidez($id){
+        $i = collect([]);
+        $cronicos = Cronicos::where('id',$id)->first();
+        $ciudad = $cronicos->municipio;
+        $nombrePrestador = $cronicos->nombre_ips;
+        $nitPrestador = $cronicos->nit_ips_primaria;
+        $nombre=$cronicos->nombre_1_usuario." ".$cronicos->nombre_2_usuario." ".$cronicos->apellido_1_usuario." ".$cronicos->apellido_2_usuario;
+        $id = $cronicos->id_usuario;
+        $empresa = $cronicos->nombre_aportante;
+        $nit = $cronicos->nit_aportante;
+        $fechad = $cronicos->cpclo_fecha_1a_oport;
+        $cpclo = $cronicos->cpclo_cierre;
+        $codigo = $cronicos->cie10_evento_seguimiento;
+        $fechae = $cronicos->fecha_estructuracion_cierre;
+        $fechaa = $cronicos->fecha_it_inicio_ciclo;
+        $origen = $cronicos->contingencia_origen_de_cierre;
+
+        $id = Auth::id();
+        $medico=Medico::where('user_id',$id)->first()->nombre;
+        $especialidad=Medico::where('user_id',$id)->first()->especialidad;
+        $tipoDocProf=Medico::where('user_id',$id)->first()->tipo_documento;
+        $numDocProf=Medico::where('user_id',$id)->first()->num_documento;
+        $registroMedico=Medico::where('user_id',$id)->first()->reg_medico;
+
+        $fechahora= Carbon::now();
+        $i->put('titulo','CERTIFICADO ESTADO INVALIDEZ');
+        $i->put('No','');
+        $i->put('Fecha de expedicion',$fechahora);
+        $i->put('ciudad',$ciudad);
+        $i->put('Nombre Prestador',$nombrePrestador);
+        $i->put('Nit Prestador',$nitPrestador);
+        $i->put('nombre',$nombre);
+        $i->put('id',$id);
+        $i->put('empresa',$empresa);
+        $i->put('nit',$nit);
+        $i->put('fechad',$fechad);
+        $i->put('cpclo',$cpclo);
+        $i->put('codigo',$codigo);
+        $i->put('fechaa',$fechaa);
+        $i->put('fechae',$fechae);
+        $i->put('origen',$origen);
+        $i->put('Nombre del profesional que genera',$medico);      
+        $i->put('Profesión profesional que genera',$especialidad);          
+        $i->put('Firma profesional que genera',''); 
+        $i->put('Tipo doc profesional que genera',$tipoDocProf); 
+        $i->put('Numero doc profesional que genera',$numDocProf); 
+        $especialidades=["","Médico general","Médico especialista","Odontólogo general","Odontólogo especialista"];
+        
+        $i->put('Especialidad',$especialidades[$especialidad]); 
+
+        $pdf = PDF::loadView('incapacidades.certificadoInvalidez',[
+            'i' => $i
+
+        ])->setPaper('letter', 'Portrait');
+        
+       // dd($i);
+        return $pdf->stream('certificadoInvalidez.pdf');
+
+
+        return view('incapacidades.certificadoInvalidez',[
             'i' => $i
         ]);
     }

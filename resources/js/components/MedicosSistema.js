@@ -80,15 +80,15 @@ class MedicosSistema extends Component {
             })
     }
     handleEliminar(id){
-        console.log(id) 
+      //  console.log(id) 
     }
     handleSubmit(e){         
         e.preventDefault();
         let resp = this.validarForm()
-        
+        console.log(resp)
         if (resp) {
             let url = 'saveMedico'
-           // console.log(this.state);
+            console.log(this.state);
             axios.post(url, { datos: this.state })
                 .then(resp => {
                     console.log(resp);
@@ -122,7 +122,9 @@ class MedicosSistema extends Component {
         this.clearErrors()
         
         let resp = true;
+        
         let newState = Object.assign({}, this.state);
+        /*
         Object.entries(this.state).map(([key, value]) => {
             if (value == ''){
                 newState.errors[key] = "visible";
@@ -130,7 +132,7 @@ class MedicosSistema extends Component {
                 resp = false;
             }
         });
-       
+        */
         if (resp){
             if (newState.contraseña != newState.confirmar){
                 newState.errors.contraseña = "visible";
@@ -140,6 +142,7 @@ class MedicosSistema extends Component {
         }
 
         this.setState(newState);
+        
         return resp;
        
     }

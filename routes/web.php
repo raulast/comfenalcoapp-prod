@@ -84,6 +84,7 @@ Route::get('buscarHistorico/{tipo}/{numero}','ApiController@buscarHistorico')->m
 Route::get('historicoIncapacidades','ApiController@historicoIncapacidades');
 Route::get('certificadoIncapacidad/{id}/{pid}/{a}','ApiController@certificadoIncapacidad');
 Route::get('certificadoLicencia/{id}/{a}','ApiController@certificadoLicencia');
+Route::get('certificadoInvalidez/{id}','ApiController@certificadoInvalidez');
 Route::get('/reportes','ReportesController@index')->name('reportes')->middleware('auth','twofactor');;
 Route::post('/reportIncapacidades','ReportesController@reportIncapacidades');
 Route::post('/reportLicencias','ReportesController@reportLicencias');
