@@ -527,7 +527,7 @@ class ApiController extends Controller
             $nombre = $afiliado->Nombre;
             $primerApellido = $afiliado->PrimerApellido; 
             $segundoApellido="";
-            if (gettype($afiliado[0]->SegundoApellido) == "string") {
+            if (gettype($afiliado->SegundoApellido) == "string") {
                 $segundoApellido = $afiliado[0]->SegundoApellido;
             }
             $nombreCompleto = $nombre." ".$primerApellido." ".$segundoApellido;
