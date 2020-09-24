@@ -827,7 +827,7 @@ class ApiController extends Controller
         $nombrePrestador = $cronicos->nombre_ips;
         $nitPrestador = $cronicos->nit_ips_primaria;
         $nombre=$cronicos->nombre_1_usuario." ".$cronicos->nombre_2_usuario." ".$cronicos->apellido_1_usuario." ".$cronicos->apellido_2_usuario;
-        $id = $cronicos->id_usuario;
+        $idp = $cronicos->id_usuario;
         $empresa = $cronicos->nombre_aportante;
         $nit = $cronicos->nit_aportante;
         $fechad = $cronicos->cpclo_fecha_1a_oport;
@@ -852,7 +852,7 @@ class ApiController extends Controller
         $i->put('Nombre Prestador',$nombrePrestador);
         $i->put('Nit Prestador',$nitPrestador);
         $i->put('nombre',$nombre);
-        $i->put('id',$id);
+        $i->put('id',$idp);
         $i->put('empresa',$empresa);
         $i->put('nit',$nit);
         $i->put('fechad',$fechad);
