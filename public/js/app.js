@@ -78795,7 +78795,10 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
           target: "_blank"
         }, "Ver detalle"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", null, this.state.cronico.alarmas.map(function (a, index) {
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("li", null, _this9.state.cronico.alarmas[index]);
-        })));
+        })), this.state.cronico.alarmas.includes("Paciente con IPT", 0) ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
+          href: 'certificadoInvalidez/' + this.state.cronico.consec,
+          target: "_blank"
+        }, "Certificado invalidez") : '');
       }
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {

@@ -1037,6 +1037,12 @@ class LicenciaFront extends Component {
                      <li>{this.state.cronico.alarmas[index]}</li>                        
                 )} 
                 </ul> 
+                {
+                   this.state.cronico.alarmas.includes("Paciente con IPT",0) ? 
+                   <a href={ 'certificadoInvalidez/' + this.state.cronico.consec  } target="_blank">Certificado invalidez</a>
+                   :
+                   ''
+                }
              </div>);
         }
 
