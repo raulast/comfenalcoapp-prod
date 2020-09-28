@@ -528,7 +528,7 @@ class ApiController extends Controller
             $primerApellido = $afiliado->PrimerApellido; 
             $segundoApellido="";
             if (gettype($afiliado->SegundoApellido) == "string") {
-                $segundoApellido = $afiliado[0]->SegundoApellido;
+                $segundoApellido = $afiliado->SegundoApellido;
             }
             $nombreCompleto = $nombre." ".$primerApellido." ".$segundoApellido;
             $numDoc = $afiliado->IDTrabajador;

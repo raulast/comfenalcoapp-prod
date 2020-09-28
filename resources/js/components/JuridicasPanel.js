@@ -28,6 +28,7 @@ class JuridicasPanel extends Component {
         this.getJuridicas = this.getJuridicas.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.buscar = this.buscar.bind(this);
+        this.crearRegistro = this.crearRegistro.bind(this);
         this.getJuridicas()
     }
 
@@ -67,6 +68,9 @@ class JuridicasPanel extends Component {
             .catch(err => {
                 console.log(err)
             })
+    }
+    crearRegistro(){
+        window.open('verJuridica/1/1/c','_blank');
     }
     render() {
         return (
@@ -111,10 +115,11 @@ class JuridicasPanel extends Component {
                                             )}
                                         </select>
                                     </div>*/}
-                                    <div className="col-md-3">
+                                    <div className="col-md-6">
                                         <br/>
                                         <button className="btn btn-success" onClick={this.buscar}>Buscar</button>&nbsp;
-                                        <button className="btn btn-success" onClick={this.exportReport}>Exportar Datos</button>
+                                        <button className="btn btn-success" onClick={this.exportReport}>Exportar Datos</button>&nbsp;
+                                        <button className="btn btn-success" onClick={this.crearRegistro}>Crear registro</button>
                                    
                                     </div>
                                 </div>

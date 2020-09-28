@@ -17,10 +17,11 @@ class JuridicasController extends Controller
             'data' => $data
         ]);
     }
-    public function verJuridica($id,$enable){
+    public function verJuridica($id,$enable,$crud){
           return view('juridicas.verJuridica',[
               'id' => $id,
-              'enable'=>$enable
+              'enable'=>$enable,
+              'crud' => $crud
           ]); 
       }
       public function getJuridica($id){
@@ -62,5 +63,27 @@ class JuridicasController extends Controller
         return response()->json([
             'data' => $data
         ]);
+    }
+    public function updateJuridica(Request $request){
+        $datos = $request->datos;
+        $id = $datos['id'];
+        $update = Judiciales::find($id)->update($datos);
+
+        return  "Información actualizada";
+    }
+    public function createJuridica(Request $request){
+        $datos = $request->datos;
+        $id =Judiciales::orderBy('id','desc')->first()->id;
+        $id = $id + 1;
+        $datos['id'] = $id;
+
+        unset($datos['id']);
+        
+        //return $datos;
+
+        $create = Judiciales::create($datos);
+
+        return  "Registro creado";
+
     }
 }

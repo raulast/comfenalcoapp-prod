@@ -106,6 +106,8 @@ Route::post('/updateCronico','CronicosController@updateCronico');
 //juridicos
 Route::get('/juridicas','JuridicasController@index')->name('juridicas')->middleware('auth','twofactor');;
 Route::get('/getJuridicas','JuridicasController@getJuridicas');
-Route::get('/verJuridica/{id}/{enable}','JuridicasController@verJuridica');
+Route::get('/verJuridica/{id}/{enable}/{crud}','JuridicasController@verJuridica');
 Route::get('/getJuridica/{id}','JuridicasController@getJuridica');
 Route::post('/buscarJuridicas','JuridicasController@buscarJuridicas');
+Route::post('/updateJuridica','JuridicasController@updateJuridica');
+Route::post('/createJuridica','JuridicasController@createJuridica');

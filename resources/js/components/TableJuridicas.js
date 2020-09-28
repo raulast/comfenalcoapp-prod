@@ -26,7 +26,7 @@ export default function TableJuridicas(props) {
             );
 
     const openJuridica = (u) =>{
-        window.open('verJuridica/'+ u.target.id + "/1",'_blank');
+        window.open('verJuridica/'+ u.target.id + "/1/u",'_blank');
     }
     return (
 

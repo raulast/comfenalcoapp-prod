@@ -77264,7 +77264,9 @@ var Juridica = /*#__PURE__*/function (_Component) {
     _this.state = {
       id: props.id,
       enable: props.enable,
+      crud: props.crud,
       juridica: '',
+      juridicac: '',
       fp: [],
       estados: ['CERRADO', 'SEGUIMIENTO'],
       motivos: ['FALLECIDO', 'IPP', 'NUEVO', 'PENSIONADO', 'REINTEGRADO', 'RETIRADO', 'SEGUIMIENTO', 'TRAMITE DE PENSION']
@@ -77283,9 +77285,21 @@ var Juridica = /*#__PURE__*/function (_Component) {
   _createClass(Juridica, [{
     key: "guardarJuridica",
     value: function guardarJuridica() {
-      var url = '/updateJuridica';
+      var url = "";
+      var data = "";
+
+      if (this.state.crud == "u") {
+        url = '/updateJuridica';
+        data = this.state.juridica;
+      }
+
+      if (this.state.crud == "c") {
+        url = '/createJuridica';
+        data = this.state.juridicac;
+      }
+
       axios__WEBPACK_IMPORTED_MODULE_4___default.a.post(url, {
-        datos: this.state.cronico
+        datos: data
       }).then(function (resp) {
         console.log(resp.data);
         alert(resp.data);
@@ -77303,9 +77317,20 @@ var Juridica = /*#__PURE__*/function (_Component) {
         console.log(resp.data.data);
 
         _this2.setState({
-          juridica: resp.data.data
+          juridica: resp.data.data,
+          juridicac: resp.data.data
         }); // this.calcularfp()
 
+
+        var newJuridicac = Object.assign({}, _this2.state.juridicac); // console.log(Object.entries(newState));  
+
+        Object.keys(newJuridicac).forEach(function (key) {
+          newJuridicac[key] = "";
+        });
+
+        _this2.setState({
+          juridicac: newJuridicac
+        });
       })["catch"](function (err) {
         console.log(err);
       });
@@ -77314,11 +77339,24 @@ var Juridica = /*#__PURE__*/function (_Component) {
     key: "handleChange",
     value: function handleChange(_ref) {
       var target = _ref.target;
-      var njuridica = this.state.juridica;
-      njuridica[target.id] = target.value;
-      this.setState({
-        juridica: njuridica
-      });
+
+      //console.log(target.id);
+      //console.log(target.value);
+      if (this.state.crud == "u") {
+        var njuridica = this.state.juridica;
+        njuridica[target.id] = target.value;
+        this.setState({
+          juridica: njuridica
+        });
+      }
+
+      if (this.state.crud == "c") {
+        var njuridica = this.state.juridicac;
+        njuridica[target.id] = target.value;
+        this.setState({
+          juridicac: njuridica
+        });
+      }
     }
   }, {
     key: "calcularfp",
@@ -77347,7 +77385,11 @@ var Juridica = /*#__PURE__*/function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var juridica = this.state.juridica; // console.log(cronico);
+      var _this3 = this;
+
+      var juridica = this.state.juridica;
+      var juridicac = this.state.juridicac;
+      var crud = this.state.crud; // console.log(cronico);
 
       if (_typeof(this.state.juridica) === 'object') {
         var cols = Object.keys(this.state.juridica); //console.log(cols);
@@ -77377,11 +77419,18 @@ var Juridica = /*#__PURE__*/function (_Component) {
       }, Object(lodash__WEBPACK_IMPORTED_MODULE_3__["size"])(cols) > 0 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
         className: "table table-sm table-striped table-bordered texto mt-5"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, cols.map(function (col, index) {
-        return index >= 1 && index <= 114 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        return index >= 1 && index <= 114 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, cols[index]), crud == "u" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
           type: "text",
-          id: juridica[index],
+          id: cols[index],
           value: juridica[cols[index]] != '1900-01-01' ? juridica[cols[index]] : '',
-          size: "50"
+          size: "50",
+          onChange: _this3.handleChange
+        })) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          type: "text",
+          id: cols[index],
+          value: juridicac[cols[index]],
+          size: "50",
+          onChange: _this3.handleChange
         }))) : '';
       }))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null))))))), this.state.enable == "1" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row mt-4"
@@ -77402,9 +77451,11 @@ var Juridica = /*#__PURE__*/function (_Component) {
 if (document.getElementById('juridicaContent')) {
   var juridica = document.getElementById('juridica').value;
   var enable = document.getElementById('enable').value;
+  var crud = document.getElementById('crud').value;
   react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Juridica, {
     id: juridica,
-    enable: enable
+    enable: enable,
+    crud: crud
   }), document.getElementById('juridicaContent'));
 }
 
@@ -77482,6 +77533,7 @@ var JuridicasPanel = /*#__PURE__*/function (_Component) {
     _this.getJuridicas = _this.getJuridicas.bind(_assertThisInitialized(_this));
     _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
     _this.buscar = _this.buscar.bind(_assertThisInitialized(_this));
+    _this.crearRegistro = _this.crearRegistro.bind(_assertThisInitialized(_this));
 
     _this.getJuridicas();
 
@@ -77537,6 +77589,11 @@ var JuridicasPanel = /*#__PURE__*/function (_Component) {
       });
     }
   }, {
+    key: "crearRegistro",
+    value: function crearRegistro() {
+      window.open('verJuridica/1/1/c', '_blank');
+    }
+  }, {
     key: "render",
     value: function render() {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -77561,14 +77618,17 @@ var JuridicasPanel = /*#__PURE__*/function (_Component) {
         value: this.state.identificacion,
         onChange: this.handleChange
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-md-3"
+        className: "col-md-6"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "btn btn-success",
         onClick: this.buscar
       }, "Buscar"), "\xA0", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "btn btn-success",
         onClick: this.exportReport
-      }, "Exportar Datos"))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "Exportar Datos"), "\xA0", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "btn btn-success",
+        onClick: this.crearRegistro
+      }, "Crear registro"))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row mt-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-12"
@@ -81641,7 +81701,7 @@ function TableJuridicas(props) {
     });
 
     var openJuridica = function openJuridica(u) {
-      window.open('verJuridica/' + u.target.id + "/1", '_blank');
+      window.open('verJuridica/' + u.target.id + "/1/u", '_blank');
     };
 
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
