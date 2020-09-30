@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exports\IncapacidadExport;
 use App\Exports\LicenciasExport;
 use App\Exports\CronicosExport;
+use App\Exports\JuridicasExport;
 use Maatwebsite\Excel\Facades\Excel;
 
 use App\Incapacidad;
@@ -49,14 +50,27 @@ class ExcelController extends Controller
                 $i->where('causa_externa',2);
             }
             if (($datos['desde']!="")&&($datos['hasta']!="")){
+                $desde = $desde." 00:00:00";
+                $hasta = $hasta." 11:59:59";
                 $i->whereBetween('created_at', [$desde, $hasta]);
             }
             $totales=array();
             $totales["total"]=$i->count();
             $totales["dias"] = $i->sum('dias_solicitados');
-            $i = $i->get();
-            //dd($i);
-            return Excel::download(new IncapacidadExport($i), 'incapacidades.xlsx');
+            $i = $i->with('medico')->get()->toArray();
+            
+            $datos = collect([]);
+            foreach ($i as $in){
+                $in['medico_id']=$in["medico"]["nombre"];
+                unset($in["medico"]);
+                unset($in["validacion"]);
+                $datos->push($in);
+            }
+            //$datos->push($i);
+            //$datos->forget("validacion");
+            //dd($datos);
+            
+            return Excel::download(new IncapacidadExport($datos), 'incapacidades.xlsx');
         }
         if ($datos['export']=="licencia"){
             $desde = $datos['desde'];
@@ -100,5 +114,9 @@ class ExcelController extends Controller
     public function exportCronicos(){
         return Excel::download(new CronicosExport, 'cronicos.xlsx');
     }
+    public function exportJuridicas(){
+        return Excel::download(new JuridicasExport, 'juridicas.xlsx');
+    }
+
     
 }

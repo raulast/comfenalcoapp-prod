@@ -75540,7 +75540,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
 
         var nombreCompleto = "".concat(nombre, " ").concat(primerApellido, " ").concat(segundoApellido);
         var tipoDocAfiliado = afiliaciones[0]['TipoDocAfiliado'];
-        var IDTrabajador = afiliaciones[0]['IDTrabajador'];
+        var IDTrabajador = afiliaciones[0]['IdAfiliado'];
         var historiaClinica = afiliaciones[0]['IdHistoria12'];
         var genero = afiliaciones[0]['Sexo'];
         var estado = afiliaciones[0]['EstadoDescripcion'];
@@ -76368,7 +76368,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, "Tipo Doc"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, "Num Doc"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, "Nombre"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, "Estado"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, "Clase"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, "Descripci\xF3n"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, "Generaci\xF3n de Incapacidad"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, "Nombre Empresa"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, "Num ID")), Object.keys(validaciones).map(function (key) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("tr", {
           key: key
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, validaciones[key]['TipoDocAfiliado']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, validaciones[key]['IDTrabajador']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, validaciones[key]['Nombre'] + " " + validaciones[key]['PrimerApellido'] + " " + validaciones[key]['SegundoApellido']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, validaciones[key]['EstadoDescripcion']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, validaciones[key]['ClaseAfiliacion']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, validaciones[key]['DescripcionPrograma']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, validaciones[key]['Incapacidad']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, validaciones[key]['NombreEmpresa']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, validaciones[key]['IDEmpresa']));
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, validaciones[key]['TipoDocAfiliado']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, validaciones[key]['IdAfiliado']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, validaciones[key]['Nombre'] + " " + validaciones[key]['PrimerApellido'] + " " + validaciones[key]['SegundoApellido']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, validaciones[key]['EstadoDescripcion']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, validaciones[key]['ClaseAfiliacion']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, validaciones[key]['DescripcionPrograma']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, validaciones[key]['Incapacidad']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, validaciones[key]['NombreEmpresa']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("td", null, validaciones[key]['IDEmpresa']));
       }))));
     }
   }, {
@@ -77568,7 +77568,7 @@ var JuridicasPanel = /*#__PURE__*/function (_Component) {
   }, {
     key: "exportReport",
     value: function exportReport() {
-      window.open('exportCronicos', '_blank');
+      window.open('exportJuridicas', '_blank');
     }
   }, {
     key: "buscar",
@@ -81704,6 +81704,20 @@ function TableJuridicas(props) {
       window.open('verJuridica/' + u.target.id + "/1/u", '_blank');
     };
 
+    var deleteJuridica = function deleteJuridica(u) {
+      if (window.confirm('Está seguro quedesea eliminar este registro?')) {
+        var url = "/deleteJuridica";
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(url, {
+          datos: u.target.id
+        }).then(function (resp) {
+          console.log(resp.data);
+          alert(resp.data);
+        })["catch"](function (err) {
+          console.log(err);
+        });
+      }
+    };
+
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
       style: {
         overflow: scroll
@@ -81720,7 +81734,11 @@ function TableJuridicas(props) {
           className: "btn btn-sm btn-success",
           id: juridicas[key][col],
           onClick: openJuridica
-        }, "Ver"));
+        }, "Ver"), "\xA0", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+          className: "btn btn-sm btn-danger",
+          id: juridicas[key][col],
+          onClick: deleteJuridica
+        }, "x"));
       }));
     }))));
   }

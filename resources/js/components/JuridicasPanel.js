@@ -54,7 +54,7 @@ class JuridicasPanel extends Component {
 
     }
     exportReport(){
-        window.open('exportCronicos','_blank');
+        window.open('exportJuridicas','_blank');
     }
     buscar() {
         let url = 'buscarJuridicas'

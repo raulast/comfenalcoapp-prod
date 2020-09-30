@@ -28,6 +28,21 @@ export default function TableJuridicas(props) {
     const openJuridica = (u) =>{
         window.open('verJuridica/'+ u.target.id + "/1/u",'_blank');
     }
+    const deleteJuridica = (u) =>{
+         if (window.confirm('Está seguro quedesea eliminar este registro?')) {
+            var url ="/deleteJuridica"
+            axios.post(url, { datos: u.target.id })
+            .then(resp => {
+                console.log(resp.data)
+                alert(resp.data)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+         }
+         
+
+    }
     return (
 
         <div style={{overflow: scroll}}>
@@ -39,10 +54,10 @@ export default function TableJuridicas(props) {
                     {Object.keys(juridicas).map((key) => (
                         <tr key={key}>
                             {cols.map((col) =>
-                             col != 'id' ? <td>{juridicas[key][col]}</td> :  <td><button className="btn btn-sm btn-success" id={juridicas[key][col]} onClick={openJuridica}>Ver</button></td> 
+                             col != 'id' ? <td>{juridicas[key][col]}</td> :  <td><button className="btn btn-sm btn-success" id={juridicas[key][col]} onClick={openJuridica}>Ver</button>&nbsp;<button className="btn btn-sm btn-danger" id={juridicas[key][col]} onClick={deleteJuridica}>x</button></td> 
                 
                             )}
-                    
+                            
                         </tr>
             ))}
                

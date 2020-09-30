@@ -86,4 +86,9 @@ class JuridicasController extends Controller
         return  "Registro creado";
 
     }
+    public function deleteJuridica(Request $request){
+        $id = $request->datos;
+        Judiciales::where('id',$id)->delete();
+        return 'Registro eliminado';
+    }
 }

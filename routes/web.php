@@ -90,6 +90,7 @@ Route::post('/reportIncapacidades','ReportesController@reportIncapacidades');
 Route::post('/reportLicencias','ReportesController@reportLicencias');
 Route::get('/exportReporte','ExcelController@export');
 Route::get('/exportCronicos','ExcelController@exportCronicos');
+Route::get('/exportJuridicas','ExcelController@exportJuridicas');
 
 
 //cronicos
@@ -111,3 +112,4 @@ Route::get('/getJuridica/{id}','JuridicasController@getJuridica');
 Route::post('/buscarJuridicas','JuridicasController@buscarJuridicas');
 Route::post('/updateJuridica','JuridicasController@updateJuridica');
 Route::post('/createJuridica','JuridicasController@createJuridica');
+Route::post('/deleteJuridica','JuridicasController@deleteJuridica');

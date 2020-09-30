@@ -201,7 +201,7 @@ class IncapacidadFront extends Component {
             let nombreCompleto = `${nombre} ${primerApellido} ${segundoApellido}`;
 
             let tipoDocAfiliado = afiliaciones[0]['TipoDocAfiliado'];
-            let IDTrabajador = afiliaciones[0]['IDTrabajador'];
+            let IDTrabajador = afiliaciones[0]['IdAfiliado'];
             
             let historiaClinica = afiliaciones[0]['IdHistoria12'];
             let genero = afiliaciones[0]['Sexo'];
@@ -873,7 +873,7 @@ class IncapacidadFront extends Component {
                                 
                                 <tr key={key}>
                                     <td>{validaciones[key]['TipoDocAfiliado']}</td>
-                                    <td>{validaciones[key]['IDTrabajador']}</td>
+                                    <td>{validaciones[key]['IdAfiliado']}</td>
                                     <td>{validaciones[key]['Nombre'] + " " + validaciones[key]['PrimerApellido']+ " " + validaciones[key]['SegundoApellido']}</td>
                                     <td>{validaciones[key]['EstadoDescripcion']}</td>
                                     <td>{validaciones[key]['ClaseAfiliacion']}</td>

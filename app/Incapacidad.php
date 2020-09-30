@@ -49,6 +49,10 @@ class Incapacidad extends Model
     {
         return $this->belongsTo('App\Estadosi');
     }
+    public function medico()
+    {
+        return $this->belongsTo('App\Medico');
+    }
     public function diagnostico()
     {
         return $this->belongsTo('App\Cie10','codigo_diagnostico','codigo');

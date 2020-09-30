@@ -1,1 +1,1 @@
-select * from judiciales;
+select * from incapacidad;

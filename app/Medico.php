@@ -11,4 +11,8 @@ class Medico extends Model
         'user_id', 'cod_medico','nombre','tipo_documento','num_documento',
         'reg_medico','especialidad'
     ];
+    public function incapacidades()
+    {
+        return $this->hasMany('App\Incapcidad');
+    }
 }

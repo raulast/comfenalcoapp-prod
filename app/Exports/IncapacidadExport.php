@@ -66,7 +66,11 @@ class IncapacidadExport implements FromCollection, WithHeadings, ShouldAutoSize
             'tipo_cotizante',
             'programa_afiliado',
             'aportantes',
-            'validacion'
+    
+            'lateralidad1',
+            'lateralidad2',
+            'lateralidad3',
+           
         ];
     }
 }
