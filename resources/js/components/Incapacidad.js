@@ -1221,7 +1221,7 @@ class IncapacidadFront extends Component {
                                     <div className="col-sm-2">
                                         <div className="form-group">
                                             <label htmlFor="diasSolicitados">Dias solicitados</label>
-                                            <input type="number" id="diasSolicitados" className="form-control" onChange={this.handleDiasSolicitados} value={this.state.diasSolicitados} onKeyUp={this.handleFechaFin}/>
+                                            <input type="number" id="diasSolicitados" className="form-control" onChange={this.handleDiasSolicitados} value={this.state.diasSolicitados} onKeyUp={this.handleFechaFin} onClick={this.handleFechaFin}/>
                                             <div className={this.state.errors['diasSolicitados']}>
                                                 <div className={ "redf  " + ( this.state.errors['diasSolicitados'] || "") }>{this.state.errorMensajes['diasSolicitados']}</div>
                                             </div>

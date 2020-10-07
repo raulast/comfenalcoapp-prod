@@ -76829,7 +76829,8 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
         className: "form-control",
         onChange: this.handleDiasSolicitados,
         value: this.state.diasSolicitados,
-        onKeyUp: this.handleFechaFin
+        onKeyUp: this.handleFechaFin,
+        onClick: this.handleFechaFin
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
         className: this.state.errors['diasSolicitados']
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
