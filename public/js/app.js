@@ -75470,6 +75470,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
     _this.renderAportantes = _this.renderAportantes.bind(_assertThisInitialized(_this));
     _this.generarCertificado = _this.generarCertificado.bind(_assertThisInitialized(_this));
     _this.verificarTraslapo = _this.verificarTraslapo.bind(_assertThisInitialized(_this));
+    _this.calculoEdad = _this.calculoEdad.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -75522,6 +75523,15 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
       return getNumeroIncapacidad;
     }()
   }, {
+    key: "calculoEdad",
+    value: function calculoEdad(fecha) {
+      console.log(fecha);
+      console.log(new Date(fecha).getTime());
+      /*
+      let f1 = new Date(fecha).getTime();
+      let f2 = new Date().getTime();*/
+    }
+  }, {
     key: "activarGeneracion",
     value: function activarGeneracion(incapacidades, response, afiliaciones) {
       var mensaje = response.data.responseMessageOut.body.response.validadorResponse.Derechos['MENSAJE'];
@@ -75543,6 +75553,8 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
         var IDTrabajador = afiliaciones[0]['IdAfiliado'];
         var historiaClinica = afiliaciones[0]['IdHistoria12'];
         var genero = afiliaciones[0]['Sexo'];
+        var fechaNacimiento = afiliaciones[0]['FechaNacimiento'];
+        edad = calculoEdad(fechaNacimiento);
         var estado = afiliaciones[0]['EstadoDescripcion'];
         var tipoCotizante = afiliaciones[0]['ClaseAfiliacion'];
         var descripcionPrograma = afiliaciones[0]['DescripcionPrograma']; //datos aportante

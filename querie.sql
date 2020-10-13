@@ -1,1 +1,1 @@
-select * from incapacidad;
+select * from users;

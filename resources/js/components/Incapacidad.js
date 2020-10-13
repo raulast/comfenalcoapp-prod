@@ -157,6 +157,7 @@ class IncapacidadFront extends Component {
         this.renderAportantes=this.renderAportantes.bind(this);
         this.generarCertificado=this.generarCertificado.bind(this);
         this.verificarTraslapo=this.verificarTraslapo.bind(this);
+        this.calculoEdad = this.calculoEdad.bind(this);
     }
     generarCertificado(a){
         console.log(a)
@@ -183,6 +184,14 @@ class IncapacidadFront extends Component {
             })
        
     }
+    calculoEdad(fecha){
+        console.log(fecha)
+        console.log(new Date(fecha).getTime());
+        /*
+        let f1 = new Date(fecha).getTime();
+        let f2 = new Date().getTime();*/
+
+    }
     activarGeneracion(incapacidades,response,afiliaciones){
         let mensaje = response.data.responseMessageOut.body.response.validadorResponse.Derechos['MENSAJE'];
         console.log(incapacidades);
@@ -205,6 +214,9 @@ class IncapacidadFront extends Component {
             
             let historiaClinica = afiliaciones[0]['IdHistoria12'];
             let genero = afiliaciones[0]['Sexo'];
+            let fechaNacimiento = afiliaciones[0]['FechaNacimiento']
+            edad = calculoEdad(fechaNacimiento)
+
             let estado = afiliaciones[0]['EstadoDescripcion'];
             let tipoCotizante = afiliaciones[0]['ClaseAfiliacion'];
             let descripcionPrograma = afiliaciones[0]['DescripcionPrograma'];
