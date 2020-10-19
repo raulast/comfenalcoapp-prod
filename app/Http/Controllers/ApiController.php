@@ -511,7 +511,7 @@ class ApiController extends Controller
        // dd( $formatter->toWords(126, 0));
 
         if (!Incapacidad::where('id',$id)->where('prorrogaid',$pid)->exists()){
-            dd("La incapacidad no se encueltra almacenada");
+            dd("La incapacidad no se encuentra almacenada");
         }
 
         $formatter = new NumeroALetras;
