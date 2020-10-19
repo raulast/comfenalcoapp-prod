@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
     //
     public function index(){
-        return view('admin.admin');
+        $tipo = auth()->user()->tipo;
+        return view('admin.admin',[
+            'tipo' => $tipo
+        ]);
     }
     public function users(){
         return view('admin.users');

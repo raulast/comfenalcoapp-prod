@@ -166,7 +166,7 @@ class IncapacidadFront extends Component {
         //let id=56;
         let url = '/certificadoIncapacidad/'+id+"/"+pid+"/"+a;
         window.open(url,"_blank");
-        location.reload();
+        //location.reload();
     }
     
     async getNumeroIncapacidad(){
@@ -215,7 +215,7 @@ class IncapacidadFront extends Component {
             let historiaClinica = afiliaciones[0]['IdHistoria12'];
             let genero = afiliaciones[0]['Sexo'];
             let fechaNacimiento = afiliaciones[0]['FechaNacimiento']
-            edad = calculoEdad(fechaNacimiento)
+            //edad = calculoEdad(fechaNacimiento)
 
             let estado = afiliaciones[0]['EstadoDescripcion'];
             let tipoCotizante = afiliaciones[0]['ClaseAfiliacion'];
@@ -583,30 +583,32 @@ class IncapacidadFront extends Component {
     }
     handleFechaInicioIncapacidad(e){
         //var todayDate = new Date().toISOString().slice(0,10);
-        let fi =new Date(e.target.value).getTime();
-
-        let l1 = new Date(this.state.fechaAtencion);
-        let l2 = new Date(this.state.fechaAtencion);
-       
-        l1 = new Date(l1.setTime( l1.getTime() + 3 * 86400000 )).getTime()
-        l2 = new Date(l2.setTime( l2.getTime() - 3 * 86400000 )).getTime()
-
-        this.setState({
-            fechaInicioIncapacidad:new Date(e.target.value).toISOString().slice(0,10),
-        });
         
-        if (fi>l1){
-            alert("La fecha de inicio no puede ser mayor a 3 días desde la fecha de atención")
+            let fi =new Date(e.target.value).getTime();
+
+            let l1 = new Date(this.state.fechaAtencion);
+            let l2 = new Date(this.state.fechaAtencion);
+        
+            l1 = new Date(l1.setTime( l1.getTime() + 3 * 86400000 )).getTime()
+            l2 = new Date(l2.setTime( l2.getTime() - 3 * 86400000 )).getTime()
+
             this.setState({
-                fechaInicioIncapacidad:new Date().toISOString().slice(0,10)
+                fechaInicioIncapacidad:new Date(e.target.value).toISOString().slice(0,10),
             });
-        }
-        if (fi<l2){
-            alert("La fecha de inicio no puede ser menor a 3 días desde la fecha de atención")
-            this.setState({
-                fechaInicioIncapacidad:new Date().toISOString().slice(0,10),
-            });
-        }
+            if (this.state.diasMaximosEspecialidad>0){
+                if (fi>l1){
+                    alert("La fecha de inicio no puede ser mayor a 3 días desde la fecha de atención")
+                    this.setState({
+                        fechaInicioIncapacidad:new Date().toISOString().slice(0,10)
+                    });
+                }
+                if (fi<l2){
+                    alert("La fecha de inicio no puede ser menor a 3 días desde la fecha de atención")
+                    this.setState({
+                        fechaInicioIncapacidad:new Date().toISOString().slice(0,10),
+                    });
+                }
+            }
        
     }
     handleDiasSolicitados(e){
@@ -732,35 +734,69 @@ class IncapacidadFront extends Component {
     async guardarIncapacidad(){
         //console.log(this.state)
         //console.log(parseInt(this.state.diasSolicitados));
-        if (parseInt(this.state.diasSolicitados) <= this.state.diasMaximosEspecialidad) {
-                let resp= await this.validarForm()
-                //alert(resp)
-                if (resp){
-                    
-                    //alert(this.state.id);
-                    
-                    let url = 'saveIncapacidad'
-                    axios.post(url, { datos: this.state })
-                        .then(resp => {
-                            console.log(resp.data)
-                            alert(resp.data)
-                            //this.setState(this.initialState);
-                           // location.reload();
-                           this.setState({
-                                flagCertificado: ''
-                            })
-                        })
-                        .catch(err => {
-                            console.log(err)
-                        })
-                    
-                }
-                else{
-                    alert("Hay errores en algunos campos");
-                }
+        var esp = "otros"
+        if (this.state.diasMaximosEspecialidad == 0){
+            esp = "laboral"
         }
-        else{
-            alert("Los días solicitados exceden el máximo definido para su especialidad médica");
+
+        if (esp == "otros"){
+            if (parseInt(this.state.diasSolicitados) <= this.state.diasMaximosEspecialidad){
+                    let resp= await this.validarForm()
+                    //alert(resp)
+                    if (resp){
+                        
+                        //alert(this.state.id);
+                        
+                        let url = 'saveIncapacidad'
+                        axios.post(url, { datos: this.state })
+                            .then(resp => {
+                                console.log(resp.data)
+                                alert(resp.data)
+                                //this.setState(this.initialState);
+                            // location.reload();
+                            this.setState({
+                                    flagCertificado: ''
+                                })
+                            })
+                            .catch(err => {
+                                console.log(err)
+                            })
+                        
+                    }
+                    else{
+                        alert("Hay errores en algunos campos");
+                    }
+            }
+            else{
+                alert("Los días solicitados exceden el máximo definido para su especialidad médica");
+            }
+        }
+        if (esp == "laboral"){
+                    let resp= await this.validarForm()
+                    //alert(resp)
+                    if (resp){
+                        
+                        //alert(this.state.id);
+                        
+                        let url = 'saveIncapacidad'
+                        axios.post(url, { datos: this.state })
+                            .then(resp => {
+                                console.log(resp.data)
+                                alert(resp.data)
+                                //this.setState(this.initialState);
+                            // location.reload();
+                            this.setState({
+                                    flagCertificado: ''
+                                })
+                            })
+                            .catch(err => {
+                                console.log(err)
+                            })
+                        
+                    }
+                    else{
+                        alert("Hay errores en algunos campos");
+                    }
         }
 
         
@@ -777,9 +813,11 @@ class IncapacidadFront extends Component {
             })
         }
         if (this.state.diasSolicitados > this.state.diasMaximosEspecialidad) {
-            this.setState({
-                estado_id : 1
-            })
+           
+                this.setState({
+                    estado_id : 1
+                })
+            
         }
         resp=this.verificarTraslapo();
         let newState = Object.assign({}, this.state);

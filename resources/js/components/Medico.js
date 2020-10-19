@@ -22,9 +22,13 @@ export default function Medico(props) {
                     setMaxDias(30);
                     props.handleMaxDias(30);
                 }
-                else{
+                if ((resp.data.data[0]['especialidad']==2)||(resp.data.data[0]['especialidad']==4)){
                     setMaxDias(60);
                     props.handleMaxDias(60);
+                }
+                if (resp.data.data[0]['especialidad']==5){
+                    setMaxDias(0);
+                    props.handleMaxDias(0);
                 }
                 props.handleMedico(resp.data.data[0]['id'])
             })
