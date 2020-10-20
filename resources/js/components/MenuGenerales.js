@@ -44,9 +44,9 @@ class MenuGenerales extends Component {
                 <div className="tab-content">
                     <div className="tab-pane container active" id="ce"><CausasAdmin /></div>
                     <div className="tab-pane container fade" id="cie10"><Cie10Admin /></div>
-                    <div className="tab-pane container active" id="diase"><DiasmaxAdmin /></div>
+                    <div className="tab-pane container fade" id="diase"><DiasmaxAdmin /></div>
                     <div className="tab-pane container fade" id="estados"><EstadosAdmin /></div>
-                    <div className="tab-pane container active" id="ips"><IpsAdmin /></div>
+                    <div className="tab-pane container fade" id="ips"><IpsAdmin /></div>
                     <div className="tab-pane container fade" id="validacion"><DerechosAdmin /></div>
                     
                 </div>
