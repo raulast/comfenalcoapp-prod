@@ -27,7 +27,7 @@ export default function TableMedicos(props) {
                     <td>{medicos[key]['reg_medico']}</td>
                     <td>{medicos[key]['especialidad']}</td>
                     <td><button className="btn btn-warning btn-sm" id={medicos[key]['id']} onClick={editar}>Editar</button></td>
-                    <td><button className="btn btn-danger btn-sm" id={medicos[key]['id']} onClick={eliminar}>Eliminar</button></td>
+                    {/*<td><button className="btn btn-danger btn-sm" id={medicos[key]['id']} onClick={eliminar}>Eliminar</button></td>*/}
                 </tr>
             ))}
         </tbody>
