@@ -16,6 +16,7 @@
                     <table class="table table-hover table-bordered table-sm texto">
                     <thead>
                         <tr class="bg-info">
+                        <th></th>
                         <th scope="col">No</th>
                        
                         <th scope="col">Fecha Atencion</th>
@@ -37,7 +38,10 @@
                     @foreach ($datos as $dato)
                     
                         <tr>
-                        <td>{{$dato->id ."-".$dato->prorrogaid}}</th>
+                        <td><button class='btn btn-default' type='button' value='print' onclick='print({{$dato->id}},{{$dato->prorrogaid}})'>
+                            <i class='fa fa-print'> </i>
+                        </button></td>
+                        <td>{{$dato->id ."-".$dato->prorrogaid}}</td>
                         
                         <td>{{$dato->fecha_atencion}}</td>
                         <td>{{$dato->codigo_diagnostico}}</td>
@@ -60,4 +64,10 @@
             </div>
     </div>    
 </div>
+<script> 
+function print(id,pr){
+    var url = '../../certificadoIncapacidad/' + id +"/" + pr + "/0";
+    window.open(url,'_blank');
+}
+</script>
 @endsection

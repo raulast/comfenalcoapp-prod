@@ -1,1 +1,1 @@
-select * from users;
+select * from dias_max_especialidad
