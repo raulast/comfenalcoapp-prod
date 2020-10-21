@@ -20,7 +20,7 @@ class CausasAdmin extends Component {
             causa:'',
             modalOpen: false,
             errors : {
-                nombre : 'oculto',      
+                nombre : 'oculto',
             },
             errorMensajes :{
                 nombre : '',
@@ -28,7 +28,7 @@ class CausasAdmin extends Component {
         }
         // bind
         this.getSystemUsers = this.getSystemCausas.bind(this);
-       
+
         this.handleSubmit = this.handleSubmit.bind(this);
         this.validarForm = this.validarForm.bind(this);
         this.clearErrors = this.clearErrors.bind(this);
@@ -53,27 +53,39 @@ class CausasAdmin extends Component {
         this.setState({
             causa:causa,
             modalOpen: true,
-            
+
         });
     }
     handleCerrarModal(){
         this.setState({
-           
+
             modalOpen: false,
           });
     }
     handleEliminar(id){
-        
+
     }
-    handleSubmit(e){          
-        
+    handleSubmit(e){
+        let url = 'parametro/causae/agregar'
+        //console.log(e)
+        axios.post(url, {causa_externa:"Intoxicacion alimentaria", estado: 1})
+            .then(resp => {
+                console.log(resp.data.data);
+                this.setState({
+                    causas: resp.data.data,
+                });
+
+            })
+            .catch(err => {
+                console.log(err)
+            })
     }
     validarForm() {
-        
+
     }
     clearErrors(){
-        
-    }   
+
+    }
     getSystemCausas() {
         let url = 'getSystemCausas'
         axios.get(url)
@@ -89,7 +101,7 @@ class CausasAdmin extends Component {
             })
 
     }
-    
+
     render() {
         const { causas } = this.state;
         return (
@@ -97,20 +109,20 @@ class CausasAdmin extends Component {
                 <br/><br/>
                 <button className="btn btn-success btn-sm" onClick={this.handleCrear}>+ Crear</button>
                 <div className="row mt-2">
-                    <div className={this.state.nuevo}>          
+                    <div className={this.state.nuevo}>
                     <div className="col-md-12">
-                        <div className="card">     
+                        <div className="card">
                             <div className="card-body texto">
                                 <div className="row">
                                     <div className="col-sm-12">
                                         <table>
                                             <tr>
                                                 <td>Nombre</td>
-                                                <td><input type="text" className="form-control" id="nombre" name="nombre" onChange={this.handleChange} value={this.state.nombre}></input></td>
-                                                <td><button type="submit" className="btn btn-success btn-sm">Guardar</button></td>
+                                                <td><input type="text" className="form-control" id="nombre" name="causa_externa" onChange={this.handleChange} value="{this.state.nombre}"></input></td>
+                                                <td><button type="submit" className="btn btn-success btn-sm" onClick={this.handleSubmit}>Guardar</button></td>
                                             </tr>
                                         </table>
-                                  
+
                                         <div className={this.state.errors['nombre']}>
                                             <div className={"redf  " + (this.state.errors['nombre'] || "")}>{this.state.errorMensajes['nombre']}</div>
                                         </div>
@@ -133,11 +145,11 @@ class CausasAdmin extends Component {
                                             <th scope="col">Nombre</th>
                                             <th scope="col">Estado</th>
                                             <th scope="col"></th>
-                                    
+
                                         </tr>
                                     </thead>
                                     <TableCausas causas={causas} handleEdition ={this.handleEdition} handleEliminar ={this.handleEliminar}/>
-                                    
+
                                 </table>
                             </div>
                         </div>
@@ -155,15 +167,15 @@ class CausasAdmin extends Component {
                                             <label htmlFor="codigo">Nombre</label>
                                             <input type="text" className="form-control form-control-sm" name="nombre" value={this.state.causa} onChange={this.handleChangeC }/>
                                         </div>
-                                        
+
                                         <div className="form-group">
                                             <label htmlFor="capitulo_grupo">Estado</label>
                                             <select className="form-control form-control-sm" name="capitulo_grupo" value="" onChange={this.handleChangeC }>
                                                 <option value='1'>Activa</option>
-                                                <option value='0'>Inactiva</option>   
+                                                <option value='0'>Inactiva</option>
                                             </select>
                                         </div>
-                                        
+
                                     </form>
                                 </div>
                             </div>

@@ -72171,7 +72171,24 @@ var CausasAdmin = /*#__PURE__*/function (_Component) {
     value: function handleEliminar(id) {}
   }, {
     key: "handleSubmit",
-    value: function handleSubmit(e) {}
+    value: function handleSubmit(e) {
+      var _this2 = this;
+
+      var url = 'parametro/causae/agregar'; //console.log(e)
+
+      axios__WEBPACK_IMPORTED_MODULE_5___default.a.post(url, {
+        causa_externa: "Intoxicacion alimentaria",
+        estado: 1
+      }).then(function (resp) {
+        console.log(resp.data.data);
+
+        _this2.setState({
+          causas: resp.data.data
+        });
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    }
   }, {
     key: "validarForm",
     value: function validarForm() {}
@@ -72181,12 +72198,12 @@ var CausasAdmin = /*#__PURE__*/function (_Component) {
   }, {
     key: "getSystemCausas",
     value: function getSystemCausas() {
-      var _this2 = this;
+      var _this3 = this;
 
       var url = 'getSystemCausas';
       axios__WEBPACK_IMPORTED_MODULE_5___default.a.get(url).then(function (resp) {
         //console.log(resp.data.data);
-        _this2.setState({
+        _this3.setState({
           causas: resp.data.data
         });
       })["catch"](function (err) {
@@ -72218,12 +72235,13 @@ var CausasAdmin = /*#__PURE__*/function (_Component) {
         type: "text",
         className: "form-control",
         id: "nombre",
-        name: "nombre",
+        name: "causa_externa",
         onChange: this.handleChange,
-        value: this.state.nombre
+        value: "{this.state.nombre}"
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "submit",
-        className: "btn btn-success btn-sm"
+        className: "btn btn-success btn-sm",
+        onClick: this.handleSubmit
       }, "Guardar")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: this.state.errors['nombre']
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {

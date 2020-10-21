@@ -114,23 +114,15 @@ Route::post('/updateJuridica','JuridicasController@updateJuridica');
 Route::post('/createJuridica','JuridicasController@createJuridica');
 Route::post('/deleteJuridica','JuridicasController@deleteJuridica');
 
-//Parametros Generales
+//Parametros Generales /parametro/{modelo}/{id}/(accion)
 Route::group(['prefix' => 'parametro'], function () {
-    Route::group(['prefix' => '{Modelo}'], function () {
+    Route::group(['prefix' => '{modelo}'], function () {
         Route::get('/', 'GeneralController@Obtener');
-        Route::post('agregar', function ($id) {
-            //funcion
-        });
+        Route::post('/agregar', 'GeneralController@agregar');
         Route::group(['prefix' => '{id}'], function () {
-            Route::get('/', function ($id) {
-                //Obtener registro
-            });
-            Route::put('editar', function ($id) {
-                //Editar registro
-            });
-            Route::delete('eliminar', function ($id) {
-                //Eliminar registro
-            });
+            Route::get('/', 'GeneralController@obtenerDetalles');
+            Route::put('/editar', 'GeneralController@editar');
+            Route::delete('/eliminar', 'GeneralController@eliminar');
         });
     });
 });
