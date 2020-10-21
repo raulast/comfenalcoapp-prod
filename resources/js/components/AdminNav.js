@@ -6,9 +6,14 @@ import axios from 'axios';
 
 
 class AdminNav extends Component {
+
     constructor(props) {
-        super(props);  
-        
+      super(props);
+        console.log(props)
+       
+        this.state = {
+          tipo: props.tipo,
+        }
         // bind
  
     }
@@ -28,7 +33,10 @@ class AdminNav extends Component {
             <div className="col-11"> 
                 <div className="tab-content">
                 <div className="tab-pane container fade" id="usuarios"><MenuUsuarios /></div>
+                { this.state.tipo != 5 ? 
                 <div className="tab-pane container active" id="generales"><MenuGenerales /></div>
+                : ''
+                }
                 </div>
             </div>
           </div>
@@ -39,5 +47,6 @@ class AdminNav extends Component {
 export default AdminNav;
 
 if (document.getElementById('adminNav')) {
-    ReactDOM.render(<AdminNav />, document.getElementById('adminNav'));
+    const tipo =document.getElementById('tipo').value;
+    ReactDOM.render(<AdminNav tipo={tipo} />, document.getElementById('adminNav'));
 }

@@ -511,7 +511,7 @@ class ApiController extends Controller
        // dd( $formatter->toWords(126, 0));
 
         if (!Incapacidad::where('id',$id)->where('prorrogaid',$pid)->exists()){
-            dd("La incapacidad no se encueltra almacenada");
+            dd("La incapacidad no se encuentra almacenada");
         }
 
         $formatter = new NumeroALetras;
@@ -656,7 +656,7 @@ class ApiController extends Controller
         $i->put('Firma profesional que genera',''); 
         $i->put('Tipo doc profesional que genera',$tipoDocProf); 
         $i->put('Numero doc profesional que genera',$numDocProf); 
-        $especialidades=["","Médico general","Médico especialista","Odontólogo general","Odontólogo especialista"];
+        $especialidades=["","Médico general","Médico especialista","Odontólogo general","Odontólogo especialista","Médico Laboral"];
         
         $i->put('Especialidad',$especialidades[$especialidad]); 
         $i->put('Registro Médico',$registroMedico); 
@@ -802,7 +802,7 @@ class ApiController extends Controller
         $i->put('Firma profesional que genera',''); 
         $i->put('Tipo doc profesional que genera',$tipoDocProf); 
         $i->put('Numero doc profesional que genera',$numDocProf); 
-        $especialidades=["","Médico general","Médico especialista","Odontólogo general","Odontólogo especialista"];
+        $especialidades=["","Médico general","Médico especialista","Odontólogo general","Odontólogo especialista", "Médico Laboral"];
         
         $i->put('Especialidad',$especialidades[$especialidad]); 
        

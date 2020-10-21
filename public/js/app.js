@@ -71596,9 +71596,17 @@ var AdminNav = /*#__PURE__*/function (_Component) {
   var _super = _createSuper(AdminNav);
 
   function AdminNav(props) {
+    var _this;
+
     _classCallCheck(this, AdminNav);
 
-    return _super.call(this, props); // bind
+    _this = _super.call(this, props);
+    console.log(props);
+    _this.state = {
+      tipo: props.tipo
+    }; // bind
+
+    return _this;
   }
 
   _createClass(AdminNav, [{
@@ -71629,10 +71637,10 @@ var AdminNav = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tab-pane container fade",
         id: "usuarios"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MenuUsuarios_js__WEBPACK_IMPORTED_MODULE_2__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MenuUsuarios_js__WEBPACK_IMPORTED_MODULE_2__["default"], null)), this.state.tipo != 5 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tab-pane container active",
         id: "generales"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MenuGenerales_js__WEBPACK_IMPORTED_MODULE_3__["default"], null)))));
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MenuGenerales_js__WEBPACK_IMPORTED_MODULE_3__["default"], null)) : '')));
     }
   }]);
 
@@ -71642,7 +71650,10 @@ var AdminNav = /*#__PURE__*/function (_Component) {
 /* harmony default export */ __webpack_exports__["default"] = (AdminNav);
 
 if (document.getElementById('adminNav')) {
-  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(AdminNav, null), document.getElementById('adminNav'));
+  var tipo = document.getElementById('tipo').value;
+  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(AdminNav, {
+    tipo: tipo
+  }), document.getElementById('adminNav'));
 }
 
 /***/ }),
@@ -75531,8 +75542,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
       var pid = this.state.prorrogaId; //let id=56;
 
       var url = '/certificadoIncapacidad/' + id + "/" + pid + "/" + a;
-      window.open(url, "_blank");
-      location.reload();
+      window.open(url, "_blank"); //location.reload();
     }
   }, {
     key: "getNumeroIncapacidad",
@@ -75602,8 +75612,8 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
         var IDTrabajador = afiliaciones[0]['IdAfiliado'];
         var historiaClinica = afiliaciones[0]['IdHistoria12'];
         var genero = afiliaciones[0]['Sexo'];
-        var fechaNacimiento = afiliaciones[0]['FechaNacimiento'];
-        edad = calculoEdad(fechaNacimiento);
+        var fechaNacimiento = afiliaciones[0]['FechaNacimiento']; //edad = calculoEdad(fechaNacimiento)
+
         var estado = afiliaciones[0]['EstadoDescripcion'];
         var tipoCotizante = afiliaciones[0]['ClaseAfiliacion'];
         var descripcionPrograma = afiliaciones[0]['DescripcionPrograma']; //datos aportante
@@ -76068,18 +76078,20 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
         fechaInicioIncapacidad: new Date(e.target.value).toISOString().slice(0, 10)
       });
 
-      if (fi > l1) {
-        alert("La fecha de inicio no puede ser mayor a 3 días desde la fecha de atención");
-        this.setState({
-          fechaInicioIncapacidad: new Date().toISOString().slice(0, 10)
-        });
-      }
+      if (this.state.diasMaximosEspecialidad > 0) {
+        if (fi > l1) {
+          alert("La fecha de inicio no puede ser mayor a 3 días desde la fecha de atención");
+          this.setState({
+            fechaInicioIncapacidad: new Date().toISOString().slice(0, 10)
+          });
+        }
 
-      if (fi < l2) {
-        alert("La fecha de inicio no puede ser menor a 3 días desde la fecha de atención");
-        this.setState({
-          fechaInicioIncapacidad: new Date().toISOString().slice(0, 10)
-        });
+        if (fi < l2) {
+          alert("La fecha de inicio no puede ser menor a 3 días desde la fecha de atención");
+          this.setState({
+            fechaInicioIncapacidad: new Date().toISOString().slice(0, 10)
+          });
+        }
       }
     }
   }, {
@@ -76222,20 +76234,34 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
       var _guardarIncapacidad = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
         var _this7 = this;
 
-        var resp, url;
+        var esp, resp, url, _resp, _url2;
+
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                if (!(parseInt(this.state.diasSolicitados) <= this.state.diasMaximosEspecialidad)) {
-                  _context3.next = 7;
+                //console.log(this.state)
+                //console.log(parseInt(this.state.diasSolicitados));
+                esp = "otros";
+
+                if (this.state.diasMaximosEspecialidad == 0) {
+                  esp = "laboral";
+                }
+
+                if (!(esp == "otros")) {
+                  _context3.next = 11;
                   break;
                 }
 
-                _context3.next = 3;
+                if (!(parseInt(this.state.diasSolicitados) <= this.state.diasMaximosEspecialidad)) {
+                  _context3.next = 10;
+                  break;
+                }
+
+                _context3.next = 6;
                 return this.validarForm();
 
-              case 3:
+              case 6:
                 resp = _context3.sent;
 
                 //alert(resp)
@@ -76259,13 +76285,46 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
                   alert("Hay errores en algunos campos");
                 }
 
-                _context3.next = 8;
+                _context3.next = 11;
                 break;
 
-              case 7:
+              case 10:
                 alert("Los días solicitados exceden el máximo definido para su especialidad médica");
 
-              case 8:
+              case 11:
+                if (!(esp == "laboral")) {
+                  _context3.next = 16;
+                  break;
+                }
+
+                _context3.next = 14;
+                return this.validarForm();
+
+              case 14:
+                _resp = _context3.sent;
+
+                //alert(resp)
+                if (_resp) {
+                  //alert(this.state.id);
+                  _url2 = 'saveIncapacidad';
+                  axios__WEBPACK_IMPORTED_MODULE_8___default.a.post(_url2, {
+                    datos: this.state
+                  }).then(function (resp) {
+                    console.log(resp.data);
+                    alert(resp.data); //this.setState(this.initialState);
+                    // location.reload();
+
+                    _this7.setState({
+                      flagCertificado: ''
+                    });
+                  })["catch"](function (err) {
+                    console.log(err);
+                  });
+                } else {
+                  alert("Hay errores en algunos campos");
+                }
+
+              case 16:
               case "end":
                 return _context3.stop();
             }
@@ -79528,9 +79587,16 @@ function Medico(props) {
       if (resp.data.data[0]['especialidad'] == 1 || resp.data.data[0]['especialidad'] == 3) {
         setMaxDias(30);
         props.handleMaxDias(30);
-      } else {
+      }
+
+      if (resp.data.data[0]['especialidad'] == 2 || resp.data.data[0]['especialidad'] == 4) {
         setMaxDias(60);
         props.handleMaxDias(60);
+      }
+
+      if (resp.data.data[0]['especialidad'] == 5) {
+        setMaxDias(0);
+        props.handleMaxDias(0);
       }
 
       props.handleMedico(resp.data.data[0]['id']);
@@ -81842,11 +81908,7 @@ function TableMedicos(props) {
       className: "btn btn-warning btn-sm",
       id: medicos[key]['id'],
       onClick: editar
-    }, "Editar")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-      className: "btn btn-danger btn-sm",
-      id: medicos[key]['id'],
-      onClick: eliminar
-    }, "Eliminar")));
+    }, "Editar")));
   }));
 }
 
@@ -81923,7 +81985,7 @@ function TableUsers(props) {
 
   var users = props.users; //const { users } = this.state;
 
-  var userTypes = ["Admin", "Médico", "Administrativo"];
+  var userTypes = ["Admin", "Médico", "Auxiliar Pemel", "Admin Pemel", "Admin IPS", "Usuarios Admin"];
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, Object.keys(users).map(function (key) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
       key: key
@@ -82331,7 +82393,11 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
         value: "2"
       }, "Auxiliar Pemel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "3"
-      }, "Admin Pemel")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "Admin Pemel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "4"
+      }, "Admin IPS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "5"
+      }, "Usuarios Admin")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: this.state.errors['tipo']
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "redf  " + (this.state.errors['tipo'] || "")
