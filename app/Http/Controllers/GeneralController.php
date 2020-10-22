@@ -16,35 +16,49 @@ class GeneralController extends Controller
             $data = $request->toArray();
             //formatear data # code
             $result = $model['modelo']::create($data);
-            return response()->json([
-                'data' => $result
-            ]);
         }else{
-            return response()->json([
-                'data' => "No se pudo crear, por favor refresque la pagina e intente nuevamente"
-            ]);
+           $result = "No se pudo crear, por favor refresque la pagina e intente nuevamente";
         }
 
+        return response()->json([
+            'data' => $result
+        ]);
     }
     public function obtenerDetalles(Request $request, $modelo, $id){
-        //
+        //Codigo. . .
     }
     public function editar(Request $request, $modelo, $id){
-        //
-    }
-    public function eliminar(Request $request, $modelo, $id){
-        //
         $model = $this->obtenerModelo($modelo);
         if (!empty($model)){
-            if($model::where('id', $id)->exists()){
-                $model::where('id', $id)->delete();
-                return  "Eliminado con exito";
+            if($model['modelo']::where('id', $id)->exists()){
+                $data = $request->toArray();
+                $model['modelo']::where('id', $id)->update($data);
+                $result=  "Actualizado con exito";
             }else{
-                return  "El registro ya ha sido eliminado o no existe";
+                $result=  "El registro ha sido eliminado o no existe";
             }
         } else{
-            return "El registro no se ha eliminado por favor refresque la pagina e intente nuevamente";
+            $result= "El registro no se ha actualizado por favor refresque la pagina e intente nuevamente";
         }
+        return response()->json([
+            'data' => $result
+        ]);
+    }
+    public function eliminar(Request $request, $modelo, $id){
+        $model = $this->obtenerModelo($modelo);
+        if (!empty($model)){
+            if($model['modelo']::where('id', $id)->exists()){
+                $model['modelo']::where('id', $id)->delete();
+                $result=  "Eliminado con exito";
+            }else{
+                $result=  "El registro ya ha sido eliminado o no existe";
+            }
+        } else{
+            $result= "El registro no se ha eliminado por favor refresque la pagina e intente nuevamente";
+        }
+        return response()->json([
+            'data' => $result
+        ]);
     }
 
     private function obtenerModelo($modelo_url){
