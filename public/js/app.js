@@ -72068,6 +72068,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_6__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -72154,6 +72166,7 @@ var CausasAdmin = /*#__PURE__*/function (_Component) {
   }, {
     key: "handleEdition",
     value: function handleEdition(id, causa) {
+      console.log(id);
       this.setState({
         causa: causa,
         modalOpen: true
@@ -72168,22 +72181,35 @@ var CausasAdmin = /*#__PURE__*/function (_Component) {
     }
   }, {
     key: "handleEliminar",
-    value: function handleEliminar(id) {}
-  }, {
-    key: "handleSubmit",
-    value: function handleSubmit(e) {
+    value: function handleEliminar(id) {
       var _this2 = this;
 
-      var url = 'parametro/causae/agregar'; //console.log(e)
-
-      axios__WEBPACK_IMPORTED_MODULE_5___default.a.post(url, {
-        causa_externa: "Intoxicacion alimentaria",
+      var url = "parametro/causae/".concat(id, "/eliminar");
+      var causa = document.getElementsByName('causa_externa')[0].value;
+      axios__WEBPACK_IMPORTED_MODULE_5___default.a["delete"](url, {
+        causa_externa: causa,
         estado: 1
       }).then(function (resp) {
-        console.log(resp.data.data);
-
         _this2.setState({
-          causas: resp.data.data
+          causas: [].concat(_toConsumableArray(_this2.state.causas), [resp.data.data])
+        });
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    }
+  }, {
+    key: "handleSubmit",
+    value: function handleSubmit() {
+      var _this3 = this;
+
+      var url = 'parametro/causae/agregar';
+      var causa = document.getElementsByName('causa_externa')[0].value;
+      axios__WEBPACK_IMPORTED_MODULE_5___default.a.post(url, {
+        causa_externa: causa,
+        estado: 1
+      }).then(function (resp) {
+        _this3.setState({
+          causas: [].concat(_toConsumableArray(_this3.state.causas), [resp.data.data])
         });
       })["catch"](function (err) {
         console.log(err);
@@ -72198,17 +72224,31 @@ var CausasAdmin = /*#__PURE__*/function (_Component) {
   }, {
     key: "getSystemCausas",
     value: function getSystemCausas() {
-      var _this3 = this;
+      var _this4 = this;
 
       var url = 'getSystemCausas';
       axios__WEBPACK_IMPORTED_MODULE_5___default.a.get(url).then(function (resp) {
         //console.log(resp.data.data);
-        _this3.setState({
+        _this4.setState({
           causas: resp.data.data
         });
       })["catch"](function (err) {
         console.log(err);
       });
+    }
+  }, {
+    key: "handleGuardar",
+    value: function handleGuardar() {// let url = 'parametro/causae//editar'
+      // let causa = document.getElementsByName('causa_externa')[0].value
+      // axios.post(url, {causa_externa: causa, estado: 1})
+      //     .then(resp => {
+      //         this.setState({
+      //             causas: [...this.state.causas, resp.data.data]
+      //         });
+      //     })
+      //     .catch(err => {
+      //         console.log(err)
+      //     })
     }
   }, {
     key: "render",
@@ -72236,8 +72276,7 @@ var CausasAdmin = /*#__PURE__*/function (_Component) {
         className: "form-control",
         id: "nombre",
         name: "causa_externa",
-        onChange: this.handleChange,
-        value: "{this.state.nombre}"
+        onChange: this.handleChange
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "submit",
         className: "btn btn-success btn-sm",
@@ -72286,7 +72325,7 @@ var CausasAdmin = /*#__PURE__*/function (_Component) {
         type: "text",
         className: "form-control form-control-sm",
         name: "nombre",
-        value: this.state.causa,
+        placeholder: this.state.causa,
         onChange: this.handleChangeC
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
@@ -72295,7 +72334,6 @@ var CausasAdmin = /*#__PURE__*/function (_Component) {
       }, "Estado"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         className: "form-control form-control-sm",
         name: "capitulo_grupo",
-        value: "",
         onChange: this.handleChangeC
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "1"
@@ -80370,7 +80408,7 @@ var MenuGenerales = /*#__PURE__*/function (_Component) {
         className: "nav-link",
         "data-toggle": "tab",
         href: "#diase"
-      }, "D\xEDas especilidades")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+      }, "D\xEDas especialidades")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         className: "nav-item"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         className: "nav-link",
@@ -81421,10 +81459,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TableCausas; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
-
-
 
 function TableCausas(props) {
   var eliminar = function eliminar(u) {
@@ -81443,7 +81477,7 @@ function TableCausas(props) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
       key: key
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, causas[key]['causa_externa']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, estadoTypes[causas[key]['estado']]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-      className: "btn btn-warning btn-sm ",
+      className: "btn btn-warning btn-sm",
       id: causas[key]['id'],
       name: causas[key]['causa_externa'],
       onClick: editar

@@ -50,6 +50,7 @@ class CausasAdmin extends Component {
         });
     }
     handleEdition(id,causa){
+        console.log(id);
         this.setState({
             causa:causa,
             modalOpen: true,
@@ -63,16 +64,26 @@ class CausasAdmin extends Component {
           });
     }
     handleEliminar(id){
-
-    }
-    handleSubmit(e){
-        let url = 'parametro/causae/agregar'
-        //console.log(e)
-        axios.post(url, {causa_externa:"Intoxicacion alimentaria", estado: 1})
+        let url = `parametro/causae/${id}/eliminar`
+        let causa = document.getElementsByName('causa_externa')[0].value
+        axios.delete(url, {causa_externa: causa, estado: 1})
             .then(resp => {
-                console.log(resp.data.data);
                 this.setState({
-                    causas: resp.data.data,
+                    causas: [...this.state.causas, resp.data.data]
+                });
+
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+    handleSubmit(){
+        let url = 'parametro/causae/agregar'
+        let causa = document.getElementsByName('causa_externa')[0].value
+        axios.post(url, {causa_externa: causa, estado: 1})
+            .then(resp => {
+                this.setState({
+                    causas: [...this.state.causas, resp.data.data]
                 });
 
             })
@@ -102,6 +113,21 @@ class CausasAdmin extends Component {
 
     }
 
+    handleGuardar() {
+        // let url = 'parametro/causae//editar'
+        // let causa = document.getElementsByName('causa_externa')[0].value
+        // axios.post(url, {causa_externa: causa, estado: 1})
+        //     .then(resp => {
+        //         this.setState({
+        //             causas: [...this.state.causas, resp.data.data]
+        //         });
+
+        //     })
+        //     .catch(err => {
+        //         console.log(err)
+        //     })
+    }
+
     render() {
         const { causas } = this.state;
         return (
@@ -118,7 +144,7 @@ class CausasAdmin extends Component {
                                         <table>
                                             <tr>
                                                 <td>Nombre</td>
-                                                <td><input type="text" className="form-control" id="nombre" name="causa_externa" onChange={this.handleChange} value="{this.state.nombre}"></input></td>
+                                                <td><input type="text" className="form-control" id="nombre" name="causa_externa" onChange={this.handleChange}></input></td>
                                                 <td><button type="submit" className="btn btn-success btn-sm" onClick={this.handleSubmit}>Guardar</button></td>
                                             </tr>
                                         </table>
@@ -165,12 +191,12 @@ class CausasAdmin extends Component {
                                     <form>
                                         <div className="form-group">
                                             <label htmlFor="codigo">Nombre</label>
-                                            <input type="text" className="form-control form-control-sm" name="nombre" value={this.state.causa} onChange={this.handleChangeC }/>
+                                            <input type="text" className="form-control form-control-sm" name="nombre" placeholder={this.state.causa} onChange={this.handleChangeC }/>
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="capitulo_grupo">Estado</label>
-                                            <select className="form-control form-control-sm" name="capitulo_grupo" value="" onChange={this.handleChangeC }>
+                                            <select className="form-control form-control-sm" name="capitulo_grupo" onChange={this.handleChangeC }>
                                                 <option value='1'>Activa</option>
                                                 <option value='0'>Inactiva</option>
                                             </select>

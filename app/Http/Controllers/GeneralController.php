@@ -36,14 +36,14 @@ class GeneralController extends Controller
         //
         $model = $this->obtenerModelo($modelo);
         if (!empty($model)){
-            if($model::where('id', $id)->exists()){
-                $model::where('id', $id)->delete();
-                return  "Eliminado con exito";
+            if($model['modelo']::where('id', $id)->exists()){
+                $model['modelo']::where('id', $id)->delete();
+                $result = "Eliminado con exito";
             }else{
-                return  "El registro ya ha sido eliminado o no existe";
+                $result = "El registro ya ha sido eliminado o no existe";
             }
         } else{
-            return "El registro no se ha eliminado por favor refresque la pagina e intente nuevamente";
+            $result = "El registro no se ha eliminado por favor refresque la pagina e intente nuevamente";
         }
     }
 
