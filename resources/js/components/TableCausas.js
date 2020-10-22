@@ -18,7 +18,7 @@ export default function TableCausas(props) {
                 <tr key={key}><td></td><td>{causas[key]['causa_externa']}</td>
                 <td>{estadoTypes[causas[key]['estado']]}</td>
                     <td><button className="btn btn-warning btn-sm" id={causas[key]['id']} name={causas[key]['causa_externa']} onClick={editar}>Editar</button></td>
-                    {/* <td><button className="btn btn-danger btn-sm" id={causas[key]['id']} name={causas[key]['causa_externa']} onClick={eliminar}>Eliminar</button></td> */}
+                    <td><button className="btn btn-danger btn-sm" id={causas[key]['id']} name={causas[key]['causa_externa']} onClick={eliminar}>Eliminar</button></td>
                 </tr>
             ))}
         </tbody>

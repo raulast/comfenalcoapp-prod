@@ -7,6 +7,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import axios from 'axios';
 import { templateSettings } from 'lodash';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 
 class CausasAdmin extends Component {
@@ -24,8 +27,9 @@ class CausasAdmin extends Component {
             },
             errorMensajes :{
                 nombre : '',
-            }
+            },
         }
+
         // bind
         this.getSystemUsers = this.getSystemCausas.bind(this);
 
@@ -38,65 +42,88 @@ class CausasAdmin extends Component {
         this.handleCrear = this.handleCrear.bind(this);
         this.handleCerrarModal = this.handleCerrarModal.bind(this);
         this.getSystemCausas();
+        
     }
     handleCrear(){
         this.setState({
             nuevo:'visible'
           });
     }
+
     handleChange({ target }) {
         this.setState({
           [target.name]: target.value
         });
     }
-    handleEdition(id,causa){
-        console.log(id);
+
+    handleEdition(id,causa) {
         this.setState({
             causa:causa,
             modalOpen: true,
 
         });
+        window.ideditar = id;
     }
+
     handleCerrarModal(){
         this.setState({
 
             modalOpen: false,
-          });
+        });
+        
     }
-    handleEliminar(id){
-        let url = `parametro/causae/${id}/eliminar`
-        let causa = document.getElementsByName('causa_externa')[0].value
-        axios.delete(url, {causa_externa: causa, estado: 1})
-            .then(resp => {
-                this.setState({
-                    causas: [...this.state.causas, resp.data.data]
-                });
 
+    handleEliminar(id){
+        let url = `parametro/causae/${id}/eliminar`        
+        axios.delete(url)
+            .then(resp => {
+                this.getSystemCausas()
+                toast.success(resp.data.data, {
+                    position: "top-right",
+                    autoClose: 1500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
             })
             .catch(err => {
                 console.log(err)
             })
     }
+
     handleSubmit(){
         let url = 'parametro/causae/agregar'
         let causa = document.getElementsByName('causa_externa')[0].value
         axios.post(url, {causa_externa: causa, estado: 1})
             .then(resp => {
+                toast.success(resp.data.data, {
+                    position: "top-right",
+                    autoClose: 1500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
                 this.setState({
                     causas: [...this.state.causas, resp.data.data]
                 });
-
             })
             .catch(err => {
                 console.log(err)
             })
     }
+
     validarForm() {
 
     }
+
     clearErrors(){
 
     }
+
     getSystemCausas() {
         let url = 'getSystemCausas'
         axios.get(url)
@@ -114,24 +141,36 @@ class CausasAdmin extends Component {
     }
 
     handleGuardar() {
-        // let url = 'parametro/causae//editar'
-        // let causa = document.getElementsByName('causa_externa')[0].value
-        // axios.post(url, {causa_externa: causa, estado: 1})
-        //     .then(resp => {
-        //         this.setState({
-        //             causas: [...this.state.causas, resp.data.data]
-        //         });
-
-        //     })
-        //     .catch(err => {
-        //         console.log(err)
-        //     })
+        const id = window.ideditar;
+        const url = `parametro/causae/${id}/editar`
+        const causa = document.getElementsByName('causa_editada')[0].value
+        const estado = document.getElementsByName('estado_causa')[0].value
+        console.log(`causa: ${causa}, estado: ${estado}`);
+        axios.put(url, {causa_externa: causa, estado: estado})
+            .then(resp => {
+                this.setState({
+                    causas: [...this.state.causas]
+                });
+                toast.success(resp.data.data, {
+                    position: "top-right",
+                    autoClose: 1500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+            })
+            .catch(err => {
+                console.log(err)
+            })
     }
 
     render() {
         const { causas } = this.state;
         return (
             <div>
+                <ToastContainer/>
                 <br/><br/>
                 <button className="btn btn-success btn-sm" onClick={this.handleCrear}>+ Crear</button>
                 <div className="row mt-2">
@@ -191,12 +230,12 @@ class CausasAdmin extends Component {
                                     <form>
                                         <div className="form-group">
                                             <label htmlFor="codigo">Nombre</label>
-                                            <input type="text" className="form-control form-control-sm" name="nombre" placeholder={this.state.causa} onChange={this.handleChangeC }/>
+                                            <input type="text" className="form-control form-control-sm" name="causa_editada" placeholder={this.state.causa} onChange={this.handleChangeC }/>
                                         </div>
 
                                         <div className="form-group">
-                                            <label htmlFor="capitulo_grupo">Estado</label>
-                                            <select className="form-control form-control-sm" name="capitulo_grupo" onChange={this.handleChangeC }>
+                                            <label htmlFor="estado_causa">Estado</label>
+                                            <select className="form-control form-control-sm" name="estado_causa" onChange={this.handleChangeC }>
                                                 <option value='1'>Activa</option>
                                                 <option value='0'>Inactiva</option>
                                             </select>
