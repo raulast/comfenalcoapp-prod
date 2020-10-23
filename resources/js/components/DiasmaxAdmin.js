@@ -15,6 +15,7 @@ class DiasmaxAdmin extends Component {
             esp: '',
             esped:'',
             diasmax:'',
+            nuevo: 'oculto',
             modalOpen:false,
             nombre: '',
             errors : {
@@ -32,10 +33,18 @@ class DiasmaxAdmin extends Component {
         this.clearErrors = this.clearErrors.bind(this);
         this.handleChange=this.handleChange.bind(this);
         this.handleEdition = this.handleEdition.bind(this);
+        this.handleCrear = this.handleCrear.bind(this);
         this.handleEliminar = this.handleEliminar.bind(this);
         this.handleCerrarModal = this.handleCerrarModal.bind(this);
         this.getSystemDiasmax();
     }
+
+    handleCrear(){
+        this.setState({
+            nuevo:'visible'
+          });
+    }
+
     handleEdition(id,esped){
 
         this.setState({
@@ -87,7 +96,39 @@ class DiasmaxAdmin extends Component {
         const { esp } = this.state;
         return (
             <div>
-                
+                <br/>
+                <button className="btn btn-success btn-sm" onClick={this.handleCrear}>+ Crear</button>
+                <div className="row mt-2">
+                    <div className={this.state.nuevo}>
+                        <div className="col-md-12">
+                            <div className="card">
+                                <div className="card-body texto">
+                                    <div className="row">
+                                        <div className="col-sm-12">
+                                            <table>
+                                                <tr>
+                                                    <td>Especialidad</td>
+                                                    <td><input type="text" className="form-control" id="nombre" name="causa_externa" defaultValue='Hola' onChange={this.handleChange}></input></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Días máximos</td>
+                                                    <td><input type="number" className="form-control" id="nombre" name="causa_externa" onChange={this.handleChange}></input></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><button type="submit" className="btn btn-success btn-sm" onClick={this.handleSubmit}>Guardar</button></td>
+                                                </tr>
+                                            </table>
+
+                                            <div className={this.state.errors['nombre']}>
+                                                <div className={"redf  " + (this.state.errors['nombre'] || "")}>{this.state.errorMensajes['nombre']}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div className="row mt-5">
                     <div className="col-md-12">
                         <div className="card">
@@ -99,12 +140,10 @@ class DiasmaxAdmin extends Component {
                                             <th scope="col"></th>
                                             <th scope="col">Especialidad</th>
                                             <th scope="col">Días máximos</th>
-                                            <th scope="col"></th>
-                                            
+                                            <th scope="col"></th>                                           
                                         </tr>
                                     </thead>
                                     <TableDiasmax esp={esp} handleEdition ={this.handleEdition} handleEliminar ={this.handleEliminar}/>
-                                    
                                 </table>
                             </div>
                         </div>

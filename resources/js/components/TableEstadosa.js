@@ -8,7 +8,7 @@ export default function TableEstadosa(props) {
         props.handleEliminar(u.target.id)
     }
     const editar = (u) =>{
-        props.handleEdition(u.target.id)
+        props.handleEdition(u.target.id, u.target.name, 'Estado', null)
     }
     const estadosa = props.estadosa;
     const estadoTypes = ["Inactivo", "Activo"]
@@ -20,7 +20,7 @@ export default function TableEstadosa(props) {
                 <td>{estadosa[key]['estado']}</td>
                 <td>{licenciaTypes[estadosa[key]['incapacidad']]}</td>
                 <td>{estadoTypes[estadosa[key]['activo']]}</td>
-                <td><button className="btn btn-warning btn-sm" id={estadosa[key]['id']} onClick={editar}>Editar</button></td>              
+                <td><button className="btn btn-warning btn-sm" id={estadosa[key]['id']} name={estadosa[key]['estado']} onClick={editar}>Editar</button></td>              
                 </tr>
             ))}
         </tbody>

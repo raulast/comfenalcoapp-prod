@@ -230,7 +230,7 @@ class CausasAdmin extends Component {
                                     <form>
                                         <div className="form-group">
                                             <label htmlFor="codigo">Nombre</label>
-                                            <input type="text" className="form-control form-control-sm" name="causa_editada" placeholder={this.state.causa} onChange={this.handleChangeC }/>
+                                            <input type="text" className="form-control form-control-sm" name="causa_editada" defaultValue={this.state.causa} onChange={this.handleChangeC }/>
                                         </div>
 
                                         <div className="form-group">

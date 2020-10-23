@@ -31,6 +31,7 @@ class EstadosAdmin extends Component {
         this.handleEdition = this.handleEdition.bind(this);
         this.handleEliminar = this.handleEliminar.bind(this);
         this.handleCrear = this.handleCrear.bind(this);
+        this.handleChangeSelector = this.handleChangeSelector.bind(this);
         //this.handleCerrarModal = this.handleCerrarModal.bind(this);
         this.getSystemEstados();
     }
@@ -59,6 +60,11 @@ class EstadosAdmin extends Component {
     clearErrors(){
         
     }   
+
+    handleChangeSelector() {
+
+    }
+
     getSystemEstados() {
         let url = 'getSystemEstados'
         axios.get(url)
