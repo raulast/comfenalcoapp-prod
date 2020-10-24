@@ -6,7 +6,8 @@ import Modal from "react-bootstrap/Modal";
 
 import axios from 'axios';
 
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 class EstadosAdmin extends Component {
     constructor(props) {
@@ -19,15 +20,16 @@ class EstadosAdmin extends Component {
             modalOpen: false,
             nombreEstado: '',
             errors : {
-                nombre : 'oculto',      
+                nombre : 'oculto',
             },
             errorMensajes :{
                 nombre : '',
-            }
+            },
+            IdEditar:''
         }
         // bind
         this.getSystemEstados = this.getSystemEstados.bind(this);
-       
+
         this.handleSubmit = this.handleSubmit.bind(this);
         this.validarForm = this.validarForm.bind(this);
         this.clearErrors = this.clearErrors.bind(this);
@@ -35,6 +37,7 @@ class EstadosAdmin extends Component {
         this.handleEdition = this.handleEdition.bind(this);
         this.handleEliminar = this.handleEliminar.bind(this);
         this.handleCrear = this.handleCrear.bind(this);
+        this.handleGuardar = this.handleGuardar.bind(this);
         this.handleChangeSelector = this.handleChangeSelector.bind(this);
         this.handleCerrarModal = this.handleCerrarModal.bind(this);
         this.getSystemEstados();
@@ -66,20 +69,42 @@ class EstadosAdmin extends Component {
     }
 
     handleEliminar(id){
-        
-    }
 
-    handleSubmit(e){          
-        
+    }
+    handleSubmit(e){
+        let url = 'parametro/estadosi/agregar'
+        let estadoi = document.getElementsByName('estados_incapacidad')[0].value
+        axios.post(url, {estado: estadoi, activo: 1})
+            .then(resp => {
+                toast.success(resp.data.data, {
+                    position: "top-right",
+                    autoClose: 1500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+                this.setState({
+                    estados: [...this.state.estados, resp.data.row],
+                    nuevo: 'oculto'
+                });
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+    handleGuardar(){
+
     }
 
     validarForm() {
-        
+
     }
 
     clearErrors(){
-        
-    }   
+
+    }
 
     handleChangeSelector() {
 
@@ -100,28 +125,29 @@ class EstadosAdmin extends Component {
             })
 
     }
-    
+
     render() {
         const { estados } = this.state;
         return (
             <div>
+                <ToastContainer/>
                 <br/><br/>
                 <button className="btn btn-success btn-sm" onClick={this.handleCrear}>+ Crear</button>
                 <div className="row mt-2">
-                    <div className={this.state.nuevo}>          
+                    <div className={this.state.nuevo}>
                     <div className="col-md-12">
-                        <div className="card">     
+                        <div className="card">
                             <div className="card-body texto">
                                 <div className="row">
                                     <div className="col-sm-12">
                                         <table>
                                             <tr>
                                                 <td>Nombre</td>
-                                                <td><input type="text" className="form-control" id="nombre" name="nombre" onChange={this.handleChange} value={this.state.nombre}></input></td>
-                                                <td><button type="submit" className="btn btn-success btn-sm">Guardar</button></td>
+                                                <td><input type="text" className="form-control" id="nombre" name="estados_incapacidad" onChange={this.handleChange} defaultValue={this.state.nombre}></input></td>
+                                                <td><button type="submit" className="btn btn-success btn-sm" onClick={this.handleSubmit}>Guardar</button></td>
                                             </tr>
                                         </table>
-                                  
+
                                         <div className={this.state.errors['nombre']}>
                                             <div className={"redf  " + (this.state.errors['nombre'] || "")}>{this.state.errorMensajes['nombre']}</div>
                                         </div>
@@ -148,7 +174,7 @@ class EstadosAdmin extends Component {
                                         </tr>
                                     </thead>
                                     <TableEstados estados={estados} handleEdition ={this.handleEdition} handleEliminar ={this.handleEliminar}/>
-                                    
+
                                 </table>
                             </div>
                         </div>

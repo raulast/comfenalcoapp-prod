@@ -28,6 +28,7 @@ class CausasAdmin extends Component {
             errorMensajes :{
                 nombre : '',
             },
+            IdEditar:''
         }
 
         // bind
@@ -40,9 +41,10 @@ class CausasAdmin extends Component {
         this.handleEdition = this.handleEdition.bind(this);
         this.handleEliminar = this.handleEliminar.bind(this);
         this.handleCrear = this.handleCrear.bind(this);
+        this.handleGuardar = this.handleGuardar.bind(this);
         this.handleCerrarModal = this.handleCerrarModal.bind(this);
         this.getSystemCausas();
-        
+
     }
     handleCrear(){
         this.setState({
@@ -60,9 +62,8 @@ class CausasAdmin extends Component {
         this.setState({
             causa:causa,
             modalOpen: true,
-
+            IdEditar:id
         });
-        window.ideditar = id;
     }
 
     handleCerrarModal(){
@@ -70,11 +71,11 @@ class CausasAdmin extends Component {
 
             modalOpen: false,
         });
-        
+
     }
 
     handleEliminar(id){
-        let url = `parametro/causae/${id}/eliminar`        
+        let url = `parametro/causae/${id}/eliminar`
         axios.delete(url)
             .then(resp => {
                 this.getSystemCausas()
@@ -108,7 +109,8 @@ class CausasAdmin extends Component {
                     progress: undefined,
                 });
                 this.setState({
-                    causas: [...this.state.causas, resp.data.data]
+                    causas: [...this.state.causas, resp.data.row],
+                    nuevo:'oculto'
                 });
             })
             .catch(err => {
@@ -128,7 +130,6 @@ class CausasAdmin extends Component {
         let url = 'getSystemCausas'
         axios.get(url)
             .then(resp => {
-                //console.log(resp.data.data);
                 this.setState({
                     causas: resp.data.data,
                 });
@@ -141,13 +142,13 @@ class CausasAdmin extends Component {
     }
 
     handleGuardar() {
-        const id = window.ideditar;
+        const id = this.state.IdEditar
         const url = `parametro/causae/${id}/editar`
         const causa = document.getElementsByName('causa_editada')[0].value
         const estado = document.getElementsByName('estado_causa')[0].value
-        console.log(`causa: ${causa}, estado: ${estado}`);
         axios.put(url, {causa_externa: causa, estado: estado})
             .then(resp => {
+                this.getSystemCausas()
                 this.setState({
                     causas: [...this.state.causas]
                 });
@@ -160,6 +161,7 @@ class CausasAdmin extends Component {
                     draggable: true,
                     progress: undefined,
                 });
+                this.handleCerrarModal()
             })
             .catch(err => {
                 console.log(err)

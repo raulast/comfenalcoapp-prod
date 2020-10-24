@@ -6,28 +6,32 @@ use Illuminate\Http\Request;
 
 class GeneralController extends Controller
 {
-    //obtener registros de un modelo
+    //
     public function obtener(Request $request, $modelo){
         //Codigo . . .
     }
+    //crear un nuevo registro en las tablas
     public function agregar(Request $request, $modelo){
         $model = $this->obtenerModelo($modelo);
         if (!empty($model)) {
             $data = $request->toArray();
             //formatear data # code
-            $model['modelo']::create($data);
+            $row = $model['modelo']::create($data);
             $result = "El registro ha sido agregado exitosamente";
         }else{
            $result = "No se pudo crear, por favor refresque la pagina e intente nuevamente";
         }
 
         return response()->json([
-            'data' => $result
+            'data' => $result,
+            'row' => $row
         ]);
     }
+    //
     public function obtenerDetalles(Request $request, $modelo, $id){
         //Codigo. . .
     }
+    //Actualizar un registro en las tablas
     public function editar(Request $request, $modelo, $id){
         $model = $this->obtenerModelo($modelo);
         if (!empty($model)){
@@ -45,6 +49,7 @@ class GeneralController extends Controller
             'data' => $result
         ]);
     }
+    //Eliminar un registro en las tablas
     public function eliminar(Request $request, $modelo, $id){
         $model = $this->obtenerModelo($modelo);
         if (!empty($model)){
@@ -61,7 +66,7 @@ class GeneralController extends Controller
             'data' => $result
         ]);
     }
-
+    //normalizar nombres de los modelos
     private function obtenerModelo($modelo_url){
         switch ($modelo_url) {
             case 'causae':
