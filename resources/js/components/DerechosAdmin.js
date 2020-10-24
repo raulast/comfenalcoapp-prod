@@ -393,7 +393,7 @@ class DerechosAdmin extends Component {
                     <Modal.Footer><button className="btn btn-primary btn-sm" onClick={ this.handleGuardar }>Guardar</button><button className="btn btn-primary btn-sm" onClick={ this.handleCerrarModal }>Cerrar</button></Modal.Footer>
                 </Modal>
                 <Modal show={this.state.modalEstadoOpen}>
-                    <Modal.Header>Clase</Modal.Header>
+                    <Modal.Header>Estado</Modal.Header>
                     <Modal.Body>
                         <div className="container">
                             <div className="row">
@@ -427,7 +427,7 @@ class DerechosAdmin extends Component {
                     <Modal.Footer><button className="btn btn-primary btn-sm" onClick={ this.handleGuardar }>Guardar</button><button className="btn btn-primary btn-sm" onClick={ this.handleCerrarModal }>Cerrar</button></Modal.Footer>
                 </Modal>
                 <Modal show={this.state.modalProgramaOpen}>
-                    <Modal.Header>Clase</Modal.Header>
+                    <Modal.Header>Programa</Modal.Header>
                     <Modal.Body>
                         <div className="container">
                             <div className="row">

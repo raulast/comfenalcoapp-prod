@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import TableEstados from './TableEstados.js';
+import Modal from "react-bootstrap/Modal";
+
 
 import axios from 'axios';
 
@@ -14,6 +16,8 @@ class EstadosAdmin extends Component {
             estados: '',
             nombre: '',
             nuevo: 'oculto',
+            modalOpen: false,
+            nombreEstado: '',
             errors : {
                 nombre : 'oculto',      
             },
@@ -32,7 +36,7 @@ class EstadosAdmin extends Component {
         this.handleEliminar = this.handleEliminar.bind(this);
         this.handleCrear = this.handleCrear.bind(this);
         this.handleChangeSelector = this.handleChangeSelector.bind(this);
-        //this.handleCerrarModal = this.handleCerrarModal.bind(this);
+        this.handleCerrarModal = this.handleCerrarModal.bind(this);
         this.getSystemEstados();
     }
     handleCrear(){
@@ -40,23 +44,39 @@ class EstadosAdmin extends Component {
             nuevo:'visible'
           });
     }
+
     handleChange({ target }) {
         this.setState({
           [target.name]: target.value
         });
     }
-    handleEdition(id){
+
+    handleEdition(id, name){
+        this.setState({
+            modalOpen: true,
+            nombreEstado: name
+        });
+    }
+
+    handleCerrarModal(){
+        this.setState({
+            modalOpen: false,
+        });
         
     }
+
     handleEliminar(id){
         
     }
+
     handleSubmit(e){          
         
     }
+
     validarForm() {
         
     }
+
     clearErrors(){
         
     }   
@@ -134,6 +154,33 @@ class EstadosAdmin extends Component {
                         </div>
                     </div>
                 </div>
+                <Modal show={this.state.modalOpen}>
+                    <Modal.Header>Estado</Modal.Header>
+                    <Modal.Body>
+                        <div className="container">
+                            <div className="row">
+                                <div className="col-12">
+                                    <form>
+                                        <div className="form-group">
+                                            <label htmlFor="codigo">Nombre</label>
+                                            <input type="text" className="form-control form-control-sm" name="causa_editada" defaultValue={this.state.nombreEstado} onChange={this.handleChangeC }/>
+                                        </div>
+
+                                        <div className="form-group">
+                                            <label htmlFor="estado_causa">Estado</label>
+                                            <select className="form-control form-control-sm" name="estado_causa" onChange={this.handleChangeC }>
+                                                <option value='1'>Activa</option>
+                                                <option value='0'>Inactiva</option>
+                                            </select>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </Modal.Body>
+                    <Modal.Footer><button className="btn btn-primary btn-sm" onClick={ this.handleGuardar }>Guardar</button><button className="btn btn-primary btn-sm" onClick={ this.handleCerrarModal }>Cerrar</button></Modal.Footer>
+                </Modal>
             </div>
         );
     }

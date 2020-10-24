@@ -11,7 +11,7 @@ export default function TableEstados(props) {
         props.handleEliminar(u.target.id)
     }
     const editar = (u) =>{
-        props.handleEdition(u.target.id)
+        props.handleEdition(u.target.id, u.target.name)
     }
     const estados = props.estados;
     //const { users } = this.state;
@@ -21,7 +21,7 @@ export default function TableEstados(props) {
             {Object.keys(estados).map((key) => (
                 <tr key={key}><td></td><td>{estados[key]['estado']}</td>
                 <td>{estadoTypes[estados[key]['activo']]}</td>
-                    <td><button className="btn btn-warning btn-sm" id={estados[key]['id']} onClick={editar}>Editar</button></td>
+                    <td><button className="btn btn-warning btn-sm" id={estados[key]['id']} name={estados[key]['estado']} onClick={editar}>Editar</button></td>
                    
                 </tr>
             ))}

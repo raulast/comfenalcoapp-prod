@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import TableIps from './TableIps.js';
+import Modal from "react-bootstrap/Modal";
+
 
 import axios from 'axios';
 
@@ -12,7 +14,8 @@ class IpsAdmin extends Component {
 
         this.state = {
             ips: '',
-        
+            modalOpen: false,
+            name: {},
             errors : {
                   
             },
@@ -29,6 +32,8 @@ class IpsAdmin extends Component {
         this.handleChange=this.handleChange.bind(this);
         this.handleEdition = this.handleEdition.bind(this);
         this.handleEliminar = this.handleEliminar.bind(this);
+        this.handleCerrarModal = this.handleCerrarModal.bind(this);
+
         this.getSystemIps();
     }
     
@@ -37,9 +42,21 @@ class IpsAdmin extends Component {
           [target.name]: target.value
         });
     }
-    handleEdition(id){
+
+    handleEdition(id,name){
+        this.setState({
+            modalOpen: true,
+            name: name
+        });
         
     }
+
+    handleCerrarModal(){
+        this.setState({
+            modalOpen: false,
+          });
+    }
+
     handleEliminar(id){
         
     }
@@ -98,6 +115,55 @@ class IpsAdmin extends Component {
                         </div>
                     </div>
                 </div>
+                <Modal show={this.state.modalOpen}>
+                    <Modal.Header>IPS</Modal.Header>
+                    <Modal.Body>
+                        <div className="container">
+                            <div className="row">
+                                <div className="col-12">
+                                    <form>
+                                        <div className="form-group">
+                                            <label htmlFor="codigo">Código sede</label>
+                                            <input type="text" className="form-control form-control-sm" name="causa_editada" defaultValue={this.state.name[0]} onChange={this.handleChangeC }/>
+                                        </div>
+
+                                        <div className="form-group">
+                                            <label htmlFor="codigo">Nombre sede</label>
+                                            <input type="text" className="form-control form-control-sm" name="causa_editada" defaultValue={this.state.name[1]} onChange={this.handleChangeC }/>
+                                        </div>
+                                        
+                                        <div className="form-group">
+                                            <label htmlFor="codigo">Cod. Habilitación</label>
+                                            <input type="text" className="form-control form-control-sm" name="causa_editada" defaultValue={this.state.name[2]} onChange={this.handleChangeC }/>
+                                        </div>
+
+                                        <div className="form-group">
+                                            <label htmlFor="codigo">Dirección</label>
+                                            <input type="text" className="form-control form-control-sm" name="causa_editada" defaultValue={this.state.name[3]} onChange={this.handleChangeC }/>
+                                        </div>
+
+                                        <div className="form-group">
+                                            <label htmlFor="codigo">Teléfono</label>
+                                            <input type="text" className="form-control form-control-sm" name="causa_editada" defaultValue={this.state.name[4]} onChange={this.handleChangeC }/>
+                                        </div>
+
+                                        <div className="form-group">
+                                            <label htmlFor="codigo">Razón social</label>
+                                            <input type="text" className="form-control form-control-sm" name="causa_editada" defaultValue={this.state.name[5]} onChange={this.handleChangeC }/>
+                                        </div>
+
+                                        <div className="form-group">
+                                            <label htmlFor="codigo">Nit</label>
+                                            <input type="text" className="form-control form-control-sm" name="causa_editada" defaultValue={this.state.name[6]} onChange={this.handleChangeC }/>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                    </Modal.Body>
+                    <Modal.Footer><button className="btn btn-primary btn-sm" onClick={ this.handleGuardar }>Guardar</button><button className="btn btn-primary btn-sm" onClick={ this.handleCerrarModal }>Cerrar</button></Modal.Footer>
+                </Modal>
             </div>
         );
     }

@@ -77849,7 +77849,7 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
         onClick: this.handleCerrarModal
       }, "Cerrar"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_2__["default"], {
         show: this.state.modalEstadoOpen
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_2__["default"].Header, null, "Clase"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_2__["default"].Body, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_2__["default"].Header, null, "Estado"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_2__["default"].Body, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "container"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row"
@@ -77895,7 +77895,7 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
         onClick: this.handleCerrarModal
       }, "Cerrar"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_2__["default"], {
         show: this.state.modalProgramaOpen
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_2__["default"].Header, null, "Clase"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_2__["default"].Body, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_2__["default"].Header, null, "Programa"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_2__["default"].Body, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "container"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row"
@@ -78316,8 +78316,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _TableEstados_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TableEstados.js */ "./resources/js/components/TableEstados.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-bootstrap/Modal */ "./node_modules/react-bootstrap/esm/Modal.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -78347,6 +78348,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var EstadosAdmin = /*#__PURE__*/function (_Component) {
   _inherits(EstadosAdmin, _Component);
 
@@ -78362,6 +78364,8 @@ var EstadosAdmin = /*#__PURE__*/function (_Component) {
       estados: '',
       nombre: '',
       nuevo: 'oculto',
+      modalOpen: false,
+      nombreEstado: '',
       errors: {
         nombre: 'oculto'
       },
@@ -78378,7 +78382,8 @@ var EstadosAdmin = /*#__PURE__*/function (_Component) {
     _this.handleEdition = _this.handleEdition.bind(_assertThisInitialized(_this));
     _this.handleEliminar = _this.handleEliminar.bind(_assertThisInitialized(_this));
     _this.handleCrear = _this.handleCrear.bind(_assertThisInitialized(_this));
-    _this.handleChangeSelector = _this.handleChangeSelector.bind(_assertThisInitialized(_this)); //this.handleCerrarModal = this.handleCerrarModal.bind(this);
+    _this.handleChangeSelector = _this.handleChangeSelector.bind(_assertThisInitialized(_this));
+    _this.handleCerrarModal = _this.handleCerrarModal.bind(_assertThisInitialized(_this));
 
     _this.getSystemEstados();
 
@@ -78400,7 +78405,19 @@ var EstadosAdmin = /*#__PURE__*/function (_Component) {
     }
   }, {
     key: "handleEdition",
-    value: function handleEdition(id) {}
+    value: function handleEdition(id, name) {
+      this.setState({
+        modalOpen: true,
+        nombreEstado: name
+      });
+    }
+  }, {
+    key: "handleCerrarModal",
+    value: function handleCerrarModal() {
+      this.setState({
+        modalOpen: false
+      });
+    }
   }, {
     key: "handleEliminar",
     value: function handleEliminar(id) {}
@@ -78422,7 +78439,7 @@ var EstadosAdmin = /*#__PURE__*/function (_Component) {
       var _this2 = this;
 
       var url = 'getSystemEstados';
-      axios__WEBPACK_IMPORTED_MODULE_3___default.a.get(url).then(function (resp) {
+      axios__WEBPACK_IMPORTED_MODULE_4___default.a.get(url).then(function (resp) {
         //console.log(resp.data.data);
         _this2.setState({
           estados: resp.data.data
@@ -78492,7 +78509,43 @@ var EstadosAdmin = /*#__PURE__*/function (_Component) {
         estados: estados,
         handleEdition: this.handleEdition,
         handleEliminar: this.handleEliminar
-      })))))));
+      })))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        show: this.state.modalOpen
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__["default"].Header, null, "Estado"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__["default"].Body, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "container"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "codigo"
+      }, "Nombre"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-control form-control-sm",
+        name: "causa_editada",
+        defaultValue: this.state.nombreEstado,
+        onChange: this.handleChangeC
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "estado_causa"
+      }, "Estado"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        className: "form-control form-control-sm",
+        name: "estado_causa",
+        onChange: this.handleChangeC
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "1"
+      }, "Activa"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "0"
+      }, "Inactiva")))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__["default"].Footer, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "btn btn-primary btn-sm",
+        onClick: this.handleGuardar
+      }, "Guardar"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "btn btn-primary btn-sm",
+        onClick: this.handleCerrarModal
+      }, "Cerrar"))));
     }
   }]);
 
@@ -80347,8 +80400,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _TableIps_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TableIps.js */ "./resources/js/components/TableIps.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-bootstrap/Modal */ "./node_modules/react-bootstrap/esm/Modal.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -80378,6 +80432,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var IpsAdmin = /*#__PURE__*/function (_Component) {
   _inherits(IpsAdmin, _Component);
 
@@ -80391,6 +80446,8 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
     _this = _super.call(this, props);
     _this.state = {
       ips: '',
+      modalOpen: false,
+      name: {},
       errors: {},
       errorMensajes: {}
     }; // bind
@@ -80402,6 +80459,7 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
     _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
     _this.handleEdition = _this.handleEdition.bind(_assertThisInitialized(_this));
     _this.handleEliminar = _this.handleEliminar.bind(_assertThisInitialized(_this));
+    _this.handleCerrarModal = _this.handleCerrarModal.bind(_assertThisInitialized(_this));
 
     _this.getSystemIps();
 
@@ -80416,7 +80474,19 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
     }
   }, {
     key: "handleEdition",
-    value: function handleEdition(id) {}
+    value: function handleEdition(id, name) {
+      this.setState({
+        modalOpen: true,
+        name: name
+      });
+    }
+  }, {
+    key: "handleCerrarModal",
+    value: function handleCerrarModal() {
+      this.setState({
+        modalOpen: false
+      });
+    }
   }, {
     key: "handleEliminar",
     value: function handleEliminar(id) {}
@@ -80435,7 +80505,7 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
       var _this2 = this;
 
       var url = 'getSystemIps';
-      axios__WEBPACK_IMPORTED_MODULE_3___default.a.get(url).then(function (resp) {
+      axios__WEBPACK_IMPORTED_MODULE_4___default.a.get(url).then(function (resp) {
         // console.log(resp.data.data);
         _this2.setState({
           ips: resp.data.data
@@ -80480,7 +80550,91 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
         ips: ips,
         handleEdition: this.handleEdition,
         handleEliminar: this.handleEliminar
-      })))))));
+      })))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        show: this.state.modalOpen
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__["default"].Header, null, "IPS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__["default"].Body, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "container"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "codigo"
+      }, "C\xF3digo sede"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-control form-control-sm",
+        name: "causa_editada",
+        defaultValue: this.state.name[0],
+        onChange: this.handleChangeC
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "codigo"
+      }, "Nombre sede"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-control form-control-sm",
+        name: "causa_editada",
+        defaultValue: this.state.name[1],
+        onChange: this.handleChangeC
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "codigo"
+      }, "Cod. Habilitaci\xF3n"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-control form-control-sm",
+        name: "causa_editada",
+        defaultValue: this.state.name[2],
+        onChange: this.handleChangeC
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "codigo"
+      }, "Direcci\xF3n"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-control form-control-sm",
+        name: "causa_editada",
+        defaultValue: this.state.name[3],
+        onChange: this.handleChangeC
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "codigo"
+      }, "Tel\xE9fono"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-control form-control-sm",
+        name: "causa_editada",
+        defaultValue: this.state.name[4],
+        onChange: this.handleChangeC
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "codigo"
+      }, "Raz\xF3n social"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-control form-control-sm",
+        name: "causa_editada",
+        defaultValue: this.state.name[5],
+        onChange: this.handleChangeC
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "codigo"
+      }, "Nit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-control form-control-sm",
+        name: "causa_editada",
+        defaultValue: this.state.name[6],
+        onChange: this.handleChangeC
+      }))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__["default"].Footer, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "btn btn-primary btn-sm",
+        onClick: this.handleGuardar
+      }, "Guardar"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "btn btn-primary btn-sm",
+        onClick: this.handleCerrarModal
+      }, "Cerrar"))));
     }
   }]);
 
@@ -84925,7 +85079,7 @@ function TableEstados(props) {
   };
 
   var editar = function editar(u) {
-    props.handleEdition(u.target.id);
+    props.handleEdition(u.target.id, u.target.name);
   };
 
   var estados = props.estados; //const { users } = this.state;
@@ -84937,6 +85091,7 @@ function TableEstados(props) {
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, estados[key]['estado']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, estadoTypes[estados[key]['activo']]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
       className: "btn btn-warning btn-sm",
       id: estados[key]['id'],
+      name: estados[key]['estado'],
       onClick: editar
     }, "Editar")));
   }));
@@ -85009,7 +85164,9 @@ function TableIps(props) {
   };
 
   var editar = function editar(u) {
-    props.handleEdition(u.target.id);
+    var name = u.target.name.split('/');
+    console.log(name);
+    props.handleEdition(u.target.id, name);
   };
 
   var ips = props.ips; //const { users } = this.state;
@@ -85021,6 +85178,7 @@ function TableIps(props) {
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
       className: "btn btn-primary btn-sm",
       id: ips[key]['id'],
+      name: ips[key]['cod_sede'] + '/' + ips[key]['nombre_sede'] + '/' + ips[key]['cod_habilitacion'] + '/' + ips[key]['direccion'] + '/' + ips[key]['telefono'] + '/' + ips[key]['razon_social'] + '/' + ips[key]['nit'],
       onClick: editar
     }, "Ver")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, ips[key]['cod_sede']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, ips[key]['nombre_sede']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, ips[key]['cod_habilitacion']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, ips[key]['direccion']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, ips[key]['telefono']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, ips[key]['razon_social']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, ips[key]['nit']));
   }));
