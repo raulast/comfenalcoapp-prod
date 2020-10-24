@@ -57,7 +57,8 @@ class EstadosAdmin extends Component {
     handleEdition(id, name){
         this.setState({
             modalOpen: true,
-            nombreEstado: name
+            nombreEstado: name,
+            IdEditar:id
         });
     }
 

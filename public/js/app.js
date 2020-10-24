@@ -78729,7 +78729,8 @@ var EstadosAdmin = /*#__PURE__*/function (_Component) {
     value: function handleEdition(id, name) {
       this.setState({
         modalOpen: true,
-        nombreEstado: name
+        nombreEstado: name,
+        IdEditar: id
       });
     }
   }, {
@@ -80785,7 +80786,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-bootstrap/Modal */ "./node_modules/react-bootstrap/esm/Modal.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/react-toastify.esm.js");
+/* harmony import */ var react_toastify_dist_ReactToastify_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-toastify/dist/ReactToastify.css */ "./node_modules/react-toastify/dist/ReactToastify.css");
+/* harmony import */ var react_toastify_dist_ReactToastify_css__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react_toastify_dist_ReactToastify_css__WEBPACK_IMPORTED_MODULE_6__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -80815,6 +80831,8 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
+
 var IpsAdmin = /*#__PURE__*/function (_Component) {
   _inherits(IpsAdmin, _Component);
 
@@ -80832,7 +80850,8 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
       nuevo: 'oculto',
       name: {},
       errors: {},
-      errorMensajes: {}
+      errorMensajes: {},
+      IdEditar: ''
     }; // bind
 
     _this.getSystemIps = _this.getSystemIps.bind(_assertThisInitialized(_this));
@@ -80841,6 +80860,7 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
     _this.clearErrors = _this.clearErrors.bind(_assertThisInitialized(_this));
     _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
     _this.handleCrear = _this.handleCrear.bind(_assertThisInitialized(_this));
+    _this.handleGuardar = _this.handleGuardar.bind(_assertThisInitialized(_this));
     _this.handleEdition = _this.handleEdition.bind(_assertThisInitialized(_this));
     _this.handleEliminar = _this.handleEliminar.bind(_assertThisInitialized(_this));
     _this.handleCerrarModal = _this.handleCerrarModal.bind(_assertThisInitialized(_this));
@@ -80868,7 +80888,8 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
     value: function handleEdition(id, name) {
       this.setState({
         modalOpen: true,
-        name: name
+        name: name,
+        IdEditar: id
       });
     }
   }, {
@@ -80883,7 +80904,92 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
     value: function handleEliminar(id) {}
   }, {
     key: "handleSubmit",
-    value: function handleSubmit(e) {}
+    value: function handleSubmit() {
+      var _this2 = this;
+
+      var url = 'parametro/ips/agregar';
+      var cod_sede = document.getElementsByName('crear_cod_sede')[0].value;
+      var nombre_sede = document.getElementsByName('crear_nombre_sede')[0].value;
+      var cod_habilitacion = document.getElementsByName('crear_cod_habilitacion')[0].value;
+      var direccion = document.getElementsByName('crear_direccion')[0].value;
+      var telefono = document.getElementsByName('crear_telefono')[0].value;
+      var razon_social = document.getElementsByName('crear_razon_social')[0].value;
+      var nit = document.getElementsByName('crear_nit')[0].value;
+      var estado = 'S';
+      axios__WEBPACK_IMPORTED_MODULE_4___default.a.post(url, {
+        cod_sede: cod_sede,
+        nombre_sede: nombre_sede,
+        estado: estado,
+        cod_habilitacion: cod_habilitacion,
+        direccion: direccion,
+        telefono: telefono,
+        razon_social: razon_social,
+        nit: nit
+      }).then(function (resp) {
+        react_toastify__WEBPACK_IMPORTED_MODULE_5__["toast"].success(resp.data.data, {
+          position: "top-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined
+        });
+
+        _this2.setState({
+          ips: [].concat(_toConsumableArray(_this2.state.ips), [resp.data.row]),
+          nuevo: 'oculto'
+        });
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    }
+  }, {
+    key: "handleGuardar",
+    value: function handleGuardar() {
+      var _this3 = this;
+
+      var id = this.state.IdEditar;
+      var url = "parametro/ips/".concat(id, "/editar");
+      var cod_sede = document.getElementsByName('editar_cod_sede')[0].value;
+      var nombre_sede = document.getElementsByName('editar_nombre_sede')[0].value;
+      var cod_habilitacion = document.getElementsByName('editar_cod_habilitacion')[0].value;
+      var direccion = document.getElementsByName('editar_direccion')[0].value;
+      var telefono = document.getElementsByName('editar_telefono')[0].value;
+      var razon_social = document.getElementsByName('editar_razon_social')[0].value;
+      var nit = document.getElementsByName('editar_nit')[0].value;
+      var estado = 'S';
+      axios__WEBPACK_IMPORTED_MODULE_4___default.a.put(url, {
+        cod_sede: cod_sede,
+        nombre_sede: nombre_sede,
+        estado: estado,
+        cod_habilitacion: cod_habilitacion,
+        direccion: direccion,
+        telefono: telefono,
+        razon_social: razon_social,
+        nit: nit
+      }).then(function (resp) {
+        react_toastify__WEBPACK_IMPORTED_MODULE_5__["toast"].success(resp.data.data, {
+          position: "top-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined
+        });
+
+        _this3.getSystemIps();
+
+        _this3.setState({
+          ips: _toConsumableArray(_this3.state.ips)
+        });
+
+        _this3.handleCerrarModal();
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    }
   }, {
     key: "validarForm",
     value: function validarForm() {}
@@ -80893,12 +80999,12 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
   }, {
     key: "getSystemIps",
     value: function getSystemIps() {
-      var _this2 = this;
+      var _this4 = this;
 
       var url = 'getSystemIps';
       axios__WEBPACK_IMPORTED_MODULE_4___default.a.get(url).then(function (resp) {
         // console.log(resp.data.data);
-        _this2.setState({
+        _this4.setState({
           ips: resp.data.data
         });
       })["catch"](function (err) {
@@ -80909,7 +81015,7 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
     key: "render",
     value: function render() {
       var ips = this.state.ips;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_toastify__WEBPACK_IMPORTED_MODULE_5__["ToastContainer"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "btn btn-success btn-sm",
         onClick: this.handleCrear
       }, "+ Crear"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -80936,7 +81042,7 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
         type: "text",
         className: "form-control",
         id: "nombre",
-        name: "crear_clase",
+        name: "crear_cod_sede",
         onChange: this.handleChange
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         className: "col"
@@ -80944,7 +81050,7 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
         type: "text",
         className: "form-control",
         id: "nombre",
-        name: "crear_abbr",
+        name: "crear_nombre_sede",
         onChange: this.handleChange
       })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
         className: "row"
@@ -80954,7 +81060,7 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
         type: "text",
         className: "form-control",
         id: "nombre",
-        name: "crear_abbr",
+        name: "crear_cod_habilitacion",
         onChange: this.handleChange
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         className: "col"
@@ -80962,7 +81068,7 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
         type: "text",
         className: "form-control",
         id: "nombre",
-        name: "crear_abbr",
+        name: "crear_direccion",
         onChange: this.handleChange
       })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
         className: "row"
@@ -80972,7 +81078,7 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
         type: "text",
         className: "form-control",
         id: "nombre",
-        name: "crear_abbr",
+        name: "crear_telefono",
         onChange: this.handleChange
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         className: "col"
@@ -80980,7 +81086,7 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
         type: "text",
         className: "form-control",
         id: "nombre",
-        name: "crear_abbr",
+        name: "crear_razon_social",
         onChange: this.handleChange
       })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
         className: "row"
@@ -80990,14 +81096,14 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
         type: "text",
         className: "form-control",
         id: "nombre",
-        name: "crear_abbr",
+        name: "crear_nit",
         onChange: this.handleChange
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         className: "col align-self-center"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "submit",
         className: "btn btn-success btn-sm ",
-        onClick: this.handleSubmitClase
+        onClick: this.handleSubmit
       }, "Guardar")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: this.state.errors['nombre']
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -81049,7 +81155,7 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
       }, "C\xF3digo sede"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         className: "form-control form-control-sm",
-        name: "causa_editada",
+        name: "editar_cod_sede",
         defaultValue: this.state.name[0],
         onChange: this.handleChangeC
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -81059,7 +81165,7 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
       }, "Nombre sede"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         className: "form-control form-control-sm",
-        name: "causa_editada",
+        name: "editar_nombre_sede",
         defaultValue: this.state.name[1],
         onChange: this.handleChangeC
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -81069,7 +81175,7 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
       }, "Cod. Habilitaci\xF3n"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         className: "form-control form-control-sm",
-        name: "causa_editada",
+        name: "editar_cod_habilitacion",
         defaultValue: this.state.name[2],
         onChange: this.handleChangeC
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -81079,7 +81185,7 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
       }, "Direcci\xF3n"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         className: "form-control form-control-sm",
-        name: "causa_editada",
+        name: "editar_direccion",
         defaultValue: this.state.name[3],
         onChange: this.handleChangeC
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -81089,7 +81195,7 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
       }, "Tel\xE9fono"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         className: "form-control form-control-sm",
-        name: "causa_editada",
+        name: "editar_telefono",
         defaultValue: this.state.name[4],
         onChange: this.handleChangeC
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -81099,7 +81205,7 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
       }, "Raz\xF3n social"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         className: "form-control form-control-sm",
-        name: "causa_editada",
+        name: "editar_razon_social",
         defaultValue: this.state.name[5],
         onChange: this.handleChangeC
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -81109,7 +81215,7 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
       }, "Nit"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         className: "form-control form-control-sm",
-        name: "causa_editada",
+        name: "editar_nit",
         defaultValue: this.state.name[6],
         onChange: this.handleChangeC
       }))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__["default"].Footer, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
