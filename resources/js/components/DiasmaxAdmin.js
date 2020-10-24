@@ -5,9 +5,6 @@ import Modal from "react-bootstrap/Modal";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from 'axios';
 
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
 
 class DiasmaxAdmin extends Component {
     constructor(props) {
@@ -78,15 +75,7 @@ class DiasmaxAdmin extends Component {
         let dias_maximos = document.getElementsByName('asignar_dias_maximos')[0].value
         axios.post(url, {dias_maximos: dias_maximos, especialidad: especialidad})
             .then(resp => {
-                toast.success(resp.data.data, {
-                    position: "top-right",
-                    autoClose: 1500,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
+                this.props.showToast(resp)
                 this.setState({
                     esp: [...this.state.esp, resp.data.row],
                     nuevo: 'oculto'
@@ -104,15 +93,7 @@ class DiasmaxAdmin extends Component {
         let dias_maximos = document.getElementsByName('diasmax')[0].value
         axios.put(url, {dias_maximos: dias_maximos, especialidad: especialidad})
             .then(resp => {
-                toast.success(resp.data.data, {
-                    position: "top-right",
-                    autoClose: 1500,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
+                this.props.showToast(resp)
                 this.getSystemDiasmax()
                 this.setState({
                     esp: [...this.state.esp]
@@ -133,7 +114,6 @@ class DiasmaxAdmin extends Component {
         let url = 'getSystemDiasmax'
         axios.get(url)
             .then(resp => {
-                //console.log(resp.data.data);
                 this.setState({
                     esp: resp.data.data,
                 });
@@ -149,7 +129,6 @@ class DiasmaxAdmin extends Component {
         const { esp } = this.state;
         return (
             <div>
-                <ToastContainer/>
                 <br/>
                 <button className="btn btn-success btn-sm" onClick={this.handleCrear}>+ Crear</button>
                 <div className="row mt-2">

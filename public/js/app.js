@@ -74736,9 +74736,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/react-toastify.esm.js");
-/* harmony import */ var react_toastify_dist_ReactToastify_css__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-toastify/dist/ReactToastify.css */ "./node_modules/react-toastify/dist/ReactToastify.css");
-/* harmony import */ var react_toastify_dist_ReactToastify_css__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(react_toastify_dist_ReactToastify_css__WEBPACK_IMPORTED_MODULE_8__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
@@ -74774,8 +74771,6 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-
 
 
 
@@ -74865,17 +74860,9 @@ var CausasAdmin = /*#__PURE__*/function (_Component) {
       axios__WEBPACK_IMPORTED_MODULE_5___default.a["delete"](url).then(function (resp) {
         _this2.getSystemCausas();
 
-        react_toastify__WEBPACK_IMPORTED_MODULE_7__["toast"].success(resp.data.data, {
-          position: "top-right",
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined
-        });
+        _this2.props.showToast(resp, 'success');
       })["catch"](function (err) {
-        console.log(err);
+        _this2.props.showToast(err, 'error');
       });
     }
   }, {
@@ -74889,22 +74876,14 @@ var CausasAdmin = /*#__PURE__*/function (_Component) {
         causa_externa: causa,
         estado: 1
       }).then(function (resp) {
-        react_toastify__WEBPACK_IMPORTED_MODULE_7__["toast"].success(resp.data.data, {
-          position: "top-right",
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined
-        });
+        _this3.props.showToast(resp, 'success');
 
         _this3.setState({
           causas: [].concat(_toConsumableArray(_this3.state.causas), [resp.data.row]),
           nuevo: 'oculto'
         });
       })["catch"](function (err) {
-        console.log(err);
+        _this3.props.showToast(err, 'error');
       });
     }
   }, {
@@ -74924,7 +74903,7 @@ var CausasAdmin = /*#__PURE__*/function (_Component) {
           causas: resp.data.data
         });
       })["catch"](function (err) {
-        console.log(err);
+        _this4.props.showToast(err, 'error');
       });
     }
   }, {
@@ -74946,26 +74925,18 @@ var CausasAdmin = /*#__PURE__*/function (_Component) {
           causas: _toConsumableArray(_this5.state.causas)
         });
 
-        react_toastify__WEBPACK_IMPORTED_MODULE_7__["toast"].success(resp.data.data, {
-          position: "top-right",
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined
-        });
+        _this5.props.showToast(resp, 'success');
 
         _this5.handleCerrarModal();
       })["catch"](function (err) {
-        console.log(err);
+        _this5.props.showToast(err, 'error');
       });
     }
   }, {
     key: "render",
     value: function render() {
       var causas = this.state.causas;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_toastify__WEBPACK_IMPORTED_MODULE_7__["ToastContainer"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "btn btn-success btn-sm",
         onClick: this.handleCrear
       }, "+ Crear"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -77325,9 +77296,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _TableEstadosa_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./TableEstadosa.js */ "./resources/js/components/TableEstadosa.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/react-toastify.esm.js");
-/* harmony import */ var react_toastify_dist_ReactToastify_css__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-toastify/dist/ReactToastify.css */ "./node_modules/react-toastify/dist/ReactToastify.css");
-/* harmony import */ var react_toastify_dist_ReactToastify_css__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(react_toastify_dist_ReactToastify_css__WEBPACK_IMPORTED_MODULE_8__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
@@ -77363,8 +77331,6 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-
 
 
 
@@ -77488,15 +77454,7 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
         abbr: abbr,
         activo: 1
       }).then(function (resp) {
-        react_toastify__WEBPACK_IMPORTED_MODULE_7__["toast"].success(resp.data.data, {
-          position: "top-right",
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined
-        });
+        _this2.props.showToast(resp);
 
         _this2.setState({
           clasesa: [].concat(_toConsumableArray(_this2.state.clasesa), [resp.data.row]),
@@ -77520,15 +77478,7 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
         licencia: incapacidad,
         activo: 1
       }).then(function (resp) {
-        react_toastify__WEBPACK_IMPORTED_MODULE_7__["toast"].success(resp.data.data, {
-          position: "top-right",
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined
-        });
+        _this3.props.showToast(resp);
 
         _this3.setState({
           estadosa: [].concat(_toConsumableArray(_this3.state.estadosa), [resp.data.row]),
@@ -77556,15 +77506,7 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
         licencia: incapacidad,
         activo: 1
       }).then(function (resp) {
-        react_toastify__WEBPACK_IMPORTED_MODULE_7__["toast"].success(resp.data.data, {
-          position: "top-right",
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined
-        });
+        _this4.props.showToast(resp);
 
         _this4.setState({
           descripciones: [].concat(_toConsumableArray(_this4.state.descripciones), [resp.data.row]),
@@ -77589,15 +77531,7 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
         abbr: abbr,
         activo: activo
       }).then(function (resp) {
-        react_toastify__WEBPACK_IMPORTED_MODULE_7__["toast"].success(resp.data.data, {
-          position: "top-right",
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined
-        });
+        _this5.props.showToast(resp);
 
         _this5.getSystemClasesa();
 
@@ -77626,15 +77560,7 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
         licencia: incapacidad,
         activo: activo
       }).then(function (resp) {
-        react_toastify__WEBPACK_IMPORTED_MODULE_7__["toast"].success(resp.data.data, {
-          position: "top-right",
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined
-        });
+        _this6.props.showToast(resp);
 
         _this6.getSystemEstadosa();
 
@@ -77668,15 +77594,7 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
         licencia: incapacidad,
         activo: activo
       }).then(function (resp) {
-        react_toastify__WEBPACK_IMPORTED_MODULE_7__["toast"].success(resp.data.data, {
-          position: "top-right",
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined
-        });
+        _this7.props.showToast(resp);
 
         _this7.getSystemDescripciones();
 
@@ -77764,7 +77682,7 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
       var clasesa = this.state.clasesa;
       var descripciones = this.state.descripciones;
       var estadosa = this.state.estadosa;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_toastify__WEBPACK_IMPORTED_MODULE_7__["ToastContainer"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "btn btn-success btn-sm",
         onClick: this.handleCrearClase
       }, "+ Crear"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -78214,9 +78132,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var bootstrap_dist_css_bootstrap_min_css__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(bootstrap_dist_css_bootstrap_min_css__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/react-toastify.esm.js");
-/* harmony import */ var react_toastify_dist_ReactToastify_css__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-toastify/dist/ReactToastify.css */ "./node_modules/react-toastify/dist/ReactToastify.css");
-/* harmony import */ var react_toastify_dist_ReactToastify_css__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react_toastify_dist_ReactToastify_css__WEBPACK_IMPORTED_MODULE_7__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
@@ -78252,8 +78167,6 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-
 
 
 
@@ -78349,15 +78262,7 @@ var DiasmaxAdmin = /*#__PURE__*/function (_Component) {
         dias_maximos: dias_maximos,
         especialidad: especialidad
       }).then(function (resp) {
-        react_toastify__WEBPACK_IMPORTED_MODULE_6__["toast"].success(resp.data.data, {
-          position: "top-right",
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined
-        });
+        _this2.props.showToast(resp);
 
         _this2.setState({
           esp: [].concat(_toConsumableArray(_this2.state.esp), [resp.data.row]),
@@ -78381,15 +78286,7 @@ var DiasmaxAdmin = /*#__PURE__*/function (_Component) {
         dias_maximos: dias_maximos,
         especialidad: especialidad
       }).then(function (resp) {
-        react_toastify__WEBPACK_IMPORTED_MODULE_6__["toast"].success(resp.data.data, {
-          position: "top-right",
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined
-        });
+        _this3.props.showToast(resp);
 
         _this3.getSystemDiasmax();
 
@@ -78415,7 +78312,6 @@ var DiasmaxAdmin = /*#__PURE__*/function (_Component) {
 
       var url = 'getSystemDiasmax';
       axios__WEBPACK_IMPORTED_MODULE_5___default.a.get(url).then(function (resp) {
-        //console.log(resp.data.data);
         _this4.setState({
           esp: resp.data.data
         });
@@ -78427,7 +78323,7 @@ var DiasmaxAdmin = /*#__PURE__*/function (_Component) {
     key: "render",
     value: function render() {
       var esp = this.state.esp;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_toastify__WEBPACK_IMPORTED_MODULE_6__["ToastContainer"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "btn btn-success btn-sm",
         onClick: this.handleCrear
       }, "+ Crear"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -78621,9 +78517,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-bootstrap/Modal */ "./node_modules/react-bootstrap/esm/Modal.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/react-toastify.esm.js");
-/* harmony import */ var react_toastify_dist_ReactToastify_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-toastify/dist/ReactToastify.css */ "./node_modules/react-toastify/dist/ReactToastify.css");
-/* harmony import */ var react_toastify_dist_ReactToastify_css__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react_toastify_dist_ReactToastify_css__WEBPACK_IMPORTED_MODULE_6__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
@@ -78659,8 +78552,6 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-
 
 
 
@@ -78754,15 +78645,7 @@ var EstadosAdmin = /*#__PURE__*/function (_Component) {
         estado: estadoi,
         activo: 1
       }).then(function (resp) {
-        react_toastify__WEBPACK_IMPORTED_MODULE_5__["toast"].success(resp.data.data, {
-          position: "top-right",
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined
-        });
+        _this2.props.showToast(resp);
 
         _this2.setState({
           estados: [].concat(_toConsumableArray(_this2.state.estados), [resp.data.row]),
@@ -78785,15 +78668,7 @@ var EstadosAdmin = /*#__PURE__*/function (_Component) {
         estado: estadoi,
         activo: activo
       }).then(function (resp) {
-        react_toastify__WEBPACK_IMPORTED_MODULE_5__["toast"].success(resp.data.data, {
-          position: "top-right",
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined
-        });
+        _this3.props.showToast(resp);
 
         _this3.getSystemEstados();
 
@@ -78822,7 +78697,6 @@ var EstadosAdmin = /*#__PURE__*/function (_Component) {
 
       var url = 'getSystemEstados';
       axios__WEBPACK_IMPORTED_MODULE_4___default.a.get(url).then(function (resp) {
-        //console.log(resp.data.data);
         _this4.setState({
           estados: resp.data.data
         });
@@ -78834,7 +78708,7 @@ var EstadosAdmin = /*#__PURE__*/function (_Component) {
     key: "render",
     value: function render() {
       var estados = this.state.estados;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_toastify__WEBPACK_IMPORTED_MODULE_5__["ToastContainer"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "btn btn-success btn-sm",
         onClick: this.handleCrear
       }, "+ Crear"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -80786,9 +80660,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-bootstrap/Modal */ "./node_modules/react-bootstrap/esm/Modal.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/react-toastify.esm.js");
-/* harmony import */ var react_toastify_dist_ReactToastify_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-toastify/dist/ReactToastify.css */ "./node_modules/react-toastify/dist/ReactToastify.css");
-/* harmony import */ var react_toastify_dist_ReactToastify_css__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react_toastify_dist_ReactToastify_css__WEBPACK_IMPORTED_MODULE_6__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
@@ -80824,8 +80695,6 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-
 
 
 
@@ -80926,15 +80795,7 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
         razon_social: razon_social,
         nit: nit
       }).then(function (resp) {
-        react_toastify__WEBPACK_IMPORTED_MODULE_5__["toast"].success(resp.data.data, {
-          position: "top-right",
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined
-        });
+        _this2.props.showToast(resp);
 
         _this2.setState({
           ips: [].concat(_toConsumableArray(_this2.state.ips), [resp.data.row]),
@@ -80969,15 +80830,7 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
         razon_social: razon_social,
         nit: nit
       }).then(function (resp) {
-        react_toastify__WEBPACK_IMPORTED_MODULE_5__["toast"].success(resp.data.data, {
-          position: "top-right",
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined
-        });
+        _this3.props.showToast(resp);
 
         _this3.getSystemIps();
 
@@ -81003,7 +80856,6 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
 
       var url = 'getSystemIps';
       axios__WEBPACK_IMPORTED_MODULE_4___default.a.get(url).then(function (resp) {
-        // console.log(resp.data.data);
         _this4.setState({
           ips: resp.data.data
         });
@@ -81015,7 +80867,7 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
     key: "render",
     value: function render() {
       var ips = this.state.ips;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_toastify__WEBPACK_IMPORTED_MODULE_5__["ToastContainer"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "btn btn-success btn-sm",
         onClick: this.handleCrear
       }, "+ Crear"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -84267,6 +84119,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _DiasmaxAdmin__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./DiasmaxAdmin */ "./resources/js/components/DiasmaxAdmin.js");
 /* harmony import */ var _IpsAdmin__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./IpsAdmin */ "./resources/js/components/IpsAdmin.js");
 /* harmony import */ var _DerechosAdmin__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./DerechosAdmin */ "./resources/js/components/DerechosAdmin.js");
+/* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/react-toastify.esm.js");
+/* harmony import */ var react_toastify_dist_ReactToastify_css__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react-toastify/dist/ReactToastify.css */ "./node_modules/react-toastify/dist/ReactToastify.css");
+/* harmony import */ var react_toastify_dist_ReactToastify_css__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(react_toastify_dist_ReactToastify_css__WEBPACK_IMPORTED_MODULE_10__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -84299,21 +84154,57 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
+
 var MenuGenerales = /*#__PURE__*/function (_Component) {
   _inherits(MenuGenerales, _Component);
 
   var _super = _createSuper(MenuGenerales);
 
   function MenuGenerales(props) {
+    var _this;
+
     _classCallCheck(this, MenuGenerales);
 
-    return _super.call(this, props); // bind
+    _this = _super.call(this, props); // bind
+
+    _this.handleToast = _this.handleToast.bind(_assertThisInitialized(_this));
+    return _this;
   }
 
   _createClass(MenuGenerales, [{
+    key: "handleToast",
+    value: function handleToast(arg, type) {
+      console.log('Menu generales');
+
+      if (type == 'success') {
+        react_toastify__WEBPACK_IMPORTED_MODULE_9__["toast"].success(arg.data.data, {
+          position: "top-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined
+        });
+      } else if (type == 'error') {
+        react_toastify__WEBPACK_IMPORTED_MODULE_9__["toast"].error(arg, {
+          position: "top-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined
+        });
+      }
+    }
+  }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+      var _this2 = this;
+
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_toastify__WEBPACK_IMPORTED_MODULE_9__["ToastContainer"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         className: "nav nav-tabs"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         className: "nav-item"
@@ -84356,22 +84247,42 @@ var MenuGenerales = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tab-pane container active",
         id: "ce"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_CausasAdmin_js__WEBPACK_IMPORTED_MODULE_3__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_CausasAdmin_js__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        showToast: function showToast(arg, type) {
+          return _this2.handleToast(arg, type);
+        }
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tab-pane container fade",
         id: "cie10"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Cie10Admin_js__WEBPACK_IMPORTED_MODULE_4__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tab-pane container fade",
         id: "diase"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_DiasmaxAdmin__WEBPACK_IMPORTED_MODULE_6__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_DiasmaxAdmin__WEBPACK_IMPORTED_MODULE_6__["default"], {
+        showToast: function showToast(arg, type) {
+          return _this2.handleToast(arg, type);
+        }
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tab-pane container fade",
         id: "estados"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_EstadosAdmin__WEBPACK_IMPORTED_MODULE_5__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_EstadosAdmin__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        showToast: function showToast(arg, type) {
+          return _this2.handleToast(arg, type);
+        }
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tab-pane container fade",
         id: "ips"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_IpsAdmin__WEBPACK_IMPORTED_MODULE_7__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_IpsAdmin__WEBPACK_IMPORTED_MODULE_7__["default"], {
+        showToast: function showToast(arg, type) {
+          return _this2.handleToast(arg, type);
+        }
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tab-pane container fade",
         id: "validacion"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_DerechosAdmin__WEBPACK_IMPORTED_MODULE_8__["default"], null))));
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_DerechosAdmin__WEBPACK_IMPORTED_MODULE_8__["default"], {
+        showToast: function showToast(arg, type) {
+          return _this2.handleToast(arg, type);
+        }
+      }))));
     }
   }]);
 
@@ -84379,11 +84290,6 @@ var MenuGenerales = /*#__PURE__*/function (_Component) {
 }(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
 
 /* harmony default export */ __webpack_exports__["default"] = (MenuGenerales);
-/*
-if (document.getElementById('menuUsuarios')) {
-    ReactDOM.render(<MenuUsuarios />, document.getElementById('menuUsuarios'));
-}
-*/
 
 /***/ }),
 
@@ -86671,8 +86577,8 @@ if (document.getElementById('test')) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\rauls\OneDrive\Documents\DEV\comfenalcoapp-prod\comfenalcoapp-prod\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\rauls\OneDrive\Documents\DEV\comfenalcoapp-prod\comfenalcoapp-prod\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\Ingenio David\comfenalcoapp-prod\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\Ingenio David\comfenalcoapp-prod\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

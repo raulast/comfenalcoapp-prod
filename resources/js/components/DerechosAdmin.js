@@ -7,9 +7,6 @@ import TableEstadosa from './TableEstadosa.js';
 import axios from 'axios';
 
 
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
 class DerechosAdmin extends Component {
     constructor(props) {
         super(props);
@@ -110,15 +107,7 @@ class DerechosAdmin extends Component {
         let abbr = document.getElementsByName('crear_abbr')[0].value
         axios.post(url, {clase: clase, abbr: abbr, activo: 1})
             .then(resp => {
-                toast.success(resp.data.data, {
-                    position: "top-right",
-                    autoClose: 1500,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
+                this.props.showToast(resp)
                 this.setState({
                     clasesa: [...this.state.clasesa, resp.data.row],
                     nuevoClase: 'oculto'
@@ -135,15 +124,7 @@ class DerechosAdmin extends Component {
         let incapacidad = document.getElementsByName('crear_incapacidad')[0].value
         axios.post(url, {estado: estado, incapacidad: incapacidad, licencia: incapacidad, activo: 1})
             .then(resp => {
-                toast.success(resp.data.data, {
-                    position: "top-right",
-                    autoClose: 1500,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
+                this.props.showToast(resp)
                 this.setState({
                     estadosa: [...this.state.estadosa, resp.data.row],
                     nuevoEstado: 'oculto'
@@ -162,15 +143,7 @@ class DerechosAdmin extends Component {
         let incapacidad = document.getElementsByName('programa_incapacidad')[0].value
         axios.post(url, {clases_afiliacion_id:clase,descripcion:descripcion,codigo:codigo,incapacidad:incapacidad,licencia:incapacidad,activo:1})
             .then(resp => {
-                toast.success(resp.data.data, {
-                    position: "top-right",
-                    autoClose: 1500,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
+                this.props.showToast(resp)
                 this.setState({
                     descripciones: [...this.state.descripciones, resp.data.row],
                     nuevoPrograma: 'oculto'
@@ -189,15 +162,7 @@ class DerechosAdmin extends Component {
         let activo = document.getElementsByName('editar_clase_activo')[0].value
         axios.put(url, {clase: clase, abbr: abbr, activo: activo})
             .then(resp => {
-                toast.success(resp.data.data, {
-                    position: "top-right",
-                    autoClose: 1500,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
+                this.props.showToast(resp)
                 this.getSystemClasesa()
                 this.setState({
                     clasesa: [...this.state.clasesa]
@@ -217,15 +182,7 @@ class DerechosAdmin extends Component {
         let activo = document.getElementsByName('editar_estadoa_activo')[0].value
         axios.put(url, {estado: estado, incapacidad: incapacidad, licencia: incapacidad, activo: activo})
             .then(resp => {
-                toast.success(resp.data.data, {
-                    position: "top-right",
-                    autoClose: 1500,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
+                this.props.showToast(resp)
                 this.getSystemEstadosa()
                 this.setState({
                     estadosa: [...this.state.estadosa]
@@ -248,15 +205,7 @@ class DerechosAdmin extends Component {
         let activo = document.getElementsByName('editar_programa_activo')[0].value
         axios.put(url, {clases_afiliacion_id:clase,descripcion:descripcion,codigo:codigo,incapacidad:incapacidad,licencia:incapacidad,activo:activo})
             .then(resp => {
-                toast.success(resp.data.data, {
-                    position: "top-right",
-                    autoClose: 1500,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
+                this.props.showToast(resp)
                 this.getSystemDescripciones()
                 this.setState({
                     descripciones: [...this.state.descripciones]
@@ -340,7 +289,6 @@ class DerechosAdmin extends Component {
         const { estadosa } = this.state;
         return (
             <div>
-                <ToastContainer/>
                 <br/>
                 <button className="btn btn-success btn-sm" onClick={this.handleCrearClase}>+ Crear</button>
                 <div className="row mt-2">

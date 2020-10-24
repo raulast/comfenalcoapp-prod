@@ -3,16 +3,11 @@ import ReactDOM from 'react-dom';
 import TableEstados from './TableEstados.js';
 import Modal from "react-bootstrap/Modal";
 
-
 import axios from 'axios';
-
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 class EstadosAdmin extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
             estados: '',
             nombre: '',
@@ -77,15 +72,7 @@ class EstadosAdmin extends Component {
         let estadoi = document.getElementsByName('estados_incapacidad')[0].value
         axios.post(url, {estado: estadoi, activo: 1})
             .then(resp => {
-                toast.success(resp.data.data, {
-                    position: "top-right",
-                    autoClose: 1500,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
+                this.props.showToast(resp)
                 this.setState({
                     estados: [...this.state.estados, resp.data.row],
                     nuevo: 'oculto'
@@ -102,15 +89,7 @@ class EstadosAdmin extends Component {
         let activo = document.getElementsByName('editar_estados_activo')[0].value
         axios.put(url, {estado: estadoi, activo: activo})
             .then(resp => {
-                toast.success(resp.data.data, {
-                    position: "top-right",
-                    autoClose: 1500,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
+                this.props.showToast(resp)
                 this.getSystemEstados()
                 this.setState({
                     estados: [...this.state.estados]
@@ -138,7 +117,6 @@ class EstadosAdmin extends Component {
         let url = 'getSystemEstados'
         axios.get(url)
             .then(resp => {
-                //console.log(resp.data.data);
                 this.setState({
                     estados: resp.data.data,
                 });
@@ -154,7 +132,6 @@ class EstadosAdmin extends Component {
         const { estados } = this.state;
         return (
             <div>
-                <ToastContainer/>
                 <br/><br/>
                 <button className="btn btn-success btn-sm" onClick={this.handleCrear}>+ Crear</button>
                 <div className="row mt-2">

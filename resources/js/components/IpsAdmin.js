@@ -3,12 +3,7 @@ import ReactDOM from 'react-dom';
 import TableIps from './TableIps.js';
 import Modal from "react-bootstrap/Modal";
 
-
 import axios from 'axios';
-
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
 
 class IpsAdmin extends Component {
     constructor(props) {
@@ -85,15 +80,7 @@ class IpsAdmin extends Component {
         let estado = 'S'
         axios.post(url, {cod_sede:cod_sede,nombre_sede:nombre_sede,estado:estado,cod_habilitacion:cod_habilitacion,direccion:direccion,telefono:telefono,razon_social:razon_social,nit:nit})
             .then(resp => {
-                toast.success(resp.data.data, {
-                    position: "top-right",
-                    autoClose: 1500,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
+                this.props.showToast(resp)
                 this.setState({
                     ips: [...this.state.ips, resp.data.row],
                     nuevo: 'oculto'
@@ -116,15 +103,7 @@ class IpsAdmin extends Component {
         let estado = 'S'
         axios.put(url, {cod_sede:cod_sede,nombre_sede:nombre_sede,estado:estado,cod_habilitacion:cod_habilitacion,direccion:direccion,telefono:telefono,razon_social:razon_social,nit:nit})
             .then(resp => {
-                toast.success(resp.data.data, {
-                    position: "top-right",
-                    autoClose: 1500,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
+                this.props.showToast(resp)
                 this.getSystemIps()
                 this.setState({
                     ips: [...this.state.ips]
@@ -145,7 +124,6 @@ class IpsAdmin extends Component {
         let url = 'getSystemIps'
         axios.get(url)
             .then(resp => {
-               // console.log(resp.data.data);
                 this.setState({
                     ips: resp.data.data,
                 });
@@ -161,7 +139,6 @@ class IpsAdmin extends Component {
         const { ips } = this.state;
         return (
             <div>
-                <ToastContainer/>
                 <br/>
                 <button className="btn btn-success btn-sm" onClick={this.handleCrear}>+ Crear</button>
                 <div className="row mt-2">

@@ -7,8 +7,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import axios from 'axios';
 import { templateSettings } from 'lodash';
 
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 
 
@@ -79,18 +77,10 @@ class CausasAdmin extends Component {
         axios.delete(url)
             .then(resp => {
                 this.getSystemCausas()
-                toast.success(resp.data.data, {
-                    position: "top-right",
-                    autoClose: 1500,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
+                this.props.showToast(resp,'success')
             })
             .catch(err => {
-                console.log(err)
+                this.props.showToast(err,'error')
             })
     }
 
@@ -99,22 +89,14 @@ class CausasAdmin extends Component {
         let causa = document.getElementsByName('causa_externa')[0].value
         axios.post(url, {causa_externa: causa, estado: 1})
             .then(resp => {
-                toast.success(resp.data.data, {
-                    position: "top-right",
-                    autoClose: 1500,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
+                this.props.showToast(resp,'success')
                 this.setState({
                     causas: [...this.state.causas, resp.data.row],
                     nuevo:'oculto'
                 });
             })
             .catch(err => {
-                console.log(err)
+                this.props.showToast(err,'error')
             })
     }
 
@@ -136,7 +118,7 @@ class CausasAdmin extends Component {
 
             })
             .catch(err => {
-                console.log(err)
+                this.props.showToast(err,'error')
             })
 
     }
@@ -152,19 +134,11 @@ class CausasAdmin extends Component {
                 this.setState({
                     causas: [...this.state.causas]
                 });
-                toast.success(resp.data.data, {
-                    position: "top-right",
-                    autoClose: 1500,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
+                this.props.showToast(resp,'success')
                 this.handleCerrarModal()
             })
             .catch(err => {
-                console.log(err)
+                this.props.showToast(err,'error')
             })
     }
 
@@ -172,7 +146,6 @@ class CausasAdmin extends Component {
         const { causas } = this.state;
         return (
             <div>
-                <ToastContainer/>
                 <br/><br/>
                 <button className="btn btn-success btn-sm" onClick={this.handleCrear}>+ Crear</button>
                 <div className="row mt-2">
