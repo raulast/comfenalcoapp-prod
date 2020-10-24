@@ -75,7 +75,7 @@ class DiasmaxAdmin extends Component {
         let dias_maximos = document.getElementsByName('asignar_dias_maximos')[0].value
         axios.post(url, {dias_maximos: dias_maximos, especialidad: especialidad})
             .then(resp => {
-                this.props.showToast(resp)
+                this.props.showToast(resp,'success')
                 this.setState({
                     esp: [...this.state.esp, resp.data.row],
                     nuevo: 'oculto'
@@ -93,7 +93,7 @@ class DiasmaxAdmin extends Component {
         let dias_maximos = document.getElementsByName('diasmax')[0].value
         axios.put(url, {dias_maximos: dias_maximos, especialidad: especialidad})
             .then(resp => {
-                this.props.showToast(resp)
+                this.props.showToast(resp,'success')
                 this.getSystemDiasmax()
                 this.setState({
                     esp: [...this.state.esp]

@@ -77454,7 +77454,7 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
         abbr: abbr,
         activo: 1
       }).then(function (resp) {
-        _this2.props.showToast(resp);
+        _this2.props.showToast(resp, 'success');
 
         _this2.setState({
           clasesa: [].concat(_toConsumableArray(_this2.state.clasesa), [resp.data.row]),
@@ -77478,7 +77478,7 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
         licencia: incapacidad,
         activo: 1
       }).then(function (resp) {
-        _this3.props.showToast(resp);
+        _this3.props.showToast(resp, 'success');
 
         _this3.setState({
           estadosa: [].concat(_toConsumableArray(_this3.state.estadosa), [resp.data.row]),
@@ -77506,7 +77506,7 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
         licencia: incapacidad,
         activo: 1
       }).then(function (resp) {
-        _this4.props.showToast(resp);
+        _this4.props.showToast(resp, 'success');
 
         _this4.setState({
           descripciones: [].concat(_toConsumableArray(_this4.state.descripciones), [resp.data.row]),
@@ -77531,7 +77531,7 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
         abbr: abbr,
         activo: activo
       }).then(function (resp) {
-        _this5.props.showToast(resp);
+        _this5.props.showToast(resp, 'success');
 
         _this5.getSystemClasesa();
 
@@ -77560,7 +77560,7 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
         licencia: incapacidad,
         activo: activo
       }).then(function (resp) {
-        _this6.props.showToast(resp);
+        _this6.props.showToast(resp, 'success');
 
         _this6.getSystemEstadosa();
 
@@ -77594,7 +77594,7 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
         licencia: incapacidad,
         activo: activo
       }).then(function (resp) {
-        _this7.props.showToast(resp);
+        _this7.props.showToast(resp, 'success');
 
         _this7.getSystemDescripciones();
 
@@ -78262,7 +78262,7 @@ var DiasmaxAdmin = /*#__PURE__*/function (_Component) {
         dias_maximos: dias_maximos,
         especialidad: especialidad
       }).then(function (resp) {
-        _this2.props.showToast(resp);
+        _this2.props.showToast(resp, 'success');
 
         _this2.setState({
           esp: [].concat(_toConsumableArray(_this2.state.esp), [resp.data.row]),
@@ -78286,7 +78286,7 @@ var DiasmaxAdmin = /*#__PURE__*/function (_Component) {
         dias_maximos: dias_maximos,
         especialidad: especialidad
       }).then(function (resp) {
-        _this3.props.showToast(resp);
+        _this3.props.showToast(resp, 'success');
 
         _this3.getSystemDiasmax();
 
@@ -78645,7 +78645,7 @@ var EstadosAdmin = /*#__PURE__*/function (_Component) {
         estado: estadoi,
         activo: 1
       }).then(function (resp) {
-        _this2.props.showToast(resp);
+        _this2.props.showToast(resp, 'success');
 
         _this2.setState({
           estados: [].concat(_toConsumableArray(_this2.state.estados), [resp.data.row]),
@@ -78668,7 +78668,7 @@ var EstadosAdmin = /*#__PURE__*/function (_Component) {
         estado: estadoi,
         activo: activo
       }).then(function (resp) {
-        _this3.props.showToast(resp);
+        _this3.props.showToast(resp, 'success');
 
         _this3.getSystemEstados();
 
@@ -80795,7 +80795,7 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
         razon_social: razon_social,
         nit: nit
       }).then(function (resp) {
-        _this2.props.showToast(resp);
+        _this2.props.showToast(resp, 'success');
 
         _this2.setState({
           ips: [].concat(_toConsumableArray(_this2.state.ips), [resp.data.row]),
@@ -80830,7 +80830,7 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
         razon_social: razon_social,
         nit: nit
       }).then(function (resp) {
-        _this3.props.showToast(resp);
+        _this3.props.showToast(resp, 'success');
 
         _this3.getSystemIps();
 
