@@ -15,6 +15,7 @@ class IpsAdmin extends Component {
         this.state = {
             ips: '',
             modalOpen: false,
+            nuevo:'oculto',
             name: {},
             errors : {
                   
@@ -29,7 +30,8 @@ class IpsAdmin extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.validarForm = this.validarForm.bind(this);
         this.clearErrors = this.clearErrors.bind(this);
-        this.handleChange=this.handleChange.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.handleCrear = this.handleCrear.bind(this);
         this.handleEdition = this.handleEdition.bind(this);
         this.handleEliminar = this.handleEliminar.bind(this);
         this.handleCerrarModal = this.handleCerrarModal.bind(this);
@@ -37,6 +39,12 @@ class IpsAdmin extends Component {
         this.getSystemIps();
     }
     
+    handleCrear() {
+        this.setState({
+            nuevo:'visible'
+          });
+    }
+
     handleChange({ target }) {
         this.setState({
           [target.name]: target.value
@@ -89,7 +97,43 @@ class IpsAdmin extends Component {
         const { ips } = this.state;
         return (
             <div>
-                
+                <br/>
+                <button className="btn btn-success btn-sm" onClick={this.handleCrear}>+ Crear</button>
+                <div className="row mt-2">
+                    <div className={this.state.nuevo}>
+                        <div className="col-md-12">
+                            <div className="card">
+                                <div className="card-body texto">
+                                    <div className="row">
+                                        <div className="col-sm-12">
+                                            <table className="container">
+                                                <tr className="row">
+                                                    <td className="col"><label>Código Sede <input type="text" className="form-control" id="nombre" name="crear_clase" onChange={this.handleChange}></input></label></td>
+                                                    <td className="col"><label>Nombre Sede <input type="text" className="form-control" id="nombre" name="crear_abbr" onChange={this.handleChange}></input></label></td>
+                                                </tr>
+                                                <tr className="row">
+                                                    <td className="col"><label>Cód. Habilitación <input type="text" className="form-control" id="nombre" name="crear_abbr" onChange={this.handleChange}></input></label></td>
+                                                    <td className="col"><label>Dirección <input type="text" className="form-control" id="nombre" name="crear_abbr" onChange={this.handleChange}></input></label></td>
+                                                </tr>
+                                                <tr className="row">
+                                                    <td className="col"><label>Teléfono <input type="text" className="form-control" id="nombre" name="crear_abbr" onChange={this.handleChange}></input></label></td>
+                                                    <td className="col"><label>Razón Social <input type="text" className="form-control" id="nombre" name="crear_abbr" onChange={this.handleChange}></input></label></td>
+                                                </tr>
+                                                <tr className="row">
+                                                    <td className="col"><label>Nit <input type="text" className="form-control" id="nombre" name="crear_abbr" onChange={this.handleChange}></input></label></td>
+                                                    <td className="col align-self-center"><button type="submit" className="btn btn-success btn-sm " onClick={this.handleSubmitClase}>Guardar</button></td>
+                                                </tr>
+                                            </table>
+                                            <div className={this.state.errors['nombre']}>
+                                                <div className={"redf  " + (this.state.errors['nombre'] || "")}>{this.state.errorMensajes['nombre']}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div className="row mt-5">
                     <div className="col-md-12">
                         <div className="card">
