@@ -8,7 +8,8 @@ export default function TableDescripciones(props) {
         props.handleEliminar(u.target.id)
     }
     const editar = (u) =>{
-        props.handleEdition(u.target.id)
+        const name = u.target.name.split('/') 
+        props.handleEdition(u.target.id, name[1], 'Programa', name[0])
     }
     const descripciones = props.descripciones;
     const estadoTypes = ["Inactivo", "Activo"]
@@ -22,7 +23,7 @@ export default function TableDescripciones(props) {
                 <td>{descripciones[key]['descripcion'] }</td>
                 <td>{licenciaTypes[descripciones[key]['incapacidad']]}</td>
                 <td>{estadoTypes[descripciones[key]['activo']]}</td>
-                <td><button className="btn btn-warning btn-sm" id={descripciones[key]['id']} onClick={editar}>Editar</button></td>
+                <td><button className="btn btn-warning btn-sm" id={descripciones[key]['id']} name={descripciones[key]['codigo']+'/'+descripciones[key]['descripcion']} onClick={editar}>Editar</button></td>
                
                 </tr>
             ))}

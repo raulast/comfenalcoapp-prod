@@ -1,9 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import Axios from 'axios'
-
-
-import axios from 'axios';
-
 
 export default function TableCausas(props) {
 
@@ -22,7 +17,8 @@ export default function TableCausas(props) {
             {Object.keys(causas).map((key) => (
                 <tr key={key}><td></td><td>{causas[key]['causa_externa']}</td>
                 <td>{estadoTypes[causas[key]['estado']]}</td>
-                    <td><button className="btn btn-warning btn-sm " id={causas[key]['id']} name={causas[key]['causa_externa']} onClick={editar}>Editar</button></td>
+                    <td><button className="btn btn-warning btn-sm" id={causas[key]['id']} name={causas[key]['causa_externa']} onClick={editar}>Editar</button></td>
+                    {/* <td><button className="btn btn-danger btn-sm" id={causas[key]['id']} name={causas[key]['causa_externa']} onClick={eliminar}>Eliminar</button></td> */}
                 </tr>
             ))}
         </tbody>
