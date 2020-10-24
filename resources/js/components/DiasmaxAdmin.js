@@ -82,7 +82,7 @@ class DiasmaxAdmin extends Component {
                 });
             })
             .catch(err => {
-                console.log(err)
+                this.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente','error')
             })
     }
     handleGuardar(){
@@ -101,7 +101,7 @@ class DiasmaxAdmin extends Component {
                 this.handleCerrarModal()
             })
             .catch(err => {
-                console.log(err)
+                this.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente','error')
             })
     }
     validarForm() {
@@ -120,7 +120,7 @@ class DiasmaxAdmin extends Component {
 
             })
             .catch(err => {
-                console.log(err)
+                this.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente','error')
             })
 
     }

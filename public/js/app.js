@@ -74862,7 +74862,7 @@ var CausasAdmin = /*#__PURE__*/function (_Component) {
 
         _this2.props.showToast(resp, 'success');
       })["catch"](function (err) {
-        _this2.props.showToast(err, 'error');
+        _this2.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
       });
     }
   }, {
@@ -74883,7 +74883,7 @@ var CausasAdmin = /*#__PURE__*/function (_Component) {
           nuevo: 'oculto'
         });
       })["catch"](function (err) {
-        _this3.props.showToast(err, 'error');
+        _this3.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
       });
     }
   }, {
@@ -74903,7 +74903,7 @@ var CausasAdmin = /*#__PURE__*/function (_Component) {
           causas: resp.data.data
         });
       })["catch"](function (err) {
-        _this4.props.showToast(err, 'error');
+        _this4.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
       });
     }
   }, {
@@ -74929,7 +74929,7 @@ var CausasAdmin = /*#__PURE__*/function (_Component) {
 
         _this5.handleCerrarModal();
       })["catch"](function (err) {
-        _this5.props.showToast(err, 'error');
+        _this5.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
       });
     }
   }, {
@@ -77461,7 +77461,7 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
           nuevoClase: 'oculto'
         });
       })["catch"](function (err) {
-        console.log(err);
+        _this2.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
       });
     }
   }, {
@@ -77485,7 +77485,7 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
           nuevoEstado: 'oculto'
         });
       })["catch"](function (err) {
-        console.log(err);
+        _this3.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
       });
     }
   }, {
@@ -77513,7 +77513,7 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
           nuevoPrograma: 'oculto'
         });
       })["catch"](function (err) {
-        console.log(err);
+        _this4.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
       });
     }
   }, {
@@ -77541,7 +77541,7 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
 
         _this5.handleCerrarModal();
       })["catch"](function (err) {
-        console.log(err);
+        _this5.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
       });
     }
   }, {
@@ -77570,7 +77570,7 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
 
         _this6.handleCerrarModal();
       })["catch"](function (err) {
-        console.log(err);
+        _this6.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
       });
     }
   }, {
@@ -77604,7 +77604,7 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
 
         _this7.handleCerrarModal();
       })["catch"](function (err) {
-        console.log(err);
+        _this7.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
       });
     }
   }, {
@@ -77645,7 +77645,7 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
           clasesa: resp.data.data
         });
       })["catch"](function (err) {
-        console.log(err);
+        _this8.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
       });
     }
   }, {
@@ -77659,7 +77659,7 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
           estadosa: resp.data.data
         });
       })["catch"](function (err) {
-        console.log(err);
+        _this9.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
       });
     }
   }, {
@@ -77673,7 +77673,7 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
           descripciones: resp.data.data
         });
       })["catch"](function (err) {
-        console.log(err);
+        _this10.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
       });
     }
   }, {
@@ -78269,7 +78269,7 @@ var DiasmaxAdmin = /*#__PURE__*/function (_Component) {
           nuevo: 'oculto'
         });
       })["catch"](function (err) {
-        console.log(err);
+        _this2.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
       });
     }
   }, {
@@ -78296,7 +78296,7 @@ var DiasmaxAdmin = /*#__PURE__*/function (_Component) {
 
         _this3.handleCerrarModal();
       })["catch"](function (err) {
-        console.log(err);
+        _this3.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
       });
     }
   }, {
@@ -78316,7 +78316,7 @@ var DiasmaxAdmin = /*#__PURE__*/function (_Component) {
           esp: resp.data.data
         });
       })["catch"](function (err) {
-        console.log(err);
+        _this4.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
       });
     }
   }, {
@@ -78652,7 +78652,7 @@ var EstadosAdmin = /*#__PURE__*/function (_Component) {
           nuevo: 'oculto'
         });
       })["catch"](function (err) {
-        console.log(err);
+        _this2.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
       });
     }
   }, {
@@ -78678,7 +78678,7 @@ var EstadosAdmin = /*#__PURE__*/function (_Component) {
 
         _this3.handleCerrarModal();
       })["catch"](function (err) {
-        console.log(err);
+        _this3.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
       });
     }
   }, {
@@ -78701,7 +78701,7 @@ var EstadosAdmin = /*#__PURE__*/function (_Component) {
           estados: resp.data.data
         });
       })["catch"](function (err) {
-        console.log(err);
+        _this4.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
       });
     }
   }, {
@@ -80802,7 +80802,7 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
           nuevo: 'oculto'
         });
       })["catch"](function (err) {
-        console.log(err);
+        _this2.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
       });
     }
   }, {
@@ -80840,7 +80840,7 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
 
         _this3.handleCerrarModal();
       })["catch"](function (err) {
-        console.log(err);
+        _this3.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
       });
     }
   }, {
@@ -80860,7 +80860,7 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
           ips: resp.data.data
         });
       })["catch"](function (err) {
-        console.log(err);
+        _this4.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
       });
     }
   }, {
@@ -86577,8 +86577,8 @@ if (document.getElementById('test')) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\Ingenio David\comfenalcoapp-prod\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! D:\Ingenio David\comfenalcoapp-prod\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\rauls\OneDrive\Documents\DEV\comfenalcoapp-prod\comfenalcoapp-prod\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\rauls\OneDrive\Documents\DEV\comfenalcoapp-prod\comfenalcoapp-prod\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

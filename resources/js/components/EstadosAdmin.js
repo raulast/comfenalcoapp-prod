@@ -79,7 +79,7 @@ class EstadosAdmin extends Component {
                 });
             })
             .catch(err => {
-                console.log(err)
+                this.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente','error')
             })
     }
     handleGuardar(){
@@ -97,7 +97,7 @@ class EstadosAdmin extends Component {
                 this.handleCerrarModal()
             })
             .catch(err => {
-                console.log(err)
+                this.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente','error')
             })
     }
 
@@ -123,7 +123,7 @@ class EstadosAdmin extends Component {
 
             })
             .catch(err => {
-                console.log(err)
+                this.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente','error')
             })
 
     }

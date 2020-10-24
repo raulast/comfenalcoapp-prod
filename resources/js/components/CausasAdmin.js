@@ -80,7 +80,7 @@ class CausasAdmin extends Component {
                 this.props.showToast(resp,'success')
             })
             .catch(err => {
-                this.props.showToast(err,'error')
+                this.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente','error')
             })
     }
 
@@ -96,7 +96,7 @@ class CausasAdmin extends Component {
                 });
             })
             .catch(err => {
-                this.props.showToast(err,'error')
+                this.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente','error')
             })
     }
 
@@ -118,7 +118,7 @@ class CausasAdmin extends Component {
 
             })
             .catch(err => {
-                this.props.showToast(err,'error')
+                this.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente','error')
             })
 
     }
@@ -138,7 +138,7 @@ class CausasAdmin extends Component {
                 this.handleCerrarModal()
             })
             .catch(err => {
-                this.props.showToast(err,'error')
+                this.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente','error')
             })
     }
 
@@ -150,27 +150,27 @@ class CausasAdmin extends Component {
                 <button className="btn btn-success btn-sm" onClick={this.handleCrear}>+ Crear</button>
                 <div className="row mt-2">
                     <div className={this.state.nuevo}>
-                    <div className="col-md-12">
-                        <div className="card">
-                            <div className="card-body texto">
-                                <div className="row">
-                                    <div className="col-sm-12">
-                                        <table>
-                                            <tr>
-                                                <td>Nombre</td>
-                                                <td><input type="text" className="form-control" id="nombre" name="causa_externa" onChange={this.handleChange}></input></td>
-                                                <td><button type="submit" className="btn btn-success btn-sm" onClick={this.handleSubmit}>Guardar</button></td>
-                                            </tr>
-                                        </table>
+                        <div className="col-md-12">
+                            <div className="card">
+                                <div className="card-body texto">
+                                    <div className="row">
+                                        <div className="col-sm-12">
+                                            <table>
+                                                <tr>
+                                                    <td>Nombre</td>
+                                                    <td><input type="text" className="form-control" id="nombre" name="causa_externa" onChange={this.handleChange}></input></td>
+                                                    <td><button type="submit" className="btn btn-success btn-sm" onClick={this.handleSubmit}>Guardar</button></td>
+                                                </tr>
+                                            </table>
 
-                                        <div className={this.state.errors['nombre']}>
-                                            <div className={"redf  " + (this.state.errors['nombre'] || "")}>{this.state.errorMensajes['nombre']}</div>
+                                            <div className={this.state.errors['nombre']}>
+                                                <div className={"redf  " + (this.state.errors['nombre'] || "")}>{this.state.errorMensajes['nombre']}</div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                     </div>
                 </div>
                 <div className="row mt-2">
