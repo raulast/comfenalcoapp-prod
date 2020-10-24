@@ -7,6 +7,8 @@ import TableEstadosa from './TableEstadosa.js';
 import axios from 'axios';
 
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 class DerechosAdmin extends Component {
     constructor(props) {
@@ -24,23 +26,29 @@ class DerechosAdmin extends Component {
             nuevoEstado: 'oculto',
             nuevoPrograma: 'oculto',
             modalClaseOpen: false,
-            modalEstadoOpen: false, 
+            modalEstadoOpen: false,
             modalProgramaOpen: false,
             formCreate: '0',
             errors : {
-                  
+
             },
             errorMensajes :{
-                
-            }
+
+            },
+            IdEditar:''
         }
         // bind
         this.getSystemClasesa = this.getSystemClasesa.bind(this);
         this.getSystemDescripciones= this.getSystemDescripciones.bind(this);
         this.getSystemEstadosa= this.getSystemEstadosa.bind(this);
-       
-       
-        this.handleSubmit = this.handleSubmit.bind(this);
+
+
+        this.handleSubmitClase = this.handleSubmitClase.bind(this);
+        this.handleSubmitEstado = this.handleSubmitEstado.bind(this);
+        this.handleSubmitPrograma = this.handleSubmitPrograma.bind(this);
+        this.handleGuardarClase = this.handleGuardarClase.bind(this);
+        this.handleGuardarEstado = this.handleGuardarEstado.bind(this);
+        this.handleGuardarPrograma = this.handleGuardarPrograma.bind(this);
         this.validarForm = this.validarForm.bind(this);
         this.clearErrors = this.clearErrors.bind(this);
         this.handleChange=this.handleChange.bind(this);
@@ -64,42 +72,199 @@ class DerechosAdmin extends Component {
         if(table == 'Clase'){
             this.setState({
                 nombreClase: name,
-                modalClaseOpen: true, 
+                modalClaseOpen: true,
+                IdEditar: id
             });
         } else if(table == 'Estado'){
             this.setState({
                 nombreEstado: name,
-                modalEstadoOpen: true, 
+                modalEstadoOpen: true,
+                IdEditar: id
             });
         } else if(table == 'Programa'){
             this.setState({
                 nombrePrograma: name,
                 codigoPrograma: codigo,
-                modalProgramaOpen: true, 
+                modalProgramaOpen: true,
+                IdEditar: id
             });
-        }             
+        }
     }
 
     handleCerrarModal(){
         this.setState({
-            modalClaseOpen: false, 
-            modalEstadoOpen: false, 
-            modalProgramaOpen: false, 
+            modalClaseOpen: false,
+            modalEstadoOpen: false,
+            modalProgramaOpen: false,
         });
     }
 
     handleEliminar(id){
-        
+
     }
-    handleSubmit(e){          
-        
+    handleSubmitClase(e){
+        let url = 'parametro/clasesa/agregar'
+        let clase = document.getElementsByName('crear_clase')[0].value
+        let abbr = document.getElementsByName('crear_abbr')[0].value
+        axios.post(url, {clase: clase, abbr: abbr, activo: 1})
+            .then(resp => {
+                toast.success(resp.data.data, {
+                    position: "top-right",
+                    autoClose: 1500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+                this.setState({
+                    clasesa: [...this.state.clasesa, resp.data.row],
+                    nuevoClase: 'oculto'
+                });
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+    handleSubmitEstado(e){
+        let url = 'parametro/estadosa/agregar'
+        let estado = document.getElementsByName('crear_estadoa')[0].value
+        let incapacidad = document.getElementsByName('crear_incapacidad')[0].value
+        axios.post(url, {estado: estado, incapacidad: incapacidad, licencia: incapacidad, activo: 1})
+            .then(resp => {
+                toast.success(resp.data.data, {
+                    position: "top-right",
+                    autoClose: 1500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+                this.setState({
+                    estadosa: [...this.state.estadosa, resp.data.row],
+                    nuevoEstado: 'oculto'
+                });
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+    handleSubmitPrograma(e){
+        let url = 'parametro/descripcionesp/agregar'
+        let clase = document.getElementsByName('programa_clasea')[0].value
+        let descripcion = document.getElementsByName('programa_descripcion')[0].value
+        let codigo = document.getElementsByName('programa_codigo')[0].value
+        let incapacidad = document.getElementsByName('programa_incapacidad')[0].value
+        axios.post(url, {clases_afiliacion_id:clase,descripcion:descripcion,codigo:codigo,incapacidad:incapacidad,licencia:incapacidad,activo:1})
+            .then(resp => {
+                toast.success(resp.data.data, {
+                    position: "top-right",
+                    autoClose: 1500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+                this.setState({
+                    descripciones: [...this.state.descripciones, resp.data.row],
+                    nuevoPrograma: 'oculto'
+                });
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+    handleGuardarClase(e){
+        let id = this.state.IdEditar
+        let url = `parametro/clasesa/${id}/editar`
+        let clase = document.getElementsByName('editar_clase')[0].value
+        let abbr = document.getElementsByName('editar_abbr')[0].value
+        let activo = document.getElementsByName('editar_clase_activo')[0].value
+        axios.put(url, {clase: clase, abbr: abbr, activo: activo})
+            .then(resp => {
+                toast.success(resp.data.data, {
+                    position: "top-right",
+                    autoClose: 1500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+                this.getSystemClasesa()
+                this.setState({
+                    clasesa: [...this.state.clasesa]
+                });
+                this.handleCerrarModal()
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+    handleGuardarEstado(e){
+        let id = this.state.IdEditar
+        let url = `parametro/estadosa/${id}/editar`
+        let estado = document.getElementsByName('editar_estadoa')[0].value
+        let incapacidad = document.getElementsByName('editar_incapacidad')[0].value
+        let activo = document.getElementsByName('editar_estadoa_activo')[0].value
+        axios.put(url, {estado: estado, incapacidad: incapacidad, licencia: incapacidad, activo: activo})
+            .then(resp => {
+                toast.success(resp.data.data, {
+                    position: "top-right",
+                    autoClose: 1500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+                this.getSystemEstadosa()
+                this.setState({
+                    estadosa: [...this.state.estadosa]
+                });
+                this.handleCerrarModal()
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+    handleGuardarPrograma(e){
+        let id = this.state.IdEditar
+        let url = `parametro/descripcionesp/${id}/editar`
+        let codigo = document.getElementsByName('editar_programa_codigo')[0].value
+        let clase = document.getElementsByName('editar_programa_clasea')[0].value
+        let descripcion = document.getElementsByName('editar_programa_descripcion')[0].value
+        let incapacidad = document.getElementsByName('editar_programa_incapacidad')[0].value
+        let activo = document.getElementsByName('editar_programa_activo')[0].value
+        axios.put(url, {clases_afiliacion_id:clase,descripcion:descripcion,codigo:codigo,incapacidad:incapacidad,licencia:incapacidad,activo:activo})
+            .then(resp => {
+                toast.success(resp.data.data, {
+                    position: "top-right",
+                    autoClose: 1500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+                this.getSystemDescripciones()
+                this.setState({
+                    descripciones: [...this.state.descripciones]
+                });
+                this.handleCerrarModal()
+            })
+            .catch(err => {
+                console.log(err)
+            })
     }
     validarForm() {
-        
+
     }
     clearErrors(){
-        
-    }   
+
+    }
 
     handleCrearClase() {
         this.setState({
@@ -170,6 +335,7 @@ class DerechosAdmin extends Component {
         const { estadosa } = this.state;
         return (
             <div>
+                <ToastContainer/>
                 <br/>
                 <button className="btn btn-success btn-sm" onClick={this.handleCrearClase}>+ Crear</button>
                 <div className="row mt-2">
@@ -181,12 +347,12 @@ class DerechosAdmin extends Component {
                                         <div className="col-sm-12">
                                             <table className="container">
                                                 <tr className="row">
-                                                    <td className="col"><label>Clase <input type="text" className="form-control" id="nombre" name="causa_externa" onChange={this.handleChange}></input></label></td>
-                                                    <td className="col"><label>Abbr <input type="text" className="form-control" id="nombre" name="causa_externa" onChange={this.handleChange}></input></label></td>
+                                                    <td className="col"><label>Clase <input type="text" className="form-control" id="nombre" name="crear_clase" onChange={this.handleChange}></input></label></td>
+                                                    <td className="col"><label>Abbr <input type="text" className="form-control" id="nombre" name="crear_abbr" onChange={this.handleChange}></input></label></td>
                                                 </tr>
                                                 <tr className="row">
-                                                    <td className="col"><label>Estado <input type="text" className="form-control" id="nombre" name="causa_externa" onChange={this.handleChange}></input></label></td>
-                                                    <td className="col align-self-center"><button type="submit" className="btn btn-success btn-sm " onClick={this.handleSubmit}>Guardar</button></td>
+                                                    {/* <td className="col"><label>Estado <input type="text" className="form-control" id="nombre" name="causa_externa" onChange={this.handleChange}></input></label></td> */}
+                                                    <td className="col align-self-center"><button type="submit" className="btn btn-success btn-sm " onClick={this.handleSubmitClase}>Guardar</button></td>
                                                 </tr>
                                             </table>
                                             <div className={this.state.errors['nombre']}>
@@ -231,18 +397,18 @@ class DerechosAdmin extends Component {
                                             <table className="container">
                                                 <tr className="row">
                                                     <td className="col">
-                                                        <label>
+                                                        {/* <label>
                                                             Activo
                                                             <select className="form-control form-control-sm" defaultValue="1" name="estado_causa" onChange={this.handleChangeC }>
                                                                 <option value='1'>Activo</option>
                                                                 <option value='0'>Inactivo</option>
                                                             </select>
-                                                        </label>
+                                                        </label> */}
                                                     </td>
                                                     <td className="col">
                                                         <label>
                                                             Incapacidad
-                                                            <select className="form-control form-control-sm" defaultValue="1" name="estado_causa" onChange={this.handleChangeC }>
+                                                            <select className="form-control form-control-sm" defaultValue="1" name="crear_incapacidad" onChange={this.handleChangeC }>
                                                                 <option value='1'>Si</option>
                                                                 <option value='0'>No</option>
                                                             </select>
@@ -250,8 +416,8 @@ class DerechosAdmin extends Component {
                                                     </td>
                                                 </tr>
                                                 <tr className="row">
-                                                <td className="col"><label>Estado <input type="text" className="form-control" id="nombre" name="causa_externa" onChange={this.handleChange}></input></label></td>
-                                                    <td className="col align-self-center"><button type="submit" className="btn btn-success btn-sm " onClick={this.handleSubmit}>Guardar</button></td>
+                                                <td className="col"><label>Estado <input type="text" className="form-control" id="nombre" name="crear_estadoa" onChange={this.handleChange}></input></label></td>
+                                                    <td className="col align-self-center"><button type="submit" className="btn btn-success btn-sm " onClick={this.handleSubmitEstado}>Guardar</button></td>
                                                 </tr>
                                             </table>
                                             <div className={this.state.errors['nombre']}>
@@ -298,7 +464,7 @@ class DerechosAdmin extends Component {
                                                     <td className="col">
                                                         <label>
                                                             Tipo afiliación
-                                                            <select className="form-control form-control-sm" defaultValue="1" name="estado_causa" onChange={this.handleChangeC }>
+                                                            <select className="form-control form-control-sm" defaultValue="1" name="programa_clasea" onChange={this.handleChangeC }>
                                                                 <option value='1'>1</option>
                                                                 <option value='2'>2</option>
                                                             </select>
@@ -307,26 +473,26 @@ class DerechosAdmin extends Component {
                                                     <td className="col">
                                                         <label>
                                                             Incapacidad
-                                                            <select className="form-control form-control-sm" defaultValue="1" name="estado_causa" onChange={this.handleChangeC }>
+                                                            <select className="form-control form-control-sm" defaultValue="1" name="programa_incapacidad" onChange={this.handleChangeC }>
                                                                 <option value='1'>Si</option>
                                                                 <option value='0'>No</option>
                                                             </select>
                                                         </label>
                                                     </td>
                                                     <td className="col">
-                                                        <label>
+                                                        {/* <label>
                                                             Estado
                                                             <select className="form-control form-control-sm" defaultValue="1" name="estado_causa" onChange={this.handleChangeC }>
                                                                 <option value='1'>Activo</option>
                                                                 <option value='0'>Inactivo</option>
                                                             </select>
-                                                        </label>
+                                                        </label> */}
                                                     </td>
                                                 </tr>
                                                 <tr className="row">
-                                                    <td className="col"><label>Código <input type="number" className="form-control" id="nombre" name="causa_externa" onChange={this.handleChange}></input></label></td>
-                                                    <td className="col"><label>Descripción <input type="text" className="form-control" id="nombre" name="causa_externa" onChange={this.handleChange}></input></label></td>
-                                                    <td className="col align-self-center"><button type="submit" className="btn btn-success btn-sm " onClick={this.handleSubmit}>Guardar</button></td>
+                                                    <td className="col"><label>Código <input type="number" className="form-control" id="nombre" name="programa_codigo" onChange={this.handleChange}></input></label></td>
+                                                    <td className="col"><label>Descripción <input type="text" className="form-control" id="nombre" name="programa_descripcion" onChange={this.handleChange}></input></label></td>
+                                                    <td className="col align-self-center"><button type="submit" className="btn btn-success btn-sm " onClick={this.handleSubmitPrograma}>Guardar</button></td>
                                                 </tr>
                                             </table>
                                             <div className={this.state.errors['nombre']}>
@@ -370,17 +536,17 @@ class DerechosAdmin extends Component {
                                     <form>
                                         <div className="form-group">
                                             <label htmlFor="codigo">Clase</label>
-                                            <input type="text" className="form-control form-control-sm" name="especialidad" defaultValue={this.state.nombreClase} onChange={this.handleChangeC }/>
+                                            <input type="text" className="form-control form-control-sm" name="editar_clase" defaultValue={this.state.nombreClase} onChange={this.handleChangeC }/>
                                         </div>
-                                        
+
                                         <div className="form-group">
                                             <label htmlFor="capitulo_grupo">Abbr</label>
-                                            <input type="text" className="form-control form-control-sm" name="diasmax" onChange={this.handleChangeC }/>
+                                            <input type="text" className="form-control form-control-sm" name="editar_abbr" onChange={this.handleChangeC }/>
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="capitulo_grupo">Estado</label>
-                                            <select className="form-control form-control-sm" defaultValue="1">
+                                            <select className="form-control form-control-sm" defaultValue="1" name="editar_clase_activo">
                                                 <option value="1">Activo</option>
                                                 <option value="0">Inactivo</option>
                                             </select>
@@ -390,10 +556,10 @@ class DerechosAdmin extends Component {
                             </div>
                         </div>
                     </Modal.Body>
-                    <Modal.Footer><button className="btn btn-primary btn-sm" onClick={ this.handleGuardar }>Guardar</button><button className="btn btn-primary btn-sm" onClick={ this.handleCerrarModal }>Cerrar</button></Modal.Footer>
+                    <Modal.Footer><button className="btn btn-primary btn-sm" onClick={ this.handleGuardarClase }>Guardar</button><button className="btn btn-primary btn-sm" onClick={ this.handleCerrarModal }>Cerrar</button></Modal.Footer>
                 </Modal>
                 <Modal show={this.state.modalEstadoOpen}>
-                    <Modal.Header>Clase</Modal.Header>
+                    <Modal.Header>Estado</Modal.Header>
                     <Modal.Body>
                         <div className="container">
                             <div className="row">
@@ -401,12 +567,12 @@ class DerechosAdmin extends Component {
                                     <form>
                                         <div className="form-group">
                                             <label htmlFor="codigo">Estado</label>
-                                            <input type="text" className="form-control form-control-sm" name="especialidad" defaultValue={this.state.nombreEstado} onChange={this.handleChangeC }/>
+                                            <input type="text" className="form-control form-control-sm" name="editar_estadoa" defaultValue={this.state.nombreEstado} onChange={this.handleChangeC }/>
                                         </div>
-                                        
+
                                         <div className="form-group">
                                             <label htmlFor="capitulo_grupo">Incapacidad</label>
-                                            <select className="form-control form-control-sm" defaultValue="1">
+                                            <select className="form-control form-control-sm" defaultValue="1" name="editar_incapacidad">
                                                 <option value="1">Si</option>
                                                 <option value="0">No</option>
                                             </select>
@@ -414,7 +580,7 @@ class DerechosAdmin extends Component {
 
                                         <div className="form-group">
                                             <label htmlFor="capitulo_grupo">Activo</label>
-                                            <select className="form-control form-control-sm" defaultValue="1">
+                                            <select className="form-control form-control-sm" defaultValue="1" name="editar_estadoa_activo">
                                                 <option value="1">Activo</option>
                                                 <option value="0">Inactivo</option>
                                             </select>
@@ -424,10 +590,10 @@ class DerechosAdmin extends Component {
                             </div>
                         </div>
                     </Modal.Body>
-                    <Modal.Footer><button className="btn btn-primary btn-sm" onClick={ this.handleGuardar }>Guardar</button><button className="btn btn-primary btn-sm" onClick={ this.handleCerrarModal }>Cerrar</button></Modal.Footer>
+                    <Modal.Footer><button className="btn btn-primary btn-sm" onClick={ this.handleGuardarEstado }>Guardar</button><button className="btn btn-primary btn-sm" onClick={ this.handleCerrarModal }>Cerrar</button></Modal.Footer>
                 </Modal>
                 <Modal show={this.state.modalProgramaOpen}>
-                    <Modal.Header>Clase</Modal.Header>
+                    <Modal.Header>Programa</Modal.Header>
                     <Modal.Body>
                         <div className="container">
                             <div className="row">
@@ -435,12 +601,12 @@ class DerechosAdmin extends Component {
                                     <form>
                                         <div className="form-group">
                                             <label htmlFor="codigo">Código</label>
-                                            <input type="text" className="form-control form-control-sm" name="especialidad" defaultValue={this.state.codigoPrograma} onChange={this.handleChangeC }/>
+                                            <input type="text" className="form-control form-control-sm" name="editar_programa_codigo" defaultValue={this.state.codigoPrograma} onChange={this.handleChangeC }/>
                                         </div>
-                                        
+
                                         <div className="form-group">
                                             <label htmlFor="capitulo_grupo">Tipo afiliación</label>
-                                            <select className="form-control form-control-sm" defaultValue="1">
+                                            <select className="form-control form-control-sm" defaultValue="1" name="editar_programa_clasea">
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>
                                             </select>
@@ -448,12 +614,12 @@ class DerechosAdmin extends Component {
 
                                         <div className="form-group">
                                             <label htmlFor="capitulo_grupo">Descripción</label>
-                                            <input type="text" className="form-control form-control-sm" name="especialidad" defaultValue={this.state.nombrePrograma} onChange={this.handleChangeC }/>
+                                            <input type="text" className="form-control form-control-sm" name="editar_programa_descripcion" defaultValue={this.state.nombrePrograma} onChange={this.handleChangeC }/>
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="capitulo_grupo">Incapacidad</label>
-                                            <select className="form-control form-control-sm" defaultValue="1">
+                                            <select className="form-control form-control-sm" defaultValue="1" name="editar_programa_incapacidad">
                                                 <option value="1">Si</option>
                                                 <option value="0">No</option>
                                             </select>
@@ -461,7 +627,7 @@ class DerechosAdmin extends Component {
 
                                         <div className="form-group">
                                             <label htmlFor="capitulo_grupo">Estado</label>
-                                            <select className="form-control form-control-sm" defaultValue="1">
+                                            <select className="form-control form-control-sm" defaultValue="1" name="editar_programa_activo">
                                                 <option value="1">Activo</option>
                                                 <option value="0">Inactivo</option>
                                             </select>

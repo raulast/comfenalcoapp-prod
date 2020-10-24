@@ -5,6 +5,8 @@ import Modal from "react-bootstrap/Modal";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from 'axios';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 class DiasmaxAdmin extends Component {
@@ -19,21 +21,24 @@ class DiasmaxAdmin extends Component {
             modalOpen:false,
             nombre: '',
             errors : {
-                nombre : 'oculto',      
+                nombre : 'oculto',
             },
             errorMensajes :{
                 nombre : '',
-            }
+            },
+            IdEditar:''
         }
+
         // bind
         this.getSystemDiasmax = this.getSystemDiasmax.bind(this);
-       
+
         this.handleSubmit = this.handleSubmit.bind(this);
         this.validarForm = this.validarForm.bind(this);
         this.clearErrors = this.clearErrors.bind(this);
         this.handleChange=this.handleChange.bind(this);
         this.handleEdition = this.handleEdition.bind(this);
         this.handleCrear = this.handleCrear.bind(this);
+        this.handleGuardar = this.handleGuardar.bind(this);
         this.handleEliminar = this.handleEliminar.bind(this);
         this.handleCerrarModal = this.handleCerrarModal.bind(this);
         this.getSystemDiasmax();
@@ -50,7 +55,7 @@ class DiasmaxAdmin extends Component {
         this.setState({
             esped:esped,
             modalOpen: true,
-            
+            IdEditar: id
         });
     }
     handleChange({ target }) {
@@ -60,22 +65,70 @@ class DiasmaxAdmin extends Component {
     }
     handleCerrarModal(){
         this.setState({
-           
+
             modalOpen: false,
           });
     }
     handleEliminar(id){
-        
+
     }
-    handleSubmit(e){          
-        
+    handleSubmit(){
+        let url = 'parametro/diasmax/agregar'
+        let especialidad = document.getElementsByName('crear_especialidad')[0].value
+        let dias_maximos = document.getElementsByName('asignar_dias_maximos')[0].value
+        axios.post(url, {dias_maximos: dias_maximos, especialidad: especialidad})
+            .then(resp => {
+                toast.success(resp.data.data, {
+                    position: "top-right",
+                    autoClose: 1500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+                this.setState({
+                    esp: [...this.state.esp, resp.data.row],
+                    nuevo: 'oculto'
+                });
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+    handleGuardar(){
+        let id = this.state.IdEditar;
+        console.log(id)
+        let url = `parametro/diasmax/${id}/editar`
+        let especialidad = document.getElementsByName('editar_especialidad')[0].value
+        let dias_maximos = document.getElementsByName('diasmax')[0].value
+        axios.put(url, {dias_maximos: dias_maximos, especialidad: especialidad})
+            .then(resp => {
+                toast.success(resp.data.data, {
+                    position: "top-right",
+                    autoClose: 1500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+                this.getSystemDiasmax()
+                this.setState({
+                    esp: [...this.state.esp]
+                });
+                this.handleCerrarModal
+            })
+            .catch(err => {
+                console.log(err)
+            })
     }
     validarForm() {
-        
+
     }
     clearErrors(){
-        
-    }   
+
+    }
     getSystemDiasmax() {
         let url = 'getSystemDiasmax'
         axios.get(url)
@@ -91,11 +144,12 @@ class DiasmaxAdmin extends Component {
             })
 
     }
-    
+
     render() {
         const { esp } = this.state;
         return (
             <div>
+                <ToastContainer/>
                 <br/>
                 <button className="btn btn-success btn-sm" onClick={this.handleCrear}>+ Crear</button>
                 <div className="row mt-2">
@@ -108,11 +162,11 @@ class DiasmaxAdmin extends Component {
                                             <table>
                                                 <tr>
                                                     <td>Especialidad</td>
-                                                    <td><input type="text" className="form-control" id="nombre" name="causa_externa" defaultValue='Hola' onChange={this.handleChange}></input></td>
+                                                    <td><input type="text" className="form-control" id="nombre" name="crear_especialidad" defaultValue='' onChange={this.handleChange}></input></td>
                                                 </tr>
                                                 <tr>
                                                     <td>Días máximos</td>
-                                                    <td><input type="number" className="form-control" id="nombre" name="causa_externa" onChange={this.handleChange}></input></td>
+                                                    <td><input type="number" className="form-control" id="nombre" name="asignar_dias_maximos" onChange={this.handleChange}></input></td>
                                                 </tr>
                                                 <tr>
                                                     <td><button type="submit" className="btn btn-success btn-sm" onClick={this.handleSubmit}>Guardar</button></td>
@@ -140,7 +194,7 @@ class DiasmaxAdmin extends Component {
                                             <th scope="col"></th>
                                             <th scope="col">Especialidad</th>
                                             <th scope="col">Días máximos</th>
-                                            <th scope="col"></th>                                           
+                                            <th scope="col"></th>
                                         </tr>
                                     </thead>
                                     <TableDiasmax esp={esp} handleEdition ={this.handleEdition} handleEliminar ={this.handleEliminar}/>
@@ -159,14 +213,14 @@ class DiasmaxAdmin extends Component {
                                     <form>
                                         <div className="form-group">
                                             <label htmlFor="codigo">Especialidad</label>
-                                            <input type="text" className="form-control form-control-sm" name="especialidad" value={this.state.esped} onChange={this.handleChangeC }/>
+                                            <input type="text" className="form-control form-control-sm" name="editar_especialidad" defaultValue={this.state.esped} onChange={this.handleChange }/>
                                         </div>
-                                        
+
                                         <div className="form-group">
                                             <label htmlFor="capitulo_grupo">Días máximos</label>
-                                            <input type="text" className="form-control form-control-sm" name="diasmax" value={this.state.diasmax} onChange={this.handleChangeC }/>
+                                            <input type="text" className="form-control form-control-sm" name="diasmax" value={this.state.diasmax} onChange={this.handleChange }/>
                                         </div>
-                                        
+
                                     </form>
                                 </div>
                             </div>
