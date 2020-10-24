@@ -65,7 +65,7 @@ class EstadosAdmin extends Component {
         this.setState({
             modalOpen: false,
         });
-        
+
     }
 
     handleEliminar(id){
@@ -95,7 +95,30 @@ class EstadosAdmin extends Component {
             })
     }
     handleGuardar(){
-
+        let id = this.state.IdEditar
+        let url = `parametro/estadosi/${id}/editar`
+        let estadoi = document.getElementsByName('editar_estados_incapacidad')[0].value
+        let activo = document.getElementsByName('editar_estados_activo')[0].value
+        axios.put(url, {estado: estadoi, activo: activo})
+            .then(resp => {
+                toast.success(resp.data.data, {
+                    position: "top-right",
+                    autoClose: 1500,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+                this.getSystemEstados()
+                this.setState({
+                    estados: [...this.state.estados]
+                });
+                this.handleCerrarModal()
+            })
+            .catch(err => {
+                console.log(err)
+            })
     }
 
     validarForm() {
@@ -189,12 +212,12 @@ class EstadosAdmin extends Component {
                                     <form>
                                         <div className="form-group">
                                             <label htmlFor="codigo">Nombre</label>
-                                            <input type="text" className="form-control form-control-sm" name="causa_editada" defaultValue={this.state.nombreEstado} onChange={this.handleChangeC }/>
+                                            <input type="text" className="form-control form-control-sm" name="editar_estados_incapacidad" defaultValue={this.state.nombreEstado} onChange={this.handleChangeC }/>
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="estado_causa">Estado</label>
-                                            <select className="form-control form-control-sm" name="estado_causa" onChange={this.handleChangeC }>
+                                            <select className="form-control form-control-sm" name="editar_estados_activo" onChange={this.handleChangeC }>
                                                 <option value='1'>Activa</option>
                                                 <option value='0'>Inactiva</option>
                                             </select>

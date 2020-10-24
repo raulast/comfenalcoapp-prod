@@ -78773,7 +78773,38 @@ var EstadosAdmin = /*#__PURE__*/function (_Component) {
     }
   }, {
     key: "handleGuardar",
-    value: function handleGuardar() {}
+    value: function handleGuardar() {
+      var _this3 = this;
+
+      var id = this.state.IdEditar;
+      var url = "parametro/estadosi/".concat(id, "/editar");
+      var estadoi = document.getElementsByName('editar_estados_incapacidad')[0].value;
+      var activo = document.getElementsByName('editar_estados_activo')[0].value;
+      axios__WEBPACK_IMPORTED_MODULE_4___default.a.put(url, {
+        estado: estadoi,
+        activo: activo
+      }).then(function (resp) {
+        react_toastify__WEBPACK_IMPORTED_MODULE_5__["toast"].success(resp.data.data, {
+          position: "top-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined
+        });
+
+        _this3.getSystemEstados();
+
+        _this3.setState({
+          estados: _toConsumableArray(_this3.state.estados)
+        });
+
+        _this3.handleCerrarModal();
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    }
   }, {
     key: "validarForm",
     value: function validarForm() {}
@@ -78786,12 +78817,12 @@ var EstadosAdmin = /*#__PURE__*/function (_Component) {
   }, {
     key: "getSystemEstados",
     value: function getSystemEstados() {
-      var _this3 = this;
+      var _this4 = this;
 
       var url = 'getSystemEstados';
       axios__WEBPACK_IMPORTED_MODULE_4___default.a.get(url).then(function (resp) {
         //console.log(resp.data.data);
-        _this3.setState({
+        _this4.setState({
           estados: resp.data.data
         });
       })["catch"](function (err) {
@@ -78875,7 +78906,7 @@ var EstadosAdmin = /*#__PURE__*/function (_Component) {
       }, "Nombre"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         className: "form-control form-control-sm",
-        name: "causa_editada",
+        name: "editar_estados_incapacidad",
         defaultValue: this.state.nombreEstado,
         onChange: this.handleChangeC
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -78884,7 +78915,7 @@ var EstadosAdmin = /*#__PURE__*/function (_Component) {
         htmlFor: "estado_causa"
       }, "Estado"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         className: "form-control form-control-sm",
-        name: "estado_causa",
+        name: "editar_estados_activo",
         onChange: this.handleChangeC
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "1"
@@ -86432,8 +86463,8 @@ if (document.getElementById('test')) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\Ingenio David\comfenalcoapp-prod\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! D:\Ingenio David\comfenalcoapp-prod\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\rauls\OneDrive\Documents\DEV\comfenalcoapp-prod\comfenalcoapp-prod\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\rauls\OneDrive\Documents\DEV\comfenalcoapp-prod\comfenalcoapp-prod\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
