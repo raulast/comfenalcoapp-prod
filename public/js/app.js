@@ -79031,7 +79031,8 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
         alarmas: []
       },
       flagCertificado: 'disabled',
-      aportantes: ''
+      aportantes: '',
+      edad: 0
     };
     _this.initialState = _objectSpread({}, _this.state); // bind
 
@@ -79131,11 +79132,22 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
   }, {
     key: "calculoEdad",
     value: function calculoEdad(fecha) {
-      console.log(fecha);
-      console.log(new Date(fecha).getTime());
-      /*
-      let f1 = new Date(fecha).getTime();
-      let f2 = new Date().getTime();*/
+      console.log(fecha); //console.log(new Date(fecha).getTime());
+
+      /*let f1 = new Date(fecha).getTime();
+      let f2 = new Date().getTime();
+      console.log(f1);
+      console.log(f2);
+       let f = f2-f1;
+      let edad = new Date(f)
+      console.log(edad)
+      */
+
+      var ageDifMs = Date.now() - new Date(fecha);
+      var ageDate = new Date(ageDifMs); // miliseconds from epoch
+      //console.log(Math.abs(ageDate.getUTCFullYear() - 1970));
+
+      return Math.abs(ageDate.getUTCFullYear() - 1970);
     }
   }, {
     key: "activarGeneracion",
@@ -79159,8 +79171,8 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
         var IDTrabajador = afiliaciones[0]['IdAfiliado'];
         var historiaClinica = afiliaciones[0]['IdHistoria12'];
         var genero = afiliaciones[0]['Sexo'];
-        var fechaNacimiento = afiliaciones[0]['FechaNacimiento']; //edad = calculoEdad(fechaNacimiento)
-
+        var fechaNacimiento = afiliaciones[0]['FechaNacimiento'];
+        var edad = this.calculoEdad(fechaNacimiento);
         var estado = afiliaciones[0]['EstadoDescripcion'];
         var tipoCotizante = afiliaciones[0]['ClaseAfiliacion'];
         var descripcionPrograma = afiliaciones[0]['DescripcionPrograma']; //datos aportante
@@ -79179,6 +79191,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
           mensaje: mensaje,
           genero: genero,
           estado: estado,
+          edad: edad,
           tipoCotizante: tipoCotizante,
           descripcionPrograma: descripcionPrograma,
           validacion: JSON.stringify(response.data),
@@ -79889,7 +79902,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
     key: "validarForm",
     value: function () {
       var _validarForm = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
-        var resp, newState;
+        var resp, observacion_estado, observacion, nuevaob, newState;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
@@ -79907,6 +79920,21 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
                 if (this.state.diasSolicitados > this.state.diasMaximosEspecialidad) {
                   this.setState({
                     estado_id: 1
+                  });
+                }
+
+                if (this.state.edad >= 65) {
+                  observacion_estado = this.state.observacion_estado;
+                  observacion = "Auditoría paciente mayor de 65 años";
+
+                  if (!observacion_estado.includes(observacion)) {
+                    nuevaob = "".concat(observacion_estado, " ").concat(observacion);
+                  } else {
+                    nuevaob = observacion_estado;
+                  }
+
+                  this.setState({
+                    observacion_estado: nuevaob
                   });
                 }
 
@@ -79958,17 +79986,17 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
                 this.setState(newState);
 
                 if (!(this.state.prorroga == "No")) {
-                  _context4.next = 17;
+                  _context4.next = 18;
                   break;
                 }
 
-                _context4.next = 17;
+                _context4.next = 18;
                 return this.getNumeroIncapacidad();
 
-              case 17:
+              case 18:
                 return _context4.abrupt("return", resp);
 
-              case 18:
+              case 19:
               case "end":
                 return _context4.stop();
             }
@@ -80009,7 +80037,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
       axios.get(url)
           .then(resp => {
              console.log(resp.data.respuesta)
-            })
+           })
           .catch(err =>{
               console.log(err)
           })*/
@@ -81825,13 +81853,13 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
     this.handleLateralidad = this.handleLateralidad.bind(this);
     this.handleProrroga = this.handleProrroga.bind(this);
     this.showMessage = this.showMessage(this)
-      
+     
     this.buscarHistorico = this.buscarHistorico.bind(this);
     this.handleFechaAtencion = this.handleFechaAtencion.bind(this);
     this.validarForm = this.validarForm.bind(this);
     this.clearErrors = this.clearErrors.bind(this);
     this.reviewProrroga = this.reviewProrroga.bind(this);
-      this.handleMaxDias = this.handleMaxDias.bind(this);
+     this.handleMaxDias = this.handleMaxDias.bind(this);
     */
 
     return _this;
@@ -82568,9 +82596,9 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
       /*
       if (parseInt(this.state.diasSolicitados) <= this.state.diasMaximosEspecialidad) {
           let resp = this.validarForm()
-            if (resp) {
-                //alert(this.state.id);
-                let url = 'saveIncapacidad'
+           if (resp) {
+               //alert(this.state.id);
+               let url = 'saveIncapacidad'
               axios.post(url, { datos: this.state })
                   .then(resp => {
                       console.log(resp.data)
@@ -82581,7 +82609,7 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
                   .catch(err => {
                       console.log(err)
                   })
-            }
+           }
           else {
               alert("Hay errores en algunos campos");
           }
@@ -82589,7 +82617,7 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
       else {
           alert("Los días solicitados exceden el máximo definido para su especialidad médica");
       }
-        */
+       */
 
     }
   }, {
@@ -82721,7 +82749,7 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
       axios.get(url)
           .then(resp => {
              console.log(resp.data.respuesta)
-            })
+           })
           .catch(err =>{
               console.log(err)
           })*/
@@ -86577,8 +86605,8 @@ if (document.getElementById('test')) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\rauls\OneDrive\Documents\DEV\comfenalcoapp-prod\comfenalcoapp-prod\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\rauls\OneDrive\Documents\DEV\comfenalcoapp-prod\comfenalcoapp-prod\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/davidguerra/Documents/comfenalco/comfenalcoapp/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/davidguerra/Documents/comfenalco/comfenalcoapp/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
