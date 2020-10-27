@@ -8,7 +8,13 @@ class GeneralController extends Controller
 {
     //
     public function obtener(Request $request, $modelo){
-        //Codigo . . .
+        $model = $this->obtenerModelo($modelo);
+        if (!empty($model)) {
+            $data=$model['modelo']::orderBy('id','asc')->get();
+            return response()->json([
+                'data' => $data
+            ]);
+        }
     }
     //crear un nuevo registro en las tablas
     public function agregar(Request $request, $modelo){
@@ -29,7 +35,13 @@ class GeneralController extends Controller
     }
     //
     public function obtenerDetalles(Request $request, $modelo, $id){
-        //Codigo. . .
+        $model = $this->obtenerModelo($modelo);
+        if (!empty($model)) {
+            $data=$model['modelo']::where('id', $id)->get();
+            return response()->json([
+                'data' => $data
+            ]);
+        }
     }
     //Actualizar un registro en las tablas
     public function editar(Request $request, $modelo, $id){
