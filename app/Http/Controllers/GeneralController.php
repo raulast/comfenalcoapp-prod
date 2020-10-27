@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class GeneralController extends Controller
 {
@@ -20,8 +21,7 @@ class GeneralController extends Controller
     public function agregar(Request $request, $modelo){
         $model = $this->obtenerModelo($modelo);
         if (!empty($model)) {
-            $data = $request->toArray();
-            //formatear data # code
+            $data = $this->requestFormato($request,$modelo);
             $row = $model['modelo']::create($data);
             $result = "El registro ha sido agregado exitosamente";
         }else{
@@ -48,7 +48,7 @@ class GeneralController extends Controller
         $model = $this->obtenerModelo($modelo);
         if (!empty($model)){
             if($model['modelo']::where('id', $id)->exists()){
-                $data = $request->toArray();
+                $data = $this->requestFormato($request,$modelo);
                 $model['modelo']::where('id', $id)->update($data);
                 $result=  "Actualizado con exito";
             }else{
@@ -107,6 +107,19 @@ class GeneralController extends Controller
                 break;
         }
         return $model;
+    }
+
+    private function requestFormato($data, $modelo){
+        $data = $data->toArray();
+        switch ($modelo) {
+            case 'user':
+                $data['password'] = Hash::make($data['password']);
+                break;
+            default:
+                $data = $data;
+                break;
+        }
+        return $data;
     }
 
 }
