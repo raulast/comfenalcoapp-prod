@@ -10,9 +10,12 @@ class MenuUsuarios extends Component {
         super(props);
 
         // bind
-
     }
+
     render() {
+
+        const { showToast } = this.props;
+
         return (
             <div>
                 <ul className="nav nav-tabs">
@@ -26,8 +29,8 @@ class MenuUsuarios extends Component {
 
             
                 <div className="tab-content">
-                    <div className="tab-pane container active" id="sistema"><UsuariosSistema /></div>
-                    <div className="tab-pane container fade" id="medicos"><MedicosSistema /></div>
+                    <div className="tab-pane container active" id="sistema"><UsuariosSistema showToast={showToast}/></div>
+                    <div className="tab-pane container fade" id="medicos"><MedicosSistema showToast={showToast}/></div>
                     
                 </div>
             </div>
