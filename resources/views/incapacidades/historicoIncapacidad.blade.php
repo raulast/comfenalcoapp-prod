@@ -36,11 +36,18 @@
                     <tbody>
                     @if ($datos != "no")
                     @foreach ($datos as $dato)
-                    
+                    <?php
+                        $aportantes =explode(" ", $dato->aportantes);
+
+                    ?>   
                         <tr>
-                        <td><button class='btn btn-default' type='button' value='print' onclick='print({{$dato->id}},{{$dato->prorrogaid}})'>
-                            <i class='fa fa-print'> </i>
-                        </button></td>
+                        <td>
+                        @for ($i =0; $i <= count($aportantes) ; $i++)
+                            <button class='btn btn-default' type='button' value='print' onclick='print({{$dato->id}},{{$dato->prorrogaid}},{{ $i }})'>
+                                <i class='fa fa-print'> </i>
+                            </button>
+                        @endfor   
+                        </td>
                         <td>{{$dato->id ."-".$dato->prorrogaid}}</td>
                         
                         <td>{{$dato->fecha_atencion}}</td>
@@ -65,8 +72,8 @@
     </div>    
 </div>
 <script> 
-function print(id,pr){
-    var url = '../../certificadoIncapacidad/' + id +"/" + pr + "/0";
+function print(id,pr,a){
+    var url = '../../certificadoIncapacidad/' + id +"/" + pr + "/"+a;
     window.open(url,'_blank');
 }
 </script>

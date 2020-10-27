@@ -4,6 +4,8 @@ import MenuUsuarios from './MenuUsuarios.js';
 import MenuGenerales from './MenuGenerales.js';
 import axios from 'axios';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 class AdminNav extends Component {
 
@@ -15,11 +17,40 @@ class AdminNav extends Component {
           tipo: props.tipo,
         }
         // bind
+
+      this.handleToast = this.handleToast.bind(this);
  
     }
+
+    handleToast(arg,type) {
+      console.log(arg, type);
+      if(type == 'success') {
+          toast.success(arg, {
+              position: "top-right",
+              autoClose: 1500,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+          });
+      }else if(type == 'error') {
+          toast.error(arg, {
+              position: "top-right",
+              autoClose: 1500,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+          });
+      }
+  }
+
     render() {
         return (
           <div className="row">
+            <ToastContainer/>
             <div className="col-1 "> 
                 <ul className="nav nav-pills flex-column">
                   <li className="nav-item">
@@ -32,9 +63,9 @@ class AdminNav extends Component {
             </div>
             <div className="col-11"> 
                 <div className="tab-content">
-                <div className="tab-pane container fade" id="usuarios"><MenuUsuarios /></div>
+                <div className="tab-pane container fade" id="usuarios"><MenuUsuarios showToast={(arg,type) => this.handleToast(arg,type)}/></div>
                 { this.state.tipo != 5 ? 
-                <div className="tab-pane container active" id="generales"><MenuGenerales /></div>
+                <div className="tab-pane container active" id="generales"><MenuGenerales showToast={(arg,type) => this.handleToast(arg,type)}/></div>
                 : ''
                 }
                 </div>

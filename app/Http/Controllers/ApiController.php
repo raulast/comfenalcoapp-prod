@@ -531,7 +531,7 @@ class ApiController extends Controller
                 $segundoApellido = $afiliado->SegundoApellido;
             }
             $nombreCompleto = $nombre." ".$primerApellido." ".$segundoApellido;
-            $numDoc = $afiliado->IDTrabajador;
+            $numDoc = $afiliado->IdAfiliado;
             $tipoAfiliado = $afiliado->ClaseAfiliacion;
             $tipoCotizante = $afiliado->DescripcionPrograma;
             $tipoAportante="";
@@ -559,7 +559,7 @@ class ApiController extends Controller
             }
             
             $nombreCompleto = $nombre." ".$primerApellido." ".$segundoApellido;
-            $numDoc = $afiliado[0]->IDTrabajador;
+            $numDoc = $afiliado[0]->IdAfiliado;
             $tipoAfiliado = $afiliado[0]->ClaseAfiliacion;
             $tipoCotizante = $afiliado[0]->DescripcionPrograma;
             $tipoAportante="";
@@ -696,7 +696,7 @@ class ApiController extends Controller
         
         if (is_array($afiliado) == false) {
             /*nombreCompleto = $nombre." ".$primerApellido." ".$segundoApellido;*/
-            $numDoc = $afiliado->IDTrabajador;
+            $numDoc = $afiliado->IdAfiliado;
             $tipoAfiliado = $afiliado->ClaseAfiliacion;
             $tipoCotizante = $afiliado->DescripcionPrograma;
             $tipoAportante="";
@@ -719,7 +719,7 @@ class ApiController extends Controller
             $primerApellido = $afiliado[0]->PrimerApellido; 
             $segundoApellido = $afiliado[0]->SegundoApellido;
             $nombreCompleto = $nombre." ".$primerApellido." ".$segundoApellido;*/
-            $numDoc = $afiliado[0]->IDTrabajador;
+            $numDoc = $afiliado[0]->IdAfiliado;
             $tipoAfiliado = $afiliado[0]->ClaseAfiliacion;
             $tipoCotizante = $afiliado[0]->DescripcionPrograma;
             $tipoAportante="";

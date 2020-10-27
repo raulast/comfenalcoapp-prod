@@ -11,7 +11,8 @@ export default function TableUsers(props) {
         props.handleEliminar(u.target.id)
     }
     const editar = (u) =>{
-        props.handleEdition(u.target.id)
+        const name = u.target.name.split('/') 
+        props.handleEdition(u.target.id, name[0], name[1], name[2])
     }
     const users = props.users;
     //const { users } = this.state;
@@ -20,7 +21,7 @@ export default function TableUsers(props) {
         <tbody>
             {Object.keys(users).map((key) => (
                 <tr key={key}><td></td><td>{users[key]['name']}</td><td>{users[key]['email']}</td><td>{userTypes[users[key]['tipo']]}</td>
-                    <td><button className="btn btn-warning btn-sm" id={users[key]['id']} onClick={editar}>Editar</button></td>
+                    <td><button className="btn btn-warning btn-sm" id={users[key]['id']} name={users[key]['name']+'/'+users[key]['email']+'/'+users[key]['tipo']} onClick={editar}>Editar</button></td>
                     <td><button className="btn btn-danger btn-sm" id={users[key]['id']} onClick={eliminar}>Eliminar</button></td>
                 </tr>
             ))}

@@ -72,7 +72,7 @@ class EstadosAdmin extends Component {
         let estadoi = document.getElementsByName('estados_incapacidad')[0].value
         axios.post(url, {estado: estadoi, activo: 1})
             .then(resp => {
-                this.props.showToast(resp,'success')
+                this.props.showToast(resp.data.data,'success')
                 this.setState({
                     estados: [...this.state.estados, resp.data.row],
                     nuevo: 'oculto'
@@ -89,7 +89,7 @@ class EstadosAdmin extends Component {
         let activo = document.getElementsByName('editar_estados_activo')[0].value
         axios.put(url, {estado: estadoi, activo: activo})
             .then(resp => {
-                this.props.showToast(resp,'success')
+                this.props.showToast(resp.data.data,'success')
                 this.getSystemEstados()
                 this.setState({
                     estados: [...this.state.estados]

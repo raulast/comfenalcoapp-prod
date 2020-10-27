@@ -104,7 +104,8 @@ class IncapacidadFront extends Component {
                 alarmas: [],
             },
             flagCertificado: 'disabled',
-            aportantes:''
+            aportantes:'',
+            edad:0
             
         };
         this.initialState = { ...this.state } 
@@ -186,11 +187,21 @@ class IncapacidadFront extends Component {
     }
     calculoEdad(fecha){
         console.log(fecha)
-        console.log(new Date(fecha).getTime());
-        /*
-        let f1 = new Date(fecha).getTime();
-        let f2 = new Date().getTime();*/
+        //console.log(new Date(fecha).getTime());
+        
+        /*let f1 = new Date(fecha).getTime();
+        let f2 = new Date().getTime();
+        console.log(f1);
+        console.log(f2);
 
+        let f = f2-f1;
+        let edad = new Date(f)
+        console.log(edad)
+        */
+        var ageDifMs = Date.now() - new Date(fecha);
+        var ageDate = new Date(ageDifMs); // miliseconds from epoch
+        //console.log(Math.abs(ageDate.getUTCFullYear() - 1970));
+        return Math.abs(ageDate.getUTCFullYear() - 1970);
     }
     activarGeneracion(incapacidades,response,afiliaciones){
         let mensaje = response.data.responseMessageOut.body.response.validadorResponse.Derechos['MENSAJE'];
@@ -215,7 +226,7 @@ class IncapacidadFront extends Component {
             let historiaClinica = afiliaciones[0]['IdHistoria12'];
             let genero = afiliaciones[0]['Sexo'];
             let fechaNacimiento = afiliaciones[0]['FechaNacimiento']
-            //edad = calculoEdad(fechaNacimiento)
+            var edad = this.calculoEdad(fechaNacimiento)
 
             let estado = afiliaciones[0]['EstadoDescripcion'];
             let tipoCotizante = afiliaciones[0]['ClaseAfiliacion'];
@@ -237,6 +248,7 @@ class IncapacidadFront extends Component {
                 mensaje : mensaje,
                 genero : genero,
                 estado : estado,
+                edad : edad,
                 tipoCotizante: tipoCotizante,
                 descripcionPrograma: descripcionPrograma,
                 validacion: JSON.stringify(response.data),
@@ -818,6 +830,20 @@ class IncapacidadFront extends Component {
                     estado_id : 1
                 })
             
+        }
+        if (this.state.edad >= 65){
+            let observacion_estado = this.state.observacion_estado;
+            let observacion = "Auditoría paciente mayor de 65 años";
+            
+            if (!observacion_estado.includes(observacion)){
+                var nuevaob =`${observacion_estado} ${observacion}`
+            }
+            else{
+                var nuevaob = observacion_estado
+            }
+            this.setState({
+                observacion_estado: nuevaob,
+            })
         }
         resp=this.verificarTraslapo();
         let newState = Object.assign({}, this.state);

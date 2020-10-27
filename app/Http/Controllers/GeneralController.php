@@ -102,6 +102,12 @@ class GeneralController extends Controller
             case 'descripcionesp':
                 $model = ['modelo' => 'App\Descripcionesp'];
                 break;
+            case 'user':
+                $model = ['modelo' => 'App\User'];
+                break;
+            case 'medico':
+                $model = ['modelo' => 'App\Medico'];
+                break;
             default:
                 $model = null;
                 break;

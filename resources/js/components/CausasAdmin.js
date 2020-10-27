@@ -134,7 +134,7 @@ class CausasAdmin extends Component {
                 this.setState({
                     causas: [...this.state.causas]
                 });
-                this.props.showToast(resp,'success')
+                this.props.showToast(resp.data.data,'success')
                 this.handleCerrarModal()
             })
             .catch(err => {
