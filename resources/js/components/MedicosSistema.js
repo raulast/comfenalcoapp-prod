@@ -23,6 +23,7 @@ class MedicosSistema extends Component {
             especialidad:'',
             contraseña:'',
             confirmar:'',
+            user_id:'',
             errors : {
                 codigoMedico : 'oculto',
                 tipoDocumento:'oculto',
@@ -31,7 +32,7 @@ class MedicosSistema extends Component {
                 epecialidad:'oculto',
                 contraseña: 'oculto',
                 confirmar:'oculto',
-                
+
             },
             errorMensajes :{
                 codigoMedico : 'Código requerido',
@@ -41,7 +42,8 @@ class MedicosSistema extends Component {
                 epecialidad:'Especialidad requerida',
                 contraseña: 'Contraseña requerida',
                 confirmar:'Repita contraseña',
-            }
+            },
+            IdEditar:'00'
         }
         // bind
         this.getMedicosUsers = this.getMedicosUsers.bind(this);
@@ -84,7 +86,7 @@ class MedicosSistema extends Component {
     }
 
     handleEliminar(id){
-      //  console.log(id) 
+      //  console.log(id)
     }
 
     handleCerrarModal(){
@@ -94,51 +96,45 @@ class MedicosSistema extends Component {
 
     }
 
-    handleSubmit(e){         
+    handleSubmit(e){
         e.preventDefault();
         let resp = this.validarForm()
-        console.log(resp)
         if (resp) {
-            let url = 'saveMedico'
-            console.log(this.state);
-            axios.post(url, { datos: this.state })
+            let url = 'parametro/medico/agregar';
+            axios.post(url, {
+                user_id:this.state.user_id,
+                cod_medico:this.state.codigoMedico,
+                nombre:this.state.nombre,
+                tipo_documento:this.state.tipoDocumento,
+                num_documento:this.state.numeroDocumento,
+                reg_medico:this.state.registroMedico,
+                especialidad:this.state.especialidad})
                 .then(resp => {
-                    console.log(resp);
-                    this.props.showToast('Datos almacenados','success')
-                    let medico = resp.data.data;
-                    if (medico == 0){
-                        
-                        this.getMedicosUsers();
-                        this.setState({
-                            medicos: this.state.medicos, 
-                        });  
-                        
-                    }
-                    else{
-                        this.setState({
-                            medicos: [...this.state.medicos, medico]
-                        });  
-                    }
+                    let user = resp.data.row;
+                    this.setState({
+                        medicos: [...this.state.medicos, user],
+                        nuevo: 'oculto'
+                    });
+                    this.props.showToast('Datos almacenados','success');
+                    // alert("Datos almacenados")
                 })
                 .catch(err => {
-                    console.log(err)
+                    this.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente','error');
                 })
-            
         }
-
     }
     validarForm() {
-        
+
         this.clearErrors()
-        
+
         let resp = true;
-        
+
         let newState = Object.assign({}, this.state);
         /*
         Object.entries(this.state).map(([key, value]) => {
             if (value == ''){
                 newState.errors[key] = "visible";
-                //newState.errorMensajes[key] = key + " requerido"; 
+                //newState.errorMensajes[key] = key + " requerido";
                 resp = false;
             }
         });
@@ -152,13 +148,13 @@ class MedicosSistema extends Component {
         }
 
         this.setState(newState);
-        
+
         return resp;
-       
+
     }
     clearErrors(){
         let newState = Object.assign({}, this.state);
-       // console.log(Object.entries(newState));  
+       // console.log(Object.entries(newState));
         Object.keys(newState.errors).forEach(key => {
             newState.errors[key] = "oculto";
         });
@@ -169,30 +165,30 @@ class MedicosSistema extends Component {
         });
         //console.log(newState);
         this.setState(newState2);
-    }  
+    }
     getMedicosUsers(){
         let url ='getMedicosUsers'
         axios.get(url)
             .then(resp => {
                 //console.log(resp.data.data);
                 this.setState({
-                    medicos:resp.data.data,   
+                    medicos:resp.data.data,
                 });
-               
+
             })
             .catch(err =>{
                 console.log(err)
             })
-       
+
     }
     renderUsers(){
         const { medicos } = this.state;
-        
+
         return (
-            <tbody> 
+            <tbody>
                  {Object.keys(medicos).map((key)=>(
                     <tr key={key}>
-                    
+
                     <td>{ medicos[key]['cod_medico']}</td>
                     <td>{ medicos[key]['tipo_documento']}</td>
                     <td>{ medicos[key]['num_documento']}</td>
@@ -209,9 +205,33 @@ class MedicosSistema extends Component {
      }
 
      handleGuardar() {
-        this.handleCerrarModal()
+        let id = this.state.IdEditar;
+        let url = `parametro/medico/${id}/editar`;
+        let resp = this.validarForm()
+        if (resp) {
+            axios.put(url, {
+                user_id:this.state.user_id,
+                cod_medico:this.state.codigoMedico,
+                nombre:this.state.nombre,
+                tipo_documento:this.state.tipoDocumento,
+                num_documento:this.state.numeroDocumento,
+                reg_medico:this.state.registroMedico,
+                especialidad:this.state.especialidad})
+                .then(resp => {
+                    this.getMedicosUsers()
+                    this.setState({
+                        medicos: [...this.state.medicos]
+                    });
+                    this.handleCerrarModal()
+                    this.props.showToast('Datos Actualizados','success');
+                    // alert("Datos almacenados")
+                })
+                .catch(err => {
+                    this.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente','error');
+                })
+        }
     }
-    
+
     render() {
         const { medicos } = this.state;
         return (
@@ -224,7 +244,7 @@ class MedicosSistema extends Component {
                         <div className="card">
                             <div className="card-header bg2 titulo">Médicos </div>
                                 <div className="card-body texto">
-                                    <form onSubmit={this.handleSubmit}> 
+                                    <form onSubmit={this.handleSubmit}>
                                         <div className="form-group">
                                                 <div className="row">
                                                     <div className="col-md-3">
@@ -247,7 +267,7 @@ class MedicosSistema extends Component {
                                                             <option value="NUIP">NUIP</option>
                                                             <option value="MS">MS</option>
                                                             <option value="CN">CN</option>
-                    
+
                                                         </select>
                                                         <div className={this.state.errors['tipoDocumento']}>
                                                             <div className={ "redf  " + ( this.state.errors['tipoDocumento'] || "") }>{this.state.errorMensajes['tipoDocumento']}</div>
@@ -270,7 +290,7 @@ class MedicosSistema extends Component {
                                                     <div className="col-md-4">
                                                         <label htmlFor="nombre">Correo electrónico</label>
                                                         <input type="email" className="form-control" id="correo" name="correo" onChange={this.handleChange} value={this.state.correo}></input>
-                                                    </div> 
+                                                    </div>
                                                     <div className="col-md-4">
                                                         <label htmlFor="especialidadMedica">Especialidad médica</label>
                                                         <select id="especialidad" className="form-control" name="especialidad" onChange={this.handleChange} value={this.state.especialidad}>
@@ -280,10 +300,10 @@ class MedicosSistema extends Component {
                                                             <option value="5">Médico laboral</option>
                                                             <option value="3">Odontólogo general</option>
                                                             <option value="4">Odontólogo especialista</option>
-                                                            
+
                                                         </select>
                                                     </div>
-                                                    
+
                                                 </div>
                                                 <div className="row">
                                                     <div className="col-md-4">
@@ -301,7 +321,7 @@ class MedicosSistema extends Component {
                                                             <option value="Si">Si</option>
                                                             <option value="No">No</option>
                                                         </select>
-                                                    
+
                                                     </div>
                                                     <div className="col-md-2">
                                                         <br />
@@ -412,7 +432,7 @@ class MedicosSistema extends Component {
                                             <select className="form-control form-control-sm" name="estado_causa" onChange={this.handleChangeC }>
                                             <option value=""></option>
                                                 <option value="Si">Si</option>
-                                                <option value="No">No</option>                                           
+                                                <option value="No">No</option>
                                             </select>
                                         </div>
 
