@@ -79934,6 +79934,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
                   }
 
                   this.setState({
+                    estado_id: 1,
                     observacion_estado: nuevaob
                   });
                 }
