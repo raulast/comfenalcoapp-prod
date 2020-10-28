@@ -83733,6 +83733,7 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
       especialidad: '',
       contraseña: '',
       confirmar: '',
+      user_id: '',
       errors: {
         codigoMedico: 'oculto',
         tipoDocumento: 'oculto',
@@ -83750,7 +83751,8 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         epecialidad: 'Especialidad requerida',
         contraseña: 'Contraseña requerida',
         confirmar: 'Repita contraseña'
-      }
+      },
+      IdEditar: '00'
     }; // bind
 
     _this.getMedicosUsers = _this.getMedicosUsers.bind(_assertThisInitialized(_this));
@@ -83801,7 +83803,7 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
     }
   }, {
     key: "handleEliminar",
-    value: function handleEliminar(id) {//  console.log(id) 
+    value: function handleEliminar(id) {//  console.log(id)
     }
   }, {
     key: "handleCerrarModal",
@@ -83817,33 +83819,29 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
 
       e.preventDefault();
       var resp = this.validarForm();
-      console.log(resp);
 
       if (resp) {
-        var url = 'saveMedico';
-        console.log(this.state);
+        var url = 'parametro/medico/agregar';
         axios__WEBPACK_IMPORTED_MODULE_4___default.a.post(url, {
-          datos: this.state
+          user_id: this.state.user_id,
+          cod_medico: this.state.codigoMedico,
+          nombre: this.state.nombre,
+          tipo_documento: this.state.tipoDocumento,
+          num_documento: this.state.numeroDocumento,
+          reg_medico: this.state.registroMedico,
+          especialidad: this.state.especialidad
         }).then(function (resp) {
-          console.log(resp);
+          var user = resp.data.row;
 
-          _this2.props.showToast('Datos almacenados', 'success');
+          _this2.setState({
+            medicos: [].concat(_toConsumableArray(_this2.state.medicos), [user]),
+            nuevo: 'oculto'
+          });
 
-          var medico = resp.data.data;
+          _this2.props.showToast('Datos almacenados', 'success'); // alert("Datos almacenados")
 
-          if (medico == 0) {
-            _this2.getMedicosUsers();
-
-            _this2.setState({
-              medicos: _this2.state.medicos
-            });
-          } else {
-            _this2.setState({
-              medicos: [].concat(_toConsumableArray(_this2.state.medicos), [medico])
-            });
-          }
         })["catch"](function (err) {
-          console.log(err);
+          _this2.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
         });
       }
     }
@@ -83857,7 +83855,7 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
       Object.entries(this.state).map(([key, value]) => {
           if (value == ''){
               newState.errors[key] = "visible";
-              //newState.errorMensajes[key] = key + " requerido"; 
+              //newState.errorMensajes[key] = key + " requerido";
               resp = false;
           }
       });
@@ -83877,7 +83875,7 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
   }, {
     key: "clearErrors",
     value: function clearErrors() {
-      var newState = Object.assign({}, this.state); // console.log(Object.entries(newState));  
+      var newState = Object.assign({}, this.state); // console.log(Object.entries(newState));
 
       Object.keys(newState.errors).forEach(function (key) {
         newState.errors[key] = "oculto";
@@ -83921,7 +83919,36 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
   }, {
     key: "handleGuardar",
     value: function handleGuardar() {
-      this.handleCerrarModal();
+      var _this4 = this;
+
+      var id = this.state.IdEditar;
+      var url = "parametro/medico/".concat(id, "/editar");
+      var resp = this.validarForm();
+
+      if (resp) {
+        axios__WEBPACK_IMPORTED_MODULE_4___default.a.put(url, {
+          user_id: this.state.user_id,
+          cod_medico: this.state.codigoMedico,
+          nombre: this.state.nombre,
+          tipo_documento: this.state.tipoDocumento,
+          num_documento: this.state.numeroDocumento,
+          reg_medico: this.state.registroMedico,
+          especialidad: this.state.especialidad
+        }).then(function (resp) {
+          _this4.getMedicosUsers();
+
+          _this4.setState({
+            medicos: _toConsumableArray(_this4.state.medicos)
+          });
+
+          _this4.handleCerrarModal();
+
+          _this4.props.showToast('Datos Actualizados', 'success'); // alert("Datos almacenados")
+
+        })["catch"](function (err) {
+          _this4.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
+        });
+      }
     }
   }, {
     key: "render",
@@ -86338,32 +86365,24 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
       var resp = this.validarForm();
 
       if (resp) {
-        var url = 'saveUser'; // console.log(this.state);
-
+        var url = 'parametro/user/agregar';
         axios__WEBPACK_IMPORTED_MODULE_4___default.a.post(url, {
-          datos: this.state
+          name: this.state.nombre,
+          email: this.state.correo,
+          password: this.state.contraseña,
+          tipo: this.state.tipo
         }).then(function (resp) {
-          console.log(resp); //location.reload();
+          var user = resp.data.row;
 
-          var user = resp.data.data;
-
-          if (user == 0) {
-            _this3.getSystemUsers();
-
-            _this3.setState({
-              users: _this3.state.users
-            });
-          } else {
-            _this3.setState({
-              users: [].concat(_toConsumableArray(_this3.state.users), [user]),
-              nuevo: 'oculto'
-            });
-          }
+          _this3.setState({
+            users: [].concat(_toConsumableArray(_this3.state.users), [user]),
+            nuevo: 'oculto'
+          });
 
           _this3.props.showToast('Datos almacenados', 'success'); // alert("Datos almacenados")
 
         })["catch"](function (err) {
-          console.log(err);
+          _this3.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
         });
       }
     }
@@ -86378,7 +86397,7 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
             key = _ref3[0],
             value = _ref3[1];
 
-        if (value == '') {
+        if (value == '' && key != 'modalOpen') {
           newState.errors[key] = "visible";
           newState.errorMensajes[key] = key + " requerido";
           resp = false;
@@ -86399,7 +86418,7 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
   }, {
     key: "clearErrors",
     value: function clearErrors() {
-      var newState = Object.assign({}, this.state); // console.log(Object.entries(newState));  
+      var newState = Object.assign({}, this.state); // console.log(Object.entries(newState));
 
       Object.keys(newState.errors).forEach(function (key) {
         newState.errors[key] = "oculto";
@@ -86430,7 +86449,33 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
   }, {
     key: "handleGuardar",
     value: function handleGuardar() {
-      this.handleCerrarModal();
+      var _this5 = this;
+
+      var id = this.state.IdEditar;
+      var url = "parametro/user/".concat(id, "/editar");
+      var resp = this.validarForm();
+
+      if (resp) {
+        axios__WEBPACK_IMPORTED_MODULE_4___default.a.put(url, {
+          name: this.state.nombre,
+          email: this.state.correo,
+          password: this.state.contraseña,
+          tipo: this.state.tipo
+        }).then(function (resp) {
+          _this5.getSystemUsers();
+
+          _this5.setState({
+            users: _toConsumableArray(_this5.state.users)
+          });
+
+          _this5.handleCerrarModal();
+
+          _this5.props.showToast('Datos Actualizados', 'success'); // alert("Datos almacenados")
+
+        })["catch"](function (err) {
+          _this5.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
+        });
+      }
     }
   }, {
     key: "render",
