@@ -83782,6 +83782,7 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
     value: function handleChange(_ref) {
       var target = _ref.target;
       this.setState(_defineProperty({}, target.name, target.value));
+      console.log(this.state);
     }
   }, {
     key: "handleEdition",
@@ -84152,18 +84153,18 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
       }, "C\xF3digo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         className: "form-control form-control-sm",
-        name: "causa_editada",
+        name: "codigoMedico",
         defaultValue: this.state.codigoMedico,
-        onChange: this.handleChangeC
+        onChange: this.handleChange
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "estado_causa"
+        htmlFor: "tipoDocumento"
       }, "Tipo Documento"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         className: "form-control form-control-sm",
-        name: "estado_causa",
+        name: "tipoDocumento",
         defaultValue: this.state.tipoDocumento,
-        onChange: this.handleChangeC
+        onChange: this.handleChange
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: ""
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
@@ -84191,9 +84192,9 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
       }, "No. Documento"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         className: "form-control form-control-sm",
-        name: "causa_editada",
+        name: "numeroDocumento",
         defaultValue: this.state.numeroDocumento,
-        onChange: this.handleChangeC
+        onChange: this.handleChange
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -84201,9 +84202,9 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
       }, "No. Registro"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         className: "form-control form-control-sm",
-        name: "causa_editada",
+        name: "registroMedico",
         defaultValue: this.state.registroMedico,
-        onChange: this.handleChangeC
+        onChange: this.handleChange
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -84211,9 +84212,9 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
       }, "Nombre"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         className: "form-control form-control-sm",
-        name: "causa_editada",
+        name: "nombre",
         defaultValue: this.state.nombre,
-        onChange: this.handleChangeC
+        onChange: this.handleChange
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -84221,8 +84222,8 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
       }, "Correo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         className: "form-control form-control-sm",
-        name: "causa_editada",
-        onChange: this.handleChangeC
+        name: "correo",
+        onChange: this.handleChange
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -84230,8 +84231,8 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
       }, "Contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "password",
         className: "form-control form-control-sm",
-        name: "causa_editada",
-        onChange: this.handleChangeC
+        name: "contrase\xF1a",
+        onChange: this.handleChange
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -84239,17 +84240,17 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
       }, "Confirmar contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "password",
         className: "form-control form-control-sm",
-        name: "causa_editada",
-        onChange: this.handleChangeC
+        name: "confirmar",
+        onChange: this.handleChange
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "estado_causa"
+        htmlFor: "especialidadMedica"
       }, "Especialidad m\xE9dica"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         className: "form-control form-control-sm",
-        name: "estado_causa",
+        name: "especialidad",
         defaultValue: this.state.especialidad,
-        onChange: this.handleChangeC
+        onChange: this.handleChange
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: ""
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
@@ -84268,8 +84269,8 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         htmlFor: "estado_causa"
       }, "Rethus"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         className: "form-control form-control-sm",
-        name: "estado_causa",
-        onChange: this.handleChangeC
+        name: "rethus",
+        onChange: this.handleChange
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: ""
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
@@ -86588,9 +86589,9 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
       }, "Nombre"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         className: "form-control form-control-sm",
-        name: "causa_editada",
+        name: "nombre",
         defaultValue: this.state.usuario,
-        onChange: this.handleChangeC
+        onChange: this.handleChange
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -86598,36 +86599,36 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
       }, "Correo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         className: "form-control form-control-sm",
-        name: "causa_editada",
+        name: "correo",
         defaultValue: this.state.correo,
-        onChange: this.handleChangeC
+        onChange: this.handleChange
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "codigo"
       }, "Contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "text",
+        type: "password",
         className: "form-control form-control-sm",
-        name: "causa_editada",
-        onChange: this.handleChangeC
+        name: "contrase\xF1a",
+        onChange: this.handleChange
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "codigo"
       }, "Confirmar contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "text",
+        type: "password",
         className: "form-control form-control-sm",
-        name: "causa_editada",
-        onChange: this.handleChangeC
+        name: "confirmar",
+        onChange: this.handleChange
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "estado_causa"
       }, "Tipo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         className: "form-control form-control-sm",
-        name: "estado_causa",
+        name: "tipo",
         defaultValue: this.state.tipo,
-        onChange: this.handleChangeC
+        onChange: this.handleChange
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: ""
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
