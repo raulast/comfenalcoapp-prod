@@ -80,7 +80,7 @@ class IpsAdmin extends Component {
         let estado = 'S'
         axios.post(url, {cod_sede:cod_sede,nombre_sede:nombre_sede,estado:estado,cod_habilitacion:cod_habilitacion,direccion:direccion,telefono:telefono,razon_social:razon_social,nit:nit})
             .then(resp => {
-                this.props.showToast(resp,'success')
+                this.props.showToast(resp.data.data,'success')
                 this.setState({
                     ips: [...this.state.ips, resp.data.row],
                     nuevo: 'oculto'
@@ -103,7 +103,7 @@ class IpsAdmin extends Component {
         let estado = 'S'
         axios.put(url, {cod_sede:cod_sede,nombre_sede:nombre_sede,estado:estado,cod_habilitacion:cod_habilitacion,direccion:direccion,telefono:telefono,razon_social:razon_social,nit:nit})
             .then(resp => {
-                this.props.showToast(resp,'success')
+                this.props.showToast(resp.data.data,'success')
                 this.getSystemIps()
                 this.setState({
                     ips: [...this.state.ips]
