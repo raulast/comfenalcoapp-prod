@@ -79181,7 +79181,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
       let f2 = new Date().getTime();
       console.log(f1);
       console.log(f2);
-        let f = f2-f1;
+       let f = f2-f1;
       let edad = new Date(f)
       console.log(edad)
       */
@@ -79977,6 +79977,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
                   }
 
                   this.setState({
+                    estado_id: 1,
                     observacion_estado: nuevaob
                   });
                 }
@@ -80080,7 +80081,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
       axios.get(url)
           .then(resp => {
              console.log(resp.data.respuesta)
-            })
+           })
           .catch(err =>{
               console.log(err)
           })*/
@@ -81896,13 +81897,13 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
     this.handleLateralidad = this.handleLateralidad.bind(this);
     this.handleProrroga = this.handleProrroga.bind(this);
     this.showMessage = this.showMessage(this)
-      
+     
     this.buscarHistorico = this.buscarHistorico.bind(this);
     this.handleFechaAtencion = this.handleFechaAtencion.bind(this);
     this.validarForm = this.validarForm.bind(this);
     this.clearErrors = this.clearErrors.bind(this);
     this.reviewProrroga = this.reviewProrroga.bind(this);
-      this.handleMaxDias = this.handleMaxDias.bind(this);
+     this.handleMaxDias = this.handleMaxDias.bind(this);
     */
 
     return _this;
@@ -82639,9 +82640,9 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
       /*
       if (parseInt(this.state.diasSolicitados) <= this.state.diasMaximosEspecialidad) {
           let resp = this.validarForm()
-            if (resp) {
-                //alert(this.state.id);
-                let url = 'saveIncapacidad'
+           if (resp) {
+               //alert(this.state.id);
+               let url = 'saveIncapacidad'
               axios.post(url, { datos: this.state })
                   .then(resp => {
                       console.log(resp.data)
@@ -82652,7 +82653,7 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
                   .catch(err => {
                       console.log(err)
                   })
-            }
+           }
           else {
               alert("Hay errores en algunos campos");
           }
@@ -82660,7 +82661,7 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
       else {
           alert("Los días solicitados exceden el máximo definido para su especialidad médica");
       }
-        */
+       */
 
     }
   }, {
@@ -82792,7 +82793,7 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
       axios.get(url)
           .then(resp => {
              console.log(resp.data.respuesta)
-            })
+           })
           .catch(err =>{
               console.log(err)
           })*/
@@ -86922,8 +86923,8 @@ if (document.getElementById('test')) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\rauls\OneDrive\Documents\DEV\comfenalcoapp-prod\comfenalcoapp-prod\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\rauls\OneDrive\Documents\DEV\comfenalcoapp-prod\comfenalcoapp-prod\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/davidguerra/Documents/comfenalco/comfenalcoapp/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/davidguerra/Documents/comfenalco/comfenalcoapp/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

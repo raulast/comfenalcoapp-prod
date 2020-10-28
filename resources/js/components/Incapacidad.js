@@ -842,6 +842,7 @@ class IncapacidadFront extends Component {
                 var nuevaob = observacion_estado
             }
             this.setState({
+                estado_id : 1,
                 observacion_estado: nuevaob,
             })
         }
