@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -69,11 +70,23 @@ class UserController extends Controller
                 $data = $this->requestFormato($request,'user');
                 $model2 = $this->obtenerModelo('user');
                 if($model2['modelo']::where('email',$data['email'])->exists()){
-                    $model2['modelo']::where('email',$data['email'])->update($data);
+                    $model2['modelo']::where('email',$data['email'])->update([
+                        'name' => $data['nombre'],
+                        'email' => $data['email'],
+                        'password' => $data['password'],
+                        'tipo'=>1
+                    ]);
                     $usr = $model2['modelo']::where('email',$data['email'])->first();
+                    unset($data['email'], $data['password']);
                     $data = array_merge($data,['user_id' => $usr->id]);
                 }else{
-                    $usr = $model2['modelo']::create($data);
+                    $usr = $model2['modelo']::create([
+                        'name' => $data['nombre'],
+                        'email' => $data['email'],
+                        'password' => $data['password'],
+                        'tipo'=>1
+                    ]);
+                    unset($data['email'], $data['password']);
                     $data = array_merge($data,['user_id' => $usr->id]);
                 }
             }else{
@@ -97,8 +110,14 @@ class UserController extends Controller
             if($modelo == 'medico'){
                 $model2 = $this->obtenerModelo('user');
                 $data = $this->requestFormato($request,'user');
-                if($model2['modelo']::where('id',($model['modelo']::where('id',$id)->get()->user_id))->exists()){
-                    $model2['modelo']::where('id',($model['modelo']::where('id',$id)->get()->user_id))->update($data);
+                if($model2['modelo']::where('id',$model['modelo']::where('id',$id)->first()->user_id)->exists()){
+                    $model2['modelo']::where('id',$model['modelo']::where('id',$id)->first()->user_id)->update([
+                        'name' => $data['nombre'],
+                        'password' => $data['password'],
+                        'tipo'=>1
+                    ]);
+                    unset(
+                        $data['password']);
                 }
             }else{
                 $data = $this->requestFormato($request,$modelo);

@@ -15,7 +15,7 @@ class UsuariosSistema extends Component {
         this.state = {
             users: '',
             nombre: '',
-            usuario: '',
+            usuario: '00',
             correo: '',
             nuevo: 'oculto',
             modalOpen: false,
@@ -36,7 +36,8 @@ class UsuariosSistema extends Component {
                 tipo: '',
                 contraseña:'',
                 confirmar:'',
-            }
+            },
+            IdEditar:'00'
         }
         // bind
         this.getSystemUsers = this.getSystemUsers.bind(this);
@@ -86,8 +87,7 @@ class UsuariosSistema extends Component {
     }
 
     handleEliminar(id){
-        console.log(id)
-        let url = `parametro/user/${id}/eliminar`;
+        let url = `usuario/user/${id}/eliminar`;
         axios.delete(url)
             .then(resp => {
                 this.props.showToast(resp.data.data,'success')
@@ -103,10 +103,15 @@ class UsuariosSistema extends Component {
 
     handleSubmit(e){
         e.preventDefault();
-        let resp = this.validarForm()
+        let resp = this.validarForm();
         if (resp) {
-            let url = 'parametro/user/agregar';
-            axios.post(url, {name:this.state.nombre, email:this.state.correo, password:this.state.contraseña,tipo:this.state.tipo})
+            let url = 'usuario/user/agregar';
+            axios.post(url, {
+                name:this.state.nombre,
+                email:this.state.correo,
+                password:this.state.contraseña,
+                tipo:this.state.tipo
+            })
                 .then(resp => {
                     let user = resp.data.row;
                     this.setState({
@@ -131,6 +136,7 @@ class UsuariosSistema extends Component {
         Object.entries(this.state).map(([key, value]) => {
             if (value == '' && key != 'modalOpen'){
                 newState.errors[key] = "visible";
+                console.log(key)
                 newState.errorMensajes[key] = key + " requerido";
                 resp = false;
             }
@@ -181,10 +187,14 @@ class UsuariosSistema extends Component {
 
     handleGuardar() {
         let id = this.state.IdEditar;
-        let url = `parametro/user/${id}/editar`;
+        let url = `usuario/user/${id}/editar`;
         let resp = this.validarForm()
         if (resp) {
-            axios.put(url, {name:this.state.nombre, email:this.state.correo, password:this.state.contraseña,tipo:this.state.tipo})
+            axios.put(url, {
+                name:this.state.nombre,
+                password:this.state.contraseña,
+                tipo:this.state.tipo
+            })
                 .then(resp => {
                     this.getSystemUsers()
                     this.setState({

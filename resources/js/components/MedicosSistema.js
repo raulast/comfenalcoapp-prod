@@ -70,10 +70,10 @@ class MedicosSistema extends Component {
         this.setState({
           [target.name]: target.value
         });
-        console.log(this.state);
+        //console.log(this.state);
     }
     handleEdition(id,datos){
-        console.log(id)
+        //console.log(id)
         this.setState({
             modalOpen: true,
             IdEditar:id,
@@ -81,8 +81,8 @@ class MedicosSistema extends Component {
             tipoDocumento: datos[1],
             numeroDocumento: datos[2],
             registroMedico: datos[4],
-            nombre: [3],
-            especialidad:[5],
+            nombre: datos[3],
+            especialidad: datos[5],
         });
     }
 
@@ -101,15 +101,18 @@ class MedicosSistema extends Component {
         e.preventDefault();
         let resp = this.validarForm()
         if (resp) {
-            let url = 'parametro/medico/agregar';
+            let url = 'usuario/medico/agregar';
             axios.post(url, {
-                user_id:this.state.user_id,
+                email:this.state.correo,
+                password:this.state.contraseña,
+
                 cod_medico:this.state.codigoMedico,
                 nombre:this.state.nombre,
                 tipo_documento:this.state.tipoDocumento,
                 num_documento:this.state.numeroDocumento,
                 reg_medico:this.state.registroMedico,
-                especialidad:this.state.especialidad})
+                especialidad:this.state.especialidad
+            })
                 .then(resp => {
                     let user = resp.data.row;
                     this.setState({
@@ -120,6 +123,7 @@ class MedicosSistema extends Component {
                     // alert("Datos almacenados")
                 })
                 .catch(err => {
+                    console.log(err);
                     this.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente','error');
                 })
         }
@@ -207,17 +211,19 @@ class MedicosSistema extends Component {
 
      handleGuardar() {
         let id = this.state.IdEditar;
-        let url = `parametro/medico/${id}/editar`;
+        let url = `usuario/medico/${id}/editar`;
         let resp = this.validarForm()
         if (resp) {
             axios.put(url, {
-                user_id:this.state.user_id,
+                password:this.state.contraseña,
+
                 cod_medico:this.state.codigoMedico,
                 nombre:this.state.nombre,
                 tipo_documento:this.state.tipoDocumento,
                 num_documento:this.state.numeroDocumento,
                 reg_medico:this.state.registroMedico,
-                especialidad:this.state.especialidad})
+                especialidad:this.state.especialidad
+            })
                 .then(resp => {
                     this.getMedicosUsers()
                     this.setState({
@@ -275,7 +281,7 @@ class MedicosSistema extends Component {
                                                         </div>
                                                     </div>
                                                     <div className="col-md-3">
-                                                        <label htmlFor="codigoMedico">No. Documento</label>
+                                                        <label htmlFor="numeroDocumento">No. Documento</label>
                                                         <input type="text" className="form-control" id="numeroDocumento" name="numeroDocumento" onChange={this.handleChange} value={this.state.numeroDocumento}></input>
                                                     </div>
                                                     <div className="col-md-3">
