@@ -304,27 +304,27 @@ class UsuariosSistema extends Component {
                                     <form>
                                         <div className="form-group">
                                             <label htmlFor="codigo">Nombre</label>
-                                            <input type="text" className="form-control form-control-sm" name="causa_editada" defaultValue={this.state.usuario} onChange={this.handleChangeC }/>
+                                            <input type="text" className="form-control form-control-sm" name="nombre" defaultValue={this.state.usuario} onChange={this.handleChange }/>
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="codigo">Correo</label>
-                                            <input type="text" className="form-control form-control-sm" name="causa_editada" defaultValue={this.state.correo} onChange={this.handleChangeC }/>
+                                            <input type="text" className="form-control form-control-sm" name="correo" defaultValue={this.state.correo} onChange={this.handleChange}/>
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="codigo">Contraseña</label>
-                                            <input type="text" className="form-control form-control-sm" name="causa_editada" onChange={this.handleChangeC }/>
+                                            <input type="password" className="form-control form-control-sm" name="contraseña" onChange={this.handleChange }/>
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="codigo">Confirmar contraseña</label>
-                                            <input type="text" className="form-control form-control-sm" name="causa_editada" onChange={this.handleChangeC }/>
+                                            <input type="password" className="form-control form-control-sm" name="confirmar" onChange={this.handleChange }/>
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="estado_causa">Tipo</label>
-                                            <select className="form-control form-control-sm" name="estado_causa" defaultValue={this.state.tipo} onChange={this.handleChangeC }>
+                                            <select className="form-control form-control-sm" name="tipo" defaultValue={this.state.tipo} onChange={this.handleChange }>
                                             <option value=""></option>
                                                         <option value="0">Admin</option>
                                                         <option value="1">Médico</option>

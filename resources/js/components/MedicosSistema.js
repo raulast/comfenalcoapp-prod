@@ -70,6 +70,7 @@ class MedicosSistema extends Component {
         this.setState({
           [target.name]: target.value
         });
+        console.log(this.state);
     }
     handleEdition(id,datos){
         console.log(id)
@@ -366,12 +367,12 @@ class MedicosSistema extends Component {
                                     <form>
                                         <div className="form-group">
                                             <label htmlFor="codigo">Código</label>
-                                            <input type="text" className="form-control form-control-sm" name="causa_editada" defaultValue={this.state.codigoMedico} onChange={this.handleChangeC }/>
+                                            <input type="text" className="form-control form-control-sm" name="codigoMedico" defaultValue={this.state.codigoMedico} onChange={this.handleChange }/>
                                         </div>
 
                                         <div className="form-group">
-                                            <label htmlFor="estado_causa">Tipo Documento</label>
-                                            <select className="form-control form-control-sm" name="estado_causa" defaultValue={this.state.tipoDocumento} onChange={this.handleChangeC }>
+                                            <label htmlFor="tipoDocumento">Tipo Documento</label>
+                                            <select className="form-control form-control-sm" name="tipoDocumento" defaultValue={this.state.tipoDocumento} onChange={this.handleChange }>
                                             <option value=""></option>
                                                 <option value="CC">CC</option>
                                                 <option value="NIT">NIT</option>
@@ -387,37 +388,37 @@ class MedicosSistema extends Component {
 
                                         <div className="form-group">
                                             <label htmlFor="codigo">No. Documento</label>
-                                            <input type="text" className="form-control form-control-sm" name="causa_editada" defaultValue={this.state.numeroDocumento} onChange={this.handleChangeC }/>
+                                            <input type="text" className="form-control form-control-sm" name="numeroDocumento" defaultValue={this.state.numeroDocumento} onChange={this.handleChange }/>
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="codigo">No. Registro</label>
-                                            <input type="text" className="form-control form-control-sm" name="causa_editada" defaultValue={this.state.registroMedico} onChange={this.handleChangeC }/>
+                                            <input type="text" className="form-control form-control-sm" name="registroMedico" defaultValue={this.state.registroMedico} onChange={this.handleChange }/>
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="codigo">Nombre</label>
-                                            <input type="text" className="form-control form-control-sm" name="causa_editada" defaultValue={this.state.nombre} onChange={this.handleChangeC }/>
+                                            <input type="text" className="form-control form-control-sm" name="nombre" defaultValue={this.state.nombre} onChange={this.handleChange }/>
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="codigo">Correo</label>
-                                            <input type="text" className="form-control form-control-sm" name="causa_editada" onChange={this.handleChangeC }/>
+                                            <input type="text" className="form-control form-control-sm" name="correo" onChange={this.handleChange }/>
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="codigo">Contraseña</label>
-                                            <input type="password" className="form-control form-control-sm" name="causa_editada" onChange={this.handleChangeC }/>
+                                            <input type="password" className="form-control form-control-sm" name="contraseña" onChange={this.handleChange }/>
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="codigo">Confirmar contraseña</label>
-                                            <input type="password" className="form-control form-control-sm" name="causa_editada" onChange={this.handleChangeC }/>
+                                            <input type="password" className="form-control form-control-sm" name="confirmar" onChange={this.handleChange }/>
                                         </div>
 
                                         <div className="form-group">
-                                            <label htmlFor="estado_causa">Especialidad médica</label>
-                                            <select className="form-control form-control-sm" name="estado_causa" defaultValue={this.state.especialidad} onChange={this.handleChangeC }>
+                                            <label htmlFor="especialidadMedica">Especialidad médica</label>
+                                            <select className="form-control form-control-sm" name="especialidad" defaultValue={this.state.especialidad} onChange={this.handleChange }>
                                             <option value=""></option>
                                                 <option value="1">Médico general</option>
                                                 <option value="2">Médico especialista</option>
@@ -429,7 +430,7 @@ class MedicosSistema extends Component {
 
                                         <div className="form-group">
                                             <label htmlFor="estado_causa">Rethus</label>
-                                            <select className="form-control form-control-sm" name="estado_causa" onChange={this.handleChangeC }>
+                                            <select className="form-control form-control-sm" name="rethus" onChange={this.handleChange }>
                                             <option value=""></option>
                                                 <option value="Si">Si</option>
                                                 <option value="No">No</option>
