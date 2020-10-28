@@ -126,3 +126,15 @@ Route::group(['prefix' => 'parametro'], function () {
         });
     });
 });
+//CRUD de usuarios
+Route::group(['prefix' => 'usuario'], function () {
+    Route::group(['prefix' => '{modelo}'], function () {
+        Route::get('/', 'UserController@obtener');
+        Route::post('/agregar', 'UserController@agregar');
+        Route::group(['prefix' => '{id}'], function () {
+            Route::get('/', 'UserController@obtenerDetalles');
+            Route::put('/editar', 'UserController@editar');
+            Route::delete('/eliminar', 'UserController@eliminar');
+        });
+    });
+});

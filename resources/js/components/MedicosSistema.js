@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import TableMedicos from './TableMedicos.js';
+import Modal from "react-bootstrap/Modal";
 
 import axios from 'axios';
 
@@ -16,10 +17,13 @@ class MedicosSistema extends Component {
             numeroDocumento:'',
             registroMedico:'',
             correo:'',
+            nuevo: 'oculto',
+            modalOpen: false,
             nombre:'',
             especialidad:'',
             contraseña:'',
             confirmar:'',
+            user_id:'',
             errors : {
                 codigoMedico : 'oculto',
                 tipoDocumento:'oculto',
@@ -28,7 +32,7 @@ class MedicosSistema extends Component {
                 epecialidad:'oculto',
                 contraseña: 'oculto',
                 confirmar:'oculto',
-                
+
             },
             errorMensajes :{
                 codigoMedico : 'Código requerido',
@@ -38,97 +42,104 @@ class MedicosSistema extends Component {
                 epecialidad:'Especialidad requerida',
                 contraseña: 'Contraseña requerida',
                 confirmar:'Repita contraseña',
-            }
+            },
+            IdEditar:'00'
         }
         // bind
         this.getMedicosUsers = this.getMedicosUsers.bind(this);
         this.renderUsers = this.renderUsers.bind(this);
         this.handleChange=this.handleChange.bind(this);
         this.handleEdition = this.handleEdition.bind(this);
+        this.handleCreate = this.handleCreate.bind(this);
         this.handleEliminar = this.handleEliminar.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.clearErrors = this.clearErrors.bind(this);
         this.validarForm = this.validarForm.bind(this);
+        this.handleCerrarModal = this.handleCerrarModal.bind(this);
+        this.handleGuardar = this.handleGuardar.bind(this);
         this.getMedicosUsers();
     }
+
+    handleCreate() {
+        this.setState({
+            nuevo:'visible'
+          });
+    }
+
     handleChange({ target }) {
         this.setState({
           [target.name]: target.value
         });
+        //console.log(this.state);
     }
-    handleEdition(id){
-        console.log(id)
-        let url = 'getMedico'
-        axios.post(url, { medicoId: id })
-            .then(resp => {
-                //console.log(resp.data.data[0]);
-
-                this.setState({
-                    codigoMedico: resp.data.data[0].cod_medico,
-                    especialidad: resp.data.data[0].especialidad,
-                    numeroDocumento: resp.data.data[0].num_documento,
-                    nombre: resp.data.data[0].nombre,
-                    registroMedico: resp.data.data[0].reg_medico,
-                    tipoDocumento: resp.data.data[0].tipo_documento,
-                    contraseña : '',
-                    correo: resp.data.data[0].correo,
-                });
-
-            })
-            .catch(err => {
-                console.log(err)
-            })
+    handleEdition(id,datos){
+        //console.log(id)
+        this.setState({
+            modalOpen: true,
+            IdEditar:id,
+            codigoMedico: datos[0],
+            tipoDocumento: datos[1],
+            numeroDocumento: datos[2],
+            registroMedico: datos[4],
+            nombre: datos[3],
+            especialidad: datos[5],
+        });
     }
+
     handleEliminar(id){
-      //  console.log(id) 
+      //  console.log(id)
     }
-    handleSubmit(e){         
+
+    handleCerrarModal(){
+        this.setState({
+            modalOpen: false,
+        });
+
+    }
+
+    handleSubmit(e){
         e.preventDefault();
         let resp = this.validarForm()
-        console.log(resp)
         if (resp) {
-            let url = 'saveMedico'
-            console.log(this.state);
-            axios.post(url, { datos: this.state })
+            let url = 'usuario/medico/agregar';
+            axios.post(url, {
+                email:this.state.correo,
+                password:this.state.contraseña,
+
+                cod_medico:this.state.codigoMedico,
+                nombre:this.state.nombre,
+                tipo_documento:this.state.tipoDocumento,
+                num_documento:this.state.numeroDocumento,
+                reg_medico:this.state.registroMedico,
+                especialidad:this.state.especialidad
+            })
                 .then(resp => {
-                    console.log(resp);
-                    //location.reload();
-                    console.log(resp.data.data);
-                    let medico = resp.data.data;
-                    if (medico == 0){
-                        
-                        this.getMedicosUsers();
-                        this.setState({
-                            medicos: this.state.medicos, 
-                        });  
-                        
-                    }
-                    else{
-                        this.setState({
-                            medicos: [...this.state.medicos, medico]
-                        });  
-                    }
-                    alert("Datos almacenados")
+                    let user = resp.data.row;
+                    this.setState({
+                        medicos: [...this.state.medicos, user],
+                        nuevo: 'oculto'
+                    });
+                    this.props.showToast('Datos almacenados','success');
+                    // alert("Datos almacenados")
                 })
                 .catch(err => {
-                    console.log(err)
+                    console.log(err);
+                    this.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente','error');
                 })
-            
         }
-
     }
     validarForm() {
-        
+
         this.clearErrors()
-        
+
         let resp = true;
-        
+
         let newState = Object.assign({}, this.state);
         /*
         Object.entries(this.state).map(([key, value]) => {
             if (value == ''){
                 newState.errors[key] = "visible";
-                //newState.errorMensajes[key] = key + " requerido"; 
+                //newState.errorMensajes[key] = key + " requerido";
                 resp = false;
             }
         });
@@ -142,13 +153,13 @@ class MedicosSistema extends Component {
         }
 
         this.setState(newState);
-        
+
         return resp;
-       
+
     }
     clearErrors(){
         let newState = Object.assign({}, this.state);
-       // console.log(Object.entries(newState));  
+       // console.log(Object.entries(newState));
         Object.keys(newState.errors).forEach(key => {
             newState.errors[key] = "oculto";
         });
@@ -159,30 +170,30 @@ class MedicosSistema extends Component {
         });
         //console.log(newState);
         this.setState(newState2);
-    }  
+    }
     getMedicosUsers(){
         let url ='getMedicosUsers'
         axios.get(url)
             .then(resp => {
                 //console.log(resp.data.data);
                 this.setState({
-                    medicos:resp.data.data,   
+                    medicos:resp.data.data,
                 });
-               
+
             })
             .catch(err =>{
                 console.log(err)
             })
-       
+
     }
     renderUsers(){
         const { medicos } = this.state;
-        
+
         return (
-            <tbody> 
+            <tbody>
                  {Object.keys(medicos).map((key)=>(
                     <tr key={key}>
-                    
+
                     <td>{ medicos[key]['cod_medico']}</td>
                     <td>{ medicos[key]['tipo_documento']}</td>
                     <td>{ medicos[key]['num_documento']}</td>
@@ -197,102 +208,137 @@ class MedicosSistema extends Component {
 
         );
      }
+
+     handleGuardar() {
+        let id = this.state.IdEditar;
+        let url = `usuario/medico/${id}/editar`;
+        let resp = this.validarForm()
+        if (resp) {
+            axios.put(url, {
+                password:this.state.contraseña,
+
+                cod_medico:this.state.codigoMedico,
+                nombre:this.state.nombre,
+                tipo_documento:this.state.tipoDocumento,
+                num_documento:this.state.numeroDocumento,
+                reg_medico:this.state.registroMedico,
+                especialidad:this.state.especialidad
+            })
+                .then(resp => {
+                    this.getMedicosUsers()
+                    this.setState({
+                        medicos: [...this.state.medicos]
+                    });
+                    this.handleCerrarModal()
+                    this.props.showToast('Datos Actualizados','success');
+                    // alert("Datos almacenados")
+                })
+                .catch(err => {
+                    this.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente','error');
+                })
+        }
+    }
+
     render() {
         const { medicos } = this.state;
         return (
            <div>
+            <br/><br/>
+            <button className="btn btn-success btn-sm" onClick={this.handleCreate}>+ Crear</button>
             <div className="row mt-5">
-                <div className="col-md-12">
-                    <div className="card">
-                        <div className="card-header bg2 titulo">Médicos </div>
-                            <div className="card-body texto">
-                                <form onSubmit={this.handleSubmit}> 
-                                    <div className="form-group">
-                                            <div className="row">
-                                                <div className="col-md-3">
-                                                    <label htmlFor="codigoMedico">Código</label>
-                                                    <input type="text" className="form-control" id="codigoMedico" name="codigoMedico" onChange={this.handleChange} value={this.state.codigoMedico}></input>
-                                                    <div className={this.state.errors['codigoMedico']}>
-                                                        <div className={ "redf  " + ( this.state.errors['codigoMedico'] || "") }>{this.state.errorMensajes['codigoMedico']}</div>
+                <div className={this.state.nuevo}>
+                    <div className="col-md-12">
+                        <div className="card">
+                            <div className="card-header bg2 titulo">Médicos </div>
+                                <div className="card-body texto">
+                                    <form onSubmit={this.handleSubmit}>
+                                        <div className="form-group">
+                                                <div className="row">
+                                                    <div className="col-md-3">
+                                                        <label htmlFor="codigoMedico">Código</label>
+                                                        <input type="text" className="form-control" id="codigoMedico" name="codigoMedico" onChange={this.handleChange} value={this.state.codigoMedico}></input>
+                                                        <div className={this.state.errors['codigoMedico']}>
+                                                            <div className={ "redf  " + ( this.state.errors['codigoMedico'] || "") }>{this.state.errorMensajes['codigoMedico']}</div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-md-3">
+                                                        <label htmlFor="tipoDocumento">Tipo documento</label>
+                                                        <select className="form-control" id="tipoDocumento" name="tipoDocumento" onChange={this.handleChange} value={this.state.tipoDocumento}>
+                                                            <option value=""></option>
+                                                            <option value="CC">CC</option>
+                                                            <option value="NIT">NIT</option>
+                                                            <option value="TI">TI</option>
+                                                            <option value="CE">CE</option>
+                                                            <option value="PA">PA</option>
+                                                            <option value="RC">RC</option>
+                                                            <option value="NUIP">NUIP</option>
+                                                            <option value="MS">MS</option>
+                                                            <option value="CN">CN</option>
+
+                                                        </select>
+                                                        <div className={this.state.errors['tipoDocumento']}>
+                                                            <div className={ "redf  " + ( this.state.errors['tipoDocumento'] || "") }>{this.state.errorMensajes['tipoDocumento']}</div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-md-3">
+                                                        <label htmlFor="numeroDocumento">No. Documento</label>
+                                                        <input type="text" className="form-control" id="numeroDocumento" name="numeroDocumento" onChange={this.handleChange} value={this.state.numeroDocumento}></input>
+                                                    </div>
+                                                    <div className="col-md-3">
+                                                        <label htmlFor="registroMedico">No. Registro</label>
+                                                        <input type="text" className="form-control" id="registroMedico" name="registroMedico" onChange={this.handleChange} value={this.state.registroMedico}></input>
                                                     </div>
                                                 </div>
-                                                <div className="col-md-3">
-                                                    <label htmlFor="tipoDocumento">Tipo documento</label>
-                                                    <select className="form-control" id="tipoDocumento" name="tipoDocumento" onChange={this.handleChange} value={this.state.tipoDocumento}>
-                                                        <option value=""></option>
-                                                        <option value="CC">CC</option>
-                                                        <option value="NIT">NIT</option>
-                                                        <option value="TI">TI</option>
-                                                        <option value="CE">CE</option>
-                                                        <option value="PA">PA</option>
-                                                        <option value="RC">RC</option>
-                                                        <option value="NUIP">NUIP</option>
-                                                        <option value="MS">MS</option>
-                                                        <option value="CN">CN</option>
-                
-                                                    </select>
-                                                    <div className={this.state.errors['tipoDocumento']}>
-                                                        <div className={ "redf  " + ( this.state.errors['tipoDocumento'] || "") }>{this.state.errorMensajes['tipoDocumento']}</div>
+                                                <div className="row">
+                                                    <div className="col-md-4">
+                                                        <label htmlFor="nombre">Nombre</label>
+                                                        <input type="text" className="form-control" id="nombre" name="nombre" onChange={this.handleChange} value={this.state.nombreUsaurio} value={this.state.nombre}></input>
+                                                    </div>
+                                                    <div className="col-md-4">
+                                                        <label htmlFor="nombre">Correo electrónico</label>
+                                                        <input type="email" className="form-control" id="correo" name="correo" onChange={this.handleChange} value={this.state.correo}></input>
+                                                    </div>
+                                                    <div className="col-md-4">
+                                                        <label htmlFor="especialidadMedica">Especialidad médica</label>
+                                                        <select id="especialidad" className="form-control" name="especialidad" onChange={this.handleChange} value={this.state.especialidad}>
+                                                            <option value=""></option>
+                                                            <option value="1">Médico general</option>
+                                                            <option value="2">Médico especialista</option>
+                                                            <option value="5">Médico laboral</option>
+                                                            <option value="3">Odontólogo general</option>
+                                                            <option value="4">Odontólogo especialista</option>
+
+                                                        </select>
+                                                    </div>
+
+                                                </div>
+                                                <div className="row">
+                                                    <div className="col-md-4">
+                                                        <label htmlFor="nombre">Contraseña</label>
+                                                        <input type="password" className="form-control" id="contraseña" name="contraseña" onChange={this.handleChange} value={this.state.contraseña}></input>
+                                                    </div>
+                                                    <div className="col-md-4">
+                                                        <label htmlFor="nombre">Confirmar Contraseña</label>
+                                                        <input type="password" className="form-control" id="confirmar" name="confirmar" onChange={this.handleChange} value={this.state.confirmar}></input>
+                                                    </div>
+                                                    <div className="col-md-2">
+                                                        <label htmlFor="rethus">Rethus</label>
+                                                        <select className="form-control" id="rethus" name="rethus" onChange={this.handleChange} value={this.state.rethus}>
+                                                            <option value=""></option>
+                                                            <option value="Si">Si</option>
+                                                            <option value="No">No</option>
+                                                        </select>
+
+                                                    </div>
+                                                    <div className="col-md-2">
+                                                        <br />
+                                                        <button type="submit" className="btn btn-success btn-sm">Guardar</button>
                                                     </div>
                                                 </div>
-                                                <div className="col-md-3">
-                                                    <label htmlFor="codigoMedico">No. Documento</label>
-                                                    <input type="text" className="form-control" id="numeroDocumento" name="numeroDocumento" onChange={this.handleChange} value={this.state.numeroDocumento}></input>
-                                                </div>
-                                                <div className="col-md-3">
-                                                    <label htmlFor="registroMedico">No. Registro</label>
-                                                    <input type="text" className="form-control" id="registroMedico" name="registroMedico" onChange={this.handleChange} value={this.state.registroMedico}></input>
-                                                </div>
-                                            </div>
-                                            <div className="row">
-                                                <div className="col-md-4">
-                                                    <label htmlFor="nombre">Nombre</label>
-                                                    <input type="text" className="form-control" id="nombre" name="nombre" onChange={this.handleChange} value={this.state.nombreUsaurio} value={this.state.nombre}></input>
-                                                </div>
-                                                <div className="col-md-4">
-                                                    <label htmlFor="nombre">Correo electrónico</label>
-                                                    <input type="email" className="form-control" id="correo" name="correo" onChange={this.handleChange} value={this.state.correo}></input>
-                                                </div> 
-                                                <div className="col-md-4">
-                                                    <label htmlFor="especialidadMedica">Especialidad médica</label>
-                                                    <select id="especialidad" className="form-control" name="especialidad" onChange={this.handleChange} value={this.state.especialidad}>
-                                                        <option value=""></option>
-                                                        <option value="1">Médico general</option>
-                                                        <option value="2">Médico especialista</option>
-                                                        <option value="5">Médico laboral</option>
-                                                        <option value="3">Odontólogo general</option>
-                                                        <option value="4">Odontólogo especialista</option>
-                                                        
-                                                    </select>
-                                                </div>
-                                                
-                                            </div>
-                                            <div className="row">
-                                                <div className="col-md-4">
-                                                    <label htmlFor="nombre">Contraseña</label>
-                                                    <input type="password" className="form-control" id="contraseña" name="contraseña" onChange={this.handleChange} value={this.state.contraseña}></input>
-                                                </div>
-                                                <div className="col-md-4">
-                                                    <label htmlFor="nombre">Confirmar Contraseña</label>
-                                                    <input type="password" className="form-control" id="confirmar" name="confirmar" onChange={this.handleChange} value={this.state.confirmar}></input>
-                                                </div>
-                                                <div className="col-md-2">
-                                                    <label htmlFor="rethus">Rethus</label>
-                                                    <select className="form-control" id="rethus" name="rethus" onChange={this.handleChange} value={this.state.rethus}>
-                                                        <option value=""></option>
-                                                        <option value="Si">Si</option>
-                                                        <option value="No">No</option>
-                                                    </select>
-                                                   
-                                                </div>
-                                                <div className="col-md-2">
-                                                    <br />
-                                                    <button type="submit" className="btn btn-success btn-sm">Guardar</button>
-                                                </div>
-                                            </div>
-                                    </div>
-                                </form>
-                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -318,6 +364,93 @@ class MedicosSistema extends Component {
                     </div>
                 </div>
             </div>
+            <Modal show={this.state.modalOpen}>
+                    <Modal.Header>Causa externa</Modal.Header>
+                    <Modal.Body>
+                        <div className="container">
+                            <div className="row">
+                                <div className="col-12">
+                                    <form>
+                                        <div className="form-group">
+                                            <label htmlFor="codigo">Código</label>
+                                            <input type="text" className="form-control form-control-sm" name="codigoMedico" defaultValue={this.state.codigoMedico} onChange={this.handleChange }/>
+                                        </div>
+
+                                        <div className="form-group">
+                                            <label htmlFor="tipoDocumento">Tipo Documento</label>
+                                            <select className="form-control form-control-sm" name="tipoDocumento" defaultValue={this.state.tipoDocumento} onChange={this.handleChange }>
+                                            <option value=""></option>
+                                                <option value="CC">CC</option>
+                                                <option value="NIT">NIT</option>
+                                                <option value="TI">TI</option>
+                                                <option value="CE">CE</option>
+                                                <option value="PA">PA</option>
+                                                <option value="RC">RC</option>
+                                                <option value="NUIP">NUIP</option>
+                                                <option value="MS">MS</option>
+                                                <option value="CN">CN</option>
+                                            </select>
+                                        </div>
+
+                                        <div className="form-group">
+                                            <label htmlFor="codigo">No. Documento</label>
+                                            <input type="text" className="form-control form-control-sm" name="numeroDocumento" defaultValue={this.state.numeroDocumento} onChange={this.handleChange }/>
+                                        </div>
+
+                                        <div className="form-group">
+                                            <label htmlFor="codigo">No. Registro</label>
+                                            <input type="text" className="form-control form-control-sm" name="registroMedico" defaultValue={this.state.registroMedico} onChange={this.handleChange }/>
+                                        </div>
+
+                                        <div className="form-group">
+                                            <label htmlFor="codigo">Nombre</label>
+                                            <input type="text" className="form-control form-control-sm" name="nombre" defaultValue={this.state.nombre} onChange={this.handleChange }/>
+                                        </div>
+
+                                        <div className="form-group">
+                                            <label htmlFor="codigo">Correo</label>
+                                            <input type="text" className="form-control form-control-sm" name="correo" onChange={this.handleChange }/>
+                                        </div>
+
+                                        <div className="form-group">
+                                            <label htmlFor="codigo">Contraseña</label>
+                                            <input type="password" className="form-control form-control-sm" name="contraseña" onChange={this.handleChange }/>
+                                        </div>
+
+                                        <div className="form-group">
+                                            <label htmlFor="codigo">Confirmar contraseña</label>
+                                            <input type="password" className="form-control form-control-sm" name="confirmar" onChange={this.handleChange }/>
+                                        </div>
+
+                                        <div className="form-group">
+                                            <label htmlFor="especialidadMedica">Especialidad médica</label>
+                                            <select className="form-control form-control-sm" name="especialidad" defaultValue={this.state.especialidad} onChange={this.handleChange }>
+                                            <option value=""></option>
+                                                <option value="1">Médico general</option>
+                                                <option value="2">Médico especialista</option>
+                                                <option value="5">Médico laboral</option>
+                                                <option value="3">Odontólogo general</option>
+                                                <option value="4">Odontólogo especialista</option>
+                                            </select>
+                                        </div>
+
+                                        <div className="form-group">
+                                            <label htmlFor="estado_causa">Rethus</label>
+                                            <select className="form-control form-control-sm" name="rethus" onChange={this.handleChange }>
+                                            <option value=""></option>
+                                                <option value="Si">Si</option>
+                                                <option value="No">No</option>
+                                            </select>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                    </Modal.Body>
+                    <Modal.Footer><button className="btn btn-primary btn-sm" onClick={ this.handleGuardar }>Guardar</button><button className="btn btn-primary btn-sm" onClick={ this.handleCerrarModal }>Cerrar</button></Modal.Footer>
+                </Modal>
             </div>
         );
     }

@@ -74232,6 +74232,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _MenuGenerales_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./MenuGenerales.js */ "./resources/js/components/MenuGenerales.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/react-toastify.esm.js");
+/* harmony import */ var react_toastify_dist_ReactToastify_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-toastify/dist/ReactToastify.css */ "./node_modules/react-toastify/dist/ReactToastify.css");
+/* harmony import */ var react_toastify_dist_ReactToastify_css__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react_toastify_dist_ReactToastify_css__WEBPACK_IMPORTED_MODULE_6__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -74260,6 +74263,8 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
+
 var AdminNav = /*#__PURE__*/function (_Component) {
   _inherits(AdminNav, _Component);
 
@@ -74276,15 +74281,45 @@ var AdminNav = /*#__PURE__*/function (_Component) {
       tipo: props.tipo
     }; // bind
 
+    _this.handleToast = _this.handleToast.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(AdminNav, [{
+    key: "handleToast",
+    value: function handleToast(arg, type) {
+      console.log(arg, type);
+
+      if (type == 'success') {
+        react_toastify__WEBPACK_IMPORTED_MODULE_5__["toast"].success(arg, {
+          position: "top-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined
+        });
+      } else if (type == 'error') {
+        react_toastify__WEBPACK_IMPORTED_MODULE_5__["toast"].error(arg, {
+          position: "top-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined
+        });
+      }
+    }
+  }, {
     key: "render",
     value: function render() {
+      var _this2 = this;
+
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_toastify__WEBPACK_IMPORTED_MODULE_5__["ToastContainer"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-1 "
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         className: "nav nav-pills flex-column"
@@ -74307,10 +74342,18 @@ var AdminNav = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tab-pane container fade",
         id: "usuarios"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MenuUsuarios_js__WEBPACK_IMPORTED_MODULE_2__["default"], null)), this.state.tipo != 5 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MenuUsuarios_js__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        showToast: function showToast(arg, type) {
+          return _this2.handleToast(arg, type);
+        }
+      })), this.state.tipo != 5 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tab-pane container active",
         id: "generales"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MenuGenerales_js__WEBPACK_IMPORTED_MODULE_3__["default"], null)) : '')));
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MenuGenerales_js__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        showToast: function showToast(arg, type) {
+          return _this2.handleToast(arg, type);
+        }
+      })) : '')));
     }
   }]);
 
@@ -74925,7 +74968,7 @@ var CausasAdmin = /*#__PURE__*/function (_Component) {
           causas: _toConsumableArray(_this5.state.causas)
         });
 
-        _this5.props.showToast(resp, 'success');
+        _this5.props.showToast(resp.data.data, 'success');
 
         _this5.handleCerrarModal();
       })["catch"](function (err) {
@@ -77454,7 +77497,7 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
         abbr: abbr,
         activo: 1
       }).then(function (resp) {
-        _this2.props.showToast(resp, 'success');
+        _this2.props.showToast(resp.data.data, 'success');
 
         _this2.setState({
           clasesa: [].concat(_toConsumableArray(_this2.state.clasesa), [resp.data.row]),
@@ -77478,7 +77521,7 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
         licencia: incapacidad,
         activo: 1
       }).then(function (resp) {
-        _this3.props.showToast(resp, 'success');
+        _this3.props.showToast(resp.data.data, 'success');
 
         _this3.setState({
           estadosa: [].concat(_toConsumableArray(_this3.state.estadosa), [resp.data.row]),
@@ -77506,7 +77549,7 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
         licencia: incapacidad,
         activo: 1
       }).then(function (resp) {
-        _this4.props.showToast(resp, 'success');
+        _this4.props.showToast(resp.data.data, 'success');
 
         _this4.setState({
           descripciones: [].concat(_toConsumableArray(_this4.state.descripciones), [resp.data.row]),
@@ -77531,7 +77574,7 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
         abbr: abbr,
         activo: activo
       }).then(function (resp) {
-        _this5.props.showToast(resp, 'success');
+        _this5.props.showToast(resp.data.data, 'success');
 
         _this5.getSystemClasesa();
 
@@ -77560,7 +77603,7 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
         licencia: incapacidad,
         activo: activo
       }).then(function (resp) {
-        _this6.props.showToast(resp, 'success');
+        _this6.props.showToast(resp.data.data, 'success');
 
         _this6.getSystemEstadosa();
 
@@ -77594,7 +77637,7 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
         licencia: incapacidad,
         activo: activo
       }).then(function (resp) {
-        _this7.props.showToast(resp, 'success');
+        _this7.props.showToast(resp.data.data, 'success');
 
         _this7.getSystemDescripciones();
 
@@ -78262,7 +78305,7 @@ var DiasmaxAdmin = /*#__PURE__*/function (_Component) {
         dias_maximos: dias_maximos,
         especialidad: especialidad
       }).then(function (resp) {
-        _this2.props.showToast(resp, 'success');
+        _this2.props.showToast(resp.data.data, 'success');
 
         _this2.setState({
           esp: [].concat(_toConsumableArray(_this2.state.esp), [resp.data.row]),
@@ -78286,7 +78329,7 @@ var DiasmaxAdmin = /*#__PURE__*/function (_Component) {
         dias_maximos: dias_maximos,
         especialidad: especialidad
       }).then(function (resp) {
-        _this3.props.showToast(resp, 'success');
+        _this3.props.showToast(resp.data.data, 'success');
 
         _this3.getSystemDiasmax();
 
@@ -78645,7 +78688,7 @@ var EstadosAdmin = /*#__PURE__*/function (_Component) {
         estado: estadoi,
         activo: 1
       }).then(function (resp) {
-        _this2.props.showToast(resp, 'success');
+        _this2.props.showToast(resp.data.data, 'success');
 
         _this2.setState({
           estados: [].concat(_toConsumableArray(_this2.state.estados), [resp.data.row]),
@@ -78668,7 +78711,7 @@ var EstadosAdmin = /*#__PURE__*/function (_Component) {
         estado: estadoi,
         activo: activo
       }).then(function (resp) {
-        _this3.props.showToast(resp, 'success');
+        _this3.props.showToast(resp.data.data, 'success');
 
         _this3.getSystemEstados();
 
@@ -79138,7 +79181,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
       let f2 = new Date().getTime();
       console.log(f1);
       console.log(f2);
-       let f = f2-f1;
+        let f = f2-f1;
       let edad = new Date(f)
       console.log(edad)
       */
@@ -80038,7 +80081,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
       axios.get(url)
           .then(resp => {
              console.log(resp.data.respuesta)
-           })
+            })
           .catch(err =>{
               console.log(err)
           })*/
@@ -80824,7 +80867,7 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
         razon_social: razon_social,
         nit: nit
       }).then(function (resp) {
-        _this2.props.showToast(resp, 'success');
+        _this2.props.showToast(resp.data.data, 'success');
 
         _this2.setState({
           ips: [].concat(_toConsumableArray(_this2.state.ips), [resp.data.row]),
@@ -80859,7 +80902,7 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
         razon_social: razon_social,
         nit: nit
       }).then(function (resp) {
-        _this3.props.showToast(resp, 'success');
+        _this3.props.showToast(resp.data.data, 'success');
 
         _this3.getSystemIps();
 
@@ -81854,13 +81897,13 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
     this.handleLateralidad = this.handleLateralidad.bind(this);
     this.handleProrroga = this.handleProrroga.bind(this);
     this.showMessage = this.showMessage(this)
-     
+      
     this.buscarHistorico = this.buscarHistorico.bind(this);
     this.handleFechaAtencion = this.handleFechaAtencion.bind(this);
     this.validarForm = this.validarForm.bind(this);
     this.clearErrors = this.clearErrors.bind(this);
     this.reviewProrroga = this.reviewProrroga.bind(this);
-     this.handleMaxDias = this.handleMaxDias.bind(this);
+      this.handleMaxDias = this.handleMaxDias.bind(this);
     */
 
     return _this;
@@ -82597,9 +82640,9 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
       /*
       if (parseInt(this.state.diasSolicitados) <= this.state.diasMaximosEspecialidad) {
           let resp = this.validarForm()
-           if (resp) {
-               //alert(this.state.id);
-               let url = 'saveIncapacidad'
+            if (resp) {
+                //alert(this.state.id);
+                let url = 'saveIncapacidad'
               axios.post(url, { datos: this.state })
                   .then(resp => {
                       console.log(resp.data)
@@ -82610,7 +82653,7 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
                   .catch(err => {
                       console.log(err)
                   })
-           }
+            }
           else {
               alert("Hay errores en algunos campos");
           }
@@ -82618,7 +82661,7 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
       else {
           alert("Los días solicitados exceden el máximo definido para su especialidad médica");
       }
-       */
+        */
 
     }
   }, {
@@ -82750,7 +82793,7 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
       axios.get(url)
           .then(resp => {
              console.log(resp.data.respuesta)
-           })
+            })
           .catch(err =>{
               console.log(err)
           })*/
@@ -83622,8 +83665,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _TableMedicos_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TableMedicos.js */ "./resources/js/components/TableMedicos.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-bootstrap/Modal */ "./node_modules/react-bootstrap/esm/Modal.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
@@ -83665,6 +83709,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var MedicosSistema = /*#__PURE__*/function (_Component) {
   _inherits(MedicosSistema, _Component);
 
@@ -83683,10 +83728,13 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
       numeroDocumento: '',
       registroMedico: '',
       correo: '',
+      nuevo: 'oculto',
+      modalOpen: false,
       nombre: '',
       especialidad: '',
       contraseña: '',
       confirmar: '',
+      user_id: '',
       errors: {
         codigoMedico: 'oculto',
         tipoDocumento: 'oculto',
@@ -83704,17 +83752,21 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         epecialidad: 'Especialidad requerida',
         contraseña: 'Contraseña requerida',
         confirmar: 'Repita contraseña'
-      }
+      },
+      IdEditar: '00'
     }; // bind
 
     _this.getMedicosUsers = _this.getMedicosUsers.bind(_assertThisInitialized(_this));
     _this.renderUsers = _this.renderUsers.bind(_assertThisInitialized(_this));
     _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
     _this.handleEdition = _this.handleEdition.bind(_assertThisInitialized(_this));
+    _this.handleCreate = _this.handleCreate.bind(_assertThisInitialized(_this));
     _this.handleEliminar = _this.handleEliminar.bind(_assertThisInitialized(_this));
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     _this.clearErrors = _this.clearErrors.bind(_assertThisInitialized(_this));
     _this.validarForm = _this.validarForm.bind(_assertThisInitialized(_this));
+    _this.handleCerrarModal = _this.handleCerrarModal.bind(_assertThisInitialized(_this));
+    _this.handleGuardar = _this.handleGuardar.bind(_assertThisInitialized(_this));
 
     _this.getMedicosUsers();
 
@@ -83722,75 +83774,77 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
   }
 
   _createClass(MedicosSistema, [{
+    key: "handleCreate",
+    value: function handleCreate() {
+      this.setState({
+        nuevo: 'visible'
+      });
+    }
+  }, {
     key: "handleChange",
     value: function handleChange(_ref) {
       var target = _ref.target;
-      this.setState(_defineProperty({}, target.name, target.value));
+      this.setState(_defineProperty({}, target.name, target.value)); //console.log(this.state);
     }
   }, {
     key: "handleEdition",
-    value: function handleEdition(id) {
-      var _this2 = this;
-
-      console.log(id);
-      var url = 'getMedico';
-      axios__WEBPACK_IMPORTED_MODULE_3___default.a.post(url, {
-        medicoId: id
-      }).then(function (resp) {
-        //console.log(resp.data.data[0]);
-        _this2.setState({
-          codigoMedico: resp.data.data[0].cod_medico,
-          especialidad: resp.data.data[0].especialidad,
-          numeroDocumento: resp.data.data[0].num_documento,
-          nombre: resp.data.data[0].nombre,
-          registroMedico: resp.data.data[0].reg_medico,
-          tipoDocumento: resp.data.data[0].tipo_documento,
-          contraseña: '',
-          correo: resp.data.data[0].correo
-        });
-      })["catch"](function (err) {
-        console.log(err);
+    value: function handleEdition(id, datos) {
+      //console.log(id)
+      this.setState({
+        modalOpen: true,
+        IdEditar: id,
+        codigoMedico: datos[0],
+        tipoDocumento: datos[1],
+        numeroDocumento: datos[2],
+        registroMedico: datos[4],
+        nombre: datos[3],
+        especialidad: datos[5]
       });
     }
   }, {
     key: "handleEliminar",
-    value: function handleEliminar(id) {//  console.log(id) 
+    value: function handleEliminar(id) {//  console.log(id)
+    }
+  }, {
+    key: "handleCerrarModal",
+    value: function handleCerrarModal() {
+      this.setState({
+        modalOpen: false
+      });
     }
   }, {
     key: "handleSubmit",
     value: function handleSubmit(e) {
-      var _this3 = this;
+      var _this2 = this;
 
       e.preventDefault();
       var resp = this.validarForm();
-      console.log(resp);
 
       if (resp) {
-        var url = 'saveMedico';
-        console.log(this.state);
-        axios__WEBPACK_IMPORTED_MODULE_3___default.a.post(url, {
-          datos: this.state
+        var url = 'usuario/medico/agregar';
+        axios__WEBPACK_IMPORTED_MODULE_4___default.a.post(url, {
+          email: this.state.correo,
+          password: this.state.contraseña,
+          cod_medico: this.state.codigoMedico,
+          nombre: this.state.nombre,
+          tipo_documento: this.state.tipoDocumento,
+          num_documento: this.state.numeroDocumento,
+          reg_medico: this.state.registroMedico,
+          especialidad: this.state.especialidad
         }).then(function (resp) {
-          console.log(resp); //location.reload();
+          var user = resp.data.row;
 
-          console.log(resp.data.data);
-          var medico = resp.data.data;
+          _this2.setState({
+            medicos: [].concat(_toConsumableArray(_this2.state.medicos), [user]),
+            nuevo: 'oculto'
+          });
 
-          if (medico == 0) {
-            _this3.getMedicosUsers();
+          _this2.props.showToast('Datos almacenados', 'success'); // alert("Datos almacenados")
 
-            _this3.setState({
-              medicos: _this3.state.medicos
-            });
-          } else {
-            _this3.setState({
-              medicos: [].concat(_toConsumableArray(_this3.state.medicos), [medico])
-            });
-          }
-
-          alert("Datos almacenados");
         })["catch"](function (err) {
           console.log(err);
+
+          _this2.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
         });
       }
     }
@@ -83804,7 +83858,7 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
       Object.entries(this.state).map(([key, value]) => {
           if (value == ''){
               newState.errors[key] = "visible";
-              //newState.errorMensajes[key] = key + " requerido"; 
+              //newState.errorMensajes[key] = key + " requerido";
               resp = false;
           }
       });
@@ -83824,7 +83878,7 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
   }, {
     key: "clearErrors",
     value: function clearErrors() {
-      var newState = Object.assign({}, this.state); // console.log(Object.entries(newState));  
+      var newState = Object.assign({}, this.state); // console.log(Object.entries(newState));
 
       Object.keys(newState.errors).forEach(function (key) {
         newState.errors[key] = "oculto";
@@ -83839,12 +83893,12 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
   }, {
     key: "getMedicosUsers",
     value: function getMedicosUsers() {
-      var _this4 = this;
+      var _this3 = this;
 
       var url = 'getMedicosUsers';
-      axios__WEBPACK_IMPORTED_MODULE_3___default.a.get(url).then(function (resp) {
+      axios__WEBPACK_IMPORTED_MODULE_4___default.a.get(url).then(function (resp) {
         //console.log(resp.data.data);
-        _this4.setState({
+        _this3.setState({
           medicos: resp.data.data
         });
       })["catch"](function (err) {
@@ -83866,11 +83920,50 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
       }));
     }
   }, {
+    key: "handleGuardar",
+    value: function handleGuardar() {
+      var _this4 = this;
+
+      var id = this.state.IdEditar;
+      var url = "usuario/medico/".concat(id, "/editar");
+      var resp = this.validarForm();
+
+      if (resp) {
+        axios__WEBPACK_IMPORTED_MODULE_4___default.a.put(url, {
+          password: this.state.contraseña,
+          cod_medico: this.state.codigoMedico,
+          nombre: this.state.nombre,
+          tipo_documento: this.state.tipoDocumento,
+          num_documento: this.state.numeroDocumento,
+          reg_medico: this.state.registroMedico,
+          especialidad: this.state.especialidad
+        }).then(function (resp) {
+          _this4.getMedicosUsers();
+
+          _this4.setState({
+            medicos: _toConsumableArray(_this4.state.medicos)
+          });
+
+          _this4.handleCerrarModal();
+
+          _this4.props.showToast('Datos Actualizados', 'success'); // alert("Datos almacenados")
+
+        })["catch"](function (err) {
+          _this4.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
+        });
+      }
+    }
+  }, {
     key: "render",
     value: function render() {
       var medicos = this.state.medicos;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "btn btn-success btn-sm",
+        onClick: this.handleCreate
+      }, "+ Crear"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row mt-5"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: this.state.nuevo
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-12"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -83937,7 +84030,7 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
       }, this.state.errorMensajes['tipoDocumento']))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-3"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "codigoMedico"
+        htmlFor: "numeroDocumento"
       }, "No. Documento"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         className: "form-control",
@@ -84047,7 +84140,7 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "submit",
         className: "btn btn-success btn-sm"
-      }, "Guardar"))))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "Guardar")))))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row mt-5"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-12"
@@ -84075,7 +84168,152 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         medicos: medicos,
         handleEdition: this.handleEdition,
         handleEliminar: this.handleEliminar
-      })))))));
+      })))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        show: this.state.modalOpen
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__["default"].Header, null, "Causa externa"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__["default"].Body, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "container"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "codigo"
+      }, "C\xF3digo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-control form-control-sm",
+        name: "codigoMedico",
+        defaultValue: this.state.codigoMedico,
+        onChange: this.handleChange
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "tipoDocumento"
+      }, "Tipo Documento"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        className: "form-control form-control-sm",
+        name: "tipoDocumento",
+        defaultValue: this.state.tipoDocumento,
+        onChange: this.handleChange
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: ""
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "CC"
+      }, "CC"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "NIT"
+      }, "NIT"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "TI"
+      }, "TI"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "CE"
+      }, "CE"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "PA"
+      }, "PA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "RC"
+      }, "RC"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "NUIP"
+      }, "NUIP"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "MS"
+      }, "MS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "CN"
+      }, "CN"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "codigo"
+      }, "No. Documento"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-control form-control-sm",
+        name: "numeroDocumento",
+        defaultValue: this.state.numeroDocumento,
+        onChange: this.handleChange
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "codigo"
+      }, "No. Registro"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-control form-control-sm",
+        name: "registroMedico",
+        defaultValue: this.state.registroMedico,
+        onChange: this.handleChange
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "codigo"
+      }, "Nombre"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-control form-control-sm",
+        name: "nombre",
+        defaultValue: this.state.nombre,
+        onChange: this.handleChange
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "codigo"
+      }, "Correo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-control form-control-sm",
+        name: "correo",
+        onChange: this.handleChange
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "codigo"
+      }, "Contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "password",
+        className: "form-control form-control-sm",
+        name: "contrase\xF1a",
+        onChange: this.handleChange
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "codigo"
+      }, "Confirmar contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "password",
+        className: "form-control form-control-sm",
+        name: "confirmar",
+        onChange: this.handleChange
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "especialidadMedica"
+      }, "Especialidad m\xE9dica"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        className: "form-control form-control-sm",
+        name: "especialidad",
+        defaultValue: this.state.especialidad,
+        onChange: this.handleChange
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: ""
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "1"
+      }, "M\xE9dico general"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "2"
+      }, "M\xE9dico especialista"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "5"
+      }, "M\xE9dico laboral"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "3"
+      }, "Odont\xF3logo general"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "4"
+      }, "Odont\xF3logo especialista"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "estado_causa"
+      }, "Rethus"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        className: "form-control form-control-sm",
+        name: "rethus",
+        onChange: this.handleChange
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: ""
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "Si"
+      }, "Si"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "No"
+      }, "No")))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__["default"].Footer, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "btn btn-primary btn-sm",
+        onClick: this.handleGuardar
+      }, "Guardar"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "btn btn-primary btn-sm",
+        onClick: this.handleCerrarModal
+      }, "Cerrar"))));
     }
   }]);
 
@@ -84148,9 +84386,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _DiasmaxAdmin__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./DiasmaxAdmin */ "./resources/js/components/DiasmaxAdmin.js");
 /* harmony import */ var _IpsAdmin__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./IpsAdmin */ "./resources/js/components/IpsAdmin.js");
 /* harmony import */ var _DerechosAdmin__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./DerechosAdmin */ "./resources/js/components/DerechosAdmin.js");
-/* harmony import */ var react_toastify__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-toastify */ "./node_modules/react-toastify/dist/react-toastify.esm.js");
-/* harmony import */ var react_toastify_dist_ReactToastify_css__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react-toastify/dist/ReactToastify.css */ "./node_modules/react-toastify/dist/ReactToastify.css");
-/* harmony import */ var react_toastify_dist_ReactToastify_css__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(react_toastify_dist_ReactToastify_css__WEBPACK_IMPORTED_MODULE_10__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -84183,57 +84418,22 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
-
-
 var MenuGenerales = /*#__PURE__*/function (_Component) {
   _inherits(MenuGenerales, _Component);
 
   var _super = _createSuper(MenuGenerales);
 
   function MenuGenerales(props) {
-    var _this;
-
     _classCallCheck(this, MenuGenerales);
 
-    _this = _super.call(this, props); // bind
-
-    _this.handleToast = _this.handleToast.bind(_assertThisInitialized(_this));
-    return _this;
+    return _super.call(this, props); // bind
   }
 
   _createClass(MenuGenerales, [{
-    key: "handleToast",
-    value: function handleToast(arg, type) {
-      console.log('Menu generales');
-
-      if (type == 'success') {
-        react_toastify__WEBPACK_IMPORTED_MODULE_9__["toast"].success(arg.data.data, {
-          position: "top-right",
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined
-        });
-      } else if (type == 'error') {
-        react_toastify__WEBPACK_IMPORTED_MODULE_9__["toast"].error(arg, {
-          position: "top-right",
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined
-        });
-      }
-    }
-  }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
-
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_toastify__WEBPACK_IMPORTED_MODULE_9__["ToastContainer"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+      var showToast = this.props.showToast;
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         className: "nav nav-tabs"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         className: "nav-item"
@@ -84277,9 +84477,7 @@ var MenuGenerales = /*#__PURE__*/function (_Component) {
         className: "tab-pane container active",
         id: "ce"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_CausasAdmin_js__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        showToast: function showToast(arg, type) {
-          return _this2.handleToast(arg, type);
-        }
+        showToast: showToast
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tab-pane container fade",
         id: "cie10"
@@ -84287,30 +84485,22 @@ var MenuGenerales = /*#__PURE__*/function (_Component) {
         className: "tab-pane container fade",
         id: "diase"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_DiasmaxAdmin__WEBPACK_IMPORTED_MODULE_6__["default"], {
-        showToast: function showToast(arg, type) {
-          return _this2.handleToast(arg, type);
-        }
+        showToast: showToast
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tab-pane container fade",
         id: "estados"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_EstadosAdmin__WEBPACK_IMPORTED_MODULE_5__["default"], {
-        showToast: function showToast(arg, type) {
-          return _this2.handleToast(arg, type);
-        }
+        showToast: showToast
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tab-pane container fade",
         id: "ips"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_IpsAdmin__WEBPACK_IMPORTED_MODULE_7__["default"], {
-        showToast: function showToast(arg, type) {
-          return _this2.handleToast(arg, type);
-        }
+        showToast: showToast
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tab-pane container fade",
         id: "validacion"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_DerechosAdmin__WEBPACK_IMPORTED_MODULE_8__["default"], {
-        showToast: function showToast(arg, type) {
-          return _this2.handleToast(arg, type);
-        }
+        showToast: showToast
       }))));
     }
   }]);
@@ -84381,6 +84571,7 @@ var MenuUsuarios = /*#__PURE__*/function (_Component) {
   _createClass(MenuUsuarios, [{
     key: "render",
     value: function render() {
+      var showToast = this.props.showToast;
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
         className: "nav nav-tabs"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
@@ -84400,10 +84591,14 @@ var MenuUsuarios = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tab-pane container active",
         id: "sistema"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_UsuariosSistema_js__WEBPACK_IMPORTED_MODULE_2__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_UsuariosSistema_js__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        showToast: showToast
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tab-pane container fade",
         id: "medicos"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MedicosSistema_js__WEBPACK_IMPORTED_MODULE_3__["default"], null))));
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MedicosSistema_js__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        showToast: showToast
+      }))));
     }
   }]);
 
@@ -85817,7 +86012,8 @@ function TableMedicos(props) {
   };
 
   var editar = function editar(u) {
-    props.handleEdition(u.target.id);
+    var name = u.target.name.split('/');
+    props.handleEdition(u.target.id, name);
   };
 
   var medicos = props.medicos;
@@ -85827,6 +86023,7 @@ function TableMedicos(props) {
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, medicos[key]['cod_medico']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, medicos[key]['tipo_documento']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, medicos[key]['num_documento']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, medicos[key]['nombre']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, medicos[key]['reg_medico']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, medicos[key]['especialidad']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
       className: "btn btn-warning btn-sm",
       id: medicos[key]['id'],
+      name: medicos[key]['cod_medico'] + '/' + medicos[key]['tipo_documento'] + '/' + medicos[key]['num_documento'] + '/' + medicos[key]['nombre'] + '/' + medicos[key]['reg_medico'] + '/' + medicos[key]['especialidad'],
       onClick: editar
     }, "Editar")));
   }));
@@ -85900,7 +86097,8 @@ function TableUsers(props) {
   };
 
   var editar = function editar(u) {
-    props.handleEdition(u.target.id);
+    var name = u.target.name.split('/');
+    props.handleEdition(u.target.id, name[0], name[1], name[2]);
   };
 
   var users = props.users; //const { users } = this.state;
@@ -85912,6 +86110,7 @@ function TableUsers(props) {
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, users[key]['name']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, users[key]['email']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, userTypes[users[key]['tipo']]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
       className: "btn btn-warning btn-sm",
       id: users[key]['id'],
+      name: users[key]['name'] + '/' + users[key]['email'] + '/' + users[key]['tipo'],
       onClick: editar
     }, "Editar")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
       className: "btn btn-danger btn-sm",
@@ -86001,8 +86200,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _TableUsers_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TableUsers.js */ "./resources/js/components/TableUsers.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-bootstrap/Modal */ "./node_modules/react-bootstrap/esm/Modal.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -86052,6 +86252,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var UsuariosSistema = /*#__PURE__*/function (_Component) {
   _inherits(UsuariosSistema, _Component);
 
@@ -86066,7 +86267,10 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
     _this.state = {
       users: '',
       nombre: '',
+      usuario: '00',
       correo: '',
+      nuevo: 'oculto',
+      modalOpen: false,
       contraseña: '',
       tipo: '',
       confirmar: '',
@@ -86083,7 +86287,8 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
         tipo: '',
         contraseña: '',
         confirmar: ''
-      }
+      },
+      IdEditar: '00'
     }; // bind
 
     _this.getSystemUsers = _this.getSystemUsers.bind(_assertThisInitialized(_this));
@@ -86091,8 +86296,11 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
     _this.validarForm = _this.validarForm.bind(_assertThisInitialized(_this));
     _this.clearErrors = _this.clearErrors.bind(_assertThisInitialized(_this));
     _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
+    _this.handleCreate = _this.handleCreate.bind(_assertThisInitialized(_this));
     _this.handleEdition = _this.handleEdition.bind(_assertThisInitialized(_this));
     _this.handleEliminar = _this.handleEliminar.bind(_assertThisInitialized(_this));
+    _this.handleCerrarModal = _this.handleCerrarModal.bind(_assertThisInitialized(_this));
+    _this.handleGuardar = _this.handleGuardar.bind(_assertThisInitialized(_this));
 
     _this.getSystemUsers();
 
@@ -86100,6 +86308,13 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
   }
 
   _createClass(UsuariosSistema, [{
+    key: "handleCreate",
+    value: function handleCreate() {
+      this.setState({
+        nuevo: 'visible'
+      });
+    }
+  }, {
     key: "handleChange",
     value: function handleChange(_ref) {
       var target = _ref.target;
@@ -86107,41 +86322,38 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
     }
   }, {
     key: "handleEdition",
-    value: function handleEdition(id) {
-      var _this2 = this;
-
-      console.log(id);
-      var url = 'getUser';
-      axios__WEBPACK_IMPORTED_MODULE_3___default.a.post(url, {
-        userId: id
-      }).then(function (resp) {
-        console.log(resp.data.data[0].name);
-
-        _this2.setState({
-          nombre: resp.data.data[0].name,
-          correo: resp.data.data[0].email,
-          tipo: resp.data.data[0].tipo
-        });
-      })["catch"](function (err) {
-        console.log(err);
+    value: function handleEdition(id, usuario, correo, tipo) {
+      this.setState({
+        usuario: usuario,
+        correo: correo,
+        tipo: tipo,
+        modalOpen: true,
+        IdEditar: id
+      });
+    }
+  }, {
+    key: "handleCerrarModal",
+    value: function handleCerrarModal() {
+      this.setState({
+        usuario: '',
+        correo: '',
+        tipo: '',
+        modalOpen: false
       });
     }
   }, {
     key: "handleEliminar",
     value: function handleEliminar(id) {
-      var _this3 = this;
+      var _this2 = this;
 
-      console.log(id);
-      var url = 'deleteUser';
-      axios__WEBPACK_IMPORTED_MODULE_3___default.a.post(url, {
-        userId: id
-      }).then(function (resp) {
-        alert(resp.data);
+      var url = "usuario/user/".concat(id, "/eliminar");
+      axios__WEBPACK_IMPORTED_MODULE_4___default.a["delete"](url).then(function (resp) {
+        _this2.props.showToast(resp.data.data, 'success');
 
-        _this3.getSystemUsers();
+        _this2.getSystemUsers();
 
-        _this3.setState({
-          users: _this3.state.users
+        _this2.setState({
+          users: _this2.state.users
         });
       })["catch"](function (err) {
         console.log(err);
@@ -86150,36 +86362,30 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
   }, {
     key: "handleSubmit",
     value: function handleSubmit(e) {
-      var _this4 = this;
+      var _this3 = this;
 
       e.preventDefault();
       var resp = this.validarForm();
 
       if (resp) {
-        var url = 'saveUser'; // console.log(this.state);
-
-        axios__WEBPACK_IMPORTED_MODULE_3___default.a.post(url, {
-          datos: this.state
+        var url = 'usuario/user/agregar';
+        axios__WEBPACK_IMPORTED_MODULE_4___default.a.post(url, {
+          name: this.state.nombre,
+          email: this.state.correo,
+          password: this.state.contraseña,
+          tipo: this.state.tipo
         }).then(function (resp) {
-          console.log(resp); //location.reload();
+          var user = resp.data.row;
 
-          var user = resp.data.data;
+          _this3.setState({
+            users: [].concat(_toConsumableArray(_this3.state.users), [user]),
+            nuevo: 'oculto'
+          });
 
-          if (user == 0) {
-            _this4.getSystemUsers();
+          _this3.props.showToast('Datos almacenados', 'success'); // alert("Datos almacenados")
 
-            _this4.setState({
-              users: _this4.state.users
-            });
-          } else {
-            _this4.setState({
-              users: [].concat(_toConsumableArray(_this4.state.users), [user])
-            });
-          }
-
-          alert("Datos almacenados");
         })["catch"](function (err) {
-          console.log(err);
+          _this3.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
         });
       }
     }
@@ -86194,8 +86400,9 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
             key = _ref3[0],
             value = _ref3[1];
 
-        if (value == '') {
+        if (value == '' && key != 'modalOpen') {
           newState.errors[key] = "visible";
+          console.log(key);
           newState.errorMensajes[key] = key + " requerido";
           resp = false;
         }
@@ -86215,7 +86422,7 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
   }, {
     key: "clearErrors",
     value: function clearErrors() {
-      var newState = Object.assign({}, this.state); // console.log(Object.entries(newState));  
+      var newState = Object.assign({}, this.state); // console.log(Object.entries(newState));
 
       Object.keys(newState.errors).forEach(function (key) {
         newState.errors[key] = "oculto";
@@ -86231,12 +86438,12 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
   }, {
     key: "getSystemUsers",
     value: function getSystemUsers() {
-      var _this5 = this;
+      var _this4 = this;
 
       var url = 'getSystemUsers';
-      axios__WEBPACK_IMPORTED_MODULE_3___default.a.get(url).then(function (resp) {
+      axios__WEBPACK_IMPORTED_MODULE_4___default.a.get(url).then(function (resp) {
         //console.log(resp.data.data);
-        _this5.setState({
+        _this4.setState({
           users: resp.data.data
         });
       })["catch"](function (err) {
@@ -86244,11 +86451,46 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
       });
     }
   }, {
+    key: "handleGuardar",
+    value: function handleGuardar() {
+      var _this5 = this;
+
+      var id = this.state.IdEditar;
+      var url = "usuario/user/".concat(id, "/editar");
+      var resp = this.validarForm();
+
+      if (resp) {
+        axios__WEBPACK_IMPORTED_MODULE_4___default.a.put(url, {
+          name: this.state.nombre,
+          password: this.state.contraseña,
+          tipo: this.state.tipo
+        }).then(function (resp) {
+          _this5.getSystemUsers();
+
+          _this5.setState({
+            users: _toConsumableArray(_this5.state.users)
+          });
+
+          _this5.handleCerrarModal();
+
+          _this5.props.showToast('Datos Actualizados', 'success'); // alert("Datos almacenados")
+
+        })["catch"](function (err) {
+          _this5.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
+        });
+      }
+    }
+  }, {
     key: "render",
     value: function render() {
       var users = this.state.users;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "btn btn-success btn-sm",
+        onClick: this.handleCreate
+      }, "+ Crear"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row mt-5"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: this.state.nuevo
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-12"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -86356,7 +86598,7 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "submit",
         className: "btn btn-success btn-sm"
-      }, "Guardar"))))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "Guardar")))))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row mt-5"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-12"
@@ -86380,7 +86622,82 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
         users: users,
         handleEdition: this.handleEdition,
         handleEliminar: this.handleEliminar
-      })))))));
+      })))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        show: this.state.modalOpen
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__["default"].Header, null, "Causa externa"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__["default"].Body, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "container"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "codigo"
+      }, "Nombre"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-control form-control-sm",
+        name: "nombre",
+        defaultValue: this.state.usuario,
+        onChange: this.handleChange
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "codigo"
+      }, "Correo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-control form-control-sm",
+        name: "correo",
+        defaultValue: this.state.correo,
+        onChange: this.handleChange
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "codigo"
+      }, "Contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "password",
+        className: "form-control form-control-sm",
+        name: "contrase\xF1a",
+        onChange: this.handleChange
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "codigo"
+      }, "Confirmar contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "password",
+        className: "form-control form-control-sm",
+        name: "confirmar",
+        onChange: this.handleChange
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "estado_causa"
+      }, "Tipo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        className: "form-control form-control-sm",
+        name: "tipo",
+        defaultValue: this.state.tipo,
+        onChange: this.handleChange
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: ""
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "0"
+      }, "Admin"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "1"
+      }, "M\xE9dico"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "2"
+      }, "Auxiliar Pemel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "3"
+      }, "Admin Pemel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "4"
+      }, "Admin IPS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "5"
+      }, "Usuarios Admin")))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__["default"].Footer, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "btn btn-primary btn-sm",
+        onClick: this.handleGuardar
+      }, "Guardar"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "btn btn-primary btn-sm",
+        onClick: this.handleCerrarModal
+      }, "Cerrar"))));
     }
   }]);
 
@@ -86606,8 +86923,8 @@ if (document.getElementById('test')) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/davidguerra/Documents/comfenalco/comfenalcoapp/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/davidguerra/Documents/comfenalco/comfenalcoapp/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\rauls\OneDrive\Documents\DEV\comfenalcoapp-prod\comfenalcoapp-prod\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\rauls\OneDrive\Documents\DEV\comfenalcoapp-prod\comfenalcoapp-prod\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
