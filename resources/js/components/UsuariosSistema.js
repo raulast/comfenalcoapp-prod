@@ -28,7 +28,7 @@ class UsuariosSistema extends Component {
                 tipo: 'oculto',
                 contraseña:'oculto',
                 confirmar:'oculto',
-                
+
             },
             errorMensajes :{
                 nombre : '',
@@ -40,7 +40,7 @@ class UsuariosSistema extends Component {
         }
         // bind
         this.getSystemUsers = this.getSystemUsers.bind(this);
-       
+
         this.handleSubmit = this.handleSubmit.bind(this);
         this.validarForm = this.validarForm.bind(this);
         this.clearErrors = this.clearErrors.bind(this);
@@ -58,7 +58,7 @@ class UsuariosSistema extends Component {
             nuevo:'visible'
           });
     }
-    
+
     handleChange({ target }) {
         this.setState({
           [target.name]: target.value
@@ -93,66 +93,49 @@ class UsuariosSistema extends Component {
                 this.props.showToast(resp.data.data,'success')
                 this.getSystemUsers();
                         this.setState({
-                            users: this.state.users, 
-                        });  
+                            users: this.state.users,
+                        });
             })
             .catch(err => {
                 console.log(err)
             })
     }
 
-    handleSubmit(e){         
+    handleSubmit(e){
         e.preventDefault();
         let resp = this.validarForm()
-        
         if (resp) {
-            let url = 'saveUser'
-           // console.log(this.state);
-            axios.post(url, { datos: this.state })
+            let url = 'parametro/user/agregar';
+            axios.post(url, {name:this.state.nombre, email:this.state.correo, password:this.state.contraseña,tipo:this.state.tipo})
                 .then(resp => {
-                    console.log(resp);
-                    //location.reload();
-                    
-                    let user = resp.data.data;
-                    if (user == 0){
-                        this.getSystemUsers();
-                        this.setState({
-                            users: this.state.users, 
-                        });  
-                        
-                    }
-                    else{
-                        this.setState({
-                            users: [...this.state.users, user],
-                            nuevo: 'oculto'
-                        });  
-                    }
+                    let user = resp.data.row;
+                    this.setState({
+                        users: [...this.state.users, user],
+                        nuevo: 'oculto'
+                    });
                     this.props.showToast('Datos almacenados','success');
-
                     // alert("Datos almacenados")
                 })
                 .catch(err => {
-                    console.log(err)
+                    this.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente','error');
                 })
-            
         }
-        
     }
 
     validarForm() {
-        
+
         this.clearErrors()
-        
+
         let resp = true;
         let newState = Object.assign({}, this.state);
         Object.entries(this.state).map(([key, value]) => {
-            if (value == ''){
+            if (value == '' && key != 'modalOpen'){
                 newState.errors[key] = "visible";
-                newState.errorMensajes[key] = key + " requerido"; 
+                newState.errorMensajes[key] = key + " requerido";
                 resp = false;
             }
         });
-       
+
         if (resp){
             if (newState.contraseña != newState.confirmar){
                 newState.errors.contraseña = "visible";
@@ -163,12 +146,12 @@ class UsuariosSistema extends Component {
 
         this.setState(newState);
         return resp;
-       
+
     }
 
     clearErrors(){
         let newState = Object.assign({}, this.state);
-       // console.log(Object.entries(newState));  
+       // console.log(Object.entries(newState));
         Object.keys(newState.errors).forEach(key => {
             newState.errors[key] = "oculto";
         });
@@ -179,7 +162,7 @@ class UsuariosSistema extends Component {
         });
         //console.log(newState);
         this.setState(newState2);
-    }   
+    }
 
     getSystemUsers() {
         let url = 'getSystemUsers'
@@ -197,9 +180,26 @@ class UsuariosSistema extends Component {
     }
 
     handleGuardar() {
-        this.handleCerrarModal()
+        let id = this.state.IdEditar;
+        let url = `parametro/user/${id}/editar`;
+        let resp = this.validarForm()
+        if (resp) {
+            axios.put(url, {name:this.state.nombre, email:this.state.correo, password:this.state.contraseña,tipo:this.state.tipo})
+                .then(resp => {
+                    this.getSystemUsers()
+                    this.setState({
+                        users: [...this.state.users]
+                    });
+                    this.handleCerrarModal()
+                    this.props.showToast('Datos Actualizados','success');
+                    // alert("Datos almacenados")
+                })
+                .catch(err => {
+                    this.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente','error');
+                })
+        }
     }
-    
+
     render() {
         const { users } = this.state;
         return (
@@ -288,13 +288,13 @@ class UsuariosSistema extends Component {
                                         </tr>
                                     </thead>
                                     <TableUsers users={users} handleEdition ={this.handleEdition} handleEliminar ={this.handleEliminar}/>
-                                    
+
                                 </table>
                             </div>
                         </div>
                     </div>
                 </div>
-                
+
                 <Modal show={this.state.modalOpen}>
                     <Modal.Header>Causa externa</Modal.Header>
                     <Modal.Body>
