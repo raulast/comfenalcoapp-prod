@@ -21,7 +21,7 @@ class GeneralController extends Controller
     public function agregar(Request $request, $modelo){
         $model = $this->obtenerModelo($modelo);
         if (!empty($model)) {
-            $data = $this->requestFormato($request,$modelo);
+            $data = $request->toArray();
             $row = $model['modelo']::create($data);
             $result = "El registro ha sido agregado exitosamente";
         }else{
@@ -48,7 +48,7 @@ class GeneralController extends Controller
         $model = $this->obtenerModelo($modelo);
         if (!empty($model)){
             if($model['modelo']::where('id', $id)->exists()){
-                $data = $this->requestFormato($request,$modelo);
+                $data = $request->toArray();
                 $model['modelo']::where('id', $id)->update($data);
                 $result=  "Actualizado con exito";
             }else{
@@ -102,30 +102,11 @@ class GeneralController extends Controller
             case 'descripcionesp':
                 $model = ['modelo' => 'App\Descripcionesp'];
                 break;
-            case 'user':
-                $model = ['modelo' => 'App\User'];
-                break;
-            case 'medico':
-                $model = ['modelo' => 'App\Medico'];
-                break;
             default:
                 $model = null;
                 break;
         }
         return $model;
-    }
-
-    private function requestFormato($data, $modelo){
-        $data = $data->toArray();
-        switch ($modelo) {
-            case 'user':
-                $data['password'] = Hash::make($data['password']);
-                break;
-            default:
-                $data = $data;
-                break;
-        }
-        return $data;
     }
 
 }

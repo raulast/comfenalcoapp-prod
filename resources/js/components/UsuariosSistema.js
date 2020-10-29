@@ -15,11 +15,11 @@ class UsuariosSistema extends Component {
         this.state = {
             users: '',
             nombre: '',
-            usuario: '',
             correo: '',
             nuevo: 'oculto',
             modalOpen: false,
             contraseña: '',
+            editarContraseña: false,
             tipo: '',
             confirmar:'',
             errors : {
@@ -36,7 +36,8 @@ class UsuariosSistema extends Component {
                 tipo: '',
                 contraseña:'',
                 confirmar:'',
-            }
+            },
+            IdEditar:'00'
         }
         // bind
         this.getSystemUsers = this.getSystemUsers.bind(this);
@@ -50,6 +51,7 @@ class UsuariosSistema extends Component {
         this.handleEliminar = this.handleEliminar.bind(this);
         this.handleCerrarModal = this.handleCerrarModal.bind(this);
         this.handleGuardar = this.handleGuardar.bind(this);
+        this.handleEditPassword = this.handleEditPassword.bind(this);
         this.getSystemUsers();
     }
 
@@ -63,21 +65,23 @@ class UsuariosSistema extends Component {
         this.setState({
           [target.name]: target.value
         });
+        console.log(this.state)
     }
 
     handleEdition(id,usuario,correo,tipo){
         this.setState({
-            usuario:usuario,
+            nombre: usuario,
             correo: correo,
             tipo: tipo,
             modalOpen: true,
             IdEditar:id
         });
+        console.log('Edit: ', this.state)
     }
 
     handleCerrarModal(){
         this.setState({
-            usuario:'',
+            nombre:'',
             correo: '',
             tipo: '',
             modalOpen: false,
@@ -86,8 +90,7 @@ class UsuariosSistema extends Component {
     }
 
     handleEliminar(id){
-        console.log(id)
-        let url = `parametro/user/${id}/eliminar`;
+        let url = `usuario/user/${id}/eliminar`;
         axios.delete(url)
             .then(resp => {
                 this.props.showToast(resp.data.data,'success')
@@ -103,10 +106,15 @@ class UsuariosSistema extends Component {
 
     handleSubmit(e){
         e.preventDefault();
-        let resp = this.validarForm()
+        let resp = this.validarForm();
+        let url = 'usuario/user/agregar';
         if (resp) {
-            let url = 'parametro/user/agregar';
-            axios.post(url, {name:this.state.nombre, email:this.state.correo, password:this.state.contraseña,tipo:this.state.tipo})
+            axios.post(url, {
+                name:this.state.nombre,
+                email:this.state.correo,
+                password:this.state.contraseña,
+                tipo:this.state.tipo
+            })
                 .then(resp => {
                     let user = resp.data.row;
                     this.setState({
@@ -119,24 +127,25 @@ class UsuariosSistema extends Component {
                 .catch(err => {
                     this.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente','error');
                 })
-        }
+        } 
     }
 
     validarForm() {
 
         this.clearErrors()
-
+        const { editarContraseña } = this.state;
         let resp = true;
         let newState = Object.assign({}, this.state);
         Object.entries(this.state).map(([key, value]) => {
-            if (value == '' && key != 'modalOpen'){
+            if (value == '' && key != 'modalOpen' && editarContraseña){
                 newState.errors[key] = "visible";
+                console.log(key)
                 newState.errorMensajes[key] = key + " requerido";
                 resp = false;
             }
         });
 
-        if (resp){
+        if (resp && editarContraseña){
             if (newState.contraseña != newState.confirmar){
                 newState.errors.contraseña = "visible";
                 newState.errorMensajes.contraseña = "Contraseñas no coinciden";
@@ -181,10 +190,15 @@ class UsuariosSistema extends Component {
 
     handleGuardar() {
         let id = this.state.IdEditar;
-        let url = `parametro/user/${id}/editar`;
+        let url = `usuario/user/${id}/editar`;
         let resp = this.validarForm()
         if (resp) {
-            axios.put(url, {name:this.state.nombre, email:this.state.correo, password:this.state.contraseña,tipo:this.state.tipo})
+            axios.put(url, {
+                name:this.state.nombre,
+                email:this.state.correo,
+                password:this.state.contraseña,
+                tipo:this.state.tipo
+            })
                 .then(resp => {
                     this.getSystemUsers()
                     this.setState({
@@ -200,8 +214,40 @@ class UsuariosSistema extends Component {
         }
     }
 
+    handleEditPassword() {
+        if(!this.state.editarContraseña) {
+            this.setState({
+                editarContraseña: true, 
+            })
+        }else {
+            this.setState({
+                editarContraseña: false, 
+            })
+        }
+    }
+
     render() {
-        const { users } = this.state;
+        const { users, editarContraseña} = this.state;
+
+        const editpassword = () =>{
+            console.log(editarContraseña);
+            if(editarContraseña){
+                return (
+                    <article className="form-group">
+                        <div className="form-group">
+                            <label htmlFor="codigo">Contraseña</label>
+                            <input type="password" className="form-control form-control-sm" name="contraseña" onChange={this.handleChange }/>
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="codigo">Confirmar contraseña</label>
+                            <input type="password" className="form-control form-control-sm" name="confirmar" onChange={this.handleChange }/>
+                        </div>
+                    </article>
+                )
+            }
+        }
+
         return (
             <div>
                 <br/><br/>
@@ -261,10 +307,10 @@ class UsuariosSistema extends Component {
                                                         <div className={ "redf  " + ( this.state.errors['confirmar'] || "") }>{this.state.errorMensajes['confirmar']}</div>
                                                     </div>
                                                 </div>
-                                                <div className="col-md-2">
+                                           <div className="col-md-2">
                                                     <br /><br />
                                                     <button type="submit" className="btn btn-success btn-sm">Guardar</button>
-                                                </div>
+                                                </div>     
                                             </div>
                                         </div>
                                     </form>
@@ -296,7 +342,7 @@ class UsuariosSistema extends Component {
                 </div>
 
                 <Modal show={this.state.modalOpen}>
-                    <Modal.Header>Causa externa</Modal.Header>
+                    <Modal.Header>Usuario</Modal.Header>
                     <Modal.Body>
                         <div className="container">
                             <div className="row">
@@ -304,7 +350,7 @@ class UsuariosSistema extends Component {
                                     <form>
                                         <div className="form-group">
                                             <label htmlFor="codigo">Nombre</label>
-                                            <input type="text" className="form-control form-control-sm" name="nombre" defaultValue={this.state.usuario} onChange={this.handleChange }/>
+                                            <input type="text" className="form-control form-control-sm" name="nombre" defaultValue={this.state.nombre} onChange={this.handleChange }/>
                                         </div>
 
                                         <div className="form-group">
@@ -312,15 +358,9 @@ class UsuariosSistema extends Component {
                                             <input type="text" className="form-control form-control-sm" name="correo" defaultValue={this.state.correo} onChange={this.handleChange}/>
                                         </div>
 
-                                        <div className="form-group">
-                                            <label htmlFor="codigo">Contraseña</label>
-                                            <input type="password" className="form-control form-control-sm" name="contraseña" onChange={this.handleChange }/>
-                                        </div>
-
-                                        <div className="form-group">
-                                            <label htmlFor="codigo">Confirmar contraseña</label>
-                                            <input type="password" className="form-control form-control-sm" name="confirmar" onChange={this.handleChange }/>
-                                        </div>
+                                        { 
+                                            editpassword()
+                                        }
 
                                         <div className="form-group">
                                             <label htmlFor="estado_causa">Tipo</label>
@@ -341,7 +381,11 @@ class UsuariosSistema extends Component {
                         </div>
 
                     </Modal.Body>
-                    <Modal.Footer><button className="btn btn-primary btn-sm" onClick={ this.handleGuardar }>Guardar</button><button className="btn btn-primary btn-sm" onClick={ this.handleCerrarModal }>Cerrar</button></Modal.Footer>
+                    <Modal.Footer>
+                        <button className="btn btn-primary btn-sm" onClick={ this.handleEditPassword }>Editar Contraseña</button>
+                        <button className="btn btn-primary btn-sm" onClick={ this.handleGuardar }>Guardar</button>
+                        <button className="btn btn-primary btn-sm" onClick={ this.handleCerrarModal }>Cerrar</button>
+                    </Modal.Footer>
                 </Modal>
             </div>
         );
