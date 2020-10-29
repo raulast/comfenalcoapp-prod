@@ -54,7 +54,11 @@ class UserController extends Controller
         $data = $data->toArray();
         switch ($modelo) {
             case 'user':
-                $data['password'] = Hash::make($data['password']);
+                if($data['password'] == ''){
+                    unset($data['password']);
+                }else{
+                    $data['password'] = Hash::make($data['password']);
+                }
                 break;
             default:
                 $data = $data;
@@ -109,15 +113,30 @@ class UserController extends Controller
         if (!empty($model)){
             if($modelo == 'medico'){
                 $model2 = $this->obtenerModelo('user');
-                $data = $this->requestFormato($request,'user');
                 if($model2['modelo']::where('id',$model['modelo']::where('id',$id)->first()->user_id)->exists()){
-                    $model2['modelo']::where('id',$model['modelo']::where('id',$id)->first()->user_id)->update([
-                        'name' => $data['nombre'],
-                        'password' => $data['password'],
-                        'tipo'=>1
-                    ]);
-                    unset(
-                        $data['password']);
+                    if($data['password']==''){
+                        $data = $this->requestFormato($request,'user');
+                        $model2['modelo']::where('id',$model['modelo']::where('id',$id)->first()->user_id)->update([
+                            'name' => $data['nombre'],
+                            'email' => $data['email'],
+                            'tipo'=>1
+                        ]);
+                        unset(
+                            $data['email']
+                        );
+                    }else{
+                        $data = $this->requestFormato($request,'user');
+                        $model2['modelo']::where('id',$model['modelo']::where('id',$id)->first()->user_id)->update([
+                            'name' => $data['nombre'],
+                            'password' => $data['password'],
+                            'email' => $data['email'],
+                            'tipo'=>1
+                        ]);
+                        unset(
+                            $data['password'],
+                            $data['email']
+                        );
+                    }
                 }
             }else{
                 $data = $this->requestFormato($request,$modelo);
@@ -135,13 +154,18 @@ class UserController extends Controller
     public function eliminar(Request $request, $modelo, $id){
         $model = $this->obtenerModelo($modelo);
         if (!empty($model)){
-            if($modelo == 'user'){
-                $model2 = $this->obtenerModelo('medico');
-                if($model2['modelo']::where('user_id',$id)->exists()){
-                    $model2['modelo']::where('user_id',$id)->delete();
-                }
-            }
             if($model['modelo']::where('id', $id)->exists()){
+                if($modelo == 'user'){
+                    $model2 = $this->obtenerModelo('medico');
+                    if($model2['modelo']::where('user_id',$id)->exists()){
+                        $model2['modelo']::where('user_id',$id)->delete();
+                    }
+                }elseif($modelo == 'medico'){
+                    $model2 = $this->obtenerModelo('user');
+                    if($model2['modelo']::where('id',$model['modelo']::where('id',$id)->first()->user_id)->exists()){
+                        $model2['modelo']::where('id',$model['modelo']::where('id',$id)->first()->user_id)->delete();
+                    }
+                }
                 $model['modelo']::where('id', $id)->delete();
                 $result=  "Eliminado con exito";
             }else{
