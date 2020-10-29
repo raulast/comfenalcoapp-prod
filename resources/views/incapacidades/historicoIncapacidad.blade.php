@@ -37,13 +37,15 @@
                     @if ($datos != "no")
                     @foreach ($datos as $dato)
                     <?php
-                        $aportantes =explode(" ", $dato->aportantes);
-
+                        $aportantes =explode(";", $dato->aportantes);
+                        
                     ?>   
                         <tr>
                         <td>
-                        @for ($i =0; $i <= count($aportantes) ; $i++)
+                       
+                        @for ($i =0; $i < count($aportantes) ; $i++)
                             <button class='btn btn-default' type='button' value='print' onclick='print({{$dato->id}},{{$dato->prorrogaid}},{{ $i }})'>
+                            {{ $i+1 }}
                                 <i class='fa fa-print'> </i>
                             </button>
                         @endfor   

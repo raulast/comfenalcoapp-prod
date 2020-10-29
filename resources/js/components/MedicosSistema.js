@@ -18,6 +18,7 @@ class MedicosSistema extends Component {
             registroMedico:'',
             correo:'',
             nuevo: 'oculto',
+            editarContraseña: false,
             modalOpen: false,
             nombre:'',
             especialidad:'',
@@ -57,6 +58,7 @@ class MedicosSistema extends Component {
         this.validarForm = this.validarForm.bind(this);
         this.handleCerrarModal = this.handleCerrarModal.bind(this);
         this.handleGuardar = this.handleGuardar.bind(this);
+        this.handleEditPassword = this.handleEditPassword.bind(this);
         this.getMedicosUsers();
     }
 
@@ -144,7 +146,7 @@ class MedicosSistema extends Component {
             }
         });
         */
-        if (resp){
+        if (resp && editarContraseña){
             if (newState.contraseña != newState.confirmar){
                 newState.errors.contraseña = "visible";
                 newState.errorMensajes.contraseña = "Contraseñas no coinciden";
@@ -239,8 +241,38 @@ class MedicosSistema extends Component {
         }
     }
 
+    handleEditPassword() {
+        if(!this.state.editarContraseña) {
+            this.setState({
+                editarContraseña: true, 
+            })
+        }else {
+            this.setState({
+                editarContraseña: false, 
+            })
+        }
+    }
+
     render() {
-        const { medicos } = this.state;
+        const { medicos, editarContraseña } = this.state;
+        const editpassword = () =>{
+            console.log(editarContraseña);
+            if(editarContraseña){
+                return (
+                    <article className="form-group">
+                        <div className="form-group">
+                            <label htmlFor="codigo">Contraseña</label>
+                            <input type="password" className="form-control form-control-sm" name="contraseña" onChange={this.handleChange }/>
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="codigo">Confirmar contraseña</label>
+                            <input type="password" className="form-control form-control-sm" name="confirmar" onChange={this.handleChange }/>
+                        </div>
+                    </article>
+                )
+            }
+        }
         return (
            <div>
             <br/><br/>
@@ -365,7 +397,7 @@ class MedicosSistema extends Component {
                 </div>
             </div>
             <Modal show={this.state.modalOpen}>
-                    <Modal.Header>Causa externa</Modal.Header>
+                    <Modal.Header>Medico</Modal.Header>
                     <Modal.Body>
                         <div className="container">
                             <div className="row">
@@ -411,16 +443,10 @@ class MedicosSistema extends Component {
                                             <label htmlFor="codigo">Correo</label>
                                             <input type="text" className="form-control form-control-sm" name="correo" onChange={this.handleChange }/>
                                         </div>
-
-                                        <div className="form-group">
-                                            <label htmlFor="codigo">Contraseña</label>
-                                            <input type="password" className="form-control form-control-sm" name="contraseña" onChange={this.handleChange }/>
-                                        </div>
-
-                                        <div className="form-group">
-                                            <label htmlFor="codigo">Confirmar contraseña</label>
-                                            <input type="password" className="form-control form-control-sm" name="confirmar" onChange={this.handleChange }/>
-                                        </div>
+                            
+                                        { 
+                                            editpassword()
+                                        }
 
                                         <div className="form-group">
                                             <label htmlFor="especialidadMedica">Especialidad médica</label>
@@ -449,7 +475,11 @@ class MedicosSistema extends Component {
                         </div>
 
                     </Modal.Body>
-                    <Modal.Footer><button className="btn btn-primary btn-sm" onClick={ this.handleGuardar }>Guardar</button><button className="btn btn-primary btn-sm" onClick={ this.handleCerrarModal }>Cerrar</button></Modal.Footer>
+                    <Modal.Footer>
+                        <button className="btn btn-primary btn-sm" onClick={ this.handleEditPassword }>Editar Contraseña</button>
+                        <button className="btn btn-primary btn-sm" onClick={ this.handleGuardar }>Guardar</button>
+                        <button className="btn btn-primary btn-sm" onClick={ this.handleCerrarModal }>Cerrar</button>
+                    </Modal.Footer>
                 </Modal>
             </div>
         );

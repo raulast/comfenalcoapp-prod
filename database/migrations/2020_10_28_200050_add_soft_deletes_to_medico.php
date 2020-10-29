@@ -13,7 +13,7 @@ class AddSoftDeletesToMedico extends Migration
      */
     public function up()
     {
-        Schema::table('medico', function (Blueprint $table) {
+        Schema::table('medicos', function (Blueprint $table) {
             $table->softDeletes();
         });
     }
@@ -25,7 +25,7 @@ class AddSoftDeletesToMedico extends Migration
      */
     public function down()
     {
-        Schema::table('medico', function (Blueprint $table) {
+        Schema::table('medicos', function (Blueprint $table) {
             $table->dropColumn(['deleted_at']);
         });
     }
