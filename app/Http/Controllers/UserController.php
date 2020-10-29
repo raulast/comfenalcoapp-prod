@@ -138,6 +138,14 @@ class UserController extends Controller
                         );
                     }
                 }
+            }elseif($modelo =='user'){
+                $data = $this->requestFormato($request,'user');
+                $model2 = $this->obtenerModelo('medico');
+                if($model2['modelo']::where('user_id',$id)->exists()){
+                    $model2['modelo']::where('user_id',$id)->update([
+                        'nombre' => $data['name']
+                    ]);
+                }
             }else{
                 $data = $this->requestFormato($request,$modelo);
             }
