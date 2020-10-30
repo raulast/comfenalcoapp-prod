@@ -229,8 +229,17 @@ class UsuariosSistema extends Component {
     render() {
         const { users, editarContraseña} = this.state;
 
+        const textButton = () => {
+            if (!editarContraseña) {
+                return(
+                    'Editar contraseña'
+                )
+            }else {
+                return 'No editar contraseña'
+            }
+        }
+
         const editpassword = () =>{
-            console.log(editarContraseña);
             if(editarContraseña){
                 return (
                     <article className="form-group">
@@ -382,7 +391,7 @@ class UsuariosSistema extends Component {
 
                     </Modal.Body>
                     <Modal.Footer>
-                        <button className="btn btn-primary btn-sm" onClick={ this.handleEditPassword }>Editar Contraseña</button>
+                        <button className="btn btn-info btn-sm" onClick={ this.handleEditPassword }>{textButton()}</button>
                         <button className="btn btn-primary btn-sm" onClick={ this.handleGuardar }>Guardar</button>
                         <button className="btn btn-primary btn-sm" onClick={ this.handleCerrarModal }>Cerrar</button>
                     </Modal.Footer>

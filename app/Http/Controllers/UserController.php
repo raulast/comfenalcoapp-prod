@@ -20,13 +20,13 @@ class UserController extends Controller
     public function obtenerDetalles(Request $request, $modelo, $id){
         $model = $this->obtenerModelo($modelo);
         if (!empty($model)) {
-            $data=$model['modelo']::where('id', $id)->get();
+            $data=$model['modelo']::where('id', $id)->first();
             if ($modelo=='medico') {
                 $model = $this->obtenerModelo('user');
-                $user = $model['modelo']::where('id', $data->user_id)->get();
+                $user = $model['modelo']::where('id', $data->user_id)->first();
                 return response()->json([
                     'data' => $data,
-                    'user' => $user
+                    'email' => $user->email
                 ]);
             }
             return response()->json([
@@ -113,8 +113,9 @@ class UserController extends Controller
         if (!empty($model)){
             if($modelo == 'medico'){
                 $model2 = $this->obtenerModelo('user');
+                $data2 = $request->toArray();
                 if($model2['modelo']::where('id',$model['modelo']::where('id',$id)->first()->user_id)->exists()){
-                    if($data['password']==''){
+                    if($data2['password']==''){
                         $data = $this->requestFormato($request,'user');
                         $model2['modelo']::where('id',$model['modelo']::where('id',$id)->first()->user_id)->update([
                             'name' => $data['nombre'],

@@ -83791,7 +83791,14 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
   }, {
     key: "handleEdition",
     value: function handleEdition(id, datos) {
+      var _this2 = this;
+
       //console.log(id)
+      axios__WEBPACK_IMPORTED_MODULE_4___default.a.get("usuario/medico/".concat(id)).then(function (resp) {
+        _this2.setState({
+          correo: resp.data.email
+        });
+      });
       this.setState({
         modalOpen: true,
         IdEditar: id,
@@ -83805,7 +83812,21 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
     }
   }, {
     key: "handleEliminar",
-    value: function handleEliminar(id) {//  console.log(id)
+    value: function handleEliminar(id) {
+      var _this3 = this;
+
+      var url = "usuario/medico/".concat(id, "/eliminar");
+      axios__WEBPACK_IMPORTED_MODULE_4___default.a["delete"](url).then(function (resp) {
+        _this3.props.showToast(resp.data.data, 'success');
+
+        _this3.getMedicosUsers();
+
+        _this3.setState({
+          medicos: _this3.state.medicos
+        });
+      })["catch"](function (err) {
+        console.log(err);
+      });
     }
   }, {
     key: "handleCerrarModal",
@@ -83817,7 +83838,7 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
   }, {
     key: "handleSubmit",
     value: function handleSubmit(e) {
-      var _this2 = this;
+      var _this4 = this;
 
       e.preventDefault();
       var resp = this.validarForm();
@@ -83836,17 +83857,17 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         }).then(function (resp) {
           var user = resp.data.row;
 
-          _this2.setState({
-            medicos: [].concat(_toConsumableArray(_this2.state.medicos), [user]),
+          _this4.setState({
+            medicos: [].concat(_toConsumableArray(_this4.state.medicos), [user]),
             nuevo: 'oculto'
           });
 
-          _this2.props.showToast('Datos almacenados', 'success'); // alert("Datos almacenados")
+          _this4.props.showToast('Datos almacenados', 'success'); // alert("Datos almacenados")
 
         })["catch"](function (err) {
           console.log(err);
 
-          _this2.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
+          _this4.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
         });
       }
     }
@@ -83866,7 +83887,7 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
       });
       */
 
-      if (resp && editarContraseña) {
+      if (resp && this.state.editarContraseña) {
         if (newState.contraseña != newState.confirmar) {
           newState.errors.contraseña = "visible";
           newState.errorMensajes.contraseña = "Contraseñas no coinciden";
@@ -83895,12 +83916,13 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
   }, {
     key: "getMedicosUsers",
     value: function getMedicosUsers() {
-      var _this3 = this;
+      var _this5 = this;
 
-      var url = 'getMedicosUsers';
+      var url = 'usuario/medico';
       axios__WEBPACK_IMPORTED_MODULE_4___default.a.get(url).then(function (resp) {
-        //console.log(resp.data.data);
-        _this3.setState({
+        console.log(resp.data.data);
+
+        _this5.setState({
           medicos: resp.data.data
         });
       })["catch"](function (err) {
@@ -83924,7 +83946,7 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
   }, {
     key: "handleGuardar",
     value: function handleGuardar() {
-      var _this4 = this;
+      var _this6 = this;
 
       var id = this.state.IdEditar;
       var url = "usuario/medico/".concat(id, "/editar");
@@ -83933,6 +83955,7 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
       if (resp) {
         axios__WEBPACK_IMPORTED_MODULE_4___default.a.put(url, {
           password: this.state.contraseña,
+          email: this.state.correo,
           cod_medico: this.state.codigoMedico,
           nombre: this.state.nombre,
           tipo_documento: this.state.tipoDocumento,
@@ -83940,18 +83963,18 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
           reg_medico: this.state.registroMedico,
           especialidad: this.state.especialidad
         }).then(function (resp) {
-          _this4.getMedicosUsers();
+          _this6.getMedicosUsers();
 
-          _this4.setState({
-            medicos: _toConsumableArray(_this4.state.medicos)
+          _this6.setState({
+            medicos: _toConsumableArray(_this6.state.medicos)
           });
 
-          _this4.handleCerrarModal();
+          _this6.handleCerrarModal();
 
-          _this4.props.showToast('Datos Actualizados', 'success'); // alert("Datos almacenados")
+          _this6.props.showToast('Datos Actualizados', 'success'); // alert("Datos almacenados")
 
         })["catch"](function (err) {
-          _this4.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
+          _this6.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
         });
       }
     }
@@ -83971,11 +83994,19 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this5 = this;
+      var _this7 = this;
 
       var _this$state = this.state,
           medicos = _this$state.medicos,
           editarContraseña = _this$state.editarContraseña;
+
+      var textButton = function textButton() {
+        if (!editarContraseña) {
+          return 'Editar contraseña';
+        } else {
+          return 'No editar contraseña';
+        }
+      };
 
       var editpassword = function editpassword() {
         console.log(editarContraseña);
@@ -83991,7 +84022,7 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
             type: "password",
             className: "form-control form-control-sm",
             name: "contrase\xF1a",
-            onChange: _this5.handleChange
+            onChange: _this7.handleChange
           })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "form-group"
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -84000,7 +84031,7 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
             type: "password",
             className: "form-control form-control-sm",
             name: "confirmar",
-            onChange: _this5.handleChange
+            onChange: _this7.handleChange
           })));
         }
       };
@@ -84301,6 +84332,7 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         type: "text",
         className: "form-control form-control-sm",
         name: "correo",
+        defaultValue: this.state.correo,
         onChange: this.handleChange
       })), editpassword(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
@@ -84338,9 +84370,9 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
       }, "Si"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "No"
       }, "No")))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__["default"].Footer, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "btn btn-primary btn-sm",
+        className: "btn btn-info btn-sm",
         onClick: this.handleEditPassword
-      }, "Editar Contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      }, textButton()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "btn btn-primary btn-sm",
         onClick: this.handleGuardar
       }, "Guardar"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
@@ -86058,7 +86090,11 @@ function TableMedicos(props) {
       id: medicos[key]['id'],
       name: medicos[key]['cod_medico'] + '/' + medicos[key]['tipo_documento'] + '/' + medicos[key]['num_documento'] + '/' + medicos[key]['nombre'] + '/' + medicos[key]['reg_medico'] + '/' + medicos[key]['especialidad'],
       onClick: editar
-    }, "Editar")));
+    }, "Editar")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      className: "btn btn-danger btn-sm",
+      id: medicos[key]['id'],
+      onClick: eliminar
+    }, "Eliminar")));
   }));
 }
 
@@ -86540,9 +86576,15 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
           users = _this$state.users,
           editarContraseña = _this$state.editarContraseña;
 
-      var editpassword = function editpassword() {
-        console.log(editarContraseña);
+      var textButton = function textButton() {
+        if (!editarContraseña) {
+          return 'Editar contraseña';
+        } else {
+          return 'No editar contraseña';
+        }
+      };
 
+      var editpassword = function editpassword() {
         if (editarContraseña) {
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("article", {
             className: "form-group"
@@ -86758,9 +86800,9 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
       }, "Admin IPS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "5"
       }, "Usuarios Admin")))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__["default"].Footer, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "btn btn-primary btn-sm",
+        className: "btn btn-info btn-sm",
         onClick: this.handleEditPassword
-      }, "Editar Contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      }, textButton()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "btn btn-primary btn-sm",
         onClick: this.handleGuardar
       }, "Guardar"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
@@ -86992,8 +87034,8 @@ if (document.getElementById('test')) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\rauls\OneDrive\Documents\DEV\comfenalcoapp-prod\comfenalcoapp-prod\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\rauls\OneDrive\Documents\DEV\comfenalcoapp-prod\comfenalcoapp-prod\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\Ingenio David\comfenalcoapp-prod\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\Ingenio David\comfenalcoapp-prod\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

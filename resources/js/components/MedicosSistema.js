@@ -76,6 +76,12 @@ class MedicosSistema extends Component {
     }
     handleEdition(id,datos){
         //console.log(id)
+        axios.get(`usuario/medico/${id}`)
+            .then(resp => {
+                this.setState({
+                    correo: resp.data.email,
+                });
+            })
         this.setState({
             modalOpen: true,
             IdEditar:id,
@@ -89,7 +95,18 @@ class MedicosSistema extends Component {
     }
 
     handleEliminar(id){
-      //  console.log(id)
+        let url = `usuario/medico/${id}/eliminar`;
+        axios.delete(url)
+            .then(resp => {
+                this.props.showToast(resp.data.data,'success')
+                this.getMedicosUsers();
+                        this.setState({
+                            medicos: this.state.medicos,
+                        });
+            })
+            .catch(err => {
+                console.log(err)
+            })
     }
 
     handleCerrarModal(){
@@ -146,7 +163,7 @@ class MedicosSistema extends Component {
             }
         });
         */
-        if (resp && editarContraseña){
+        if (resp && this.state.editarContraseña){
             if (newState.contraseña != newState.confirmar){
                 newState.errors.contraseña = "visible";
                 newState.errorMensajes.contraseña = "Contraseñas no coinciden";
@@ -173,11 +190,12 @@ class MedicosSistema extends Component {
         //console.log(newState);
         this.setState(newState2);
     }
+
     getMedicosUsers(){
-        let url ='getMedicosUsers'
+        let url ='usuario/medico'
         axios.get(url)
             .then(resp => {
-                //console.log(resp.data.data);
+                console.log(resp.data.data);
                 this.setState({
                     medicos:resp.data.data,
                 });
@@ -218,7 +236,7 @@ class MedicosSistema extends Component {
         if (resp) {
             axios.put(url, {
                 password:this.state.contraseña,
-
+                email: this.state.correo,
                 cod_medico:this.state.codigoMedico,
                 nombre:this.state.nombre,
                 tipo_documento:this.state.tipoDocumento,
@@ -255,6 +273,17 @@ class MedicosSistema extends Component {
 
     render() {
         const { medicos, editarContraseña } = this.state;
+
+        const textButton = () => {
+            if (!editarContraseña) {
+                return(
+                    'Editar contraseña'
+                )
+            }else {
+                return 'No editar contraseña'
+            }
+        }
+
         const editpassword = () =>{
             console.log(editarContraseña);
             if(editarContraseña){
@@ -441,7 +470,7 @@ class MedicosSistema extends Component {
 
                                         <div className="form-group">
                                             <label htmlFor="codigo">Correo</label>
-                                            <input type="text" className="form-control form-control-sm" name="correo" onChange={this.handleChange }/>
+                                            <input type="text" className="form-control form-control-sm" name="correo" defaultValue={this.state.correo} onChange={this.handleChange }/>
                                         </div>
                             
                                         { 
@@ -476,7 +505,7 @@ class MedicosSistema extends Component {
 
                     </Modal.Body>
                     <Modal.Footer>
-                        <button className="btn btn-primary btn-sm" onClick={ this.handleEditPassword }>Editar Contraseña</button>
+                        <button className="btn btn-info btn-sm" onClick={ this.handleEditPassword }>{textButton()}</button>
                         <button className="btn btn-primary btn-sm" onClick={ this.handleGuardar }>Guardar</button>
                         <button className="btn btn-primary btn-sm" onClick={ this.handleCerrarModal }>Cerrar</button>
                     </Modal.Footer>
