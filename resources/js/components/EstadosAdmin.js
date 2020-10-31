@@ -83,7 +83,8 @@ class EstadosAdmin extends Component {
                 this.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente','error')
             })
     }
-    handleGuardar(){
+    handleGuardar(e){
+        e.preventDefault();
         let id = this.state.IdEditar
         let url = `parametro/estadosi/${id}/editar`
         let estadoi = document.getElementsByName('editar_estados_incapacidad')[0].value
@@ -184,15 +185,15 @@ class EstadosAdmin extends Component {
                         <div className="container">
                             <div className="row">
                                 <div className="col-12">
-                                    <form>
+                                    <form id="editarEstado" onSubmit={ this.handleGuardar }>
                                         <div className="form-group">
                                             <label htmlFor="codigo">Nombre</label>
-                                            <input type="text" className="form-control form-control-sm" name="editar_estados_incapacidad" defaultValue={this.state.nombreEstado} onChange={this.handleChangeC }/>
+                                            <input type="text" className="form-control form-control-sm" name="editar_estados_incapacidad" defaultValue={this.state.nombreEstado} onChange={this.handleChange } required/>
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="estado_causa">Estado</label>
-                                            <select className="form-control form-control-sm" name="editar_estados_activo" onChange={this.handleChangeC }>
+                                            <select className="form-control form-control-sm" name="editar_estados_activo" onChange={this.handleChange } required>
                                                 <option value='1'>Activa</option>
                                                 <option value='0'>Inactiva</option>
                                             </select>
@@ -203,7 +204,10 @@ class EstadosAdmin extends Component {
                             </div>
                         </div>
                     </Modal.Body>
-                    <Modal.Footer><button className="btn btn-primary btn-sm" onClick={ this.handleGuardar }>Guardar</button><button className="btn btn-primary btn-sm" onClick={ this.handleCerrarModal }>Cerrar</button></Modal.Footer>
+                    <Modal.Footer>
+                        <button type="submit" form="editarEstado" className="btn btn-primary btn-sm" >Guardar</button>
+                        <button className="btn btn-primary btn-sm" onClick={ this.handleCerrarModal }>Cerrar</button>
+                    </Modal.Footer>
                 </Modal>
             </div>
         );
@@ -212,8 +216,4 @@ class EstadosAdmin extends Component {
 }
 
 export default EstadosAdmin;
-/*
-if (document.getElementById('menuUsuarios')) {
-    ReactDOM.render(<MenuUsuarios />, document.getElementById('menuUsuarios'));
-}
-*/
+

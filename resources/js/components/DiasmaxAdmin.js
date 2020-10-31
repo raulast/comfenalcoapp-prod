@@ -50,7 +50,8 @@ class DiasmaxAdmin extends Component {
     handleEdition(id,esped){
 
         this.setState({
-            esped:esped,
+            esped:esped[0],
+            diasmax: esped[1],
             modalOpen: true,
             IdEditar: id
         });
@@ -86,7 +87,8 @@ class DiasmaxAdmin extends Component {
                 this.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente','error')
             })
     }
-    handleGuardar(){
+    handleGuardar(e){
+        e.preventDefault();
         let id = this.state.IdEditar;
         console.log(id)
         let url = `parametro/diasmax/${id}/editar`
@@ -186,24 +188,25 @@ class DiasmaxAdmin extends Component {
                         <div className="container">
                             <div className="row">
                                 <div className="col-12">
-                                    <form>
+                                    <form id="editarDias" onSubmit={ this.handleGuardar }>
                                         <div className="form-group">
                                             <label htmlFor="codigo">Especialidad</label>
-                                            <input type="text" className="form-control form-control-sm" name="editar_especialidad" defaultValue={this.state.esped} onChange={this.handleChange }/>
+                                            <input type="text" className="form-control form-control-sm" name="editar_especialidad" defaultValue={this.state.esped} onChange={this.handleChange } required/>
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="capitulo_grupo">Días máximos</label>
-                                            <input type="number"  min='0' className="form-control form-control-sm" name="diasmax" value={this.state.diasmax} onChange={this.handleChange }/>
+                                            <input type="number"  min='0' className="form-control form-control-sm" name="diasmax" defaultValue={this.state.diasmax} onChange={this.handleChange } required/>
                                         </div>
-
                                     </form>
                                 </div>
                             </div>
                         </div>
 
                     </Modal.Body>
-                    <Modal.Footer><button className="btn btn-primary btn-sm" onClick={ this.handleGuardar }>Guardar</button><button className="btn btn-primary btn-sm" onClick={ this.handleCerrarModal }>Cerrar</button></Modal.Footer>
+                    <Modal.Footer>
+                        <button form="editarDias" type="submit" className="btn btn-primary btn-sm" >Guardar</button>
+                        <button className="btn btn-primary btn-sm" onClick={ this.handleCerrarModal }>Cerrar</button></Modal.Footer>
                 </Modal>
 
             </div>

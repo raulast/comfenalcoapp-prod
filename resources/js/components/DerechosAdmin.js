@@ -69,7 +69,8 @@ class DerechosAdmin extends Component {
     handleEdition(id,name,table,codigo){
         if(table == 'Clase'){
             this.setState({
-                nombreClase: name,
+                nombreClase: name[0],
+                abbr: name[1],
                 modalClaseOpen: true,
                 IdEditar: id
             });
@@ -158,6 +159,7 @@ class DerechosAdmin extends Component {
     }
 
     handleGuardarClase(e){
+        e.preventDefault();
         let id = this.state.IdEditar
         let url = `parametro/clasesa/${id}/editar`
         let clase = document.getElementsByName('editar_clase')[0].value
@@ -178,6 +180,7 @@ class DerechosAdmin extends Component {
     }
 
     handleGuardarEstado(e){
+        e.preventDefault();
         let id = this.state.IdEditar
         let url = `parametro/estadosa/${id}/editar`
         let estado = document.getElementsByName('editar_estadoa')[0].value
@@ -198,6 +201,7 @@ class DerechosAdmin extends Component {
     }
 
     handleGuardarPrograma(e){
+        e.preventDefault();
         console.log('hola funcion');
         let id = this.state.IdEditar
         let url = `parametro/descripcionesp/${id}/editar`
@@ -470,7 +474,7 @@ class DerechosAdmin extends Component {
 
                                         <div className="form-group">
                                             <label htmlFor="capitulo_grupo">Abbr</label>
-                                            <input type="text" className="form-control form-control-sm" name="editar_abbr" onChange={this.handleChange } required/>
+                                            <input type="text" className="form-control form-control-sm" name="editar_abbr" defaultValue={this.state.abbr} onChange={this.handleChange } required/>
                                         </div>
 
                                         <div className="form-group">

@@ -77458,7 +77458,8 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
     value: function handleEdition(id, name, table, codigo) {
       if (table == 'Clase') {
         this.setState({
-          nombreClase: name,
+          nombreClase: name[0],
+          abbr: name[1],
           modalClaseOpen: true,
           IdEditar: id
         });
@@ -77572,6 +77573,7 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
     value: function handleGuardarClase(e) {
       var _this5 = this;
 
+      e.preventDefault();
       var id = this.state.IdEditar;
       var url = "parametro/clasesa/".concat(id, "/editar");
       var clase = document.getElementsByName('editar_clase')[0].value;
@@ -77600,6 +77602,7 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
     value: function handleGuardarEstado(e) {
       var _this6 = this;
 
+      e.preventDefault();
       var id = this.state.IdEditar;
       var url = "parametro/estadosa/".concat(id, "/editar");
       var estado = document.getElementsByName('editar_estadoa')[0].value;
@@ -77629,6 +77632,7 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
     value: function handleGuardarPrograma(e) {
       var _this7 = this;
 
+      e.preventDefault();
       console.log('hola funcion');
       var id = this.state.IdEditar;
       var url = "parametro/descripcionesp/".concat(id, "/editar");
@@ -78009,6 +78013,7 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
         type: "text",
         className: "form-control form-control-sm",
         name: "editar_abbr",
+        defaultValue: this.state.abbr,
         onChange: this.handleChange,
         required: true
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -78299,7 +78304,8 @@ var DiasmaxAdmin = /*#__PURE__*/function (_Component) {
     key: "handleEdition",
     value: function handleEdition(id, esped) {
       this.setState({
-        esped: esped,
+        esped: esped[0],
+        diasmax: esped[1],
         modalOpen: true,
         IdEditar: id
       });
@@ -78345,9 +78351,10 @@ var DiasmaxAdmin = /*#__PURE__*/function (_Component) {
     }
   }, {
     key: "handleGuardar",
-    value: function handleGuardar() {
+    value: function handleGuardar(e) {
       var _this3 = this;
 
+      e.preventDefault();
       var id = this.state.IdEditar;
       console.log(id);
       var url = "parametro/diasmax/".concat(id, "/editar");
@@ -78462,7 +78469,10 @@ var DiasmaxAdmin = /*#__PURE__*/function (_Component) {
         className: "row"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-12"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        id: "editarDias",
+        onSubmit: this.handleGuardar
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "codigo"
@@ -78471,7 +78481,8 @@ var DiasmaxAdmin = /*#__PURE__*/function (_Component) {
         className: "form-control form-control-sm",
         name: "editar_especialidad",
         defaultValue: this.state.esped,
-        onChange: this.handleChange
+        onChange: this.handleChange,
+        required: true
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -78481,11 +78492,13 @@ var DiasmaxAdmin = /*#__PURE__*/function (_Component) {
         min: "0",
         className: "form-control form-control-sm",
         name: "diasmax",
-        value: this.state.diasmax,
-        onChange: this.handleChange
+        defaultValue: this.state.diasmax,
+        onChange: this.handleChange,
+        required: true
       }))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__["default"].Footer, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "btn btn-primary btn-sm",
-        onClick: this.handleGuardar
+        form: "editarDias",
+        type: "submit",
+        className: "btn btn-primary btn-sm"
       }, "Guardar"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "btn btn-primary btn-sm",
         onClick: this.handleCerrarModal
@@ -78727,9 +78740,10 @@ var EstadosAdmin = /*#__PURE__*/function (_Component) {
     }
   }, {
     key: "handleGuardar",
-    value: function handleGuardar() {
+    value: function handleGuardar(e) {
       var _this3 = this;
 
+      e.preventDefault();
       var id = this.state.IdEditar;
       var url = "parametro/estadosi/".concat(id, "/editar");
       var estadoi = document.getElementsByName('editar_estados_incapacidad')[0].value;
@@ -78841,7 +78855,10 @@ var EstadosAdmin = /*#__PURE__*/function (_Component) {
         className: "row"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-12"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        id: "editarEstado",
+        onSubmit: this.handleGuardar
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "codigo"
@@ -78850,7 +78867,8 @@ var EstadosAdmin = /*#__PURE__*/function (_Component) {
         className: "form-control form-control-sm",
         name: "editar_estados_incapacidad",
         defaultValue: this.state.nombreEstado,
-        onChange: this.handleChangeC
+        onChange: this.handleChange,
+        required: true
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -78858,14 +78876,16 @@ var EstadosAdmin = /*#__PURE__*/function (_Component) {
       }, "Estado"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         className: "form-control form-control-sm",
         name: "editar_estados_activo",
-        onChange: this.handleChangeC
+        onChange: this.handleChange,
+        required: true
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "1"
       }, "Activa"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "0"
       }, "Inactiva")))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__["default"].Footer, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "btn btn-primary btn-sm",
-        onClick: this.handleGuardar
+        type: "submit",
+        form: "editarEstado",
+        className: "btn btn-primary btn-sm"
       }, "Guardar"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "btn btn-primary btn-sm",
         onClick: this.handleCerrarModal
@@ -78877,11 +78897,6 @@ var EstadosAdmin = /*#__PURE__*/function (_Component) {
 }(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
 
 /* harmony default export */ __webpack_exports__["default"] = (EstadosAdmin);
-/*
-if (document.getElementById('menuUsuarios')) {
-    ReactDOM.render(<MenuUsuarios />, document.getElementById('menuUsuarios'));
-}
-*/
 
 /***/ }),
 
@@ -80904,9 +80919,10 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
     }
   }, {
     key: "handleGuardar",
-    value: function handleGuardar() {
+    value: function handleGuardar(e) {
       var _this3 = this;
 
+      e.preventDefault();
       var id = this.state.IdEditar;
       var url = "parametro/ips/".concat(id, "/editar");
       var cod_sede = document.getElementsByName('editar_cod_sede')[0].value;
@@ -81104,7 +81120,10 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
         className: "row"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-12"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        id: "editarIps",
+        onSubmit: this.handleGuardar
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "codigo"
@@ -81113,7 +81132,8 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
         className: "form-control form-control-sm",
         name: "editar_cod_sede",
         defaultValue: this.state.name[0],
-        onChange: this.handleChangeC
+        onChange: this.handleChange,
+        required: true
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -81123,7 +81143,8 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
         className: "form-control form-control-sm",
         name: "editar_nombre_sede",
         defaultValue: this.state.name[1],
-        onChange: this.handleChangeC
+        onChange: this.handleChange,
+        required: true
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -81133,7 +81154,8 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
         className: "form-control form-control-sm",
         name: "editar_cod_habilitacion",
         defaultValue: this.state.name[2],
-        onChange: this.handleChangeC
+        onChange: this.handleChange,
+        required: true
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -81143,7 +81165,8 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
         className: "form-control form-control-sm",
         name: "editar_direccion",
         defaultValue: this.state.name[3],
-        onChange: this.handleChangeC
+        onChange: this.handleChange,
+        required: true
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -81153,7 +81176,8 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
         className: "form-control form-control-sm",
         name: "editar_telefono",
         defaultValue: this.state.name[4],
-        onChange: this.handleChangeC
+        onChange: this.handleChange,
+        required: true
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -81163,7 +81187,8 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
         className: "form-control form-control-sm",
         name: "editar_razon_social",
         defaultValue: this.state.name[5],
-        onChange: this.handleChangeC
+        onChange: this.handleChange,
+        required: true
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -81173,10 +81198,12 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
         className: "form-control form-control-sm",
         name: "editar_nit",
         defaultValue: this.state.name[6],
-        onChange: this.handleChangeC
+        onChange: this.handleChange,
+        required: true
       }))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__["default"].Footer, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "btn btn-primary btn-sm",
-        onClick: this.handleGuardar
+        type: "submit",
+        form: "editarIps",
+        className: "btn btn-primary btn-sm"
       }, "Guardar"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "btn btn-primary btn-sm",
         onClick: this.handleCerrarModal
@@ -84058,6 +84085,10 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
             onChange: _this7.handleChange,
             required: true
           })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: _this7.state.errors['contraseña']
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "redf  " + (_this7.state.errors['contraseña'] || "")
+          }, _this7.state.errorMensajes['contraseña'])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "form-group"
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
             htmlFor: "codigo"
@@ -84067,7 +84098,11 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
             name: "confirmar",
             onChange: _this7.handleChange,
             required: true
-          })));
+          })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: _this7.state.errors['confirmar']
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "redf  " + (_this7.state.errors['confirmar'] || "")
+          }, _this7.state.errorMensajes['confirmar'])));
         }
       };
 
@@ -84232,6 +84267,10 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         defaultValue: this.state.contraseña,
         required: true
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: this.state.errors['contraseña']
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "redf  " + (this.state.errors['contraseña'] || "")
+      }, this.state.errorMensajes['contraseña'])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-4"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "nombre"
@@ -84244,6 +84283,10 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         defaultValue: this.state.confirmar,
         required: true
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: this.state.errors['confirmar']
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "redf  " + (this.state.errors['confirmar'] || "")
+      }, this.state.errorMensajes['confirmar'])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "rethus"
@@ -85724,7 +85767,8 @@ function TableClasesa(props) {
   };
 
   var editar = function editar(u) {
-    props.handleEdition(u.target.id, u.target.name, 'Clase', null);
+    var name = u.target.name.split('/');
+    props.handleEdition(u.target.id, name, 'Clase', null);
   };
 
   var clasesa = props.clasesa; //const { users } = this.state;
@@ -85736,7 +85780,7 @@ function TableClasesa(props) {
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, clasesa[key]['clase']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, clasesa[key]['abbr']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, estadoTypes[clasesa[key]['activo']]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
       className: "btn btn-warning btn-sm",
       id: clasesa[key]['id'],
-      name: clasesa[key]['clase'],
+      name: clasesa[key]['clase'] + '/' + clasesa[key]['abbr'],
       onClick: editar
     }, "Editar")));
   }));
@@ -85871,7 +85915,7 @@ function TableDiasmax(props) {
   };
 
   var editar = function editar(u) {
-    //console.log(u.target.name);
+    var name = u.target.name.split('/');
     props.handleEdition(u.target.id, u.target.name);
   };
 
@@ -85884,7 +85928,7 @@ function TableDiasmax(props) {
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, esp[key]['especialidad']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, esp[key]['dias_maximos']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
       className: "btn btn-warning btn-sm",
       id: esp[key]['id'],
-      name: esp[key]['especialidad'],
+      name: esp[key]['especialidad'] + '/' + esp[key]['dias_maximos'],
       onClick: editar
     }, "Editar")));
   }));
@@ -86651,6 +86695,10 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
             onChange: _this6.handleChange,
             required: true
           })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: _this6.state.errors['contraseña']
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "redf  " + (_this6.state.errors['contraseña'] || "")
+          }, _this6.state.errorMensajes['contraseña'])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "form-group"
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
             htmlFor: "codigo"
@@ -86660,7 +86708,11 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
             name: "confirmar",
             onChange: _this6.handleChange,
             required: true
-          })));
+          })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: _this6.state.errors['confirmar']
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "redf  " + (_this6.state.errors['confirmar'] || "")
+          }, _this6.state.errorMensajes['confirmar'])));
         }
       };
 
@@ -86748,6 +86800,10 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
         onChange: this.handleChange,
         required: true
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: this.state.errors['contraseña']
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "redf  " + (this.state.errors['contraseña'] || "")
+      }, this.state.errorMensajes['contraseña'])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-4"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "nombre"
@@ -86759,6 +86815,10 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
         onChange: this.handleChange,
         required: true
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: this.state.errors['confirmar']
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "redf  " + (this.state.errors['confirmar'] || "")
+      }, this.state.errorMensajes['confirmar'])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "submit",

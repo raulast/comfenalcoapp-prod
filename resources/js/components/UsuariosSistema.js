@@ -248,10 +248,16 @@ class UsuariosSistema extends Component {
                             <label htmlFor="codigo">Contraseña</label>
                             <input type="password" className="form-control form-control-sm" name="contraseña" onChange={this.handleChange } required/>
                         </div>
+                        <div className={this.state.errors['contraseña']}>
+                            <div className={ "redf  " + ( this.state.errors['contraseña'] || "") }>{this.state.errorMensajes['contraseña']}</div>
+                        </div>
 
                         <div className="form-group">
                             <label htmlFor="codigo">Confirmar contraseña</label>
                             <input type="password" className="form-control form-control-sm" name="confirmar" onChange={this.handleChange } required/>
+                        </div>
+                        <div className={this.state.errors['confirmar']}>
+                            <div className={ "redf  " + ( this.state.errors['confirmar'] || "") }>{this.state.errorMensajes['confirmar']}</div>
                         </div>
                     </article>
                 )
@@ -298,9 +304,15 @@ class UsuariosSistema extends Component {
                                                     <label htmlFor="nombre">Contraseña</label>
                                                     <input type="password" className="form-control" id="contraseña" name="contraseña" onChange={this.handleChange} required></input>
                                                 </div>
+                                                <div className={this.state.errors['contraseña']}>
+                                                    <div className={ "redf  " + ( this.state.errors['contraseña'] || "") }>{this.state.errorMensajes['contraseña']}</div>
+                                                </div>
                                                 <div className="col-md-4">
                                                     <label htmlFor="nombre">Confirmar Contraseña</label>
                                                     <input type="password" className="form-control" id="confirmar" name="confirmar" onChange={this.handleChange} required></input>
+                                                </div>
+                                                <div className={this.state.errors['confirmar']}>
+                                                    <div className={ "redf  " + ( this.state.errors['confirmar'] || "") }>{this.state.errorMensajes['confirmar']}</div>
                                                 </div>
                                            <div className="col-md-2">
                                                     <br /><br />
