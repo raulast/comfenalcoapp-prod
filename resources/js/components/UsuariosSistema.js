@@ -15,11 +15,11 @@ class UsuariosSistema extends Component {
         this.state = {
             users: '',
             nombre: '',
-            usuario: '00',
             correo: '',
             nuevo: 'oculto',
             modalOpen: false,
             contraseña: '',
+            editarContraseña: false,
             tipo: '',
             confirmar:'',
             errors : {
@@ -51,6 +51,7 @@ class UsuariosSistema extends Component {
         this.handleEliminar = this.handleEliminar.bind(this);
         this.handleCerrarModal = this.handleCerrarModal.bind(this);
         this.handleGuardar = this.handleGuardar.bind(this);
+        this.handleEditPassword = this.handleEditPassword.bind(this);
         this.getSystemUsers();
     }
 
@@ -64,21 +65,23 @@ class UsuariosSistema extends Component {
         this.setState({
           [target.name]: target.value
         });
+        console.log(this.state)
     }
 
     handleEdition(id,usuario,correo,tipo){
         this.setState({
-            usuario:usuario,
+            nombre: usuario,
             correo: correo,
             tipo: tipo,
             modalOpen: true,
             IdEditar:id
         });
+        console.log('Edit: ', this.state)
     }
 
     handleCerrarModal(){
         this.setState({
-            usuario:'',
+            nombre:'',
             correo: '',
             tipo: '',
             modalOpen: false,
@@ -104,8 +107,8 @@ class UsuariosSistema extends Component {
     handleSubmit(e){
         e.preventDefault();
         let resp = this.validarForm();
+        let url = 'usuario/user/agregar';
         if (resp) {
-            let url = 'usuario/user/agregar';
             axios.post(url, {
                 name:this.state.nombre,
                 email:this.state.correo,
@@ -124,17 +127,17 @@ class UsuariosSistema extends Component {
                 .catch(err => {
                     this.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente','error');
                 })
-        }
+        } 
     }
 
     validarForm() {
 
         this.clearErrors()
-
+        const { editarContraseña } = this.state;
         let resp = true;
         let newState = Object.assign({}, this.state);
         Object.entries(this.state).map(([key, value]) => {
-            if (value == '' && key != 'modalOpen'){
+            if (value == '' && key != 'modalOpen' && editarContraseña){
                 newState.errors[key] = "visible";
                 console.log(key)
                 newState.errorMensajes[key] = key + " requerido";
@@ -142,7 +145,7 @@ class UsuariosSistema extends Component {
             }
         });
 
-        if (resp){
+        if (resp && editarContraseña){
             if (newState.contraseña != newState.confirmar){
                 newState.errors.contraseña = "visible";
                 newState.errorMensajes.contraseña = "Contraseñas no coinciden";
@@ -185,13 +188,15 @@ class UsuariosSistema extends Component {
             })
     }
 
-    handleGuardar() {
+    handleGuardar(e) {
+        e.preventDefault();
         let id = this.state.IdEditar;
         let url = `usuario/user/${id}/editar`;
         let resp = this.validarForm()
         if (resp) {
             axios.put(url, {
                 name:this.state.nombre,
+                email:this.state.correo,
                 password:this.state.contraseña,
                 tipo:this.state.tipo
             })
@@ -210,13 +215,60 @@ class UsuariosSistema extends Component {
         }
     }
 
+    handleEditPassword() {
+        if(!this.state.editarContraseña) {
+            this.setState({
+                editarContraseña: true, 
+            })
+        }else {
+            this.setState({
+                editarContraseña: false, 
+            })
+        }
+    }
+
     render() {
-        const { users } = this.state;
+        const { users, editarContraseña} = this.state;
+
+        const textButton = () => {
+            if (!editarContraseña) {
+                return(
+                    'Editar contraseña'
+                )
+            }else {
+                return 'No editar contraseña'
+            }
+        }
+
+        const editpassword = () =>{
+            if(editarContraseña){
+                return (
+                    <article className="form-group">
+                        <div className="form-group">
+                            <label htmlFor="codigo">Contraseña</label>
+                            <input type="password" className="form-control form-control-sm" name="contraseña" onChange={this.handleChange } required/>
+                        </div>
+                        <div className={this.state.errors['contraseña']}>
+                            <div className={ "redf  " + ( this.state.errors['contraseña'] || "") }>{this.state.errorMensajes['contraseña']}</div>
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="codigo">Confirmar contraseña</label>
+                            <input type="password" className="form-control form-control-sm" name="confirmar" onChange={this.handleChange } required/>
+                        </div>
+                        <div className={this.state.errors['confirmar']}>
+                            <div className={ "redf  " + ( this.state.errors['confirmar'] || "") }>{this.state.errorMensajes['confirmar']}</div>
+                        </div>
+                    </article>
+                )
+            }
+        }
+
         return (
             <div>
                 <br/><br/>
                 <button className="btn btn-success btn-sm" onClick={this.handleCreate}>+ Crear</button>
-                <div className="row mt-5">
+                <form className="row mt-5">
                     <div className={this.state.nuevo}>
                         <div className="col-md-12">
                             <div className="card">
@@ -227,21 +279,15 @@ class UsuariosSistema extends Component {
                                             <div className="row">
                                                 <div className="col-md-4">
                                                     <label htmlFor="nombre">Nombre</label>
-                                                    <input type="text" className="form-control" id="nombre" name="nombre" onChange={this.handleChange} value={this.state.nombre}></input>
-                                                    <div className={this.state.errors['nombre']}>
-                                                        <div className={ "redf  " + ( this.state.errors['nombre'] || "") }>{this.state.errorMensajes['nombre']}</div>
-                                                    </div>
+                                                    <input type="text" className="form-control" id="nombre" name="nombre" onChange={this.handleChange} value={this.state.nombre} required></input>
                                                 </div>
                                                 <div className="col-md-4">
                                                     <label htmlFor="nombre">Correo electrónico</label>
-                                                    <input type="email" className="form-control" id="correo" name="correo" onChange={this.handleChange} value={this.state.correo}></input>
-                                                    <div className={this.state.errors['correo']}>
-                                                        <div className={ "redf  " + ( this.state.errors['correo'] || "") }>{this.state.errorMensajes['correo']}</div>
-                                                    </div>
+                                                    <input type="email" className="form-control" id="correo" name="correo" onChange={this.handleChange} value={this.state.correo} required></input>
                                                 </div>
                                                 <div className="col-md-2">
                                                     <label htmlFor="nombre">Tipo</label>
-                                                    <select className="form-control" id="tipo" name="tipo" onChange={this.handleChange} value={this.state.tipo}>
+                                                    <select className="form-control" id="tipo" name="tipo" onChange={this.handleChange} value={this.state.tipo} required>
                                                         <option value=""></option>
                                                         <option value="0">Admin</option>
                                                         <option value="1">Médico</option>
@@ -250,31 +296,28 @@ class UsuariosSistema extends Component {
                                                         <option value="4">Admin IPS</option>
                                                         <option value="5">Usuarios Admin</option>
                                                     </select>
-                                                    <div className={this.state.errors['tipo']}>
-                                                        <div className={ "redf  " + ( this.state.errors['tipo'] || "") }>{this.state.errorMensajes['tipo']}</div>
-                                                    </div>
                                                 </div>
 
                                             </div>
                                             <div className="row">
                                                 <div className="col-md-4">
                                                     <label htmlFor="nombre">Contraseña</label>
-                                                    <input type="password" className="form-control" id="contraseña" name="contraseña" onChange={this.handleChange}></input>
-                                                    <div className={this.state.errors['contraseña']}>
-                                                        <div className={ "redf  " + ( this.state.errors['contraseña'] || "") }>{this.state.errorMensajes['contraseña']}</div>
-                                                    </div>
+                                                    <input type="password" className="form-control" id="contraseña" name="contraseña" onChange={this.handleChange} required></input>
+                                                </div>
+                                                <div className={this.state.errors['contraseña']}>
+                                                    <div className={ "redf  " + ( this.state.errors['contraseña'] || "") }>{this.state.errorMensajes['contraseña']}</div>
                                                 </div>
                                                 <div className="col-md-4">
                                                     <label htmlFor="nombre">Confirmar Contraseña</label>
-                                                    <input type="password" className="form-control" id="confirmar" name="confirmar" onChange={this.handleChange}></input>
-                                                    <div className={this.state.errors['confirmar']}>
-                                                        <div className={ "redf  " + ( this.state.errors['confirmar'] || "") }>{this.state.errorMensajes['confirmar']}</div>
-                                                    </div>
+                                                    <input type="password" className="form-control" id="confirmar" name="confirmar" onChange={this.handleChange} required></input>
                                                 </div>
-                                                <div className="col-md-2">
+                                                <div className={this.state.errors['confirmar']}>
+                                                    <div className={ "redf  " + ( this.state.errors['confirmar'] || "") }>{this.state.errorMensajes['confirmar']}</div>
+                                                </div>
+                                           <div className="col-md-2">
                                                     <br /><br />
                                                     <button type="submit" className="btn btn-success btn-sm">Guardar</button>
-                                                </div>
+                                                </div>     
                                             </div>
                                         </div>
                                     </form>
@@ -282,7 +325,7 @@ class UsuariosSistema extends Component {
                             </div>
                         </div>
                     </div>
-                </div>
+                </form>
                 <div className="row mt-5">
                     <div className="col-md-12">
                         <div className="card">
@@ -306,35 +349,29 @@ class UsuariosSistema extends Component {
                 </div>
 
                 <Modal show={this.state.modalOpen}>
-                    <Modal.Header>Causa externa</Modal.Header>
+                    <Modal.Header>Usuario</Modal.Header>
                     <Modal.Body>
-                        <div className="container">
+                        <form className="container" id="editarUsuario" onSubmit={this.handleGuardar}>
                             <div className="row">
                                 <div className="col-12">
-                                    <form>
+                                    <div>
                                         <div className="form-group">
                                             <label htmlFor="codigo">Nombre</label>
-                                            <input type="text" className="form-control form-control-sm" name="nombre" defaultValue={this.state.usuario} onChange={this.handleChange }/>
+                                            <input type="text" className="form-control form-control-sm" name="nombre" defaultValue={this.state.nombre} onChange={this.handleChange } required/>
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="codigo">Correo</label>
-                                            <input type="text" className="form-control form-control-sm" name="correo" defaultValue={this.state.correo} onChange={this.handleChange}/>
+                                            <input type="email" className="form-control form-control-sm" name="correo" defaultValue={this.state.correo} onChange={this.handleChange} required/>
                                         </div>
 
-                                        <div className="form-group">
-                                            <label htmlFor="codigo">Contraseña</label>
-                                            <input type="password" className="form-control form-control-sm" name="contraseña" onChange={this.handleChange }/>
-                                        </div>
-
-                                        <div className="form-group">
-                                            <label htmlFor="codigo">Confirmar contraseña</label>
-                                            <input type="password" className="form-control form-control-sm" name="confirmar" onChange={this.handleChange }/>
-                                        </div>
+                                        { 
+                                            editpassword()
+                                        }
 
                                         <div className="form-group">
                                             <label htmlFor="estado_causa">Tipo</label>
-                                            <select className="form-control form-control-sm" name="tipo" defaultValue={this.state.tipo} onChange={this.handleChange }>
+                                            <select className="form-control form-control-sm" name="tipo" defaultValue={this.state.tipo} onChange={this.handleChange } required>
                                             <option value=""></option>
                                                         <option value="0">Admin</option>
                                                         <option value="1">Médico</option>
@@ -344,14 +381,17 @@ class UsuariosSistema extends Component {
                                                         <option value="5">Usuarios Admin</option>
                                             </select>
                                         </div>
-
-                                    </form>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </form>
 
                     </Modal.Body>
-                    <Modal.Footer><button className="btn btn-primary btn-sm" onClick={ this.handleGuardar }>Guardar</button><button className="btn btn-primary btn-sm" onClick={ this.handleCerrarModal }>Cerrar</button></Modal.Footer>
+                    <Modal.Footer>
+                        <button className="btn btn-info btn-sm" onClick={ this.handleEditPassword }>{textButton()}</button>
+                        <button type="submit" form="editarUsuario" className="btn btn-primary btn-sm" >Guardar</button>
+                        <button className="btn btn-primary btn-sm" onClick={ this.handleCerrarModal }>Cerrar</button>
+                    </Modal.Footer>
                 </Modal>
             </div>
         );
