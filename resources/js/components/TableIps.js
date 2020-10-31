@@ -11,7 +11,9 @@ export default function TableIps(props) {
         props.handleEliminar(u.target.id)
     }
     const editar = (u) =>{
-        props.handleEdition(u.target.id)
+        let name = u.target.name.split('/')
+        console.log(name);
+        props.handleEdition(u.target.id,name)
     }
     const ips = props.ips;
     //const { users } = this.state;
@@ -20,7 +22,18 @@ export default function TableIps(props) {
         <tbody>
             {Object.keys(ips).map((key) => (
                 <tr key={key}>
-                <td><button className="btn btn-primary btn-sm" id={ips[key]['id']} onClick={editar}>Ver</button></td>
+                <td><button className="btn btn-primary btn-sm" 
+                    id={ips[key]['id']} 
+                    name={
+                        ips[key]['cod_sede']+'/'+
+                        ips[key]['nombre_sede']+'/'+
+                        ips[key]['cod_habilitacion']+'/'+
+                        ips[key]['direccion']+'/'+
+                        ips[key]['telefono']+'/'+
+                        ips[key]['razon_social']+'/'+
+                        ips[key]['nit']
+                    }
+                    onClick={editar}>Ver</button></td>
                 <td>{ips[key]['cod_sede']}</td>
                 <td>{ips[key]['nombre_sede']}</td>
                 <td>{ips[key]['cod_habilitacion']}</td>

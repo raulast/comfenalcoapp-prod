@@ -15,8 +15,11 @@ class MenuGenerales extends Component {
         // bind
 
     }
+
     render() {
-        
+
+        const { showToast } = this.props;
+
         return (
             <div>
                 <ul className="nav nav-tabs">
@@ -27,7 +30,7 @@ class MenuGenerales extends Component {
                         <a className="nav-link" data-toggle="tab" href="#cie10">Cie10</a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" data-toggle="tab" href="#diase">Días especilidades</a>
+                        <a className="nav-link" data-toggle="tab" href="#diase">Días especialidades</a>
                     </li>
                     <li className="nav-item">
                         <a className="nav-link" data-toggle="tab" href="#estados">Estados</a>
@@ -40,15 +43,15 @@ class MenuGenerales extends Component {
                     </li>
                 </ul>
 
-            
+
                 <div className="tab-content">
-                    <div className="tab-pane container active" id="ce"><CausasAdmin /></div>
+                    <div className="tab-pane container active" id="ce"><CausasAdmin showToast={showToast}/></div>
                     <div className="tab-pane container fade" id="cie10"><Cie10Admin /></div>
-                    <div className="tab-pane container active" id="diase"><DiasmaxAdmin /></div>
-                    <div className="tab-pane container fade" id="estados"><EstadosAdmin /></div>
-                    <div className="tab-pane container active" id="ips"><IpsAdmin /></div>
-                    <div className="tab-pane container fade" id="validacion"><DerechosAdmin /></div>
-                    
+                    <div className="tab-pane container fade" id="diase"><DiasmaxAdmin showToast={showToast}/></div>
+                    <div className="tab-pane container fade" id="estados"><EstadosAdmin showToast={showToast}/></div>
+                    <div className="tab-pane container fade" id="ips"><IpsAdmin showToast={showToast}/></div>
+                    <div className="tab-pane container fade" id="validacion"><DerechosAdmin showToast={showToast}/></div>
+
                 </div>
             </div>
         );
@@ -57,8 +60,4 @@ class MenuGenerales extends Component {
 }
 
 export default MenuGenerales;
-/*
-if (document.getElementById('menuUsuarios')) {
-    ReactDOM.render(<MenuUsuarios />, document.getElementById('menuUsuarios'));
-}
-*/
+

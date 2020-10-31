@@ -1,29 +1,30 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import TableEstados from './TableEstados.js';
+import Modal from "react-bootstrap/Modal";
 
 import axios from 'axios';
-
-
 
 class EstadosAdmin extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
             estados: '',
             nombre: '',
             nuevo: 'oculto',
+            modalOpen: false,
+            nombreEstado: '',
             errors : {
-                nombre : 'oculto',      
+                nombre : 'oculto',
             },
             errorMensajes :{
                 nombre : '',
-            }
+            },
+            IdEditar:''
         }
         // bind
         this.getSystemEstados = this.getSystemEstados.bind(this);
-       
+
         this.handleSubmit = this.handleSubmit.bind(this);
         this.validarForm = this.validarForm.bind(this);
         this.clearErrors = this.clearErrors.bind(this);
@@ -31,7 +32,9 @@ class EstadosAdmin extends Component {
         this.handleEdition = this.handleEdition.bind(this);
         this.handleEliminar = this.handleEliminar.bind(this);
         this.handleCrear = this.handleCrear.bind(this);
-        //this.handleCerrarModal = this.handleCerrarModal.bind(this);
+        this.handleGuardar = this.handleGuardar.bind(this);
+        this.handleChangeSelector = this.handleChangeSelector.bind(this);
+        this.handleCerrarModal = this.handleCerrarModal.bind(this);
         this.getSystemEstados();
     }
     handleCrear(){
@@ -39,73 +42,121 @@ class EstadosAdmin extends Component {
             nuevo:'visible'
           });
     }
+
     handleChange({ target }) {
         this.setState({
           [target.name]: target.value
         });
     }
-    handleEdition(id){
-        
+
+    handleEdition(id, name){
+        this.setState({
+            modalOpen: true,
+            nombreEstado: name,
+            IdEditar:id
+        });
     }
+
+    handleCerrarModal(){
+        this.setState({
+            modalOpen: false,
+        });
+
+    }
+
     handleEliminar(id){
-        
+
     }
-    handleSubmit(e){          
-        
+    handleSubmit(e){
+        e.preventDefault();
+        let url = 'parametro/estadosi/agregar'
+        let estadoi = document.getElementsByName('estados_incapacidad')[0].value
+        axios.post(url, {estado: estadoi, activo: 1})
+            .then(resp => {
+                this.props.showToast(resp.data.data,'success')
+                this.setState({
+                    estados: [...this.state.estados, resp.data.row],
+                    nuevo: 'oculto'
+                });
+            })
+            .catch(err => {
+                this.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente','error')
+            })
     }
+    handleGuardar(e){
+        e.preventDefault();
+        let id = this.state.IdEditar
+        let url = `parametro/estadosi/${id}/editar`
+        let estadoi = document.getElementsByName('editar_estados_incapacidad')[0].value
+        let activo = document.getElementsByName('editar_estados_activo')[0].value
+        axios.put(url, {estado: estadoi, activo: activo})
+            .then(resp => {
+                this.props.showToast(resp.data.data,'success')
+                this.getSystemEstados()
+                this.setState({
+                    estados: [...this.state.estados]
+                });
+                this.handleCerrarModal()
+            })
+            .catch(err => {
+                this.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente','error')
+            })
+    }
+
     validarForm() {
-        
+
     }
+
     clearErrors(){
-        
-    }   
+
+    }
+
+    handleChangeSelector() {
+
+    }
+
     getSystemEstados() {
         let url = 'getSystemEstados'
         axios.get(url)
             .then(resp => {
-                //console.log(resp.data.data);
                 this.setState({
                     estados: resp.data.data,
                 });
 
             })
             .catch(err => {
-                console.log(err)
+                this.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente','error')
             })
 
     }
-    
+
     render() {
         const { estados } = this.state;
         return (
             <div>
                 <br/><br/>
                 <button className="btn btn-success btn-sm" onClick={this.handleCrear}>+ Crear</button>
-                <div className="row mt-2">
-                    <div className={this.state.nuevo}>          
+                <form onSubmit={this.handleSubmit} className="row mt-2">
+                    <div className={this.state.nuevo}>
                     <div className="col-md-12">
-                        <div className="card">     
+                        <div className="card">
                             <div className="card-body texto">
                                 <div className="row">
                                     <div className="col-sm-12">
                                         <table>
                                             <tr>
                                                 <td>Nombre</td>
-                                                <td><input type="text" className="form-control" id="nombre" name="nombre" onChange={this.handleChange} value={this.state.nombre}></input></td>
-                                                <td><button type="submit" className="btn btn-success btn-sm">Guardar</button></td>
+                                                <td><input type="text" className="form-control" id="nombre" name="estados_incapacidad" onChange={this.handleChange} defaultValue={this.state.nombre} required></input></td>
+                                                <td><button type="submit" className="btn btn-success btn-sm" >Guardar</button></td>
                                             </tr>
                                         </table>
-                                  
-                                        <div className={this.state.errors['nombre']}>
-                                            <div className={"redf  " + (this.state.errors['nombre'] || "")}>{this.state.errorMensajes['nombre']}</div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     </div>
-                </div>
+                </form>
                 <div className="row mt-2">
                     <div className="col-md-12">
                         <div className="card">
@@ -122,12 +173,42 @@ class EstadosAdmin extends Component {
                                         </tr>
                                     </thead>
                                     <TableEstados estados={estados} handleEdition ={this.handleEdition} handleEliminar ={this.handleEliminar}/>
-                                    
+
                                 </table>
                             </div>
                         </div>
                     </div>
                 </div>
+                <Modal show={this.state.modalOpen}>
+                    <Modal.Header>Estado</Modal.Header>
+                    <Modal.Body>
+                        <div className="container">
+                            <div className="row">
+                                <div className="col-12">
+                                    <form id="editarEstado" onSubmit={ this.handleGuardar }>
+                                        <div className="form-group">
+                                            <label htmlFor="codigo">Nombre</label>
+                                            <input type="text" className="form-control form-control-sm" name="editar_estados_incapacidad" defaultValue={this.state.nombreEstado} onChange={this.handleChange } required/>
+                                        </div>
+
+                                        <div className="form-group">
+                                            <label htmlFor="estado_causa">Estado</label>
+                                            <select className="form-control form-control-sm" name="editar_estados_activo" onChange={this.handleChange } required>
+                                                <option value='1'>Activa</option>
+                                                <option value='0'>Inactiva</option>
+                                            </select>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <button type="submit" form="editarEstado" className="btn btn-primary btn-sm" >Guardar</button>
+                        <button className="btn btn-primary btn-sm" onClick={ this.handleCerrarModal }>Cerrar</button>
+                    </Modal.Footer>
+                </Modal>
             </div>
         );
     }
@@ -135,8 +216,4 @@ class EstadosAdmin extends Component {
 }
 
 export default EstadosAdmin;
-/*
-if (document.getElementById('menuUsuarios')) {
-    ReactDOM.render(<MenuUsuarios />, document.getElementById('menuUsuarios'));
-}
-*/
+

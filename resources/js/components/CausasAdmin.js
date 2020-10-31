@@ -9,6 +9,7 @@ import { templateSettings } from 'lodash';
 
 
 
+
 class CausasAdmin extends Component {
     constructor(props) {
         super(props);
@@ -20,15 +21,17 @@ class CausasAdmin extends Component {
             causa:'',
             modalOpen: false,
             errors : {
-                nombre : 'oculto',      
+                nombre : 'oculto',
             },
             errorMensajes :{
                 nombre : '',
-            }
+            },
+            IdEditar:''
         }
+
         // bind
         this.getSystemUsers = this.getSystemCausas.bind(this);
-       
+
         this.handleSubmit = this.handleSubmit.bind(this);
         this.validarForm = this.validarForm.bind(this);
         this.clearErrors = this.clearErrors.bind(this);
@@ -36,91 +39,138 @@ class CausasAdmin extends Component {
         this.handleEdition = this.handleEdition.bind(this);
         this.handleEliminar = this.handleEliminar.bind(this);
         this.handleCrear = this.handleCrear.bind(this);
+        this.handleGuardar = this.handleGuardar.bind(this);
         this.handleCerrarModal = this.handleCerrarModal.bind(this);
         this.getSystemCausas();
+
     }
     handleCrear(){
         this.setState({
             nuevo:'visible'
           });
     }
+
     handleChange({ target }) {
         this.setState({
           [target.name]: target.value
         });
     }
-    handleEdition(id,causa){
+
+    handleEdition(id,causa) {
         this.setState({
             causa:causa,
             modalOpen: true,
-            
+            IdEditar:id
         });
     }
+
     handleCerrarModal(){
         this.setState({
-           
+
             modalOpen: false,
-          });
+        });
+
     }
+
     handleEliminar(id){
-        
+        let url = `parametro/causae/${id}/eliminar`
+        axios.delete(url)
+            .then(resp => {
+                this.getSystemCausas()
+                this.props.showToast(resp,'success')
+            })
+            .catch(err => {
+                this.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente','error')
+            })
     }
-    handleSubmit(e){          
-        
+
+    handleSubmit(e){
+        e.preventDefault();
+        let url = 'parametro/causae/agregar'
+        let causa = document.getElementsByName('causa_externa')[0].value
+        axios.post(url, {causa_externa: causa, estado: 1})
+            .then(resp => {
+                this.props.showToast(resp,'success')
+                this.setState({
+                    causas: [...this.state.causas, resp.data.row],
+                    nuevo:'oculto'
+                });
+            })
+            .catch(err => {
+                this.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente','error')
+            })
     }
+
     validarForm() {
-        
+
     }
+
     clearErrors(){
-        
-    }   
+
+    }
+
     getSystemCausas() {
         let url = 'getSystemCausas'
         axios.get(url)
             .then(resp => {
-                //console.log(resp.data.data);
                 this.setState({
                     causas: resp.data.data,
                 });
 
             })
             .catch(err => {
-                console.log(err)
+                this.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente','error')
             })
 
     }
-    
+
+    handleGuardar(e) {
+        e.preventDefault();
+        const id = this.state.IdEditar
+        const url = `parametro/causae/${id}/editar`
+        const causa = document.getElementsByName('causa_editada')[0].value
+        const estado = document.getElementsByName('estado_causa')[0].value
+        axios.put(url, {causa_externa: causa, estado: estado})
+            .then(resp => {
+                this.getSystemCausas()
+                this.setState({
+                    causas: [...this.state.causas]
+                });
+                this.props.showToast(resp.data.data,'success')
+                this.handleCerrarModal()
+            })
+            .catch(err => {
+                this.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente','error')
+            })
+    }
+
     render() {
         const { causas } = this.state;
         return (
             <div>
                 <br/><br/>
                 <button className="btn btn-success btn-sm" onClick={this.handleCrear}>+ Crear</button>
-                <div className="row mt-2">
-                    <div className={this.state.nuevo}>          
-                    <div className="col-md-12">
-                        <div className="card">     
-                            <div className="card-body texto">
-                                <div className="row">
-                                    <div className="col-sm-12">
-                                        <table>
-                                            <tr>
-                                                <td>Nombre</td>
-                                                <td><input type="text" className="form-control" id="nombre" name="nombre" onChange={this.handleChange} value={this.state.nombre}></input></td>
-                                                <td><button type="submit" className="btn btn-success btn-sm">Guardar</button></td>
-                                            </tr>
-                                        </table>
-                                  
-                                        <div className={this.state.errors['nombre']}>
-                                            <div className={"redf  " + (this.state.errors['nombre'] || "")}>{this.state.errorMensajes['nombre']}</div>
+                <form onSubmit={this.handleSubmit} className="row mt-2">
+                    <div className={this.state.nuevo}>
+                        <div className="col-md-12">
+                            <div className="card">
+                                <div className="card-body texto">
+                                    <div className="row">
+                                        <div className="col-sm-12">
+                                            <table>
+                                                <tr>
+                                                    <td>Nombre</td>
+                                                    <td><input type="text" className="form-control" id="nombre" name="causa_externa" onChange={this.handleChange} required></input></td>
+                                                    <td><button type="submit" className="btn btn-success btn-sm" >Guardar</button></td>
+                                                </tr>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    </div>
-                </div>
+                </form>
                 <div className="row mt-2">
                     <div className="col-md-12">
                         <div className="card">
@@ -133,11 +183,10 @@ class CausasAdmin extends Component {
                                             <th scope="col">Nombre</th>
                                             <th scope="col">Estado</th>
                                             <th scope="col"></th>
-                                    
+
                                         </tr>
                                     </thead>
                                     <TableCausas causas={causas} handleEdition ={this.handleEdition} handleEliminar ={this.handleEliminar}/>
-                                    
                                 </table>
                             </div>
                         </div>
@@ -150,27 +199,25 @@ class CausasAdmin extends Component {
                         <div className="container">
                             <div className="row">
                                 <div className="col-12">
-                                    <form>
+                                    <form id="editarCausa" onSubmit={ this.handleGuardar }>
                                         <div className="form-group">
                                             <label htmlFor="codigo">Nombre</label>
-                                            <input type="text" className="form-control form-control-sm" name="nombre" value={this.state.causa} onChange={this.handleChangeC }/>
+                                            <input type="text" required className="form-control form-control-sm" name="causa_editada" defaultValue={this.state.causa} onChange={this.handleChange }/>
                                         </div>
-                                        
+
                                         <div className="form-group">
-                                            <label htmlFor="capitulo_grupo">Estado</label>
-                                            <select className="form-control form-control-sm" name="capitulo_grupo" value="" onChange={this.handleChangeC }>
+                                            <label htmlFor="estado_causa">Estado</label>
+                                            <select className="form-control form-control-sm" required name="estado_causa" onChange={this.handleChange }>
                                                 <option value='1'>Activa</option>
-                                                <option value='0'>Inactiva</option>   
+                                                <option value='0'>Inactiva</option>
                                             </select>
                                         </div>
-                                        
                                     </form>
                                 </div>
                             </div>
                         </div>
-
                     </Modal.Body>
-                    <Modal.Footer><button className="btn btn-primary btn-sm" onClick={ this.handleGuardar }>Guardar</button><button className="btn btn-primary btn-sm" onClick={ this.handleCerrarModal }>Cerrar</button></Modal.Footer>
+                    <Modal.Footer><button type="submit" form="editarCausa" className="btn btn-primary btn-sm" >Guardar</button><button className="btn btn-primary btn-sm" onClick={ this.handleCerrarModal }>Cerrar</button></Modal.Footer>
                 </Modal>
 
 

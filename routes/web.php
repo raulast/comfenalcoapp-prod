@@ -79,7 +79,7 @@ Route::get('getMedicosUsers','ApiController@getMedicosUsers');
 Route::get('buscarCie10/{campo}/{texto}','ApiController@buscarCie10');
 
 
-//reports 
+//reports
 Route::get('buscarHistorico/{tipo}/{numero}','ApiController@buscarHistorico')->middleware('auth','twofactor');
 Route::get('historicoIncapacidades','ApiController@historicoIncapacidades');
 Route::get('certificadoIncapacidad/{id}/{pid}/{a}','ApiController@certificadoIncapacidad');
@@ -113,3 +113,28 @@ Route::post('/buscarJuridicas','JuridicasController@buscarJuridicas');
 Route::post('/updateJuridica','JuridicasController@updateJuridica');
 Route::post('/createJuridica','JuridicasController@createJuridica');
 Route::post('/deleteJuridica','JuridicasController@deleteJuridica');
+
+//Parametros Generales /parametro/{modelo}/{id}/(accion)
+Route::group(['prefix' => 'parametro'], function () {
+    Route::group(['prefix' => '{modelo}'], function () {
+        Route::get('/', 'GeneralController@Obtener');
+        Route::post('/agregar', 'GeneralController@agregar');
+        Route::group(['prefix' => '{id}'], function () {
+            Route::get('/', 'GeneralController@obtenerDetalles');
+            Route::put('/editar', 'GeneralController@editar');
+            Route::delete('/eliminar', 'GeneralController@eliminar');
+        });
+    });
+});
+//CRUD de usuarios
+Route::group(['prefix' => 'usuario'], function () {
+    Route::group(['prefix' => '{modelo}'], function () {
+        Route::get('/', 'UserController@obtener');
+        Route::post('/agregar', 'UserController@agregar');
+        Route::group(['prefix' => '{id}'], function () {
+            Route::get('/', 'UserController@obtenerDetalles');
+            Route::put('/editar', 'UserController@editar');
+            Route::delete('/eliminar', 'UserController@eliminar');
+        });
+    });
+});
