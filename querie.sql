@@ -1,1 +1,1 @@
-select * from dias_max_especialidad
+select * from estadosa;
