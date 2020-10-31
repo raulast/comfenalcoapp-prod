@@ -68,7 +68,8 @@ class IpsAdmin extends Component {
     handleEliminar(id){
 
     }
-    handleSubmit(){
+    handleSubmit(e){
+        e.preventDefault();
         let url = 'parametro/ips/agregar'
         let cod_sede = document.getElementsByName('crear_cod_sede')[0].value
         let nombre_sede = document.getElementsByName('crear_nombre_sede')[0].value
@@ -141,7 +142,7 @@ class IpsAdmin extends Component {
             <div>
                 <br/>
                 <button className="btn btn-success btn-sm" onClick={this.handleCrear}>+ Crear</button>
-                <div className="row mt-2">
+                <form onSubmit={this.handleSubmit} className="row mt-2">
                     <div className={this.state.nuevo}>
                         <div className="col-md-12">
                             <div className="card">
@@ -150,20 +151,20 @@ class IpsAdmin extends Component {
                                         <div className="col-sm-12">
                                             <table className="container">
                                                 <tr className="row">
-                                                    <td className="col"><label>Código Sede <input type="text" className="form-control" id="nombre" name="crear_cod_sede" onChange={this.handleChange}></input></label></td>
-                                                    <td className="col"><label>Nombre Sede <input type="text" className="form-control" id="nombre" name="crear_nombre_sede" onChange={this.handleChange}></input></label></td>
+                                                    <td className="col"><label>Código Sede <input type="text" className="form-control" id="nombre" name="crear_cod_sede" onChange={this.handleChange} required></input></label></td>
+                                                    <td className="col"><label>Nombre Sede <input type="text" className="form-control" id="nombre" name="crear_nombre_sede" onChange={this.handleChange} required></input></label></td>
                                                 </tr>
                                                 <tr className="row">
-                                                    <td className="col"><label>Cód. Habilitación <input type="text" className="form-control" id="nombre" name="crear_cod_habilitacion" onChange={this.handleChange}></input></label></td>
-                                                    <td className="col"><label>Dirección <input type="text" className="form-control" id="nombre" name="crear_direccion" onChange={this.handleChange}></input></label></td>
+                                                    <td className="col"><label>Cód. Habilitación <input type="text" className="form-control" id="nombre" name="crear_cod_habilitacion" onChange={this.handleChange} required></input></label></td>
+                                                    <td className="col"><label>Dirección <input type="text" className="form-control" id="nombre" name="crear_direccion" onChange={this.handleChange} required></input></label></td>
                                                 </tr>
                                                 <tr className="row">
-                                                    <td className="col"><label>Teléfono <input type="text" className="form-control" id="nombre" name="crear_telefono" onChange={this.handleChange}></input></label></td>
-                                                    <td className="col"><label>Razón Social <input type="text" className="form-control" id="nombre" name="crear_razon_social" onChange={this.handleChange}></input></label></td>
+                                                    <td className="col"><label>Teléfono <input type="text" className="form-control" id="nombre" name="crear_telefono" onChange={this.handleChange} required></input></label></td>
+                                                    <td className="col"><label>Razón Social <input type="text" className="form-control" id="nombre" name="crear_razon_social" onChange={this.handleChange} required></input></label></td>
                                                 </tr>
                                                 <tr className="row">
-                                                    <td className="col"><label>Nit <input type="text" className="form-control" id="nombre" name="crear_nit" onChange={this.handleChange}></input></label></td>
-                                                    <td className="col align-self-center"><button type="submit" className="btn btn-success btn-sm " onClick={this.handleSubmit}>Guardar</button></td>
+                                                    <td className="col"><label>Nit <input type="text" className="form-control" id="nombre" name="crear_nit" onChange={this.handleChange} required></input></label></td>
+                                                    <td className="col align-self-center"><button type="submit" className="btn btn-success btn-sm " >Guardar</button></td>
                                                 </tr>
                                             </table>
                                             <div className={this.state.errors['nombre']}>
@@ -175,7 +176,7 @@ class IpsAdmin extends Component {
                             </div>
                         </div>
                     </div>
-                </div>
+                </form>
                 <div className="row mt-5">
                     <div className="col-md-12">
                         <div className="card">

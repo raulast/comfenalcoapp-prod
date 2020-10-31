@@ -69,7 +69,8 @@ class DiasmaxAdmin extends Component {
     handleEliminar(id){
 
     }
-    handleSubmit(){
+    handleSubmit(e){
+        e.preventDefault();
         let url = 'parametro/diasmax/agregar'
         let especialidad = document.getElementsByName('crear_especialidad')[0].value
         let dias_maximos = document.getElementsByName('asignar_dias_maximos')[0].value
@@ -131,7 +132,7 @@ class DiasmaxAdmin extends Component {
             <div>
                 <br/>
                 <button className="btn btn-success btn-sm" onClick={this.handleCrear}>+ Crear</button>
-                <div className="row mt-2">
+                <form onSubmit={this.handleSubmit} className="row mt-2">
                     <div className={this.state.nuevo}>
                         <div className="col-md-12">
                             <div className="card">
@@ -141,27 +142,23 @@ class DiasmaxAdmin extends Component {
                                             <table>
                                                 <tr>
                                                     <td>Especialidad</td>
-                                                    <td><input type="text" className="form-control" id="nombre" name="crear_especialidad" defaultValue='' onChange={this.handleChange}></input></td>
+                                                    <td><input type="text" className="form-control" id="nombre" name="crear_especialidad" defaultValue='' onChange={this.handleChange} required></input></td>
                                                 </tr>
                                                 <tr>
                                                     <td>Días máximos</td>
-                                                    <td><input type="number" className="form-control" id="nombre" name="asignar_dias_maximos" onChange={this.handleChange}></input></td>
+                                                    <td><input type="number" className="form-control" id="nombre" name="asignar_dias_maximos" onChange={this.handleChange} required></input></td>
                                                 </tr>
                                                 <tr>
-                                                    <td><button type="submit" className="btn btn-success btn-sm" onClick={this.handleSubmit}>Guardar</button></td>
+                                                    <td><button type="submit" className="btn btn-success btn-sm" >Guardar</button></td>
                                                 </tr>
                                             </table>
-
-                                            <div className={this.state.errors['nombre']}>
-                                                <div className={"redf  " + (this.state.errors['nombre'] || "")}>{this.state.errorMensajes['nombre']}</div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </form>
                 <div className="row mt-5">
                     <div className="col-md-12">
                         <div className="card">

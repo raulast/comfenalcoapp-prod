@@ -229,7 +229,8 @@ class MedicosSistema extends Component {
         );
      }
 
-     handleGuardar() {
+     handleGuardar(e) {
+         e.preventDefault()
         let id = this.state.IdEditar;
         let url = `usuario/medico/${id}/editar`;
         let resp = this.validarForm()
@@ -291,12 +292,12 @@ class MedicosSistema extends Component {
                     <article className="form-group">
                         <div className="form-group">
                             <label htmlFor="codigo">Contraseña</label>
-                            <input type="password" className="form-control form-control-sm" name="contraseña" onChange={this.handleChange }/>
+                            <input type="password" className="form-control form-control-sm" name="contraseña" onChange={this.handleChange } required/>
                         </div>
 
                         <div className="form-group">
                             <label htmlFor="codigo">Confirmar contraseña</label>
-                            <input type="password" className="form-control form-control-sm" name="confirmar" onChange={this.handleChange }/>
+                            <input type="password" className="form-control form-control-sm" name="confirmar" onChange={this.handleChange } required/>
                         </div>
                     </article>
                 )
@@ -317,14 +318,14 @@ class MedicosSistema extends Component {
                                                 <div className="row">
                                                     <div className="col-md-3">
                                                         <label htmlFor="codigoMedico">Código</label>
-                                                        <input type="text" className="form-control" id="codigoMedico" name="codigoMedico" onChange={this.handleChange} value={this.state.codigoMedico}></input>
+                                                        <input type="text" className="form-control" id="codigoMedico" name="codigoMedico" onChange={this.handleChange} defaultValue={this.state.codigoMedico} required></input>
                                                         <div className={this.state.errors['codigoMedico']}>
                                                             <div className={ "redf  " + ( this.state.errors['codigoMedico'] || "") }>{this.state.errorMensajes['codigoMedico']}</div>
                                                         </div>
                                                     </div>
                                                     <div className="col-md-3">
                                                         <label htmlFor="tipoDocumento">Tipo documento</label>
-                                                        <select className="form-control" id="tipoDocumento" name="tipoDocumento" onChange={this.handleChange} value={this.state.tipoDocumento}>
+                                                        <select className="form-control" id="tipoDocumento" name="tipoDocumento" onChange={this.handleChange} defaultValue={this.state.tipoDocumento} required>
                                                             <option value=""></option>
                                                             <option value="CC">CC</option>
                                                             <option value="NIT">NIT</option>
@@ -343,25 +344,25 @@ class MedicosSistema extends Component {
                                                     </div>
                                                     <div className="col-md-3">
                                                         <label htmlFor="numeroDocumento">No. Documento</label>
-                                                        <input type="text" className="form-control" id="numeroDocumento" name="numeroDocumento" onChange={this.handleChange} value={this.state.numeroDocumento}></input>
+                                                        <input type="text" className="form-control" id="numeroDocumento" name="numeroDocumento" onChange={this.handleChange} defaultValue={this.state.numeroDocumento} required></input>
                                                     </div>
                                                     <div className="col-md-3">
                                                         <label htmlFor="registroMedico">No. Registro</label>
-                                                        <input type="text" className="form-control" id="registroMedico" name="registroMedico" onChange={this.handleChange} value={this.state.registroMedico}></input>
+                                                        <input type="text" className="form-control" id="registroMedico" name="registroMedico" onChange={this.handleChange} defaultValue={this.state.registroMedico} required></input>
                                                     </div>
                                                 </div>
                                                 <div className="row">
                                                     <div className="col-md-4">
                                                         <label htmlFor="nombre">Nombre</label>
-                                                        <input type="text" className="form-control" id="nombre" name="nombre" onChange={this.handleChange} value={this.state.nombreUsaurio} value={this.state.nombre}></input>
+                                                        <input type="text" className="form-control" id="nombre" name="nombre" onChange={this.handleChange} defaultValue={this.state.nombreUsaurio} value={this.state.nombre} required></input>
                                                     </div>
                                                     <div className="col-md-4">
                                                         <label htmlFor="nombre">Correo electrónico</label>
-                                                        <input type="email" className="form-control" id="correo" name="correo" onChange={this.handleChange} value={this.state.correo}></input>
+                                                        <input type="email" className="form-control" id="correo" name="correo" onChange={this.handleChange} defaultValue={this.state.correo} required></input>
                                                     </div>
                                                     <div className="col-md-4">
                                                         <label htmlFor="especialidadMedica">Especialidad médica</label>
-                                                        <select id="especialidad" className="form-control" name="especialidad" onChange={this.handleChange} value={this.state.especialidad}>
+                                                        <select id="especialidad" className="form-control" name="especialidad" onChange={this.handleChange} defaultValue={this.state.especialidad} required>
                                                             <option value=""></option>
                                                             <option value="1">Médico general</option>
                                                             <option value="2">Médico especialista</option>
@@ -376,15 +377,15 @@ class MedicosSistema extends Component {
                                                 <div className="row">
                                                     <div className="col-md-4">
                                                         <label htmlFor="nombre">Contraseña</label>
-                                                        <input type="password" className="form-control" id="contraseña" name="contraseña" onChange={this.handleChange} value={this.state.contraseña}></input>
+                                                        <input type="password" className="form-control" id="contraseña" name="contraseña" onChange={this.handleChange} defaultValue={this.state.contraseña} required></input>
                                                     </div>
                                                     <div className="col-md-4">
                                                         <label htmlFor="nombre">Confirmar Contraseña</label>
-                                                        <input type="password" className="form-control" id="confirmar" name="confirmar" onChange={this.handleChange} value={this.state.confirmar}></input>
+                                                        <input type="password" className="form-control" id="confirmar" name="confirmar" onChange={this.handleChange} defaultValue={this.state.confirmar} required></input>
                                                     </div>
                                                     <div className="col-md-2">
                                                         <label htmlFor="rethus">Rethus</label>
-                                                        <select className="form-control" id="rethus" name="rethus" onChange={this.handleChange} value={this.state.rethus}>
+                                                        <select className="form-control" id="rethus" name="rethus" onChange={this.handleChange} defaultValue={this.state.rethus}>
                                                             <option value=""></option>
                                                             <option value="Si">Si</option>
                                                             <option value="No">No</option>
@@ -431,15 +432,15 @@ class MedicosSistema extends Component {
                         <div className="container">
                             <div className="row">
                                 <div className="col-12">
-                                    <form>
+                                    <form id="editarMedico" onSubmit={ this.handleGuardar }>
                                         <div className="form-group">
                                             <label htmlFor="codigo">Código</label>
-                                            <input type="text" className="form-control form-control-sm" name="codigoMedico" defaultValue={this.state.codigoMedico} onChange={this.handleChange }/>
+                                            <input type="text" className="form-control form-control-sm" name="codigoMedico" defaultValue={this.state.codigoMedico} onChange={this.handleChange } required/>
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="tipoDocumento">Tipo Documento</label>
-                                            <select className="form-control form-control-sm" name="tipoDocumento" defaultValue={this.state.tipoDocumento} onChange={this.handleChange }>
+                                            <select className="form-control form-control-sm" name="tipoDocumento" defaultValue={this.state.tipoDocumento} onChange={this.handleChange } required>
                                             <option value=""></option>
                                                 <option value="CC">CC</option>
                                                 <option value="NIT">NIT</option>
@@ -455,22 +456,22 @@ class MedicosSistema extends Component {
 
                                         <div className="form-group">
                                             <label htmlFor="codigo">No. Documento</label>
-                                            <input type="text" className="form-control form-control-sm" name="numeroDocumento" defaultValue={this.state.numeroDocumento} onChange={this.handleChange }/>
+                                            <input type="text" className="form-control form-control-sm" name="numeroDocumento" defaultValue={this.state.numeroDocumento} onChange={this.handleChange } required/>
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="codigo">No. Registro</label>
-                                            <input type="text" className="form-control form-control-sm" name="registroMedico" defaultValue={this.state.registroMedico} onChange={this.handleChange }/>
+                                            <input type="text" className="form-control form-control-sm" name="registroMedico" defaultValue={this.state.registroMedico} onChange={this.handleChange } required/>
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="codigo">Nombre</label>
-                                            <input type="text" className="form-control form-control-sm" name="nombre" defaultValue={this.state.nombre} onChange={this.handleChange }/>
+                                            <input type="text" className="form-control form-control-sm" name="nombre" defaultValue={this.state.nombre} onChange={this.handleChange } required/>
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="codigo">Correo</label>
-                                            <input type="text" className="form-control form-control-sm" name="correo" defaultValue={this.state.correo} onChange={this.handleChange }/>
+                                            <input type="text" className="form-control form-control-sm" name="correo" defaultValue={this.state.correo} onChange={this.handleChange } required/>
                                         </div>
                             
                                         { 
@@ -479,7 +480,7 @@ class MedicosSistema extends Component {
 
                                         <div className="form-group">
                                             <label htmlFor="especialidadMedica">Especialidad médica</label>
-                                            <select className="form-control form-control-sm" name="especialidad" defaultValue={this.state.especialidad} onChange={this.handleChange }>
+                                            <select className="form-control form-control-sm" name="especialidad" defaultValue={this.state.especialidad} onChange={this.handleChange } required>
                                             <option value=""></option>
                                                 <option value="1">Médico general</option>
                                                 <option value="2">Médico especialista</option>
@@ -506,7 +507,7 @@ class MedicosSistema extends Component {
                     </Modal.Body>
                     <Modal.Footer>
                         <button className="btn btn-info btn-sm" onClick={ this.handleEditPassword }>{textButton()}</button>
-                        <button className="btn btn-primary btn-sm" onClick={ this.handleGuardar }>Guardar</button>
+                        <button type="submit" form="editarMedico" className="btn btn-primary btn-sm" >Guardar</button>
                         <button className="btn btn-primary btn-sm" onClick={ this.handleCerrarModal }>Cerrar</button>
                     </Modal.Footer>
                 </Modal>
@@ -517,8 +518,3 @@ class MedicosSistema extends Component {
 }
 
 export default MedicosSistema;
-/*
-if (document.getElementById('menuUsuarios')) {
-    ReactDOM.render(<MenuUsuarios />, document.getElementById('menuUsuarios'));
-}
-*/

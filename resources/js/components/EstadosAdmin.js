@@ -68,6 +68,7 @@ class EstadosAdmin extends Component {
 
     }
     handleSubmit(e){
+        e.preventDefault();
         let url = 'parametro/estadosi/agregar'
         let estadoi = document.getElementsByName('estados_incapacidad')[0].value
         axios.post(url, {estado: estadoi, activo: 1})
@@ -134,7 +135,7 @@ class EstadosAdmin extends Component {
             <div>
                 <br/><br/>
                 <button className="btn btn-success btn-sm" onClick={this.handleCrear}>+ Crear</button>
-                <div className="row mt-2">
+                <form onSubmit={this.handleSubmit} className="row mt-2">
                     <div className={this.state.nuevo}>
                     <div className="col-md-12">
                         <div className="card">
@@ -144,21 +145,17 @@ class EstadosAdmin extends Component {
                                         <table>
                                             <tr>
                                                 <td>Nombre</td>
-                                                <td><input type="text" className="form-control" id="nombre" name="estados_incapacidad" onChange={this.handleChange} defaultValue={this.state.nombre}></input></td>
-                                                <td><button type="submit" className="btn btn-success btn-sm" onClick={this.handleSubmit}>Guardar</button></td>
+                                                <td><input type="text" className="form-control" id="nombre" name="estados_incapacidad" onChange={this.handleChange} defaultValue={this.state.nombre} required></input></td>
+                                                <td><button type="submit" className="btn btn-success btn-sm" >Guardar</button></td>
                                             </tr>
                                         </table>
-
-                                        <div className={this.state.errors['nombre']}>
-                                            <div className={"redf  " + (this.state.errors['nombre'] || "")}>{this.state.errorMensajes['nombre']}</div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     </div>
-                </div>
+                </form>
                 <div className="row mt-2">
                     <div className="col-md-12">
                         <div className="card">

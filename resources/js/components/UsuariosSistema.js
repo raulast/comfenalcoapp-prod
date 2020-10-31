@@ -188,7 +188,8 @@ class UsuariosSistema extends Component {
             })
     }
 
-    handleGuardar() {
+    handleGuardar(e) {
+        e.preventDefault();
         let id = this.state.IdEditar;
         let url = `usuario/user/${id}/editar`;
         let resp = this.validarForm()
@@ -245,12 +246,12 @@ class UsuariosSistema extends Component {
                     <article className="form-group">
                         <div className="form-group">
                             <label htmlFor="codigo">Contraseña</label>
-                            <input type="password" className="form-control form-control-sm" name="contraseña" onChange={this.handleChange }/>
+                            <input type="password" className="form-control form-control-sm" name="contraseña" onChange={this.handleChange } required/>
                         </div>
 
                         <div className="form-group">
                             <label htmlFor="codigo">Confirmar contraseña</label>
-                            <input type="password" className="form-control form-control-sm" name="confirmar" onChange={this.handleChange }/>
+                            <input type="password" className="form-control form-control-sm" name="confirmar" onChange={this.handleChange } required/>
                         </div>
                     </article>
                 )
@@ -261,7 +262,7 @@ class UsuariosSistema extends Component {
             <div>
                 <br/><br/>
                 <button className="btn btn-success btn-sm" onClick={this.handleCreate}>+ Crear</button>
-                <div className="row mt-5">
+                <form className="row mt-5">
                     <div className={this.state.nuevo}>
                         <div className="col-md-12">
                             <div className="card">
@@ -272,21 +273,15 @@ class UsuariosSistema extends Component {
                                             <div className="row">
                                                 <div className="col-md-4">
                                                     <label htmlFor="nombre">Nombre</label>
-                                                    <input type="text" className="form-control" id="nombre" name="nombre" onChange={this.handleChange} value={this.state.nombre}></input>
-                                                    <div className={this.state.errors['nombre']}>
-                                                        <div className={ "redf  " + ( this.state.errors['nombre'] || "") }>{this.state.errorMensajes['nombre']}</div>
-                                                    </div>
+                                                    <input type="text" className="form-control" id="nombre" name="nombre" onChange={this.handleChange} value={this.state.nombre} required></input>
                                                 </div>
                                                 <div className="col-md-4">
                                                     <label htmlFor="nombre">Correo electrónico</label>
-                                                    <input type="email" className="form-control" id="correo" name="correo" onChange={this.handleChange} value={this.state.correo}></input>
-                                                    <div className={this.state.errors['correo']}>
-                                                        <div className={ "redf  " + ( this.state.errors['correo'] || "") }>{this.state.errorMensajes['correo']}</div>
-                                                    </div>
+                                                    <input type="email" className="form-control" id="correo" name="correo" onChange={this.handleChange} value={this.state.correo} required></input>
                                                 </div>
                                                 <div className="col-md-2">
                                                     <label htmlFor="nombre">Tipo</label>
-                                                    <select className="form-control" id="tipo" name="tipo" onChange={this.handleChange} value={this.state.tipo}>
+                                                    <select className="form-control" id="tipo" name="tipo" onChange={this.handleChange} value={this.state.tipo} required>
                                                         <option value=""></option>
                                                         <option value="0">Admin</option>
                                                         <option value="1">Médico</option>
@@ -295,26 +290,17 @@ class UsuariosSistema extends Component {
                                                         <option value="4">Admin IPS</option>
                                                         <option value="5">Usuarios Admin</option>
                                                     </select>
-                                                    <div className={this.state.errors['tipo']}>
-                                                        <div className={ "redf  " + ( this.state.errors['tipo'] || "") }>{this.state.errorMensajes['tipo']}</div>
-                                                    </div>
                                                 </div>
 
                                             </div>
                                             <div className="row">
                                                 <div className="col-md-4">
                                                     <label htmlFor="nombre">Contraseña</label>
-                                                    <input type="password" className="form-control" id="contraseña" name="contraseña" onChange={this.handleChange}></input>
-                                                    <div className={this.state.errors['contraseña']}>
-                                                        <div className={ "redf  " + ( this.state.errors['contraseña'] || "") }>{this.state.errorMensajes['contraseña']}</div>
-                                                    </div>
+                                                    <input type="password" className="form-control" id="contraseña" name="contraseña" onChange={this.handleChange} required></input>
                                                 </div>
                                                 <div className="col-md-4">
                                                     <label htmlFor="nombre">Confirmar Contraseña</label>
-                                                    <input type="password" className="form-control" id="confirmar" name="confirmar" onChange={this.handleChange}></input>
-                                                    <div className={this.state.errors['confirmar']}>
-                                                        <div className={ "redf  " + ( this.state.errors['confirmar'] || "") }>{this.state.errorMensajes['confirmar']}</div>
-                                                    </div>
+                                                    <input type="password" className="form-control" id="confirmar" name="confirmar" onChange={this.handleChange} required></input>
                                                 </div>
                                            <div className="col-md-2">
                                                     <br /><br />
@@ -327,7 +313,7 @@ class UsuariosSistema extends Component {
                             </div>
                         </div>
                     </div>
-                </div>
+                </form>
                 <div className="row mt-5">
                     <div className="col-md-12">
                         <div className="card">
@@ -353,18 +339,18 @@ class UsuariosSistema extends Component {
                 <Modal show={this.state.modalOpen}>
                     <Modal.Header>Usuario</Modal.Header>
                     <Modal.Body>
-                        <div className="container">
+                        <form className="container" id="editarUsuario" onSubmit={this.handleGuardar}>
                             <div className="row">
                                 <div className="col-12">
-                                    <form>
+                                    <div>
                                         <div className="form-group">
                                             <label htmlFor="codigo">Nombre</label>
-                                            <input type="text" className="form-control form-control-sm" name="nombre" defaultValue={this.state.nombre} onChange={this.handleChange }/>
+                                            <input type="text" className="form-control form-control-sm" name="nombre" defaultValue={this.state.nombre} onChange={this.handleChange } required/>
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="codigo">Correo</label>
-                                            <input type="text" className="form-control form-control-sm" name="correo" defaultValue={this.state.correo} onChange={this.handleChange}/>
+                                            <input type="email" className="form-control form-control-sm" name="correo" defaultValue={this.state.correo} onChange={this.handleChange} required/>
                                         </div>
 
                                         { 
@@ -373,7 +359,7 @@ class UsuariosSistema extends Component {
 
                                         <div className="form-group">
                                             <label htmlFor="estado_causa">Tipo</label>
-                                            <select className="form-control form-control-sm" name="tipo" defaultValue={this.state.tipo} onChange={this.handleChange }>
+                                            <select className="form-control form-control-sm" name="tipo" defaultValue={this.state.tipo} onChange={this.handleChange } required>
                                             <option value=""></option>
                                                         <option value="0">Admin</option>
                                                         <option value="1">Médico</option>
@@ -383,16 +369,15 @@ class UsuariosSistema extends Component {
                                                         <option value="5">Usuarios Admin</option>
                                             </select>
                                         </div>
-
-                                    </form>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </form>
 
                     </Modal.Body>
                     <Modal.Footer>
                         <button className="btn btn-info btn-sm" onClick={ this.handleEditPassword }>{textButton()}</button>
-                        <button className="btn btn-primary btn-sm" onClick={ this.handleGuardar }>Guardar</button>
+                        <button type="submit" form="editarUsuario" className="btn btn-primary btn-sm" >Guardar</button>
                         <button className="btn btn-primary btn-sm" onClick={ this.handleCerrarModal }>Cerrar</button>
                     </Modal.Footer>
                 </Modal>

@@ -102,6 +102,7 @@ class DerechosAdmin extends Component {
     }
 
     handleSubmitClase(e){
+        e.preventDefault();
         let url = 'parametro/clasesa/agregar'
         let clase = document.getElementsByName('crear_clase')[0].value
         let abbr = document.getElementsByName('crear_abbr')[0].value
@@ -119,6 +120,7 @@ class DerechosAdmin extends Component {
     }
 
     handleSubmitEstado(e){
+        e.preventDefault();
         let url = 'parametro/estadosa/agregar'
         let estado = document.getElementsByName('crear_estadoa')[0].value
         let incapacidad = document.getElementsByName('crear_incapacidad')[0].value
@@ -136,6 +138,7 @@ class DerechosAdmin extends Component {
     }
 
     handleSubmitPrograma(e){
+        e.preventDefault();
         let url = 'parametro/descripcionesp/agregar'
         let clase = document.getElementsByName('programa_clasea')[0].value
         let descripcion = document.getElementsByName('programa_descripcion')[0].value
@@ -291,7 +294,7 @@ class DerechosAdmin extends Component {
             <div>
                 <br/>
                 <button className="btn btn-success btn-sm" onClick={this.handleCrearClase}>+ Crear</button>
-                <div className="row mt-2">
+                <form onSubmit={this.handleSubmitClase} className="row mt-2">
                     <div className={this.state.nuevoClase}>
                         <div className="col-md-12">
                             <div className="card">
@@ -300,23 +303,20 @@ class DerechosAdmin extends Component {
                                         <div className="col-sm-12">
                                             <table className="container">
                                                 <tr className="row">
-                                                    <td className="col"><label>Clase <input type="text" className="form-control" id="nombre" name="crear_clase" onChange={this.handleChange}></input></label></td>
-                                                    <td className="col"><label>Abbr <input type="text" className="form-control" id="nombre" name="crear_abbr" onChange={this.handleChange}></input></label></td>
+                                                    <td className="col"><label>Clase <input type="text" className="form-control" id="nombre" name="crear_clase" onChange={this.handleChange} required></input></label></td>
+                                                    <td className="col"><label>Abbr <input type="text" className="form-control" id="nombre" name="crear_abbr" onChange={this.handleChange} required></input></label></td>
                                                 </tr>
                                                 <tr className="row">
-                                                    <td className="col align-self-center"><button type="submit" className="btn btn-success btn-sm " onClick={this.handleSubmitClase}>Guardar</button></td>
+                                                    <td className="col align-self-center"><button type="submit" className="btn btn-success btn-sm " >Guardar</button></td>
                                                 </tr>
                                             </table>
-                                            <div className={this.state.errors['nombre']}>
-                                                <div className={"redf  " + (this.state.errors['nombre'] || "")}>{this.state.errorMensajes['nombre']}</div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </form>
                 <div className="row mt-5">
                     <div className="col-md-12">
                         <div className="card">
@@ -339,7 +339,7 @@ class DerechosAdmin extends Component {
                 </div>
                 <br/>
                 <button className="btn btn-success btn-sm" onClick={this.handleCrearEstado}>+ Crear</button>
-                <div className="row mt-2">
+                <form onSubmit={this.handleSubmitEstado} className="row mt-2">
                     <div className={this.state.nuevoEstado}>
                         <div className="col-md-12">
                             <div className="card">
@@ -348,31 +348,28 @@ class DerechosAdmin extends Component {
                                         <div className="col-sm-12">
                                             <table className="container">
                                                 <tr className="row">
-                                                    <td className="col"><label>Estado <input type="text" className="form-control" id="nombre" name="crear_estadoa" onChange={this.handleChange}></input></label></td>
+                                                    <td className="col"><label>Estado <input type="text" className="form-control" id="nombre" name="crear_estadoa" onChange={this.handleChange} required></input></label></td>
                                                 </tr>
                                                 <tr className="row">
                                                     <td className="col">
                                                         <label>
                                                             Incapacidad
-                                                            <select className="form-control form-control-sm" defaultValue="1" name="crear_incapacidad" onChange={this.handleChangeC }>
+                                                            <select className="form-control form-control-sm" defaultValue="1" name="crear_incapacidad" onChange={this.handleChange} required>
                                                                 <option value='1'>Si</option>
                                                                 <option value='0'>No</option>
                                                             </select>
                                                         </label>
                                                     </td>
-                                                    <td className="col align-self-center"><button type="submit" className="btn btn-success btn-sm " onClick={this.handleSubmitEstado}>Guardar</button></td>
+                                                    <td className="col align-self-center"><button type="submit" className="btn btn-success btn-sm " >Guardar</button></td>
                                                 </tr>
                                             </table>
-                                            <div className={this.state.errors['nombre']}>
-                                                <div className={"redf  " + (this.state.errors['nombre'] || "")}>{this.state.errorMensajes['nombre']}</div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </form>
                 <div className="row mt-5">
                     <div className="col-md-12">
                         <div className="card">
@@ -395,7 +392,7 @@ class DerechosAdmin extends Component {
                 </div>
                 <br/>
                 <button className="btn btn-success btn-sm" onClick={this.handleCrearPrograma}>+ Crear</button>
-                <div className="row mt-2">
+                <form onSubmit={this.handleSubmitPrograma} className="row mt-2">
                     <div className={this.state.nuevoPrograma}>
                         <div className="col-md-12">
                             <div className="card">
@@ -404,14 +401,14 @@ class DerechosAdmin extends Component {
                                         <div className="col-sm-12">
                                             <table className="container">
                                                 <tr className="row">
-                                                    <td className="col"><label>Código <input type="number" className="form-control" id="nombre" name="programa_codigo" onChange={this.handleChange}></input></label></td>
-                                                    <td className="col"><label>Descripción <input type="text" className="form-control" id="nombre" name="programa_descripcion" onChange={this.handleChange}></input></label></td>
+                                                    <td className="col"><label>Código <input type="number" className="form-control" id="nombre" name="programa_codigo" onChange={this.handleChange} required></input></label></td>
+                                                    <td className="col"><label>Descripción <input type="text" className="form-control" id="nombre" name="programa_descripcion" onChange={this.handleChange} required></input></label></td>
                                                 </tr>
                                                 <tr className="row">
                                                     <td className="col">
                                                         <label>
                                                             Tipo afiliación
-                                                            <select className="form-control form-control-sm" defaultValue="1" name="programa_clasea" onChange={this.handleChangeC }>
+                                                            <select className="form-control form-control-sm" defaultValue="1" name="programa_clasea" onChange={this.handleChange } required>
                                                                 {Object.keys(clasesa).map((key) => (
                                                                     <option key={key} id={key} value={clasesa[key]['id']}>{clasesa[key]['clase']}</option>
                                                                 ))}
@@ -421,25 +418,22 @@ class DerechosAdmin extends Component {
                                                     <td className="col">
                                                         <label>
                                                             Incapacidad
-                                                            <select className="form-control form-control-sm" defaultValue="1" name="programa_incapacidad" onChange={this.handleChangeC }>
+                                                            <select className="form-control form-control-sm" defaultValue="1" name="programa_incapacidad" onChange={this.handleChange } required>
                                                                 <option value='1'>Si</option>
                                                                 <option value='0'>No</option>
                                                             </select>
                                                         </label>
                                                     </td>
-                                                    <td className="col align-self-center"><button type="submit" className="btn btn-success btn-sm " onClick={this.handleSubmitPrograma}>Guardar</button></td>
+                                                    <td className="col align-self-center"><button type="submit" className="btn btn-success btn-sm " >Guardar</button></td>
                                                 </tr>
                                             </table>
-                                            <div className={this.state.errors['nombre']}>
-                                                <div className={"redf  " + (this.state.errors['nombre'] || "")}>{this.state.errorMensajes['nombre']}</div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </form>
                 <div className="row mt-5">
                     <div className="col-md-12">
                         <div className="card">
@@ -468,20 +462,20 @@ class DerechosAdmin extends Component {
                         <div className="container">
                             <div className="row">
                                 <div className="col-12">
-                                    <form>
+                                    <form id="editarClase" onSubmit={ this.handleGuardarClase }>
                                         <div className="form-group">
                                             <label htmlFor="codigo">Clase</label>
-                                            <input type="text" className="form-control form-control-sm" name="editar_clase" defaultValue={this.state.nombreClase} onChange={this.handleChangeC }/>
+                                            <input type="text" className="form-control form-control-sm" name="editar_clase" defaultValue={this.state.nombreClase} onChange={this.handleChange } required/>
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="capitulo_grupo">Abbr</label>
-                                            <input type="text" className="form-control form-control-sm" name="editar_abbr" onChange={this.handleChangeC }/>
+                                            <input type="text" className="form-control form-control-sm" name="editar_abbr" onChange={this.handleChange } required/>
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="capitulo_grupo">Estado</label>
-                                            <select className="form-control form-control-sm" defaultValue="1" name="editar_clase_activo">
+                                            <select className="form-control form-control-sm" defaultValue="1" name="editar_clase_activo" required>
                                                 <option value="1">Activo</option>
                                                 <option value="0">Inactivo</option>
                                             </select>
@@ -491,7 +485,10 @@ class DerechosAdmin extends Component {
                             </div>
                         </div>
                     </Modal.Body>
-                    <Modal.Footer><button className="btn btn-primary btn-sm" onClick={ this.handleGuardarClase }>Guardar</button><button className="btn btn-primary btn-sm" onClick={ this.handleCerrarModal }>Cerrar</button></Modal.Footer>
+                    <Modal.Footer>
+                        <button form="editarClase" type="sumbit" className="btn btn-primary btn-sm" >Guardar</button>
+                        <button className="btn btn-primary btn-sm" onClick={ this.handleCerrarModal }>Cerrar</button>
+                    </Modal.Footer>
                 </Modal>
                 <Modal show={this.state.modalEstadoOpen}>
                     <Modal.Header>Estado</Modal.Header>
@@ -499,15 +496,15 @@ class DerechosAdmin extends Component {
                         <div className="container">
                             <div className="row">
                                 <div className="col-12">
-                                    <form>
+                                    <form id="editarEstado" onSubmit={ this.handleGuardarEstado }>
                                         <div className="form-group">
                                             <label htmlFor="codigo">Estado</label>
-                                            <input type="text" className="form-control form-control-sm" name="editar_estadoa" defaultValue={this.state.nombreEstado} onChange={this.handleChangeC }/>
+                                            <input type="text" className="form-control form-control-sm" name="editar_estadoa" defaultValue={this.state.nombreEstado} onChange={this.handleChange } required/>
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="capitulo_grupo">Incapacidad</label>
-                                            <select className="form-control form-control-sm" defaultValue="1" name="editar_incapacidad">
+                                            <select className="form-control form-control-sm" defaultValue="1" name="editar_incapacidad" required>
                                                 <option value="1">Si</option>
                                                 <option value="0">No</option>
                                             </select>
@@ -515,7 +512,7 @@ class DerechosAdmin extends Component {
 
                                         <div className="form-group">
                                             <label htmlFor="capitulo_grupo">Activo</label>
-                                            <select className="form-control form-control-sm" defaultValue="1" name="editar_estadoa_activo">
+                                            <select className="form-control form-control-sm" defaultValue="1" name="editar_estadoa_activo" required>
                                                 <option value="1">Activo</option>
                                                 <option value="0">Inactivo</option>
                                             </select>
@@ -525,7 +522,10 @@ class DerechosAdmin extends Component {
                             </div>
                         </div>
                     </Modal.Body>
-                    <Modal.Footer><button className="btn btn-primary btn-sm" onClick={ this.handleGuardarEstado }>Guardar</button><button className="btn btn-primary btn-sm" onClick={ this.handleCerrarModal }>Cerrar</button></Modal.Footer>
+                    <Modal.Footer>
+                        <button form="editarEstado" type="submit required" className="btn btn-primary btn-sm" >Guardar</button>
+                        <button className="btn btn-primary btn-sm" onClick={ this.handleCerrarModal }>Cerrar</button>
+                    </Modal.Footer>
                 </Modal>
                 <Modal show={this.state.modalProgramaOpen}>
                     <Modal.Header>Programa</Modal.Header>
@@ -533,15 +533,15 @@ class DerechosAdmin extends Component {
                         <div className="container">
                             <div className="row">
                                 <div className="col-12">
-                                    <form>
+                                    <form onSubmit={ this.handleGuardarPrograma } id="editarPrograma">
                                         <div className="form-group">
                                             <label htmlFor="codigo">Código</label>
-                                            <input type="text" className="form-control form-control-sm" name="editar_programa_codigo" defaultValue={this.state.codigoPrograma} onChange={this.handleChangeC }/>
+                                            <input type="text" className="form-control form-control-sm" name="editar_programa_codigo" defaultValue={this.state.codigoPrograma} onChange={this.handleChange } required/>
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="capitulo_grupo">Tipo afiliación</label>
-                                            <select className="form-control form-control-sm" defaultValue="1" name="editar_programa_clasea">
+                                            <select className="form-control form-control-sm" defaultValue="1" name="editar_programa_clasea" required>
                                             {Object.keys(clasesa).map((key) => (
                                                 <option key={key} id={key} value={clasesa[key]['id']}>{clasesa[key]['clase']}</option>
                                             ))}
@@ -550,12 +550,12 @@ class DerechosAdmin extends Component {
 
                                         <div className="form-group">
                                             <label htmlFor="capitulo_grupo">Descripción</label>
-                                            <input type="text" className="form-control form-control-sm" name="editar_programa_descripcion" defaultValue={this.state.nombrePrograma} onChange={this.handleChangeC }/>
+                                            <input type="text" className="form-control form-control-sm" name="editar_programa_descripcion" defaultValue={this.state.nombrePrograma} onChange={this.handleChange} required/>
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="capitulo_grupo">Incapacidad</label>
-                                            <select className="form-control form-control-sm" defaultValue="1" name="editar_programa_incapacidad">
+                                            <select className="form-control form-control-sm" defaultValue="1" name="editar_programa_incapacidad" required>
                                                 <option value="1">Si</option>
                                                 <option value="0">No</option>
                                             </select>
@@ -563,7 +563,7 @@ class DerechosAdmin extends Component {
 
                                         <div className="form-group">
                                             <label htmlFor="capitulo_grupo">Estado</label>
-                                            <select className="form-control form-control-sm" defaultValue="1" name="editar_programa_activo">
+                                            <select className="form-control form-control-sm" defaultValue="1" name="editar_programa_activo" required>
                                                 <option value="1">Activo</option>
                                                 <option value="0">Inactivo</option>
                                             </select>
@@ -573,7 +573,9 @@ class DerechosAdmin extends Component {
                             </div>
                         </div>
                     </Modal.Body>
-                    <Modal.Footer><button className="btn btn-primary btn-sm" onClick={ this.handleGuardarPrograma }>Guardar</button><button className="btn btn-primary btn-sm" onClick={ this.handleCerrarModal }>Cerrar</button></Modal.Footer>
+                    <Modal.Footer>
+                        <button form="editarPrograma" type="submit" className="btn btn-primary btn-sm" >Guardar</button>
+                        <button className="btn btn-primary btn-sm" onClick={ this.handleCerrarModal }>Cerrar</button></Modal.Footer>
                 </Modal>
             </div>
         );
