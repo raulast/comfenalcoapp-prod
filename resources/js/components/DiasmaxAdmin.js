@@ -50,7 +50,8 @@ class DiasmaxAdmin extends Component {
     handleEdition(id,esped){
 
         this.setState({
-            esped:esped,
+            esped:esped[0],
+            diasmax: esped[1],
             modalOpen: true,
             IdEditar: id
         });
@@ -69,13 +70,14 @@ class DiasmaxAdmin extends Component {
     handleEliminar(id){
 
     }
-    handleSubmit(){
+    handleSubmit(e){
+        e.preventDefault();
         let url = 'parametro/diasmax/agregar'
         let especialidad = document.getElementsByName('crear_especialidad')[0].value
         let dias_maximos = document.getElementsByName('asignar_dias_maximos')[0].value
         axios.post(url, {dias_maximos: dias_maximos, especialidad: especialidad})
             .then(resp => {
-                this.props.showToast(resp,'success')
+                this.props.showToast(resp.data.data,'success')
                 this.setState({
                     esp: [...this.state.esp, resp.data.row],
                     nuevo: 'oculto'
@@ -85,7 +87,8 @@ class DiasmaxAdmin extends Component {
                 this.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente','error')
             })
     }
-    handleGuardar(){
+    handleGuardar(e){
+        e.preventDefault();
         let id = this.state.IdEditar;
         console.log(id)
         let url = `parametro/diasmax/${id}/editar`
@@ -93,7 +96,7 @@ class DiasmaxAdmin extends Component {
         let dias_maximos = document.getElementsByName('diasmax')[0].value
         axios.put(url, {dias_maximos: dias_maximos, especialidad: especialidad})
             .then(resp => {
-                this.props.showToast(resp,'success')
+                this.props.showToast(resp.data.data,'success')
                 this.getSystemDiasmax()
                 this.setState({
                     esp: [...this.state.esp]
@@ -131,7 +134,7 @@ class DiasmaxAdmin extends Component {
             <div>
                 <br/>
                 <button className="btn btn-success btn-sm" onClick={this.handleCrear}>+ Crear</button>
-                <div className="row mt-2">
+                <form onSubmit={this.handleSubmit} className="row mt-2">
                     <div className={this.state.nuevo}>
                         <div className="col-md-12">
                             <div className="card">
@@ -141,27 +144,23 @@ class DiasmaxAdmin extends Component {
                                             <table>
                                                 <tr>
                                                     <td>Especialidad</td>
-                                                    <td><input type="text" className="form-control" id="nombre" name="crear_especialidad" defaultValue='' onChange={this.handleChange}></input></td>
+                                                    <td><input type="text" className="form-control" id="nombre" name="crear_especialidad" defaultValue='' onChange={this.handleChange} required></input></td>
                                                 </tr>
                                                 <tr>
                                                     <td>Días máximos</td>
-                                                    <td><input type="number" className="form-control" id="nombre" name="asignar_dias_maximos" onChange={this.handleChange}></input></td>
+                                                    <td><input type="number" className="form-control" id="nombre" name="asignar_dias_maximos" onChange={this.handleChange} required></input></td>
                                                 </tr>
                                                 <tr>
-                                                    <td><button type="submit" className="btn btn-success btn-sm" onClick={this.handleSubmit}>Guardar</button></td>
+                                                    <td><button type="submit" className="btn btn-success btn-sm" >Guardar</button></td>
                                                 </tr>
                                             </table>
-
-                                            <div className={this.state.errors['nombre']}>
-                                                <div className={"redf  " + (this.state.errors['nombre'] || "")}>{this.state.errorMensajes['nombre']}</div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </form>
                 <div className="row mt-5">
                     <div className="col-md-12">
                         <div className="card">
@@ -189,24 +188,25 @@ class DiasmaxAdmin extends Component {
                         <div className="container">
                             <div className="row">
                                 <div className="col-12">
-                                    <form>
+                                    <form id="editarDias" onSubmit={ this.handleGuardar }>
                                         <div className="form-group">
                                             <label htmlFor="codigo">Especialidad</label>
-                                            <input type="text" className="form-control form-control-sm" name="editar_especialidad" defaultValue={this.state.esped} onChange={this.handleChange }/>
+                                            <input type="text" className="form-control form-control-sm" name="editar_especialidad" defaultValue={this.state.esped} onChange={this.handleChange } required/>
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="capitulo_grupo">Días máximos</label>
-                                            <input type="number"  min='0' className="form-control form-control-sm" name="diasmax" value={this.state.diasmax} onChange={this.handleChange }/>
+                                            <input type="number"  min='0' className="form-control form-control-sm" name="diasmax" defaultValue={this.state.diasmax} onChange={this.handleChange } required/>
                                         </div>
-
                                     </form>
                                 </div>
                             </div>
                         </div>
 
                     </Modal.Body>
-                    <Modal.Footer><button className="btn btn-primary btn-sm" onClick={ this.handleGuardar }>Guardar</button><button className="btn btn-primary btn-sm" onClick={ this.handleCerrarModal }>Cerrar</button></Modal.Footer>
+                    <Modal.Footer>
+                        <button form="editarDias" type="submit" className="btn btn-primary btn-sm" >Guardar</button>
+                        <button className="btn btn-primary btn-sm" onClick={ this.handleCerrarModal }>Cerrar</button></Modal.Footer>
                 </Modal>
 
             </div>

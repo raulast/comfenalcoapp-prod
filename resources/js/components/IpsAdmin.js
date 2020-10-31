@@ -68,7 +68,8 @@ class IpsAdmin extends Component {
     handleEliminar(id){
 
     }
-    handleSubmit(){
+    handleSubmit(e){
+        e.preventDefault();
         let url = 'parametro/ips/agregar'
         let cod_sede = document.getElementsByName('crear_cod_sede')[0].value
         let nombre_sede = document.getElementsByName('crear_nombre_sede')[0].value
@@ -80,7 +81,7 @@ class IpsAdmin extends Component {
         let estado = 'S'
         axios.post(url, {cod_sede:cod_sede,nombre_sede:nombre_sede,estado:estado,cod_habilitacion:cod_habilitacion,direccion:direccion,telefono:telefono,razon_social:razon_social,nit:nit})
             .then(resp => {
-                this.props.showToast(resp,'success')
+                this.props.showToast(resp.data.data,'success')
                 this.setState({
                     ips: [...this.state.ips, resp.data.row],
                     nuevo: 'oculto'
@@ -90,7 +91,8 @@ class IpsAdmin extends Component {
                 this.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente','error')
             })
     }
-    handleGuardar(){
+    handleGuardar(e){
+        e.preventDefault();
         let id = this.state.IdEditar
         let url = `parametro/ips/${id}/editar`
         let cod_sede = document.getElementsByName('editar_cod_sede')[0].value
@@ -103,7 +105,7 @@ class IpsAdmin extends Component {
         let estado = 'S'
         axios.put(url, {cod_sede:cod_sede,nombre_sede:nombre_sede,estado:estado,cod_habilitacion:cod_habilitacion,direccion:direccion,telefono:telefono,razon_social:razon_social,nit:nit})
             .then(resp => {
-                this.props.showToast(resp,'success')
+                this.props.showToast(resp.data.data,'success')
                 this.getSystemIps()
                 this.setState({
                     ips: [...this.state.ips]
@@ -141,7 +143,7 @@ class IpsAdmin extends Component {
             <div>
                 <br/>
                 <button className="btn btn-success btn-sm" onClick={this.handleCrear}>+ Crear</button>
-                <div className="row mt-2">
+                <form onSubmit={this.handleSubmit} className="row mt-2">
                     <div className={this.state.nuevo}>
                         <div className="col-md-12">
                             <div className="card">
@@ -150,20 +152,20 @@ class IpsAdmin extends Component {
                                         <div className="col-sm-12">
                                             <table className="container">
                                                 <tr className="row">
-                                                    <td className="col"><label>Código Sede <input type="text" className="form-control" id="nombre" name="crear_cod_sede" onChange={this.handleChange}></input></label></td>
-                                                    <td className="col"><label>Nombre Sede <input type="text" className="form-control" id="nombre" name="crear_nombre_sede" onChange={this.handleChange}></input></label></td>
+                                                    <td className="col"><label>Código Sede <input type="text" className="form-control" id="nombre" name="crear_cod_sede" onChange={this.handleChange} required></input></label></td>
+                                                    <td className="col"><label>Nombre Sede <input type="text" className="form-control" id="nombre" name="crear_nombre_sede" onChange={this.handleChange} required></input></label></td>
                                                 </tr>
                                                 <tr className="row">
-                                                    <td className="col"><label>Cód. Habilitación <input type="text" className="form-control" id="nombre" name="crear_cod_habilitacion" onChange={this.handleChange}></input></label></td>
-                                                    <td className="col"><label>Dirección <input type="text" className="form-control" id="nombre" name="crear_direccion" onChange={this.handleChange}></input></label></td>
+                                                    <td className="col"><label>Cód. Habilitación <input type="text" className="form-control" id="nombre" name="crear_cod_habilitacion" onChange={this.handleChange} required></input></label></td>
+                                                    <td className="col"><label>Dirección <input type="text" className="form-control" id="nombre" name="crear_direccion" onChange={this.handleChange} required></input></label></td>
                                                 </tr>
                                                 <tr className="row">
-                                                    <td className="col"><label>Teléfono <input type="text" className="form-control" id="nombre" name="crear_telefono" onChange={this.handleChange}></input></label></td>
-                                                    <td className="col"><label>Razón Social <input type="text" className="form-control" id="nombre" name="crear_razon_social" onChange={this.handleChange}></input></label></td>
+                                                    <td className="col"><label>Teléfono <input type="text" className="form-control" id="nombre" name="crear_telefono" onChange={this.handleChange} required></input></label></td>
+                                                    <td className="col"><label>Razón Social <input type="text" className="form-control" id="nombre" name="crear_razon_social" onChange={this.handleChange} required></input></label></td>
                                                 </tr>
                                                 <tr className="row">
-                                                    <td className="col"><label>Nit <input type="text" className="form-control" id="nombre" name="crear_nit" onChange={this.handleChange}></input></label></td>
-                                                    <td className="col align-self-center"><button type="submit" className="btn btn-success btn-sm " onClick={this.handleSubmit}>Guardar</button></td>
+                                                    <td className="col"><label>Nit <input type="text" className="form-control" id="nombre" name="crear_nit" onChange={this.handleChange} required></input></label></td>
+                                                    <td className="col align-self-center"><button type="submit" className="btn btn-success btn-sm " >Guardar</button></td>
                                                 </tr>
                                             </table>
                                             <div className={this.state.errors['nombre']}>
@@ -175,7 +177,7 @@ class IpsAdmin extends Component {
                             </div>
                         </div>
                     </div>
-                </div>
+                </form>
                 <div className="row mt-5">
                     <div className="col-md-12">
                         <div className="card">
@@ -207,40 +209,40 @@ class IpsAdmin extends Component {
                         <div className="container">
                             <div className="row">
                                 <div className="col-12">
-                                    <form>
+                                    <form id="editarIps" onSubmit={ this.handleGuardar }>
                                         <div className="form-group">
                                             <label htmlFor="codigo">Código sede</label>
-                                            <input type="text" className="form-control form-control-sm" name="editar_cod_sede" defaultValue={this.state.name[0]} onChange={this.handleChangeC }/>
+                                            <input type="text" className="form-control form-control-sm" name="editar_cod_sede" defaultValue={this.state.name[0]} onChange={this.handleChange } required/>
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="codigo">Nombre sede</label>
-                                            <input type="text" className="form-control form-control-sm" name="editar_nombre_sede" defaultValue={this.state.name[1]} onChange={this.handleChangeC }/>
+                                            <input type="text" className="form-control form-control-sm" name="editar_nombre_sede" defaultValue={this.state.name[1]} onChange={this.handleChange } required/>
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="codigo">Cod. Habilitación</label>
-                                            <input type="text" className="form-control form-control-sm" name="editar_cod_habilitacion" defaultValue={this.state.name[2]} onChange={this.handleChangeC }/>
+                                            <input type="text" className="form-control form-control-sm" name="editar_cod_habilitacion" defaultValue={this.state.name[2]} onChange={this.handleChange } required/>
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="codigo">Dirección</label>
-                                            <input type="text" className="form-control form-control-sm" name="editar_direccion" defaultValue={this.state.name[3]} onChange={this.handleChangeC }/>
+                                            <input type="text" className="form-control form-control-sm" name="editar_direccion" defaultValue={this.state.name[3]} onChange={this.handleChange } required/>
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="codigo">Teléfono</label>
-                                            <input type="text" className="form-control form-control-sm" name="editar_telefono" defaultValue={this.state.name[4]} onChange={this.handleChangeC }/>
+                                            <input type="text" className="form-control form-control-sm" name="editar_telefono" defaultValue={this.state.name[4]} onChange={this.handleChange } required/>
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="codigo">Razón social</label>
-                                            <input type="text" className="form-control form-control-sm" name="editar_razon_social" defaultValue={this.state.name[5]} onChange={this.handleChangeC }/>
+                                            <input type="text" className="form-control form-control-sm" name="editar_razon_social" defaultValue={this.state.name[5]} onChange={this.handleChange } required/>
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="codigo">Nit</label>
-                                            <input type="text" className="form-control form-control-sm" name="editar_nit" defaultValue={this.state.name[6]} onChange={this.handleChangeC }/>
+                                            <input type="text" className="form-control form-control-sm" name="editar_nit" defaultValue={this.state.name[6]} onChange={this.handleChange } required/>
                                         </div>
                                     </form>
                                 </div>
@@ -248,7 +250,10 @@ class IpsAdmin extends Component {
                         </div>
 
                     </Modal.Body>
-                    <Modal.Footer><button className="btn btn-primary btn-sm" onClick={ this.handleGuardar }>Guardar</button><button className="btn btn-primary btn-sm" onClick={ this.handleCerrarModal }>Cerrar</button></Modal.Footer>
+                    <Modal.Footer>
+                        <button type="submit" form="editarIps" className="btn btn-primary btn-sm" >Guardar</button>
+                        <button className="btn btn-primary btn-sm" onClick={ this.handleCerrarModal }>Cerrar</button>
+                    </Modal.Footer>
                 </Modal>
             </div>
         );
