@@ -83855,19 +83855,26 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
       //console.log(id)
       axios__WEBPACK_IMPORTED_MODULE_4___default.a.get("usuario/medico/".concat(id)).then(function (resp) {
         _this2.setState({
-          correo: resp.data.email
+          correo: resp.data.email,
+          modalOpen: true,
+          IdEditar: id,
+          codigoMedico: datos[0],
+          tipoDocumento: datos[1],
+          numeroDocumento: datos[2],
+          registroMedico: datos[4],
+          nombre: datos[3],
+          especialidad: datos[5]
         });
-      });
-      this.setState({
-        modalOpen: true,
-        IdEditar: id,
-        codigoMedico: datos[0],
-        tipoDocumento: datos[1],
-        numeroDocumento: datos[2],
-        registroMedico: datos[4],
-        nombre: datos[3],
-        especialidad: datos[5]
-      });
+      }); // this.setState({
+      //     modalOpen: true,
+      //     IdEditar:id,
+      //     codigoMedico: datos[0],
+      //     tipoDocumento: datos[1],
+      //     numeroDocumento: datos[2],
+      //     registroMedico: datos[4],
+      //     nombre: datos[3],
+      //     especialidad: datos[5],
+      // });
     }
   }, {
     key: "handleEliminar",

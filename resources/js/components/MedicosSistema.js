@@ -80,18 +80,26 @@ class MedicosSistema extends Component {
             .then(resp => {
                 this.setState({
                     correo: resp.data.email,
+                    modalOpen: true,
+                    IdEditar:id,
+                    codigoMedico: datos[0],
+                    tipoDocumento: datos[1],
+                    numeroDocumento: datos[2],
+                    registroMedico: datos[4],
+                    nombre: datos[3],
+                    especialidad: datos[5]
                 });
             })
-        this.setState({
-            modalOpen: true,
-            IdEditar:id,
-            codigoMedico: datos[0],
-            tipoDocumento: datos[1],
-            numeroDocumento: datos[2],
-            registroMedico: datos[4],
-            nombre: datos[3],
-            especialidad: datos[5],
-        });
+        // this.setState({
+        //     modalOpen: true,
+        //     IdEditar:id,
+        //     codigoMedico: datos[0],
+        //     tipoDocumento: datos[1],
+        //     numeroDocumento: datos[2],
+        //     registroMedico: datos[4],
+        //     nombre: datos[3],
+        //     especialidad: datos[5],
+        // });
     }
 
     handleEliminar(id){
@@ -263,11 +271,11 @@ class MedicosSistema extends Component {
     handleEditPassword() {
         if(!this.state.editarContraseña) {
             this.setState({
-                editarContraseña: true, 
+                editarContraseña: true,
             })
         }else {
             this.setState({
-                editarContraseña: false, 
+                editarContraseña: false,
             })
         }
     }
@@ -485,8 +493,8 @@ class MedicosSistema extends Component {
                                             <label htmlFor="codigo">Correo</label>
                                             <input type="text" className="form-control form-control-sm" name="correo" defaultValue={this.state.correo} onChange={this.handleChange } required/>
                                         </div>
-                            
-                                        { 
+
+                                        {
                                             editpassword()
                                         }
 
