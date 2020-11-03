@@ -10,7 +10,13 @@ class UserController extends Controller
     public function obtener(Request $request, $modelo){
         $model = $this->obtenerModelo($modelo);
         if (!empty($model)) {
-            $data=$model['modelo']::orderBy('id','asc')->get();
+            if($modelo=='medico'){
+                $data=$model['modelo']::orderBy('medicos.id','asc')
+                ->select( 'medicos.*', 'users.email')->join('users','medicos.user_id','users.id')->get();
+            }else{
+                $data=$model['modelo']::orderBy('id','asc')
+                ->get();
+            }
             return response()->json([
                 'data' => $data
             ]);
@@ -25,7 +31,7 @@ class UserController extends Controller
                 $model = $this->obtenerModelo('user');
                 $user = $model['modelo']::where('id', $data->user_id)->first();
                 return response()->json([
-                    'data' => $data,
+                    'data' => array_merge($data->toArray(),['email'=> $user->email]),
                     'email' => $user->email
                 ]);
             }
