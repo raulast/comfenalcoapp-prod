@@ -76,12 +76,6 @@ class MedicosSistema extends Component {
     }
     handleEdition(id,datos){
         //console.log(id)
-        axios.get(`usuario/medico/${id}`)
-            .then(resp => {
-                this.setState({
-                    correo: resp.data.email,
-                });
-            })
         this.setState({
             modalOpen: true,
             IdEditar:id,
@@ -91,6 +85,7 @@ class MedicosSistema extends Component {
             registroMedico: datos[4],
             nombre: datos[3],
             especialidad: datos[5],
+            correo: datos[6]
         });
     }
 
@@ -263,11 +258,11 @@ class MedicosSistema extends Component {
     handleEditPassword() {
         if(!this.state.editarContraseña) {
             this.setState({
-                editarContraseña: true, 
+                editarContraseña: true,
             })
         }else {
             this.setState({
-                editarContraseña: false, 
+                editarContraseña: false,
             })
         }
     }
@@ -429,6 +424,7 @@ class MedicosSistema extends Component {
                                         <th scope="col">No</th>
                                         <th scope="col">Nombre</th>
                                         <th scope="col">Registro</th>
+                                        <th scope="col">Correo</th>
                                         <th scope="col">Especialidad</th>
                                     </tr>
                                 </thead>
@@ -485,8 +481,8 @@ class MedicosSistema extends Component {
                                             <label htmlFor="codigo">Correo</label>
                                             <input type="text" className="form-control form-control-sm" name="correo" defaultValue={this.state.correo} onChange={this.handleChange } required/>
                                         </div>
-                            
-                                        { 
+
+                                        {
                                             editpassword()
                                         }
 
