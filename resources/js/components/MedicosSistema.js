@@ -76,30 +76,17 @@ class MedicosSistema extends Component {
     }
     handleEdition(id,datos){
         //console.log(id)
-        axios.get(`usuario/medico/${id}`)
-            .then(resp => {
-                this.setState({
-                    correo: resp.data.email,
-                    modalOpen: true,
-                    IdEditar:id,
-                    codigoMedico: datos[0],
-                    tipoDocumento: datos[1],
-                    numeroDocumento: datos[2],
-                    registroMedico: datos[4],
-                    nombre: datos[3],
-                    especialidad: datos[5]
-                });
-            })
-        // this.setState({
-        //     modalOpen: true,
-        //     IdEditar:id,
-        //     codigoMedico: datos[0],
-        //     tipoDocumento: datos[1],
-        //     numeroDocumento: datos[2],
-        //     registroMedico: datos[4],
-        //     nombre: datos[3],
-        //     especialidad: datos[5],
-        // });
+        this.setState({
+            modalOpen: true,
+            IdEditar:id,
+            codigoMedico: datos[0],
+            tipoDocumento: datos[1],
+            numeroDocumento: datos[2],
+            registroMedico: datos[4],
+            nombre: datos[3],
+            especialidad: datos[5],
+            correo: datos[6]
+        });
     }
 
     handleEliminar(id){
@@ -437,6 +424,7 @@ class MedicosSistema extends Component {
                                         <th scope="col">No</th>
                                         <th scope="col">Nombre</th>
                                         <th scope="col">Registro</th>
+                                        <th scope="col">Correo</th>
                                         <th scope="col">Especialidad</th>
                                     </tr>
                                 </thead>
