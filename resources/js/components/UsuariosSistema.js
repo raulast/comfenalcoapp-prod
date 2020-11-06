@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import TableUsers from './TableUsers.js';
 import Modal from "react-bootstrap/Modal";
+import Buscador from "./Buscador"
 
 
 import axios from 'axios';
@@ -37,6 +38,16 @@ class UsuariosSistema extends Component {
                 contraseña:'',
                 confirmar:'',
             },
+            fuse_options: {
+                includeScore: true,
+                includeMatches: true,
+                minMatchCharLength: 5,
+                threshold: 0.3,
+                keys: [
+                    "name",
+                    "email",
+                ]
+            },
             IdEditar:'00'
         }
         // bind
@@ -52,6 +63,7 @@ class UsuariosSistema extends Component {
         this.handleCerrarModal = this.handleCerrarModal.bind(this);
         this.handleGuardar = this.handleGuardar.bind(this);
         this.handleEditPassword = this.handleEditPassword.bind(this);
+        this.handleBuscar=this.handleBuscar.bind(this);
         this.getSystemUsers();
     }
 
@@ -77,6 +89,15 @@ class UsuariosSistema extends Component {
             IdEditar:id
         });
         console.log('Edit: ', this.state)
+    }
+    handleBuscar(filtrado){
+        if (filtrado) {
+            this.setState({
+                users:filtrado
+            });
+        } else {
+            this.getSystemUsers();
+        }
     }
 
     handleCerrarModal(){
@@ -127,7 +148,7 @@ class UsuariosSistema extends Component {
                 .catch(err => {
                     this.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente','error');
                 })
-        } 
+        }
     }
 
     validarForm() {
@@ -218,11 +239,11 @@ class UsuariosSistema extends Component {
     handleEditPassword() {
         if(!this.state.editarContraseña) {
             this.setState({
-                editarContraseña: true, 
+                editarContraseña: true,
             })
         }else {
             this.setState({
-                editarContraseña: false, 
+                editarContraseña: false,
             })
         }
     }
@@ -268,6 +289,11 @@ class UsuariosSistema extends Component {
             <div>
                 <br/><br/>
                 <button className="btn btn-success btn-sm" onClick={this.handleCreate}>+ Crear</button>
+                <Buscador
+                    list={this.state.users}
+                    options={this.state.fuse_options}
+                    toRender={(arg)=>this.handleBuscar(arg)}
+                />
                 <form className="row mt-5">
                     <div className={this.state.nuevo}>
                         <div className="col-md-12">
@@ -317,7 +343,7 @@ class UsuariosSistema extends Component {
                                            <div className="col-md-2">
                                                     <br /><br />
                                                     <button type="submit" className="btn btn-success btn-sm">Guardar</button>
-                                                </div>     
+                                                </div>
                                             </div>
                                         </div>
                                     </form>
@@ -365,7 +391,7 @@ class UsuariosSistema extends Component {
                                             <input type="email" className="form-control form-control-sm" name="correo" defaultValue={this.state.correo} onChange={this.handleChange} required/>
                                         </div>
 
-                                        { 
+                                        {
                                             editpassword()
                                         }
 

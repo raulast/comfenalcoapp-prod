@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import TableMedicos from './TableMedicos.js';
 import Modal from "react-bootstrap/Modal";
+import Buscador from "./Buscador"
 
 import axios from 'axios';
 
@@ -44,6 +45,18 @@ class MedicosSistema extends Component {
                 contraseña: 'Contraseña requerida',
                 confirmar:'Repita contraseña',
             },
+            fuse_options: {
+                includeScore: true,
+                includeMatches: true,
+                minMatchCharLength: 5,
+                threshold: 0.3,
+                keys: [
+                    "nombre",
+                    "reg_medico",
+                    "email",
+                    "num_documento"
+                ]
+            },
             IdEditar:'00'
         }
         // bind
@@ -58,6 +71,7 @@ class MedicosSistema extends Component {
         this.validarForm = this.validarForm.bind(this);
         this.handleCerrarModal = this.handleCerrarModal.bind(this);
         this.handleGuardar = this.handleGuardar.bind(this);
+        this.handleBuscar = this.handleBuscar.bind(this);
         this.handleEditPassword = this.handleEditPassword.bind(this);
         this.getMedicosUsers();
     }
@@ -267,6 +281,16 @@ class MedicosSistema extends Component {
         }
     }
 
+    handleBuscar(filtrado){
+        if (filtrado) {
+            this.setState({
+                medicos:filtrado
+            });
+        } else {
+            this.getMedicosUsers();
+        }
+    }
+
     render() {
         const { medicos, editarContraseña } = this.state;
 
@@ -308,6 +332,11 @@ class MedicosSistema extends Component {
            <div>
             <br/><br/>
             <button className="btn btn-success btn-sm" onClick={this.handleCreate}>+ Crear</button>
+            <Buscador
+                list={this.state.medicos}
+                options={this.state.fuse_options}
+                toRender={(arg)=>this.handleBuscar(arg)}
+            />
             <div className="row mt-5">
                 <div className={this.state.nuevo}>
                     <div className="col-md-12">
