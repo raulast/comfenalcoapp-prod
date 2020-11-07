@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import TableMedicos from './TableMedicos.js';
 import Modal from "react-bootstrap/Modal";
-import Buscador from "./Buscador"
+import Buscador from "./Buscador";
+import Paginado from "./Paginado"
 
 import axios from 'axios';
 
@@ -462,6 +463,7 @@ class MedicosSistema extends Component {
                         </div>
                     </div>
                 </div>
+                <Paginado/>
             </div>
             <Modal show={this.state.modalOpen}>
                     <Modal.Header>Medico</Modal.Header>
