@@ -6,6 +6,7 @@ import Buscador from "./Buscador";
 import Paginado from "./Paginado"
 
 import axios from 'axios';
+import ReactPaginate from 'react-paginate';
 
 
 class MedicosSistema extends Component {
@@ -58,7 +59,14 @@ class MedicosSistema extends Component {
                     "num_documento"
                 ]
             },
-            IdEditar:'00'
+            IdEditar:'00',
+
+            data: [],
+            perPage: 10,
+
+            offset:0,
+            currentPage: 0,
+            pageCount: 0
         }
         // bind
         this.getMedicosUsers = this.getMedicosUsers.bind(this);
@@ -72,8 +80,15 @@ class MedicosSistema extends Component {
         this.validarForm = this.validarForm.bind(this);
         this.handleCerrarModal = this.handleCerrarModal.bind(this);
         this.handleGuardar = this.handleGuardar.bind(this);
-        this.handleBuscar = this.handleBuscar.bind(this);
+        this.handleListar = this.handleListar.bind(this);
         this.handleEditPassword = this.handleEditPassword.bind(this);
+
+
+        this.getData = this.getData.bind(this);
+        this.handlePageClick = this.handlePageClick.bind(this);
+    }
+
+    componentDidMount() {
         this.getMedicosUsers();
     }
 
@@ -205,10 +220,11 @@ class MedicosSistema extends Component {
         let url ='usuario/medico'
         axios.get(url)
             .then(resp => {
-                console.log(resp.data.data);
                 this.setState({
                     medicos:resp.data.data,
+                    data:resp.data.data
                 });
+                this.getData();
 
             })
             .catch(err =>{
@@ -282,15 +298,42 @@ class MedicosSistema extends Component {
         }
     }
 
-    handleBuscar(filtrado){
-        if (filtrado) {
+    handleListar(arg){
+        if (arg) {
             this.setState({
-                medicos:filtrado
+                medicos:arg
             });
         } else {
             this.getMedicosUsers();
         }
     }
+
+    getData(){
+        const data = this.state.data;
+        const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage);
+        console.log(slice);
+        console.log(this.state.currentPage);
+
+        this.setState({
+            medicos: slice,
+            pageCount: Math.ceil(data.length / this.state.perPage)
+        })
+    }
+
+    handlePageClick(e){
+        const selectedPage = e.selected;
+        const offset = selectedPage * this.state.perPage;
+
+        console.log('selectedPage');
+        console.log(selectedPage);
+
+        this.setState({
+            currentPage: selectedPage,
+            offset: offset
+        })
+
+    }
+
 
     render() {
         const { medicos, editarContraseña } = this.state;
@@ -306,7 +349,7 @@ class MedicosSistema extends Component {
         }
 
         const editpassword = () =>{
-            console.log(editarContraseña);
+            // console.log(editarContraseña);
             if(editarContraseña){
                 return (
                     <article className="form-group">
@@ -334,9 +377,9 @@ class MedicosSistema extends Component {
             <br/><br/>
             <button className="btn btn-success btn-sm" onClick={this.handleCreate}>+ Crear</button>
             <Buscador
-                list={this.state.medicos}
+                list={this.state.data}
                 options={this.state.fuse_options}
-                toRender={(arg)=>this.handleBuscar(arg)}
+                toRender={(arg)=>this.handleListar(arg)}
             />
             <div className="row mt-5">
                 <div className={this.state.nuevo}>
@@ -463,7 +506,23 @@ class MedicosSistema extends Component {
                         </div>
                     </div>
                 </div>
-                <Paginado/>
+                {/* <Paginado
+                    perPage={this.state.perPage}
+                    listado={this.state.data}
+                    toRender={(arg)=>this.handleListar(arg)}
+                /> */}
+                <ReactPaginate
+                    previousLabel={"<"}
+                    nextLabel={">"}
+                    breakLabel={"..."}
+                    breakClassName={"break-me"}
+                    pageCount={this.state.pageCount}
+                    marginPagesDisplayed={2}
+                    pageRangeDisplayed={5}
+                    onPageChange={this.handlePageClick}
+                    containerClassName={"pagination"}
+                    subContainerClassName={"pages pagination"}
+                    activeClassName={"active"}/>
             </div>
             <Modal show={this.state.modalOpen}>
                     <Modal.Header>Medico</Modal.Header>

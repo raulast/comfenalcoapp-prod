@@ -85627,6 +85627,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Paginado__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Paginado */ "./resources/js/components/Paginado/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var react_paginate__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-paginate */ "./node_modules/react-paginate/dist/react-paginate.js");
+/* harmony import */ var react_paginate__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react_paginate__WEBPACK_IMPORTED_MODULE_7__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
@@ -85662,6 +85664,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 
 
 
@@ -85722,7 +85725,12 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         threshold: 0.3,
         keys: ["nombre", "reg_medico", "email", "num_documento"]
       },
-      IdEditar: '00'
+      IdEditar: '00',
+      data: [],
+      perPage: 10,
+      offset: 0,
+      currentPage: 0,
+      pageCount: 0
     }; // bind
 
     _this.getMedicosUsers = _this.getMedicosUsers.bind(_assertThisInitialized(_this));
@@ -85736,15 +85744,19 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
     _this.validarForm = _this.validarForm.bind(_assertThisInitialized(_this));
     _this.handleCerrarModal = _this.handleCerrarModal.bind(_assertThisInitialized(_this));
     _this.handleGuardar = _this.handleGuardar.bind(_assertThisInitialized(_this));
-    _this.handleBuscar = _this.handleBuscar.bind(_assertThisInitialized(_this));
+    _this.handleListar = _this.handleListar.bind(_assertThisInitialized(_this));
     _this.handleEditPassword = _this.handleEditPassword.bind(_assertThisInitialized(_this));
-
-    _this.getMedicosUsers();
-
+    _this.getData = _this.getData.bind(_assertThisInitialized(_this));
+    _this.handlePageClick = _this.handlePageClick.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(MedicosSistema, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.getMedicosUsers();
+    }
+  }, {
     key: "handleCreate",
     value: function handleCreate() {
       this.setState({
@@ -85883,11 +85895,12 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
 
       var url = 'usuario/medico';
       axios__WEBPACK_IMPORTED_MODULE_6___default.a.get(url).then(function (resp) {
-        console.log(resp.data.data);
-
         _this4.setState({
-          medicos: resp.data.data
+          medicos: resp.data.data,
+          data: resp.data.data
         });
+
+        _this4.getData();
       })["catch"](function (err) {
         console.log(err);
       });
@@ -85956,15 +85969,39 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
       }
     }
   }, {
-    key: "handleBuscar",
-    value: function handleBuscar(filtrado) {
-      if (filtrado) {
+    key: "handleListar",
+    value: function handleListar(arg) {
+      if (arg) {
         this.setState({
-          medicos: filtrado
+          medicos: arg
         });
       } else {
         this.getMedicosUsers();
       }
+    }
+  }, {
+    key: "getData",
+    value: function getData() {
+      var data = this.state.data;
+      var slice = data.slice(this.state.offset, this.state.offset + this.state.perPage);
+      console.log(slice);
+      console.log(this.state.currentPage);
+      this.setState({
+        medicos: slice,
+        pageCount: Math.ceil(data.length / this.state.perPage)
+      });
+    }
+  }, {
+    key: "handlePageClick",
+    value: function handlePageClick(e) {
+      var selectedPage = e.selected;
+      var offset = selectedPage * this.state.perPage;
+      console.log('selectedPage');
+      console.log(selectedPage);
+      this.setState({
+        currentPage: selectedPage,
+        offset: offset
+      });
     }
   }, {
     key: "render",
@@ -85984,8 +86021,7 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
       };
 
       var editpassword = function editpassword() {
-        console.log(editarContraseña);
-
+        // console.log(editarContraseña);
         if (editarContraseña) {
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("article", {
             className: "form-group"
@@ -86025,10 +86061,10 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         className: "btn btn-success btn-sm",
         onClick: this.handleCreate
       }, "+ Crear"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Buscador__WEBPACK_IMPORTED_MODULE_4__["default"], {
-        list: this.state.medicos,
+        list: this.state.data,
         options: this.state.fuse_options,
         toRender: function toRender(arg) {
-          return _this6.handleBuscar(arg);
+          return _this6.handleListar(arg);
         }
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row mt-5"
@@ -86258,7 +86294,19 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         medicos: medicos,
         handleEdition: this.handleEdition,
         handleEliminar: this.handleEliminar
-      }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Paginado__WEBPACK_IMPORTED_MODULE_5__["default"], null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_paginate__WEBPACK_IMPORTED_MODULE_7___default.a, {
+        previousLabel: "<",
+        nextLabel: ">",
+        breakLabel: "...",
+        breakClassName: "break-me",
+        pageCount: this.state.pageCount,
+        marginPagesDisplayed: 2,
+        pageRangeDisplayed: 5,
+        onPageChange: this.handlePageClick,
+        containerClassName: "pagination",
+        subContainerClassName: "pages pagination",
+        activeClassName: "active"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__["default"], {
         show: this.state.modalOpen
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__["default"].Header, null, "Medico"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__["default"].Body, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "container"
@@ -86747,48 +86795,51 @@ var index = /*#__PURE__*/function (_Component) {
     _this = _super.call(this, props);
     _this.state = {
       offset: 0,
-      data: [],
-      perPage: 5,
-      currentPage: 0
+      currentPage: 0,
+      pageCount: 0
     };
-    _this.receivedData = _this.receivedData.bind(_assertThisInitialized(_this));
+    _this.getData = _this.getData.bind(_assertThisInitialized(_this));
     _this.handlePageClick = _this.handlePageClick.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(index, [{
+    key: "getData",
+    value: function getData() {
+      var data = this.props.listado;
+      var slice = data.slice(this.state.offset, this.state.offset + this.props.perPage);
+      this.props.toRender(slice);
+      console.log('si carga');
+      console.log(this.props.listado);
+      this.setState({
+        pageCount: Math.ceil(data.length / this.props.perPage)
+      });
+    }
+  }, {
     key: "handlePageClick",
     value: function handlePageClick(e) {
       var _this2 = this;
 
       var selectedPage = e.selected;
-      var offset = selectedPage * this.state.perPage;
+      var offset = selectedPage * this.props.perPage;
       this.setState({
         currentPage: selectedPage,
         offset: offset
       }, function () {
-        _this2.receivedData();
+        _this2.state.getData();
       });
     }
   }, {
-    key: "receivedData",
-    value: function receivedData(e) {
-      var data = this.props.table;
-      var slice = data.slice(this.props.offset, this.props.offset + this.props.perPage);
-      var postData = slice.map(function (key) {
-        return console.log(key);
-      });
-      this.setState({
-        pageCount: Math.ceil(data.length / this.props.perPage),
-        postData: postData
-      });
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.getData();
     }
   }, {
     key: "render",
     value: function render() {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_paginate__WEBPACK_IMPORTED_MODULE_1___default.a, {
-        previousLabel: "prev",
-        nextLabel: "next",
+        previousLabel: "<",
+        nextLabel: ">",
         breakLabel: "...",
         breakClassName: "break-me",
         pageCount: this.state.pageCount,

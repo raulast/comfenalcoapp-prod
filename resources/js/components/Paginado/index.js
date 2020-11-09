@@ -4,47 +4,52 @@ import ReactPaginate from 'react-paginate';
 class index extends Component {
     constructor(props){
         super(props);
+
         this.state = {
-            offset: 0,
-            data: [],
-            perPage: 5,
-            currentPage: 0
+            offset:0,
+            currentPage: 0,
+            pageCount: 0
         };
-        this.receivedData=this.receivedData.bind(this);
+        this.getData=this.getData.bind(this);
         this.handlePageClick=this.handlePageClick.bind(this);
 
     }
-    handlePageClick(e) {
+
+    getData(){
+        const data = this.props.listado;
+        const slice = data.slice(this.state.offset, this.state.offset + this.props.perPage);
+        this.props.toRender(slice);
+        console.log('si carga');
+        console.log(this.props.listado);
+
+        this.setState({
+            pageCount: Math.ceil(data.length / this.props.perPage)
+        })
+    }
+
+    handlePageClick(e){
         const selectedPage = e.selected;
-        const offset = selectedPage * this.state.perPage;
+        const offset = selectedPage * this.props.perPage;
 
         this.setState({
             currentPage: selectedPage,
             offset: offset
         }, () => {
-            this.receivedData()
+            this.state.getData()
         });
 
     }
-    receivedData(e){
-        const data = this.props.table;
-        const slice = data.slice(this.props.offset, this.props.offset + this.props.perPage)
-        const postData = slice.map(key =>
-                console.log(key)
-            );
 
-        this.setState({
-            pageCount: Math.ceil(data.length / this.props.perPage),
-
-            postData
-        })
+    componentDidMount() {
+        this.getData();
     }
+
     render() {
         return (
             <Fragment>
                 <ReactPaginate
-                    previousLabel={"prev"}
-                    nextLabel={"next"}
+                    previousLabel={"<"}
+                    nextLabel={">"}
                     breakLabel={"..."}
                     breakClassName={"break-me"}
                     pageCount={this.state.pageCount}
