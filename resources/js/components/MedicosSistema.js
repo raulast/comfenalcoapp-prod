@@ -220,8 +220,8 @@ class MedicosSistema extends Component {
         axios.get(url)
             .then(resp => {
                 this.setState({
-                    medicos:resp.data.data,
-                    data:resp.data.data
+                    medicos: resp.data.data,
+                    data: resp.data.data
                 },()=>{
                     this.getData();
                 });
@@ -302,7 +302,6 @@ class MedicosSistema extends Component {
         if (arg) {
             this.setState({
                 medicos:arg,
-                data:arg
             },()=>{
                 this.getData()
             });
@@ -312,7 +311,7 @@ class MedicosSistema extends Component {
     }
 
     getData(){
-        const data = this.state.data;
+        const data = this.state.medicos;
         const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage);
 
         this.setState({
@@ -506,11 +505,6 @@ class MedicosSistema extends Component {
                         </div>
                     </div>
                 </div>
-                {/* <Paginado
-                    perPage={this.state.perPage}
-                    listado={this.state.data}
-                    toRender={(arg)=>this.handleListar(arg)}
-                /> */}
                 <ReactPaginate
                     previousLabel={"<"}
                     nextLabel={">"}

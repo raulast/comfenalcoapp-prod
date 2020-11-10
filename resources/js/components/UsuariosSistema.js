@@ -108,7 +108,6 @@ class UsuariosSistema extends Component {
         if (arg) {
             this.setState({
                 users:arg,
-                data:arg
             },()=>{
                 this.getData()
             });
@@ -215,10 +214,9 @@ class UsuariosSistema extends Component {
         let url = 'getSystemUsers'
         axios.get(url)
             .then(resp => {
-                //console.log(resp.data.data);
                 this.setState({
                     users: resp.data.data,
-                    data:resp.data.data
+                    data: resp.data.data
                 },()=>{
                     this.getData();
                 });
@@ -269,7 +267,7 @@ class UsuariosSistema extends Component {
     }
 
     getData(){
-        const data = this.state.data;
+        const data = this.state.users;
         const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage);
 
         this.setState({
