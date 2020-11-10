@@ -47,20 +47,33 @@ class MedicosSistema extends Component {
                 confirmar:'Repita contraseña',
             },
             fuse_options: {
-                includeScore: true,
-                includeMatches: true,
-                minMatchCharLength: 5,
+                useExtendedSearch: true,
+                findAllMatches: true,
+                minMatchCharLength: 2,
+                location: 0,
                 threshold: 0.3,
+                distance: 10,
+                ignoreFieldNorm: true,
                 keys: [
-                    "nombre",
-                    "reg_medico",
-                    "email",
-                    "num_documento"
+                   {
+                    name: 'nombre',
+                    weight: 2
+                   },
+                   "reg_medico",
+                   {
+                    name: "email",
+                    weight: 2
+                   },
+                   {
+                    name:"num_documento",
+                    weight: 2
+                   }
                 ]
             },
             IdEditar:'00',
 
             data: [],
+            page: [],
             perPage: 10,
 
             offset:0,
@@ -220,7 +233,7 @@ class MedicosSistema extends Component {
         axios.get(url)
             .then(resp => {
                 this.setState({
-                    medicos: resp.data.data,
+                    page: resp.data.data,
                     data: resp.data.data
                 },()=>{
                     this.getData();
@@ -301,8 +314,7 @@ class MedicosSistema extends Component {
     handleListar(arg){
         if (arg) {
             this.setState({
-                medicos:arg,
-                data:arg
+                page:arg
             },()=>{
                 this.getData()
             });
@@ -312,7 +324,7 @@ class MedicosSistema extends Component {
     }
 
     getData(){
-        const data = this.state.data;
+        const data = this.state.page;
         const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage);
 
         this.setState({

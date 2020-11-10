@@ -38,18 +38,28 @@ class UsuariosSistema extends Component {
                 confirmar:'',
             },
             fuse_options: {
-                includeScore: true,
-                includeMatches: true,
-                minMatchCharLength: 5,
+                useExtendedSearch: true,
+                findAllMatches: true,
+                minMatchCharLength: 2,
+                location: 0,
                 threshold: 0.3,
+                distance: 10,
+                ignoreFieldNorm: true,
                 keys: [
-                    "name",
-                    "email",
+                   {
+                    name: 'name',
+                    weight: 2
+                   },
+                   {
+                    name: "email",
+                    weight: 2
+                   }
                 ]
             },
             IdEditar:'00',
 
             data: [],
+            page: [],
             perPage: 10,
 
             offset:0,
@@ -105,8 +115,7 @@ class UsuariosSistema extends Component {
     handleListar(arg){
         if (arg) {
             this.setState({
-                users:arg,
-                data: arg
+                page: arg
             },()=>{
                 this.getData()
             });
@@ -214,7 +223,7 @@ class UsuariosSistema extends Component {
         axios.get(url)
             .then(resp => {
                 this.setState({
-                    users: resp.data.data,
+                    page: resp.data.data,
                     data: resp.data.data
                 },()=>{
                     this.getData();
@@ -266,7 +275,7 @@ class UsuariosSistema extends Component {
     }
 
     getData(){
-        const data = this.state.data;
+        const data = this.state.page;
         const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage);
 
         this.setState({

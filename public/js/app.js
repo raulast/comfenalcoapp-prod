@@ -85736,14 +85736,27 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         confirmar: 'Repita contraseña'
       },
       fuse_options: {
-        includeScore: true,
-        includeMatches: true,
-        minMatchCharLength: 5,
+        useExtendedSearch: true,
+        findAllMatches: true,
+        minMatchCharLength: 2,
+        location: 0,
         threshold: 0.3,
-        keys: ["nombre", "reg_medico", "email", "num_documento"]
+        distance: 10,
+        ignoreFieldNorm: true,
+        keys: [{
+          name: 'nombre',
+          weight: 2
+        }, "reg_medico", {
+          name: "email",
+          weight: 2
+        }, {
+          name: "num_documento",
+          weight: 2
+        }]
       },
       IdEditar: '00',
       data: [],
+      page: [],
       perPage: 10,
       offset: 0,
       currentPage: 0,
@@ -85913,7 +85926,7 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
       var url = 'usuario/medico';
       axios__WEBPACK_IMPORTED_MODULE_5___default.a.get(url).then(function (resp) {
         _this4.setState({
-          medicos: resp.data.data,
+          page: resp.data.data,
           data: resp.data.data
         }, function () {
           _this4.getData();
@@ -85992,8 +86005,7 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
 
       if (arg) {
         this.setState({
-          medicos: arg,
-          data: arg
+          page: arg
         }, function () {
           _this6.getData();
         });
@@ -86004,7 +86016,7 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
   }, {
     key: "getData",
     value: function getData() {
-      var data = this.state.data;
+      var data = this.state.page;
       var slice = data.slice(this.state.offset, this.state.offset + this.state.perPage);
       this.setState({
         medicos: slice,
@@ -88485,14 +88497,24 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
         confirmar: ''
       },
       fuse_options: {
-        includeScore: true,
-        includeMatches: true,
-        minMatchCharLength: 5,
+        useExtendedSearch: true,
+        findAllMatches: true,
+        minMatchCharLength: 2,
+        location: 0,
         threshold: 0.3,
-        keys: ["name", "email"]
+        distance: 10,
+        ignoreFieldNorm: true,
+        keys: [{
+          name: 'name',
+          weight: 2
+        }, {
+          name: "email",
+          weight: 2
+        }]
       },
       IdEditar: '00',
       data: [],
+      page: [],
       perPage: 10,
       offset: 0,
       currentPage: 0,
@@ -88554,8 +88576,7 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
 
       if (arg) {
         this.setState({
-          users: arg,
-          data: arg
+          page: arg
         }, function () {
           _this2.getData();
         });
@@ -88676,7 +88697,7 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
       var url = 'getSystemUsers';
       axios__WEBPACK_IMPORTED_MODULE_4___default.a.get(url).then(function (resp) {
         _this5.setState({
-          users: resp.data.data,
+          page: resp.data.data,
           data: resp.data.data
         }, function () {
           _this5.getData();
@@ -88733,7 +88754,7 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
   }, {
     key: "getData",
     value: function getData() {
-      var data = this.state.data;
+      var data = this.state.page;
       var slice = data.slice(this.state.offset, this.state.offset + this.state.perPage);
       this.setState({
         users: slice,
@@ -89248,8 +89269,8 @@ if (document.getElementById('test')) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\Ingenio David\comfenalcoapp-prod\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! D:\Ingenio David\comfenalcoapp-prod\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\rauls\OneDrive\Documents\DEV\comfenalcoapp-prod\comfenalcoapp-prod\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\rauls\OneDrive\Documents\DEV\comfenalcoapp-prod\comfenalcoapp-prod\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
