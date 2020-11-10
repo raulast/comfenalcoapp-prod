@@ -6,6 +6,7 @@ import Buscador from "./Buscador"
 
 
 import axios from 'axios';
+import ReactPaginate from 'react-paginate';
 
 
 
@@ -48,7 +49,14 @@ class UsuariosSistema extends Component {
                     "email",
                 ]
             },
-            IdEditar:'00'
+            IdEditar:'00',
+
+            data: [],
+            perPage: 10,
+
+            offset:0,
+            currentPage: 0,
+            pageCount: 0
         }
         // bind
         this.getSystemUsers = this.getSystemUsers.bind(this);
@@ -63,7 +71,13 @@ class UsuariosSistema extends Component {
         this.handleCerrarModal = this.handleCerrarModal.bind(this);
         this.handleGuardar = this.handleGuardar.bind(this);
         this.handleEditPassword = this.handleEditPassword.bind(this);
-        this.handleBuscar=this.handleBuscar.bind(this);
+        this.handleListar=this.handleListar.bind(this);
+
+        this.getData = this.getData.bind(this);
+        this.handlePageClick = this.handlePageClick.bind(this);
+    }
+
+    componentDidMount() {
         this.getSystemUsers();
     }
 
@@ -90,10 +104,13 @@ class UsuariosSistema extends Component {
         });
         console.log('Edit: ', this.state)
     }
-    handleBuscar(filtrado){
-        if (filtrado) {
+    handleListar(arg){
+        if (arg) {
             this.setState({
-                users:filtrado
+                users:arg,
+                data:arg
+            },()=>{
+                this.getData()
             });
         } else {
             this.getSystemUsers();
@@ -201,6 +218,9 @@ class UsuariosSistema extends Component {
                 //console.log(resp.data.data);
                 this.setState({
                     users: resp.data.data,
+                    data:resp.data.data
+                },()=>{
+                    this.getData();
                 });
 
             })
@@ -248,6 +268,29 @@ class UsuariosSistema extends Component {
         }
     }
 
+    getData(){
+        const data = this.state.data;
+        const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage);
+
+        this.setState({
+            users: slice,
+            pageCount: Math.ceil(data.length / this.state.perPage)
+        })
+    }
+
+    handlePageClick(e){
+        const selectedPage = e.selected;
+        const offset = selectedPage * this.state.perPage;
+
+        this.setState({
+            currentPage: selectedPage,
+            offset: offset
+        },()=>{
+            this.getData();
+        });
+
+    }
+
     render() {
         const { users, editarContraseña} = this.state;
 
@@ -290,9 +333,9 @@ class UsuariosSistema extends Component {
                 <br/><br/>
                 <button className="btn btn-success btn-sm" onClick={this.handleCreate}>+ Crear</button>
                 <Buscador
-                    list={this.state.users}
+                    list={this.state.data}
                     options={this.state.fuse_options}
-                    toRender={(arg)=>this.handleBuscar(arg)}
+                    toRender={(arg)=>this.handleListar(arg)}
                 />
                 <form className="row mt-5">
                     <div className={this.state.nuevo}>
@@ -372,6 +415,18 @@ class UsuariosSistema extends Component {
                             </div>
                         </div>
                     </div>
+                    <ReactPaginate
+                    previousLabel={"<"}
+                    nextLabel={">"}
+                    breakLabel={"..."}
+                    breakClassName={"break-me"}
+                    pageCount={this.state.pageCount}
+                    marginPagesDisplayed={2}
+                    pageRangeDisplayed={5}
+                    onPageChange={this.handlePageClick}
+                    containerClassName={"pagination"}
+                    subContainerClassName={"pages pagination"}
+                    activeClassName={"active"}/>
                 </div>
 
                 <Modal show={this.state.modalOpen}>

@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import TableMedicos from './TableMedicos.js';
 import Modal from "react-bootstrap/Modal";
 import Buscador from "./Buscador";
-import Paginado from "./Paginado"
 
 import axios from 'axios';
 import ReactPaginate from 'react-paginate';
@@ -223,8 +222,9 @@ class MedicosSistema extends Component {
                 this.setState({
                     medicos:resp.data.data,
                     data:resp.data.data
+                },()=>{
+                    this.getData();
                 });
-                this.getData();
 
             })
             .catch(err =>{
@@ -301,7 +301,10 @@ class MedicosSistema extends Component {
     handleListar(arg){
         if (arg) {
             this.setState({
-                medicos:arg
+                medicos:arg,
+                data:arg
+            },()=>{
+                this.getData()
             });
         } else {
             this.getMedicosUsers();
@@ -311,8 +314,6 @@ class MedicosSistema extends Component {
     getData(){
         const data = this.state.data;
         const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage);
-        console.log(slice);
-        console.log(this.state.currentPage);
 
         this.setState({
             medicos: slice,
@@ -324,13 +325,12 @@ class MedicosSistema extends Component {
         const selectedPage = e.selected;
         const offset = selectedPage * this.state.perPage;
 
-        console.log('selectedPage');
-        console.log(selectedPage);
-
         this.setState({
             currentPage: selectedPage,
             offset: offset
-        })
+        },()=>{
+            this.getData();
+        });
 
     }
 

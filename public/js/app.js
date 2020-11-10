@@ -85624,11 +85624,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _TableMedicos_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TableMedicos.js */ "./resources/js/components/TableMedicos.js");
 /* harmony import */ var react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-bootstrap/Modal */ "./node_modules/react-bootstrap/esm/Modal.js");
 /* harmony import */ var _Buscador__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Buscador */ "./resources/js/components/Buscador/index.js");
-/* harmony import */ var _Paginado__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Paginado */ "./resources/js/components/Paginado/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var react_paginate__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-paginate */ "./node_modules/react-paginate/dist/react-paginate.js");
-/* harmony import */ var react_paginate__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react_paginate__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var react_paginate__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-paginate */ "./node_modules/react-paginate/dist/react-paginate.js");
+/* harmony import */ var react_paginate__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react_paginate__WEBPACK_IMPORTED_MODULE_6__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
@@ -85664,7 +85663,6 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
 
 
 
@@ -85791,7 +85789,7 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
       var _this2 = this;
 
       var url = "usuario/medico/".concat(id, "/eliminar");
-      axios__WEBPACK_IMPORTED_MODULE_6___default.a["delete"](url).then(function (resp) {
+      axios__WEBPACK_IMPORTED_MODULE_5___default.a["delete"](url).then(function (resp) {
         _this2.props.showToast(resp.data.data, 'success');
 
         _this2.getMedicosUsers();
@@ -85820,7 +85818,7 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
 
       if (resp) {
         var url = 'usuario/medico/agregar';
-        axios__WEBPACK_IMPORTED_MODULE_6___default.a.post(url, {
+        axios__WEBPACK_IMPORTED_MODULE_5___default.a.post(url, {
           email: this.state.correo,
           password: this.state.contraseña,
           cod_medico: this.state.codigoMedico,
@@ -85894,13 +85892,13 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
       var _this4 = this;
 
       var url = 'usuario/medico';
-      axios__WEBPACK_IMPORTED_MODULE_6___default.a.get(url).then(function (resp) {
+      axios__WEBPACK_IMPORTED_MODULE_5___default.a.get(url).then(function (resp) {
         _this4.setState({
           medicos: resp.data.data,
           data: resp.data.data
+        }, function () {
+          _this4.getData();
         });
-
-        _this4.getData();
       })["catch"](function (err) {
         console.log(err);
       });
@@ -85930,7 +85928,7 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
       var resp = this.validarForm();
 
       if (resp) {
-        axios__WEBPACK_IMPORTED_MODULE_6___default.a.put(url, {
+        axios__WEBPACK_IMPORTED_MODULE_5___default.a.put(url, {
           password: this.state.contraseña,
           email: this.state.correo,
           cod_medico: this.state.codigoMedico,
@@ -85971,9 +85969,14 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
   }, {
     key: "handleListar",
     value: function handleListar(arg) {
+      var _this6 = this;
+
       if (arg) {
         this.setState({
-          medicos: arg
+          medicos: arg,
+          data: arg
+        }, function () {
+          _this6.getData();
         });
       } else {
         this.getMedicosUsers();
@@ -85984,8 +85987,6 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
     value: function getData() {
       var data = this.state.data;
       var slice = data.slice(this.state.offset, this.state.offset + this.state.perPage);
-      console.log(slice);
-      console.log(this.state.currentPage);
       this.setState({
         medicos: slice,
         pageCount: Math.ceil(data.length / this.state.perPage)
@@ -85994,19 +85995,21 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
   }, {
     key: "handlePageClick",
     value: function handlePageClick(e) {
+      var _this7 = this;
+
       var selectedPage = e.selected;
       var offset = selectedPage * this.state.perPage;
-      console.log('selectedPage');
-      console.log(selectedPage);
       this.setState({
         currentPage: selectedPage,
         offset: offset
+      }, function () {
+        _this7.getData();
       });
     }
   }, {
     key: "render",
     value: function render() {
-      var _this6 = this;
+      var _this8 = this;
 
       var _this$state = this.state,
           medicos = _this$state.medicos,
@@ -86033,13 +86036,13 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
             type: "password",
             className: "form-control form-control-sm",
             name: "contrase\xF1a",
-            onChange: _this6.handleChange,
+            onChange: _this8.handleChange,
             required: true
           })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: _this6.state.errors['contraseña']
+            className: _this8.state.errors['contraseña']
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: "redf  " + (_this6.state.errors['contraseña'] || "")
-          }, _this6.state.errorMensajes['contraseña'])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "redf  " + (_this8.state.errors['contraseña'] || "")
+          }, _this8.state.errorMensajes['contraseña'])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "form-group"
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
             htmlFor: "codigo"
@@ -86047,13 +86050,13 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
             type: "password",
             className: "form-control form-control-sm",
             name: "confirmar",
-            onChange: _this6.handleChange,
+            onChange: _this8.handleChange,
             required: true
           })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: _this6.state.errors['confirmar']
+            className: _this8.state.errors['confirmar']
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: "redf  " + (_this6.state.errors['confirmar'] || "")
-          }, _this6.state.errorMensajes['confirmar'])));
+            className: "redf  " + (_this8.state.errors['confirmar'] || "")
+          }, _this8.state.errorMensajes['confirmar'])));
         }
       };
 
@@ -86064,7 +86067,7 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         list: this.state.data,
         options: this.state.fuse_options,
         toRender: function toRender(arg) {
-          return _this6.handleListar(arg);
+          return _this8.handleListar(arg);
         }
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row mt-5"
@@ -86294,7 +86297,7 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         medicos: medicos,
         handleEdition: this.handleEdition,
         handleEliminar: this.handleEliminar
-      }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_paginate__WEBPACK_IMPORTED_MODULE_7___default.a, {
+      }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_paginate__WEBPACK_IMPORTED_MODULE_6___default.a, {
         previousLabel: "<",
         nextLabel: ">",
         breakLabel: "...",
@@ -86741,122 +86744,6 @@ if (document.getElementById('menuUsuarios')) {
     ReactDOM.render(<MenuUsuarios />, document.getElementById('menuUsuarios'));
 }
 */
-
-/***/ }),
-
-/***/ "./resources/js/components/Paginado/index.js":
-/*!***************************************************!*\
-  !*** ./resources/js/components/Paginado/index.js ***!
-  \***************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_paginate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-paginate */ "./node_modules/react-paginate/dist/react-paginate.js");
-/* harmony import */ var react_paginate__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_paginate__WEBPACK_IMPORTED_MODULE_1__);
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-
-
-
-var index = /*#__PURE__*/function (_Component) {
-  _inherits(index, _Component);
-
-  var _super = _createSuper(index);
-
-  function index(props) {
-    var _this;
-
-    _classCallCheck(this, index);
-
-    _this = _super.call(this, props);
-    _this.state = {
-      offset: 0,
-      currentPage: 0,
-      pageCount: 0
-    };
-    _this.getData = _this.getData.bind(_assertThisInitialized(_this));
-    _this.handlePageClick = _this.handlePageClick.bind(_assertThisInitialized(_this));
-    return _this;
-  }
-
-  _createClass(index, [{
-    key: "getData",
-    value: function getData() {
-      var data = this.props.listado;
-      var slice = data.slice(this.state.offset, this.state.offset + this.props.perPage);
-      this.props.toRender(slice);
-      console.log('si carga');
-      console.log(this.props.listado);
-      this.setState({
-        pageCount: Math.ceil(data.length / this.props.perPage)
-      });
-    }
-  }, {
-    key: "handlePageClick",
-    value: function handlePageClick(e) {
-      var _this2 = this;
-
-      var selectedPage = e.selected;
-      var offset = selectedPage * this.props.perPage;
-      this.setState({
-        currentPage: selectedPage,
-        offset: offset
-      }, function () {
-        _this2.state.getData();
-      });
-    }
-  }, {
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      this.getData();
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_paginate__WEBPACK_IMPORTED_MODULE_1___default.a, {
-        previousLabel: "<",
-        nextLabel: ">",
-        breakLabel: "...",
-        breakClassName: "break-me",
-        pageCount: this.state.pageCount,
-        marginPagesDisplayed: 2,
-        pageRangeDisplayed: 5,
-        onPageChange: this.handlePageClick,
-        containerClassName: "pagination",
-        subContainerClassName: "pages pagination",
-        activeClassName: "active"
-      }));
-    }
-  }]);
-
-  return index;
-}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
-
-/* harmony default export */ __webpack_exports__["default"] = (index);
 
 /***/ }),
 
@@ -88459,6 +88346,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Buscador__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Buscador */ "./resources/js/components/Buscador/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var react_paginate__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-paginate */ "./node_modules/react-paginate/dist/react-paginate.js");
+/* harmony import */ var react_paginate__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react_paginate__WEBPACK_IMPORTED_MODULE_6__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -88510,6 +88399,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var UsuariosSistema = /*#__PURE__*/function (_Component) {
   _inherits(UsuariosSistema, _Component);
 
@@ -88552,7 +88442,12 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
         threshold: 0.3,
         keys: ["name", "email"]
       },
-      IdEditar: '00'
+      IdEditar: '00',
+      data: [],
+      perPage: 10,
+      offset: 0,
+      currentPage: 0,
+      pageCount: 0
     }; // bind
 
     _this.getSystemUsers = _this.getSystemUsers.bind(_assertThisInitialized(_this));
@@ -88566,14 +88461,18 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
     _this.handleCerrarModal = _this.handleCerrarModal.bind(_assertThisInitialized(_this));
     _this.handleGuardar = _this.handleGuardar.bind(_assertThisInitialized(_this));
     _this.handleEditPassword = _this.handleEditPassword.bind(_assertThisInitialized(_this));
-    _this.handleBuscar = _this.handleBuscar.bind(_assertThisInitialized(_this));
-
-    _this.getSystemUsers();
-
+    _this.handleListar = _this.handleListar.bind(_assertThisInitialized(_this));
+    _this.getData = _this.getData.bind(_assertThisInitialized(_this));
+    _this.handlePageClick = _this.handlePageClick.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(UsuariosSistema, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.getSystemUsers();
+    }
+  }, {
     key: "handleCreate",
     value: function handleCreate() {
       this.setState({
@@ -88600,11 +88499,16 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
       console.log('Edit: ', this.state);
     }
   }, {
-    key: "handleBuscar",
-    value: function handleBuscar(filtrado) {
-      if (filtrado) {
+    key: "handleListar",
+    value: function handleListar(arg) {
+      var _this2 = this;
+
+      if (arg) {
         this.setState({
-          users: filtrado
+          users: arg,
+          data: arg
+        }, function () {
+          _this2.getData();
         });
       } else {
         this.getSystemUsers();
@@ -88623,16 +88527,16 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
   }, {
     key: "handleEliminar",
     value: function handleEliminar(id) {
-      var _this2 = this;
+      var _this3 = this;
 
       var url = "usuario/user/".concat(id, "/eliminar");
       axios__WEBPACK_IMPORTED_MODULE_5___default.a["delete"](url).then(function (resp) {
-        _this2.props.showToast(resp.data.data, 'success');
+        _this3.props.showToast(resp.data.data, 'success');
 
-        _this2.getSystemUsers();
+        _this3.getSystemUsers();
 
-        _this2.setState({
-          users: _this2.state.users
+        _this3.setState({
+          users: _this3.state.users
         });
       })["catch"](function (err) {
         console.log(err);
@@ -88641,7 +88545,7 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
   }, {
     key: "handleSubmit",
     value: function handleSubmit(e) {
-      var _this3 = this;
+      var _this4 = this;
 
       e.preventDefault();
       var resp = this.validarForm();
@@ -88656,15 +88560,15 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
         }).then(function (resp) {
           var user = resp.data.row;
 
-          _this3.setState({
-            users: [].concat(_toConsumableArray(_this3.state.users), [user]),
+          _this4.setState({
+            users: [].concat(_toConsumableArray(_this4.state.users), [user]),
             nuevo: 'oculto'
           });
 
-          _this3.props.showToast('Datos almacenados', 'success'); // alert("Datos almacenados")
+          _this4.props.showToast('Datos almacenados', 'success'); // alert("Datos almacenados")
 
         })["catch"](function (err) {
-          _this3.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
+          _this4.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
         });
       }
     }
@@ -88718,13 +88622,16 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
   }, {
     key: "getSystemUsers",
     value: function getSystemUsers() {
-      var _this4 = this;
+      var _this5 = this;
 
       var url = 'getSystemUsers';
       axios__WEBPACK_IMPORTED_MODULE_5___default.a.get(url).then(function (resp) {
         //console.log(resp.data.data);
-        _this4.setState({
-          users: resp.data.data
+        _this5.setState({
+          users: resp.data.data,
+          data: resp.data.data
+        }, function () {
+          _this5.getData();
         });
       })["catch"](function (err) {
         console.log(err);
@@ -88733,7 +88640,7 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
   }, {
     key: "handleGuardar",
     value: function handleGuardar(e) {
-      var _this5 = this;
+      var _this6 = this;
 
       e.preventDefault();
       var id = this.state.IdEditar;
@@ -88747,18 +88654,18 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
           password: this.state.contraseña,
           tipo: this.state.tipo
         }).then(function (resp) {
-          _this5.getSystemUsers();
+          _this6.getSystemUsers();
 
-          _this5.setState({
-            users: _toConsumableArray(_this5.state.users)
+          _this6.setState({
+            users: _toConsumableArray(_this6.state.users)
           });
 
-          _this5.handleCerrarModal();
+          _this6.handleCerrarModal();
 
-          _this5.props.showToast('Datos Actualizados', 'success'); // alert("Datos almacenados")
+          _this6.props.showToast('Datos Actualizados', 'success'); // alert("Datos almacenados")
 
         })["catch"](function (err) {
-          _this5.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
+          _this6.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
         });
       }
     }
@@ -88776,9 +88683,33 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
       }
     }
   }, {
+    key: "getData",
+    value: function getData() {
+      var data = this.state.data;
+      var slice = data.slice(this.state.offset, this.state.offset + this.state.perPage);
+      this.setState({
+        users: slice,
+        pageCount: Math.ceil(data.length / this.state.perPage)
+      });
+    }
+  }, {
+    key: "handlePageClick",
+    value: function handlePageClick(e) {
+      var _this7 = this;
+
+      var selectedPage = e.selected;
+      var offset = selectedPage * this.state.perPage;
+      this.setState({
+        currentPage: selectedPage,
+        offset: offset
+      }, function () {
+        _this7.getData();
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
-      var _this6 = this;
+      var _this8 = this;
 
       var _this$state = this.state,
           users = _this$state.users,
@@ -88804,13 +88735,13 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
             type: "password",
             className: "form-control form-control-sm",
             name: "contrase\xF1a",
-            onChange: _this6.handleChange,
+            onChange: _this8.handleChange,
             required: true
           })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: _this6.state.errors['contraseña']
+            className: _this8.state.errors['contraseña']
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: "redf  " + (_this6.state.errors['contraseña'] || "")
-          }, _this6.state.errorMensajes['contraseña'])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "redf  " + (_this8.state.errors['contraseña'] || "")
+          }, _this8.state.errorMensajes['contraseña'])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "form-group"
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
             htmlFor: "codigo"
@@ -88818,13 +88749,13 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
             type: "password",
             className: "form-control form-control-sm",
             name: "confirmar",
-            onChange: _this6.handleChange,
+            onChange: _this8.handleChange,
             required: true
           })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: _this6.state.errors['confirmar']
+            className: _this8.state.errors['confirmar']
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: "redf  " + (_this6.state.errors['confirmar'] || "")
-          }, _this6.state.errorMensajes['confirmar'])));
+            className: "redf  " + (_this8.state.errors['confirmar'] || "")
+          }, _this8.state.errorMensajes['confirmar'])));
         }
       };
 
@@ -88832,10 +88763,10 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
         className: "btn btn-success btn-sm",
         onClick: this.handleCreate
       }, "+ Crear"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Buscador__WEBPACK_IMPORTED_MODULE_4__["default"], {
-        list: this.state.users,
+        list: this.state.data,
         options: this.state.fuse_options,
         toRender: function toRender(arg) {
-          return _this6.handleBuscar(arg);
+          return _this8.handleListar(arg);
         }
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
         className: "row mt-5"
@@ -88965,7 +88896,19 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
         users: users,
         handleEdition: this.handleEdition,
         handleEliminar: this.handleEliminar
-      })))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_paginate__WEBPACK_IMPORTED_MODULE_6___default.a, {
+        previousLabel: "<",
+        nextLabel: ">",
+        breakLabel: "...",
+        breakClassName: "break-me",
+        pageCount: this.state.pageCount,
+        marginPagesDisplayed: 2,
+        pageRangeDisplayed: 5,
+        onPageChange: this.handlePageClick,
+        containerClassName: "pagination",
+        subContainerClassName: "pages pagination",
+        activeClassName: "active"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__["default"], {
         show: this.state.modalOpen
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__["default"].Header, null, "Usuario"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__["default"].Body, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
         className: "container",
