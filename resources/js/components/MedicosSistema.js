@@ -302,6 +302,7 @@ class MedicosSistema extends Component {
         if (arg) {
             this.setState({
                 medicos:arg,
+                data:arg
             },()=>{
                 this.getData()
             });
@@ -311,7 +312,7 @@ class MedicosSistema extends Component {
     }
 
     getData(){
-        const data = this.state.medicos;
+        const data = this.state.data;
         const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage);
 
         this.setState({

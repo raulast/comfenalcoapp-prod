@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import TableUsers from './TableUsers.js';
 import Modal from "react-bootstrap/Modal";
 import Buscador from "./Buscador"
 
-
 import axios from 'axios';
 import ReactPaginate from 'react-paginate';
 
-
+import './Usuarios/UsuariosSistema.scss';
 
 class UsuariosSistema extends Component {
     constructor(props) {
@@ -108,6 +106,7 @@ class UsuariosSistema extends Component {
         if (arg) {
             this.setState({
                 users:arg,
+                data: arg
             },()=>{
                 this.getData()
             });
@@ -267,7 +266,7 @@ class UsuariosSistema extends Component {
     }
 
     getData(){
-        const data = this.state.users;
+        const data = this.state.data;
         const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage);
 
         this.setState({
