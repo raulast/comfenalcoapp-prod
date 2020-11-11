@@ -76647,7 +76647,8 @@ var index = /*#__PURE__*/function (_Component) {
     value: function handleBuscar(_ref) {
       var target = _ref.target;
       var fuse = new fuse_js__WEBPACK_IMPORTED_MODULE_1__["default"](this.props.list, this.props.options);
-      var result = fuse.search(target.value);
+      var filtro = ('\'' + target.value).replace(' ', ' \'');
+      var result = fuse.search(filtro);
       var tmp = '';
       Object.keys(result).map(function (key) {
         return tmp = [].concat(_toConsumableArray(tmp), [result[key].item]);

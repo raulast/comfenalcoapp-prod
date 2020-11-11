@@ -10,7 +10,8 @@ class index extends Component {
 
     handleBuscar({target}){
         const fuse = new Fuse(this.props.list, this.props.options);
-        const result = fuse.search(target.value);
+        const filtro = ('\''+target.value).replace(' ',' \'');
+        const result = fuse.search(filtro);
         let tmp = '';
         Object.keys(result).map((key)=>(
             tmp = [...tmp, result[key].item]
