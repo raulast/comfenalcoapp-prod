@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import TableUsers from './TableUsers.js';
 import Modal from "react-bootstrap/Modal";
-
+import Buscador from "./Buscador"
 
 import axios from 'axios';
+import ReactPaginate from 'react-paginate';
 
-
+import './Usuarios/UsuariosSistema.scss';
 
 class UsuariosSistema extends Component {
     constructor(props) {
@@ -37,7 +37,34 @@ class UsuariosSistema extends Component {
                 contraseña:'',
                 confirmar:'',
             },
-            IdEditar:'00'
+            fuse_options: {
+                useExtendedSearch: true,
+                findAllMatches: true,
+                minMatchCharLength: 2,
+                location: 0,
+                threshold: 0.3,
+                distance: 10,
+                ignoreFieldNorm: true,
+                keys: [
+                   {
+                    name: 'name',
+                    weight: 2
+                   },
+                   {
+                    name: "email",
+                    weight: 2
+                   }
+                ]
+            },
+            IdEditar:'00',
+
+            data: [],
+            page: [],
+            perPage: 10,
+
+            offset:0,
+            currentPage: 0,
+            pageCount: 0
         }
         // bind
         this.getSystemUsers = this.getSystemUsers.bind(this);
@@ -52,6 +79,13 @@ class UsuariosSistema extends Component {
         this.handleCerrarModal = this.handleCerrarModal.bind(this);
         this.handleGuardar = this.handleGuardar.bind(this);
         this.handleEditPassword = this.handleEditPassword.bind(this);
+        this.handleListar=this.handleListar.bind(this);
+
+        this.getData = this.getData.bind(this);
+        this.handlePageClick = this.handlePageClick.bind(this);
+    }
+
+    componentDidMount() {
         this.getSystemUsers();
     }
 
@@ -77,6 +111,17 @@ class UsuariosSistema extends Component {
             IdEditar:id
         });
         console.log('Edit: ', this.state)
+    }
+    handleListar(arg){
+        if (arg) {
+            this.setState({
+                page: arg
+            },()=>{
+                this.getData()
+            });
+        } else {
+            this.getSystemUsers();
+        }
     }
 
     handleCerrarModal(){
@@ -127,7 +172,7 @@ class UsuariosSistema extends Component {
                 .catch(err => {
                     this.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente','error');
                 })
-        } 
+        }
     }
 
     validarForm() {
@@ -177,9 +222,11 @@ class UsuariosSistema extends Component {
         let url = 'getSystemUsers'
         axios.get(url)
             .then(resp => {
-                //console.log(resp.data.data);
                 this.setState({
-                    users: resp.data.data,
+                    page: resp.data.data,
+                    data: resp.data.data
+                },()=>{
+                    this.getData();
                 });
 
             })
@@ -218,13 +265,36 @@ class UsuariosSistema extends Component {
     handleEditPassword() {
         if(!this.state.editarContraseña) {
             this.setState({
-                editarContraseña: true, 
+                editarContraseña: true,
             })
         }else {
             this.setState({
-                editarContraseña: false, 
+                editarContraseña: false,
             })
         }
+    }
+
+    getData(){
+        const data = this.state.page;
+        const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage);
+
+        this.setState({
+            users: slice,
+            pageCount: Math.ceil(data.length / this.state.perPage)
+        })
+    }
+
+    handlePageClick(e){
+        const selectedPage = e.selected;
+        const offset = selectedPage * this.state.perPage;
+
+        this.setState({
+            currentPage: selectedPage,
+            offset: offset
+        },()=>{
+            this.getData();
+        });
+
     }
 
     render() {
@@ -268,6 +338,11 @@ class UsuariosSistema extends Component {
             <div>
                 <br/><br/>
                 <button className="btn btn-success btn-sm" onClick={this.handleCreate}>+ Crear</button>
+                <Buscador
+                    list={this.state.data}
+                    options={this.state.fuse_options}
+                    toRender={(arg)=>this.handleListar(arg)}
+                />
                 <form className="row mt-5">
                     <div className={this.state.nuevo}>
                         <div className="col-md-12">
@@ -317,7 +392,7 @@ class UsuariosSistema extends Component {
                                            <div className="col-md-2">
                                                     <br /><br />
                                                     <button type="submit" className="btn btn-success btn-sm">Guardar</button>
-                                                </div>     
+                                                </div>
                                             </div>
                                         </div>
                                     </form>
@@ -346,6 +421,18 @@ class UsuariosSistema extends Component {
                             </div>
                         </div>
                     </div>
+                    <ReactPaginate
+                    previousLabel={"<"}
+                    nextLabel={">"}
+                    breakLabel={"..."}
+                    breakClassName={"break-me"}
+                    pageCount={this.state.pageCount}
+                    marginPagesDisplayed={2}
+                    pageRangeDisplayed={5}
+                    onPageChange={this.handlePageClick}
+                    containerClassName={"pagination"}
+                    subContainerClassName={"pages pagination"}
+                    activeClassName={"active"}/>
                 </div>
 
                 <Modal show={this.state.modalOpen}>
@@ -365,7 +452,7 @@ class UsuariosSistema extends Component {
                                             <input type="email" className="form-control form-control-sm" name="correo" defaultValue={this.state.correo} onChange={this.handleChange} required/>
                                         </div>
 
-                                        { 
+                                        {
                                             editpassword()
                                         }
 

@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import TableMedicos from './TableMedicos.js';
 import Modal from "react-bootstrap/Modal";
+import Buscador from "./Buscador";
 
 import axios from 'axios';
+import ReactPaginate from 'react-paginate';
 
 
 class MedicosSistema extends Component {
@@ -44,7 +46,39 @@ class MedicosSistema extends Component {
                 contraseña: 'Contraseña requerida',
                 confirmar:'Repita contraseña',
             },
-            IdEditar:'00'
+            fuse_options: {
+                useExtendedSearch: true,
+                findAllMatches: true,
+                minMatchCharLength: 2,
+                location: 0,
+                threshold: 0.3,
+                distance: 10,
+                ignoreFieldNorm: true,
+                keys: [
+                   {
+                    name: 'nombre',
+                    weight: 2
+                   },
+                   "reg_medico",
+                   {
+                    name: "email",
+                    weight: 2
+                   },
+                   {
+                    name:"num_documento",
+                    weight: 2
+                   }
+                ]
+            },
+            IdEditar:'00',
+
+            data: [],
+            page: [],
+            perPage: 10,
+
+            offset:0,
+            currentPage: 0,
+            pageCount: 0
         }
         // bind
         this.getMedicosUsers = this.getMedicosUsers.bind(this);
@@ -58,7 +92,15 @@ class MedicosSistema extends Component {
         this.validarForm = this.validarForm.bind(this);
         this.handleCerrarModal = this.handleCerrarModal.bind(this);
         this.handleGuardar = this.handleGuardar.bind(this);
+        this.handleListar = this.handleListar.bind(this);
         this.handleEditPassword = this.handleEditPassword.bind(this);
+
+
+        this.getData = this.getData.bind(this);
+        this.handlePageClick = this.handlePageClick.bind(this);
+    }
+
+    componentDidMount() {
         this.getMedicosUsers();
     }
 
@@ -190,9 +232,11 @@ class MedicosSistema extends Component {
         let url ='usuario/medico'
         axios.get(url)
             .then(resp => {
-                console.log(resp.data.data);
                 this.setState({
-                    medicos:resp.data.data,
+                    page: resp.data.data,
+                    data: resp.data.data
+                },()=>{
+                    this.getData();
                 });
 
             })
@@ -267,6 +311,42 @@ class MedicosSistema extends Component {
         }
     }
 
+    handleListar(arg){
+        if (arg) {
+            this.setState({
+                page:arg
+            },()=>{
+                this.getData()
+            });
+        } else {
+            this.getMedicosUsers();
+        }
+    }
+
+    getData(){
+        const data = this.state.page;
+        const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage);
+
+        this.setState({
+            medicos: slice,
+            pageCount: Math.ceil(data.length / this.state.perPage)
+        })
+    }
+
+    handlePageClick(e){
+        const selectedPage = e.selected;
+        const offset = selectedPage * this.state.perPage;
+
+        this.setState({
+            currentPage: selectedPage,
+            offset: offset
+        },()=>{
+            this.getData();
+        });
+
+    }
+
+
     render() {
         const { medicos, editarContraseña } = this.state;
 
@@ -281,7 +361,7 @@ class MedicosSistema extends Component {
         }
 
         const editpassword = () =>{
-            console.log(editarContraseña);
+            // console.log(editarContraseña);
             if(editarContraseña){
                 return (
                     <article className="form-group">
@@ -308,6 +388,11 @@ class MedicosSistema extends Component {
            <div>
             <br/><br/>
             <button className="btn btn-success btn-sm" onClick={this.handleCreate}>+ Crear</button>
+            <Buscador
+                list={this.state.data}
+                options={this.state.fuse_options}
+                toRender={(arg)=>this.handleListar(arg)}
+            />
             <div className="row mt-5">
                 <div className={this.state.nuevo}>
                     <div className="col-md-12">
@@ -433,6 +518,18 @@ class MedicosSistema extends Component {
                         </div>
                     </div>
                 </div>
+                <ReactPaginate
+                    previousLabel={"<"}
+                    nextLabel={">"}
+                    breakLabel={"..."}
+                    breakClassName={"break-me"}
+                    pageCount={this.state.pageCount}
+                    marginPagesDisplayed={2}
+                    pageRangeDisplayed={5}
+                    onPageChange={this.handlePageClick}
+                    containerClassName={"pagination"}
+                    subContainerClassName={"pages pagination"}
+                    activeClassName={"active"}/>
             </div>
             <Modal show={this.state.modalOpen}>
                     <Modal.Header>Medico</Modal.Header>
