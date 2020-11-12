@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import TableUsers from './TableUsers.js';
 import Modal from "react-bootstrap/Modal";
-import Buscador from "./Buscador"
+import Buscador from "./Buscador";
+import Selector from "./Selector";
 
 import axios from 'axios';
 import ReactPaginate from 'react-paginate';
@@ -112,14 +113,21 @@ class UsuariosSistema extends Component {
         });
         console.log('Edit: ', this.state)
     }
-    handleListar(arg){
-        if (arg) {
+    handleListar(arg, tipo){
+        console.log(arg, tipo);
+        if (arg && !tipo) {
+            this.setState({
+                data: arg
+            },()=>{
+                this.getData()
+            });
+        }else if (!arg && tipo) {
             this.setState({
                 page: arg
             },()=>{
                 this.getData()
             });
-        } else {
+        }else {
             this.getSystemUsers();
         }
     }
@@ -333,16 +341,33 @@ class UsuariosSistema extends Component {
                 )
             }
         }
-
+        console.log(this.state.page.tipo);
         return (
             <div>
                 <br/><br/>
                 <button className="btn btn-success btn-sm" onClick={this.handleCreate}>+ Crear</button>
-                <Buscador
-                    list={this.state.data}
-                    options={this.state.fuse_options}
-                    toRender={(arg)=>this.handleListar(arg)}
-                />
+                <article className="container">
+                    <section className="row justify-content-between">
+                        <Buscador
+                            list={this.state.data}
+                            options={this.state.fuse_options}
+                            toRender={(arg)=>this.handleListar(arg, false)}
+                        />
+                        <Selector
+                            list={this.state.page}
+                            keyx='tipo'
+                            toRender={(arg)=>this.handleListar(arg, true)}
+                        >
+                            <option value="0">Admin</option>
+                            <option value="1">Médico</option>
+                            <option value="2">Auxiliar Pemel</option>
+                            <option value="3">Admin Pemel</option>
+                            <option value="4">Admin IPS</option>
+                            <option value="5">Usuarios Admin</option>
+                            <option value="*">Todos</option>
+                        </Selector>
+                    </section>
+                </article>
                 <form className="row mt-5">
                     <div className={this.state.nuevo}>
                         <div className="col-md-12">

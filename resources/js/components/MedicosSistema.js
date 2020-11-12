@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import TableMedicos from './TableMedicos.js';
 import Modal from "react-bootstrap/Modal";
 import Buscador from "./Buscador";
+import Selector from "./Selector";
 
 import axios from 'axios';
 import ReactPaginate from 'react-paginate';
@@ -388,11 +389,23 @@ class MedicosSistema extends Component {
            <div>
             <br/><br/>
             <button className="btn btn-success btn-sm" onClick={this.handleCreate}>+ Crear</button>
-            <Buscador
-                list={this.state.data}
-                options={this.state.fuse_options}
-                toRender={(arg)=>this.handleListar(arg)}
-            />
+            <article className="container">
+                    <section className="row justify-content-between">
+                        <Buscador
+                            list={this.state.data}
+                            options={this.state.fuse_options}
+                            toRender={(arg)=>this.handleListar(arg)}
+                        />
+                        <Selector>
+                            <option value="1">Médico general</option>
+                            <option value="2">Médico especialista</option>
+                            <option value="5">Médico laboral</option>
+                            <option value="3">Odontólogo general</option>
+                            <option value="4">Odontólogo especialista</option>
+                            <option value="*">Todos</option>
+                        </Selector>
+                    </section>
+                </article>
             <div className="row mt-5">
                 <div className={this.state.nuevo}>
                     <div className="col-md-12">

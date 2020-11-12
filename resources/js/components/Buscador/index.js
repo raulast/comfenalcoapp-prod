@@ -21,7 +21,7 @@ class index extends Component {
     render() {
         return (
             <Fragment>
-                <input type="text" className="form-control" id="buscador_medicos" name="buscador_medicos" placeholder="Buscar..." onChange={this.handleBuscar}></input>
+                <input type="text" className="form-control col-8" id="buscador_medicos" name="buscador_medicos" placeholder="Buscar..." onChange={this.handleBuscar}></input>
             </Fragment>
         );
     }
