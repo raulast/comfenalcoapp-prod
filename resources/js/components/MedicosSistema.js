@@ -73,9 +73,12 @@ class MedicosSistema extends Component {
             },
             IdEditar:'00',
 
-            data: [],
-            page: [],
+            buscador: [],
+            selector: [],
+            tabla: [],
             perPage: 10,
+
+            selector_auto:false,
 
             offset:0,
             currentPage: 0,
@@ -139,7 +142,9 @@ class MedicosSistema extends Component {
                 this.props.showToast(resp.data.data,'success')
                 this.getMedicosUsers();
                         this.setState({
-                            medicos: this.state.medicos,
+                            tabla: this.state.tabla
+                        },()=>{
+                            this.getData();
                         });
             })
             .catch(err => {
@@ -173,8 +178,10 @@ class MedicosSistema extends Component {
                 .then(resp => {
                     let user = resp.data.row;
                     this.setState({
-                        medicos: [...this.state.medicos, user],
-                        nuevo: 'oculto'
+                        nuevo: 'oculto',
+                        tabla: [...this.state.tabla, user]
+                        },()=>{
+                            this.getData();
                     });
                     this.props.showToast('Datos almacenados','success');
                     // alert("Datos almacenados")
@@ -234,8 +241,9 @@ class MedicosSistema extends Component {
         axios.get(url)
             .then(resp => {
                 this.setState({
-                    page: resp.data.data,
-                    data: resp.data.data
+                    buscador: resp.data.data,
+                    selector: resp.data.data,
+                    tabla: resp.data.data
                 },()=>{
                     this.getData();
                 });
@@ -288,7 +296,9 @@ class MedicosSistema extends Component {
                 .then(resp => {
                     this.getMedicosUsers()
                     this.setState({
-                        medicos: [...this.state.medicos]
+                        tabla: [...this.state.tabla]
+                    },()=>{
+                        this.getData();
                     });
                     this.handleCerrarModal()
                     this.props.showToast('Datos Actualizados','success');
@@ -312,25 +322,36 @@ class MedicosSistema extends Component {
         }
     }
 
-    handleListar(arg){
-        if (arg) {
+    handleListar(arg, tipo){
+        if (arg && !tipo) {
             this.setState({
-                page:arg
+                selector: arg,
+                selector_auto:true
+            });
+        }else if (arg && tipo) {
+            this.setState({
+                tabla: arg,
+                selector_auto:false
             },()=>{
                 this.getData()
             });
-        } else {
-            this.getMedicosUsers();
+        }else{
+            this.setState({
+                tabla: [],
+                selector_auto:false
+            },()=>{
+                this.getData()
+            });
         }
     }
 
     getData(){
-        const data = this.state.page;
-        const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage);
+        const tabla = this.state.tabla
+        const slice = tabla.slice(this.state.offset, this.state.offset + this.state.perPage);
 
         this.setState({
             medicos: slice,
-            pageCount: Math.ceil(data.length / this.state.perPage)
+            pageCount: Math.ceil(tabla.length / this.state.perPage)
         })
     }
 
@@ -392,17 +413,23 @@ class MedicosSistema extends Component {
             <article className="container">
                     <section className="row justify-content-between">
                         <Buscador
-                            list={this.state.data}
+                            list={this.state.buscador}
                             options={this.state.fuse_options}
-                            toRender={(arg)=>this.handleListar(arg)}
+                            toRender={(arg)=>this.handleListar(arg, false)}
                         />
-                        <Selector>
+                        <Selector
+                            list={this.state.selector}
+                            keyx='especialidad'
+                            auto={this.state.selector_auto}
+                            toRender={(arg)=>this.handleListar(arg, true)}
+                            tag='medico'
+                        >
+                            <option value="*">Todos</option>
                             <option value="1">Médico general</option>
                             <option value="2">Médico especialista</option>
                             <option value="5">Médico laboral</option>
                             <option value="3">Odontólogo general</option>
                             <option value="4">Odontólogo especialista</option>
-                            <option value="*">Todos</option>
                         </Selector>
                     </section>
                 </article>

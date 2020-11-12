@@ -20,31 +20,29 @@ class index extends Component {
         this.handleBuscar=this.handleBuscar.bind(this);
     }
 
-    handleBuscar({target}){
-        const fuse = new Fuse(this.props.list, this.state.options);
-        console.log('Funcion: ->', target.value);
-        const result = fuse.search('\''+target.value);
-        let tmp = '';
-        Object.keys(result).map((key)=>(
-            tmp = [...tmp, result[key].item]
-            ));
-        this.props.toRender(tmp);
-        // const fuse = new Fuse(this.props.list, this.props.options);
-        // const filtro = ('\''+target.value).replace(' ',' \'');
-        // const result = fuse.search(filtro);
-        // let tmp = '';
-        // Object.keys(result).map((key)=>(
-        //     tmp = [...tmp, result[key].item]
-        //     ));
-        // this.props.toRender(tmp);
+    handleBuscar(){
+        const selection = document.getElementById('selector_'+this.props.tag).value;
+        if(selection!='*'){
+            const fuse = new Fuse(this.props.list, this.state.options);
+            const result = fuse.search(selection);
+            let tmp = '';
+            Object.keys(result).map((key)=>(
+                tmp = [...tmp, result[key].item]
+                ));
+            this.props.toRender(tmp);
+        }else{
+            this.props.toRender(this.props.list);
+        }
     }
 
     render() {
+        if(this.props.auto){
+            this.handleBuscar();
+        }
         const { children } = this.props;
-        console.log(this.props);
         return (
             <Fragment>
-                <select className="form-control col-3" defaultValue='*' name="tipo" onChange={this.handleBuscar}>
+                <select id={'selector_'+this.props.tag} className="form-control col-3" defaultValue='*' name="tipo" onChange={this.handleBuscar}>
                     {children}
                 </select>
             </Fragment>

@@ -9,14 +9,18 @@ class index extends Component {
     }
 
     handleBuscar({target}){
-        const fuse = new Fuse(this.props.list, this.props.options);
-        const filtro = ('\''+target.value).replace(' ',' \'');
-        const result = fuse.search(filtro);
-        let tmp = '';
-        Object.keys(result).map((key)=>(
-            tmp = [...tmp, result[key].item]
-            ));
-        this.props.toRender(tmp);
+        if (target.value != '') {
+            const fuse = new Fuse(this.props.list, this.props.options);
+            const filtro = ('\''+target.value).replace(' ',' \'');
+            const result = fuse.search(filtro);
+            let tmp = '';
+            Object.keys(result).map((key)=>(
+                tmp = [...tmp, result[key].item]
+                ));
+            this.props.toRender(tmp);
+        } else {
+            this.props.toRender(this.props.list);
+        }
     }
     render() {
         return (

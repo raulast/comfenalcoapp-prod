@@ -76646,14 +76646,19 @@ var index = /*#__PURE__*/function (_Component) {
     key: "handleBuscar",
     value: function handleBuscar(_ref) {
       var target = _ref.target;
-      var fuse = new fuse_js__WEBPACK_IMPORTED_MODULE_1__["default"](this.props.list, this.props.options);
-      var filtro = ('\'' + target.value).replace(' ', ' \'');
-      var result = fuse.search(filtro);
-      var tmp = '';
-      Object.keys(result).map(function (key) {
-        return tmp = [].concat(_toConsumableArray(tmp), [result[key].item]);
-      });
-      this.props.toRender(tmp);
+
+      if (target.value != '') {
+        var fuse = new fuse_js__WEBPACK_IMPORTED_MODULE_1__["default"](this.props.list, this.props.options);
+        var filtro = ('\'' + target.value).replace(' ', ' \'');
+        var result = fuse.search(filtro);
+        var tmp = '';
+        Object.keys(result).map(function (key) {
+          return tmp = [].concat(_toConsumableArray(tmp), [result[key].item]);
+        });
+        this.props.toRender(tmp);
+      } else {
+        this.props.toRender(this.props.list);
+      }
     }
   }, {
     key: "render",
@@ -85758,9 +85763,11 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         }]
       },
       IdEditar: '00',
-      data: [],
-      page: [],
+      buscador: [],
+      selector: [],
+      tabla: [],
       perPage: 10,
+      selector_auto: false,
       offset: 0,
       currentPage: 0,
       pageCount: 0
@@ -85830,7 +85837,9 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         _this2.getMedicosUsers();
 
         _this2.setState({
-          medicos: _this2.state.medicos
+          tabla: _this2.state.tabla
+        }, function () {
+          _this2.getData();
         });
       })["catch"](function (err) {
         console.log(err);
@@ -85866,8 +85875,10 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
           var user = resp.data.row;
 
           _this3.setState({
-            medicos: [].concat(_toConsumableArray(_this3.state.medicos), [user]),
-            nuevo: 'oculto'
+            nuevo: 'oculto',
+            tabla: [].concat(_toConsumableArray(_this3.state.tabla), [user])
+          }, function () {
+            _this3.getData();
           });
 
           _this3.props.showToast('Datos almacenados', 'success'); // alert("Datos almacenados")
@@ -85929,8 +85940,9 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
       var url = 'usuario/medico';
       axios__WEBPACK_IMPORTED_MODULE_6___default.a.get(url).then(function (resp) {
         _this4.setState({
-          page: resp.data.data,
-          data: resp.data.data
+          buscador: resp.data.data,
+          selector: resp.data.data,
+          tabla: resp.data.data
         }, function () {
           _this4.getData();
         });
@@ -85976,7 +85988,9 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
           _this5.getMedicosUsers();
 
           _this5.setState({
-            medicos: _toConsumableArray(_this5.state.medicos)
+            tabla: _toConsumableArray(_this5.state.tabla)
+          }, function () {
+            _this5.getData();
           });
 
           _this5.handleCerrarModal();
@@ -86003,27 +86017,38 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
     }
   }, {
     key: "handleListar",
-    value: function handleListar(arg) {
+    value: function handleListar(arg, tipo) {
       var _this6 = this;
 
-      if (arg) {
+      if (arg && !tipo) {
         this.setState({
-          page: arg
+          selector: arg,
+          selector_auto: true
+        });
+      } else if (arg && tipo) {
+        this.setState({
+          tabla: arg,
+          selector_auto: false
         }, function () {
           _this6.getData();
         });
       } else {
-        this.getMedicosUsers();
+        this.setState({
+          tabla: [],
+          selector_auto: false
+        }, function () {
+          _this6.getData();
+        });
       }
     }
   }, {
     key: "getData",
     value: function getData() {
-      var data = this.state.page;
-      var slice = data.slice(this.state.offset, this.state.offset + this.state.perPage);
+      var tabla = this.state.tabla;
+      var slice = tabla.slice(this.state.offset, this.state.offset + this.state.perPage);
       this.setState({
         medicos: slice,
-        pageCount: Math.ceil(data.length / this.state.perPage)
+        pageCount: Math.ceil(tabla.length / this.state.perPage)
       });
     }
   }, {
@@ -86102,12 +86127,22 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
         className: "row justify-content-between"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Buscador__WEBPACK_IMPORTED_MODULE_4__["default"], {
-        list: this.state.data,
+        list: this.state.buscador,
         options: this.state.fuse_options,
         toRender: function toRender(arg) {
-          return _this8.handleListar(arg);
+          return _this8.handleListar(arg, false);
         }
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Selector__WEBPACK_IMPORTED_MODULE_5__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Selector__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        list: this.state.selector,
+        keyx: "especialidad",
+        auto: this.state.selector_auto,
+        toRender: function toRender(arg) {
+          return _this8.handleListar(arg, true);
+        },
+        tag: "medico"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "*"
+      }, "Todos"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "1"
       }, "M\xE9dico general"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "2"
@@ -86117,9 +86152,7 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         value: "3"
       }, "Odont\xF3logo general"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "4"
-      }, "Odont\xF3logo especialista"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "*"
-      }, "Todos")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "Odont\xF3logo especialista")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row mt-5"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: this.state.nuevo
@@ -87760,30 +87793,31 @@ var index = /*#__PURE__*/function (_Component) {
 
   _createClass(index, [{
     key: "handleBuscar",
-    value: function handleBuscar(_ref) {
-      var target = _ref.target;
-      var fuse = new fuse_js__WEBPACK_IMPORTED_MODULE_1__["default"](this.props.list, this.state.options);
-      console.log('Funcion: ->', target.value);
-      var result = fuse.search('\'' + target.value);
-      var tmp = '';
-      Object.keys(result).map(function (key) {
-        return tmp = [].concat(_toConsumableArray(tmp), [result[key].item]);
-      });
-      this.props.toRender(tmp); // const fuse = new Fuse(this.props.list, this.props.options);
-      // const filtro = ('\''+target.value).replace(' ',' \'');
-      // const result = fuse.search(filtro);
-      // let tmp = '';
-      // Object.keys(result).map((key)=>(
-      //     tmp = [...tmp, result[key].item]
-      //     ));
-      // this.props.toRender(tmp);
+    value: function handleBuscar() {
+      var selection = document.getElementById('selector_' + this.props.tag).value;
+
+      if (selection != '*') {
+        var fuse = new fuse_js__WEBPACK_IMPORTED_MODULE_1__["default"](this.props.list, this.state.options);
+        var result = fuse.search(selection);
+        var tmp = '';
+        Object.keys(result).map(function (key) {
+          return tmp = [].concat(_toConsumableArray(tmp), [result[key].item]);
+        });
+        this.props.toRender(tmp);
+      } else {
+        this.props.toRender(this.props.list);
+      }
     }
   }, {
     key: "render",
     value: function render() {
+      if (this.props.auto) {
+        this.handleBuscar();
+      }
+
       var children = this.props.children;
-      console.log(this.props);
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        id: 'selector_' + this.props.tag,
         className: "form-control col-3",
         defaultValue: "*",
         name: "tipo",
@@ -88648,9 +88682,11 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
         }]
       },
       IdEditar: '00',
-      data: [],
-      page: [],
+      buscador: [],
+      selector: [],
+      tabla: [],
       perPage: 10,
+      selector_auto: false,
       offset: 0,
       currentPage: 0,
       pageCount: 0
@@ -88689,8 +88725,7 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
     key: "handleChange",
     value: function handleChange(_ref) {
       var target = _ref.target;
-      this.setState(_defineProperty({}, target.name, target.value));
-      console.log(this.state);
+      this.setState(_defineProperty({}, target.name, target.value)); // console.log(this.state)
     }
   }, {
     key: "handleEdition",
@@ -88701,30 +88736,32 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
         tipo: tipo,
         modalOpen: true,
         IdEditar: id
-      });
-      console.log('Edit: ', this.state);
+      }); // console.log('Edit: ', this.state)
     }
   }, {
     key: "handleListar",
     value: function handleListar(arg, tipo) {
       var _this2 = this;
 
-      console.log(arg, tipo);
-
       if (arg && !tipo) {
         this.setState({
-          data: arg
-        }, function () {
-          _this2.getData();
+          selector: arg,
+          selector_auto: true
         });
-      } else if (!arg && tipo) {
+      } else if (arg && tipo) {
         this.setState({
-          page: arg
+          tabla: arg,
+          selector_auto: false
         }, function () {
           _this2.getData();
         });
       } else {
-        this.getSystemUsers();
+        this.setState({
+          tabla: [],
+          selector_auto: false
+        }, function () {
+          _this2.getData();
+        });
       }
     }
   }, {
@@ -88749,7 +88786,9 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
         _this3.getSystemUsers();
 
         _this3.setState({
-          users: _this3.state.users
+          tabla: _this3.state.tabla
+        }, function () {
+          _this3.getData();
         });
       })["catch"](function (err) {
         console.log(err);
@@ -88774,8 +88813,10 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
           var user = resp.data.row;
 
           _this4.setState({
-            users: [].concat(_toConsumableArray(_this4.state.users), [user]),
+            tabla: [].concat(_toConsumableArray(_this4.state.tabla), [user]),
             nuevo: 'oculto'
+          }, function () {
+            _this4.getData();
           });
 
           _this4.props.showToast('Datos almacenados', 'success'); // alert("Datos almacenados")
@@ -88798,8 +88839,8 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
             value = _ref3[1];
 
         if (value == '' && key != 'modalOpen' && editarContraseña) {
-          newState.errors[key] = "visible";
-          console.log(key);
+          newState.errors[key] = "visible"; // console.log(key)
+
           newState.errorMensajes[key] = key + " requerido";
           resp = false;
         }
@@ -88840,8 +88881,9 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
       var url = 'getSystemUsers';
       axios__WEBPACK_IMPORTED_MODULE_5___default.a.get(url).then(function (resp) {
         _this5.setState({
-          page: resp.data.data,
-          data: resp.data.data
+          buscador: resp.data.data,
+          selector: resp.data.data,
+          tabla: resp.data.data
         }, function () {
           _this5.getData();
         });
@@ -88869,7 +88911,9 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
           _this6.getSystemUsers();
 
           _this6.setState({
-            users: _toConsumableArray(_this6.state.users)
+            tabla: _toConsumableArray(_this6.state.tabla)
+          }, function () {
+            _this6.getData();
           });
 
           _this6.handleCerrarModal();
@@ -88897,11 +88941,11 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
   }, {
     key: "getData",
     value: function getData() {
-      var data = this.state.page;
-      var slice = data.slice(this.state.offset, this.state.offset + this.state.perPage);
+      var tabla = this.state.tabla;
+      var slice = tabla.slice(this.state.offset, this.state.offset + this.state.perPage);
       this.setState({
         users: slice,
-        pageCount: Math.ceil(data.length / this.state.perPage)
+        pageCount: Math.ceil(tabla.length / this.state.perPage)
       });
     }
   }, {
@@ -88971,7 +89015,6 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
         }
       };
 
-      console.log(this.state.page.tipo);
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "btn btn-success btn-sm",
         onClick: this.handleCreate
@@ -88980,18 +89023,22 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
         className: "row justify-content-between"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Buscador__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        list: this.state.data,
+        list: this.state.buscador,
         options: this.state.fuse_options,
         toRender: function toRender(arg) {
           return _this8.handleListar(arg, false);
         }
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Selector__WEBPACK_IMPORTED_MODULE_4__["default"], {
-        list: this.state.page,
+        list: this.state.selector,
         keyx: "tipo",
+        auto: this.state.selector_auto,
         toRender: function toRender(arg) {
           return _this8.handleListar(arg, true);
-        }
+        },
+        tag: "user"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "*"
+      }, "Todos"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "0"
       }, "Admin"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "1"
@@ -89003,9 +89050,7 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
         value: "4"
       }, "Admin IPS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "5"
-      }, "Usuarios Admin"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "*"
-      }, "Todos")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+      }, "Usuarios Admin")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
         className: "row mt-5"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: this.state.nuevo
@@ -89437,8 +89482,8 @@ if (document.getElementById('test')) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\Ingenio David\comfenalcoapp-prod\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! D:\Ingenio David\comfenalcoapp-prod\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\rauls\OneDrive\Documents\DEV\comfenalcoapp-prod\comfenalcoapp-prod\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\rauls\OneDrive\Documents\DEV\comfenalcoapp-prod\comfenalcoapp-prod\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

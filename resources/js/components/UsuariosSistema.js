@@ -59,9 +59,12 @@ class UsuariosSistema extends Component {
             },
             IdEditar:'00',
 
-            data: [],
-            page: [],
+            buscador: [],
+            selector: [],
+            tabla: [],
             perPage: 10,
+
+            selector_auto:false,
 
             offset:0,
             currentPage: 0,
@@ -100,7 +103,7 @@ class UsuariosSistema extends Component {
         this.setState({
           [target.name]: target.value
         });
-        console.log(this.state)
+        // console.log(this.state)
     }
 
     handleEdition(id,usuario,correo,tipo){
@@ -111,24 +114,28 @@ class UsuariosSistema extends Component {
             modalOpen: true,
             IdEditar:id
         });
-        console.log('Edit: ', this.state)
+        // console.log('Edit: ', this.state)
     }
     handleListar(arg, tipo){
-        console.log(arg, tipo);
         if (arg && !tipo) {
             this.setState({
-                data: arg
-            },()=>{
-                this.getData()
+                selector: arg,
+                selector_auto:true
             });
-        }else if (!arg && tipo) {
+        }else if (arg && tipo) {
             this.setState({
-                page: arg
+                tabla: arg,
+                selector_auto:false
             },()=>{
                 this.getData()
             });
-        }else {
-            this.getSystemUsers();
+        }else{
+            this.setState({
+                tabla: [],
+                selector_auto:false
+            },()=>{
+                this.getData()
+            });
         }
     }
 
@@ -149,7 +156,9 @@ class UsuariosSistema extends Component {
                 this.props.showToast(resp.data.data,'success')
                 this.getSystemUsers();
                         this.setState({
-                            users: this.state.users,
+                            tabla: this.state.tabla,
+                        },()=>{
+                            this.getData();
                         });
             })
             .catch(err => {
@@ -171,8 +180,10 @@ class UsuariosSistema extends Component {
                 .then(resp => {
                     let user = resp.data.row;
                     this.setState({
-                        users: [...this.state.users, user],
+                        tabla: [...this.state.tabla, user],
                         nuevo: 'oculto'
+                    },()=>{
+                        this.getData();
                     });
                     this.props.showToast('Datos almacenados','success');
                     // alert("Datos almacenados")
@@ -192,7 +203,7 @@ class UsuariosSistema extends Component {
         Object.entries(this.state).map(([key, value]) => {
             if (value == '' && key != 'modalOpen' && editarContraseña){
                 newState.errors[key] = "visible";
-                console.log(key)
+                // console.log(key)
                 newState.errorMensajes[key] = key + " requerido";
                 resp = false;
             }
@@ -231,8 +242,9 @@ class UsuariosSistema extends Component {
         axios.get(url)
             .then(resp => {
                 this.setState({
-                    page: resp.data.data,
-                    data: resp.data.data
+                    buscador: resp.data.data,
+                    selector: resp.data.data,
+                    tabla: resp.data.data
                 },()=>{
                     this.getData();
                 });
@@ -258,7 +270,9 @@ class UsuariosSistema extends Component {
                 .then(resp => {
                     this.getSystemUsers()
                     this.setState({
-                        users: [...this.state.users]
+                        tabla: [...this.state.tabla]
+                    },()=>{
+                        this.getData();
                     });
                     this.handleCerrarModal()
                     this.props.showToast('Datos Actualizados','success');
@@ -283,12 +297,12 @@ class UsuariosSistema extends Component {
     }
 
     getData(){
-        const data = this.state.page;
-        const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage);
+        const tabla = this.state.tabla
+        const slice = tabla.slice(this.state.offset, this.state.offset + this.state.perPage);
 
         this.setState({
             users: slice,
-            pageCount: Math.ceil(data.length / this.state.perPage)
+            pageCount: Math.ceil(tabla.length / this.state.perPage)
         })
     }
 
@@ -341,7 +355,6 @@ class UsuariosSistema extends Component {
                 )
             }
         }
-        console.log(this.state.page.tipo);
         return (
             <div>
                 <br/><br/>
@@ -349,22 +362,24 @@ class UsuariosSistema extends Component {
                 <article className="container">
                     <section className="row justify-content-between">
                         <Buscador
-                            list={this.state.data}
+                            list={this.state.buscador}
                             options={this.state.fuse_options}
                             toRender={(arg)=>this.handleListar(arg, false)}
                         />
                         <Selector
-                            list={this.state.page}
+                            list={this.state.selector}
                             keyx='tipo'
+                            auto={this.state.selector_auto}
                             toRender={(arg)=>this.handleListar(arg, true)}
+                            tag='user'
                         >
+                            <option value="*">Todos</option>
                             <option value="0">Admin</option>
                             <option value="1">Médico</option>
                             <option value="2">Auxiliar Pemel</option>
                             <option value="3">Admin Pemel</option>
                             <option value="4">Admin IPS</option>
                             <option value="5">Usuarios Admin</option>
-                            <option value="*">Todos</option>
                         </Selector>
                     </section>
                 </article>
