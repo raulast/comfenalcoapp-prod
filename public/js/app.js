@@ -6781,6 +6781,25 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/index.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./resources/js/components/Usuarios/UsuariosSistema.scss":
+/*!**************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./resources/js/components/Usuarios/UsuariosSistema.scss ***!
+  \**************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".pagination {\n  margin: 15px auto;\n  display: flex;\n  list-style: none;\n  outline: none;\n}\n.pagination > .active > a {\n  background-color: #47ccde;\n  border-color: #47ccde;\n  color: #fff;\n}\n.pagination > li > a {\n  border: 1px solid #47ccde;\n  padding: 5px 10px;\n  outline: none;\n  cursor: pointer;\n}\n.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {\n  background-color: #47ccde;\n  border-color: #47ccde;\n  outline: none;\n}\n.pagination > li > a, .pagination > li > span {\n  color: #47ccde;\n}\n.pagination > li:first-child > a, .pagination > li:first-child > span, .pagination > li:last-child > a, .pagination > li:last-child > span {\n  border-radius: unset;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/index.js?!./node_modules/postcss-loader/src/index.js?!./node_modules/bootstrap/dist/css/bootstrap.min.css":
 /*!*******************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader??ref--6-1!./node_modules/postcss-loader/src??ref--6-2!./node_modules/bootstrap/dist/css/bootstrap.min.css ***!
@@ -7477,6 +7496,1794 @@ function transitionEnd(element, handler, duration) {
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (transitionEnd);
+
+/***/ }),
+
+/***/ "./node_modules/fuse.js/dist/fuse.esm.js":
+/*!***********************************************!*\
+  !*** ./node_modules/fuse.js/dist/fuse.esm.js ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/**
+ * Fuse.js v6.4.3 - Lightweight fuzzy-search (http://fusejs.io)
+ *
+ * Copyright (c) 2020 Kiro Risk (http://kiro.me)
+ * All Rights Reserved. Apache Software License 2.0
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ */
+
+function isArray(value) {
+  return !Array.isArray
+    ? getTag(value) === '[object Array]'
+    : Array.isArray(value)
+}
+
+// Adapted from: https://github.com/lodash/lodash/blob/master/.internal/baseToString.js
+const INFINITY = 1 / 0;
+function baseToString(value) {
+  // Exit early for strings to avoid a performance hit in some environments.
+  if (typeof value == 'string') {
+    return value
+  }
+  let result = value + '';
+  return result == '0' && 1 / value == -INFINITY ? '-0' : result
+}
+
+function toString(value) {
+  return value == null ? '' : baseToString(value)
+}
+
+function isString(value) {
+  return typeof value === 'string'
+}
+
+function isNumber(value) {
+  return typeof value === 'number'
+}
+
+// Adapted from: https://github.com/lodash/lodash/blob/master/isBoolean.js
+function isBoolean(value) {
+  return (
+    value === true ||
+    value === false ||
+    (isObjectLike(value) && getTag(value) == '[object Boolean]')
+  )
+}
+
+function isObject(value) {
+  return typeof value === 'object'
+}
+
+// Checks if `value` is object-like.
+function isObjectLike(value) {
+  return isObject(value) && value !== null
+}
+
+function isDefined(value) {
+  return value !== undefined && value !== null
+}
+
+function isBlank(value) {
+  return !value.trim().length
+}
+
+// Gets the `toStringTag` of `value`.
+// Adapted from: https://github.com/lodash/lodash/blob/master/.internal/getTag.js
+function getTag(value) {
+  return value == null
+    ? value === undefined
+      ? '[object Undefined]'
+      : '[object Null]'
+    : Object.prototype.toString.call(value)
+}
+
+const EXTENDED_SEARCH_UNAVAILABLE = 'Extended search is not available';
+
+const INCORRECT_INDEX_TYPE = "Incorrect 'index' type";
+
+const LOGICAL_SEARCH_INVALID_QUERY_FOR_KEY = (key) =>
+  `Invalid value for key ${key}`;
+
+const PATTERN_LENGTH_TOO_LARGE = (max) =>
+  `Pattern length exceeds max of ${max}.`;
+
+const MISSING_KEY_PROPERTY = (name) => `Missing ${name} property in key`;
+
+const INVALID_KEY_WEIGHT_VALUE = (key) =>
+  `Property 'weight' in key '${key}' must be a positive integer`;
+
+const hasOwn = Object.prototype.hasOwnProperty;
+
+class KeyStore {
+  constructor(keys) {
+    this._keys = [];
+    this._keyMap = {};
+
+    let totalWeight = 0;
+
+    keys.forEach((key) => {
+      let obj = createKey(key);
+
+      totalWeight += obj.weight;
+
+      this._keys.push(obj);
+      this._keyMap[obj.id] = obj;
+
+      totalWeight += obj.weight;
+    });
+
+    // Normalize weights so that their sum is equal to 1
+    this._keys.forEach((key) => {
+      key.weight /= totalWeight;
+    });
+  }
+  get(keyId) {
+    return this._keyMap[keyId]
+  }
+  keys() {
+    return this._keys
+  }
+  toJSON() {
+    return JSON.stringify(this._keys)
+  }
+}
+
+function createKey(key) {
+  let path = null;
+  let id = null;
+  let src = null;
+  let weight = 1;
+
+  if (isString(key) || isArray(key)) {
+    src = key;
+    path = createKeyPath(key);
+    id = createKeyId(key);
+  } else {
+    if (!hasOwn.call(key, 'name')) {
+      throw new Error(MISSING_KEY_PROPERTY('name'))
+    }
+
+    const name = key.name;
+    src = name;
+
+    if (hasOwn.call(key, 'weight')) {
+      weight = key.weight;
+
+      if (weight <= 0) {
+        throw new Error(INVALID_KEY_WEIGHT_VALUE(name))
+      }
+    }
+
+    path = createKeyPath(name);
+    id = createKeyId(name);
+  }
+
+  return { path, id, weight, src }
+}
+
+function createKeyPath(key) {
+  return isArray(key) ? key : key.split('.')
+}
+
+function createKeyId(key) {
+  return isArray(key) ? key.join('.') : key
+}
+
+function get(obj, path) {
+  let list = [];
+  let arr = false;
+
+  const deepGet = (obj, path, index) => {
+    if (!isDefined(obj)) {
+      return
+    }
+    if (!path[index]) {
+      // If there's no path left, we've arrived at the object we care about.
+      list.push(obj);
+    } else {
+      let key = path[index];
+
+      const value = obj[key];
+
+      if (!isDefined(value)) {
+        return
+      }
+
+      // If we're at the last value in the path, and if it's a string/number/bool,
+      // add it to the list
+      if (
+        index === path.length - 1 &&
+        (isString(value) || isNumber(value) || isBoolean(value))
+      ) {
+        list.push(toString(value));
+      } else if (isArray(value)) {
+        arr = true;
+        // Search each item in the array.
+        for (let i = 0, len = value.length; i < len; i += 1) {
+          deepGet(value[i], path, index + 1);
+        }
+      } else if (path.length) {
+        // An object. Recurse further.
+        deepGet(value, path, index + 1);
+      }
+    }
+  };
+
+  // Backwards compatibility (since path used to be a string)
+  deepGet(obj, isString(path) ? path.split('.') : path, 0);
+
+  return arr ? list : list[0]
+}
+
+const MatchOptions = {
+  // Whether the matches should be included in the result set. When `true`, each record in the result
+  // set will include the indices of the matched characters.
+  // These can consequently be used for highlighting purposes.
+  includeMatches: false,
+  // When `true`, the matching function will continue to the end of a search pattern even if
+  // a perfect match has already been located in the string.
+  findAllMatches: false,
+  // Minimum number of characters that must be matched before a result is considered a match
+  minMatchCharLength: 1
+};
+
+const BasicOptions = {
+  // When `true`, the algorithm continues searching to the end of the input even if a perfect
+  // match is found before the end of the same input.
+  isCaseSensitive: false,
+  // When true, the matching function will continue to the end of a search pattern even if
+  includeScore: false,
+  // List of properties that will be searched. This also supports nested properties.
+  keys: [],
+  // Whether to sort the result list, by score
+  shouldSort: true,
+  // Default sort function: sort by ascending score, ascending index
+  sortFn: (a, b) =>
+    a.score === b.score ? (a.idx < b.idx ? -1 : 1) : a.score < b.score ? -1 : 1
+};
+
+const FuzzyOptions = {
+  // Approximately where in the text is the pattern expected to be found?
+  location: 0,
+  // At what point does the match algorithm give up. A threshold of '0.0' requires a perfect match
+  // (of both letters and location), a threshold of '1.0' would match anything.
+  threshold: 0.6,
+  // Determines how close the match must be to the fuzzy location (specified above).
+  // An exact letter match which is 'distance' characters away from the fuzzy location
+  // would score as a complete mismatch. A distance of '0' requires the match be at
+  // the exact location specified, a threshold of '1000' would require a perfect match
+  // to be within 800 characters of the fuzzy location to be found using a 0.8 threshold.
+  distance: 100
+};
+
+const AdvancedOptions = {
+  // When `true`, it enables the use of unix-like search commands
+  useExtendedSearch: false,
+  // The get function to use when fetching an object's properties.
+  // The default will search nested paths *ie foo.bar.baz*
+  getFn: get,
+  // When `true`, search will ignore `location` and `distance`, so it won't matter
+  // where in the string the pattern appears.
+  // More info: https://fusejs.io/concepts/scoring-theory.html#fuzziness-score
+  ignoreLocation: false,
+  // When `true`, the calculation for the relevance score (used for sorting) will
+  // ignore the field-length norm.
+  // More info: https://fusejs.io/concepts/scoring-theory.html#field-length-norm
+  ignoreFieldNorm: false
+};
+
+var Config = {
+  ...BasicOptions,
+  ...MatchOptions,
+  ...FuzzyOptions,
+  ...AdvancedOptions
+};
+
+const SPACE = /[^ ]+/g;
+
+// Field-length norm: the shorter the field, the higher the weight.
+// Set to 3 decimals to reduce index size.
+function norm(mantissa = 3) {
+  const cache = new Map();
+
+  return {
+    get(value) {
+      const numTokens = value.match(SPACE).length;
+
+      if (cache.has(numTokens)) {
+        return cache.get(numTokens)
+      }
+
+      const n = parseFloat((1 / Math.sqrt(numTokens)).toFixed(mantissa));
+
+      cache.set(numTokens, n);
+
+      return n
+    },
+    clear() {
+      cache.clear();
+    }
+  }
+}
+
+class FuseIndex {
+  constructor({ getFn = Config.getFn } = {}) {
+    this.norm = norm(3);
+    this.getFn = getFn;
+    this.isCreated = false;
+
+    this.setIndexRecords();
+  }
+  setSources(docs = []) {
+    this.docs = docs;
+  }
+  setIndexRecords(records = []) {
+    this.records = records;
+  }
+  setKeys(keys = []) {
+    this.keys = keys;
+    this._keysMap = {};
+    keys.forEach((key, idx) => {
+      this._keysMap[key.id] = idx;
+    });
+  }
+  create() {
+    if (this.isCreated || !this.docs.length) {
+      return
+    }
+
+    this.isCreated = true;
+
+    // List is Array<String>
+    if (isString(this.docs[0])) {
+      this.docs.forEach((doc, docIndex) => {
+        this._addString(doc, docIndex);
+      });
+    } else {
+      // List is Array<Object>
+      this.docs.forEach((doc, docIndex) => {
+        this._addObject(doc, docIndex);
+      });
+    }
+
+    this.norm.clear();
+  }
+  // Adds a doc to the end of the index
+  add(doc) {
+    const idx = this.size();
+
+    if (isString(doc)) {
+      this._addString(doc, idx);
+    } else {
+      this._addObject(doc, idx);
+    }
+  }
+  // Removes the doc at the specified index of the index
+  removeAt(idx) {
+    this.records.splice(idx, 1);
+
+    // Change ref index of every subsquent doc
+    for (let i = idx, len = this.size(); i < len; i += 1) {
+      this.records[i].i -= 1;
+    }
+  }
+  getValueForItemAtKeyId(item, keyId) {
+    return item[this._keysMap[keyId]]
+  }
+  size() {
+    return this.records.length
+  }
+  _addString(doc, docIndex) {
+    if (!isDefined(doc) || isBlank(doc)) {
+      return
+    }
+
+    let record = {
+      v: doc,
+      i: docIndex,
+      n: this.norm.get(doc)
+    };
+
+    this.records.push(record);
+  }
+  _addObject(doc, docIndex) {
+    let record = { i: docIndex, $: {} };
+
+    // Iterate over every key (i.e, path), and fetch the value at that key
+    this.keys.forEach((key, keyIndex) => {
+      // console.log(key)
+      let value = this.getFn(doc, key.path);
+
+      if (!isDefined(value)) {
+        return
+      }
+
+      if (isArray(value)) {
+        let subRecords = [];
+        const stack = [{ nestedArrIndex: -1, value }];
+
+        while (stack.length) {
+          const { nestedArrIndex, value } = stack.pop();
+
+          if (!isDefined(value)) {
+            continue
+          }
+
+          if (isString(value) && !isBlank(value)) {
+            let subRecord = {
+              v: value,
+              i: nestedArrIndex,
+              n: this.norm.get(value)
+            };
+
+            subRecords.push(subRecord);
+          } else if (isArray(value)) {
+            value.forEach((item, k) => {
+              stack.push({
+                nestedArrIndex: k,
+                value: item
+              });
+            });
+          }
+        }
+        record.$[keyIndex] = subRecords;
+      } else if (!isBlank(value)) {
+        let subRecord = {
+          v: value,
+          n: this.norm.get(value)
+        };
+
+        record.$[keyIndex] = subRecord;
+      }
+    });
+
+    this.records.push(record);
+  }
+  toJSON() {
+    return {
+      keys: this.keys,
+      records: this.records
+    }
+  }
+}
+
+function createIndex(keys, docs, { getFn = Config.getFn } = {}) {
+  const myIndex = new FuseIndex({ getFn });
+  myIndex.setKeys(keys.map(createKey));
+  myIndex.setSources(docs);
+  myIndex.create();
+  return myIndex
+}
+
+function parseIndex(data, { getFn = Config.getFn } = {}) {
+  const { keys, records } = data;
+  const myIndex = new FuseIndex({ getFn });
+  myIndex.setKeys(keys);
+  myIndex.setIndexRecords(records);
+  return myIndex
+}
+
+function transformMatches(result, data) {
+  const matches = result.matches;
+  data.matches = [];
+
+  if (!isDefined(matches)) {
+    return
+  }
+
+  matches.forEach((match) => {
+    if (!isDefined(match.indices) || !match.indices.length) {
+      return
+    }
+
+    const { indices, value } = match;
+
+    let obj = {
+      indices,
+      value
+    };
+
+    if (match.key) {
+      obj.key = match.key.src;
+    }
+
+    if (match.idx > -1) {
+      obj.refIndex = match.idx;
+    }
+
+    data.matches.push(obj);
+  });
+}
+
+function transformScore(result, data) {
+  data.score = result.score;
+}
+
+function computeScore(
+  pattern,
+  {
+    errors = 0,
+    currentLocation = 0,
+    expectedLocation = 0,
+    distance = Config.distance,
+    ignoreLocation = Config.ignoreLocation
+  } = {}
+) {
+  const accuracy = errors / pattern.length;
+
+  if (ignoreLocation) {
+    return accuracy
+  }
+
+  const proximity = Math.abs(expectedLocation - currentLocation);
+
+  if (!distance) {
+    // Dodge divide by zero error.
+    return proximity ? 1.0 : accuracy
+  }
+
+  return accuracy + proximity / distance
+}
+
+function convertMaskToIndices(
+  matchmask = [],
+  minMatchCharLength = Config.minMatchCharLength
+) {
+  let indices = [];
+  let start = -1;
+  let end = -1;
+  let i = 0;
+
+  for (let len = matchmask.length; i < len; i += 1) {
+    let match = matchmask[i];
+    if (match && start === -1) {
+      start = i;
+    } else if (!match && start !== -1) {
+      end = i - 1;
+      if (end - start + 1 >= minMatchCharLength) {
+        indices.push([start, end]);
+      }
+      start = -1;
+    }
+  }
+
+  // (i-1 - start) + 1 => i - start
+  if (matchmask[i - 1] && i - start >= minMatchCharLength) {
+    indices.push([start, i - 1]);
+  }
+
+  return indices
+}
+
+// Machine word size
+const MAX_BITS = 32;
+
+function search(
+  text,
+  pattern,
+  patternAlphabet,
+  {
+    location = Config.location,
+    distance = Config.distance,
+    threshold = Config.threshold,
+    findAllMatches = Config.findAllMatches,
+    minMatchCharLength = Config.minMatchCharLength,
+    includeMatches = Config.includeMatches,
+    ignoreLocation = Config.ignoreLocation
+  } = {}
+) {
+  if (pattern.length > MAX_BITS) {
+    throw new Error(PATTERN_LENGTH_TOO_LARGE(MAX_BITS))
+  }
+
+  const patternLen = pattern.length;
+  // Set starting location at beginning text and initialize the alphabet.
+  const textLen = text.length;
+  // Handle the case when location > text.length
+  const expectedLocation = Math.max(0, Math.min(location, textLen));
+  // Highest score beyond which we give up.
+  let currentThreshold = threshold;
+  // Is there a nearby exact match? (speedup)
+  let bestLocation = expectedLocation;
+
+  // Performance: only computer matches when the minMatchCharLength > 1
+  // OR if `includeMatches` is true.
+  const computeMatches = minMatchCharLength > 1 || includeMatches;
+  // A mask of the matches, used for building the indices
+  const matchMask = computeMatches ? Array(textLen) : [];
+
+  let index;
+
+  // Get all exact matches, here for speed up
+  while ((index = text.indexOf(pattern, bestLocation)) > -1) {
+    let score = computeScore(pattern, {
+      currentLocation: index,
+      expectedLocation,
+      distance,
+      ignoreLocation
+    });
+
+    currentThreshold = Math.min(score, currentThreshold);
+    bestLocation = index + patternLen;
+
+    if (computeMatches) {
+      let i = 0;
+      while (i < patternLen) {
+        matchMask[index + i] = 1;
+        i += 1;
+      }
+    }
+  }
+
+  // Reset the best location
+  bestLocation = -1;
+
+  let lastBitArr = [];
+  let finalScore = 1;
+  let binMax = patternLen + textLen;
+
+  const mask = 1 << (patternLen - 1);
+
+  for (let i = 0; i < patternLen; i += 1) {
+    // Scan for the best match; each iteration allows for one more error.
+    // Run a binary search to determine how far from the match location we can stray
+    // at this error level.
+    let binMin = 0;
+    let binMid = binMax;
+
+    while (binMin < binMid) {
+      const score = computeScore(pattern, {
+        errors: i,
+        currentLocation: expectedLocation + binMid,
+        expectedLocation,
+        distance,
+        ignoreLocation
+      });
+
+      if (score <= currentThreshold) {
+        binMin = binMid;
+      } else {
+        binMax = binMid;
+      }
+
+      binMid = Math.floor((binMax - binMin) / 2 + binMin);
+    }
+
+    // Use the result from this iteration as the maximum for the next.
+    binMax = binMid;
+
+    let start = Math.max(1, expectedLocation - binMid + 1);
+    let finish = findAllMatches
+      ? textLen
+      : Math.min(expectedLocation + binMid, textLen) + patternLen;
+
+    // Initialize the bit array
+    let bitArr = Array(finish + 2);
+
+    bitArr[finish + 1] = (1 << i) - 1;
+
+    for (let j = finish; j >= start; j -= 1) {
+      let currentLocation = j - 1;
+      let charMatch = patternAlphabet[text.charAt(currentLocation)];
+
+      if (computeMatches) {
+        // Speed up: quick bool to int conversion (i.e, `charMatch ? 1 : 0`)
+        matchMask[currentLocation] = +!!charMatch;
+      }
+
+      // First pass: exact match
+      bitArr[j] = ((bitArr[j + 1] << 1) | 1) & charMatch;
+
+      // Subsequent passes: fuzzy match
+      if (i) {
+        bitArr[j] |=
+          ((lastBitArr[j + 1] | lastBitArr[j]) << 1) | 1 | lastBitArr[j + 1];
+      }
+
+      if (bitArr[j] & mask) {
+        finalScore = computeScore(pattern, {
+          errors: i,
+          currentLocation,
+          expectedLocation,
+          distance,
+          ignoreLocation
+        });
+
+        // This match will almost certainly be better than any existing match.
+        // But check anyway.
+        if (finalScore <= currentThreshold) {
+          // Indeed it is
+          currentThreshold = finalScore;
+          bestLocation = currentLocation;
+
+          // Already passed `loc`, downhill from here on in.
+          if (bestLocation <= expectedLocation) {
+            break
+          }
+
+          // When passing `bestLocation`, don't exceed our current distance from `expectedLocation`.
+          start = Math.max(1, 2 * expectedLocation - bestLocation);
+        }
+      }
+    }
+
+    // No hope for a (better) match at greater error levels.
+    const score = computeScore(pattern, {
+      errors: i + 1,
+      currentLocation: expectedLocation,
+      expectedLocation,
+      distance,
+      ignoreLocation
+    });
+
+    if (score > currentThreshold) {
+      break
+    }
+
+    lastBitArr = bitArr;
+  }
+
+  const result = {
+    isMatch: bestLocation >= 0,
+    // Count exact matches (those with a score of 0) to be "almost" exact
+    score: Math.max(0.001, finalScore)
+  };
+
+  if (computeMatches) {
+    const indices = convertMaskToIndices(matchMask, minMatchCharLength);
+    if (!indices.length) {
+      result.isMatch = false;
+    } else if (includeMatches) {
+      result.indices = indices;
+    }
+  }
+
+  return result
+}
+
+function createPatternAlphabet(pattern) {
+  let mask = {};
+
+  for (let i = 0, len = pattern.length; i < len; i += 1) {
+    const char = pattern.charAt(i);
+    mask[char] = (mask[char] || 0) | (1 << (len - i - 1));
+  }
+
+  return mask
+}
+
+class BitapSearch {
+  constructor(
+    pattern,
+    {
+      location = Config.location,
+      threshold = Config.threshold,
+      distance = Config.distance,
+      includeMatches = Config.includeMatches,
+      findAllMatches = Config.findAllMatches,
+      minMatchCharLength = Config.minMatchCharLength,
+      isCaseSensitive = Config.isCaseSensitive,
+      ignoreLocation = Config.ignoreLocation
+    } = {}
+  ) {
+    this.options = {
+      location,
+      threshold,
+      distance,
+      includeMatches,
+      findAllMatches,
+      minMatchCharLength,
+      isCaseSensitive,
+      ignoreLocation
+    };
+
+    this.pattern = isCaseSensitive ? pattern : pattern.toLowerCase();
+
+    this.chunks = [];
+
+    if (!this.pattern.length) {
+      return
+    }
+
+    const addChunk = (pattern, startIndex) => {
+      this.chunks.push({
+        pattern,
+        alphabet: createPatternAlphabet(pattern),
+        startIndex
+      });
+    };
+
+    const len = this.pattern.length;
+
+    if (len > MAX_BITS) {
+      let i = 0;
+      const remainder = len % MAX_BITS;
+      const end = len - remainder;
+
+      while (i < end) {
+        addChunk(this.pattern.substr(i, MAX_BITS), i);
+        i += MAX_BITS;
+      }
+
+      if (remainder) {
+        const startIndex = len - MAX_BITS;
+        addChunk(this.pattern.substr(startIndex), startIndex);
+      }
+    } else {
+      addChunk(this.pattern, 0);
+    }
+  }
+
+  searchIn(text) {
+    const { isCaseSensitive, includeMatches } = this.options;
+
+    if (!isCaseSensitive) {
+      text = text.toLowerCase();
+    }
+
+    // Exact match
+    if (this.pattern === text) {
+      let result = {
+        isMatch: true,
+        score: 0
+      };
+
+      if (includeMatches) {
+        result.indices = [[0, text.length - 1]];
+      }
+
+      return result
+    }
+
+    // Otherwise, use Bitap algorithm
+    const {
+      location,
+      distance,
+      threshold,
+      findAllMatches,
+      minMatchCharLength,
+      ignoreLocation
+    } = this.options;
+
+    let allIndices = [];
+    let totalScore = 0;
+    let hasMatches = false;
+
+    this.chunks.forEach(({ pattern, alphabet, startIndex }) => {
+      const { isMatch, score, indices } = search(text, pattern, alphabet, {
+        location: location + startIndex,
+        distance,
+        threshold,
+        findAllMatches,
+        minMatchCharLength,
+        includeMatches,
+        ignoreLocation
+      });
+
+      if (isMatch) {
+        hasMatches = true;
+      }
+
+      totalScore += score;
+
+      if (isMatch && indices) {
+        allIndices = [...allIndices, ...indices];
+      }
+    });
+
+    let result = {
+      isMatch: hasMatches,
+      score: hasMatches ? totalScore / this.chunks.length : 1
+    };
+
+    if (hasMatches && includeMatches) {
+      result.indices = allIndices;
+    }
+
+    return result
+  }
+}
+
+class BaseMatch {
+  constructor(pattern) {
+    this.pattern = pattern;
+  }
+  static isMultiMatch(pattern) {
+    return getMatch(pattern, this.multiRegex)
+  }
+  static isSingleMatch(pattern) {
+    return getMatch(pattern, this.singleRegex)
+  }
+  search(/*text*/) {}
+}
+
+function getMatch(pattern, exp) {
+  const matches = pattern.match(exp);
+  return matches ? matches[1] : null
+}
+
+// Token: 'file
+
+class ExactMatch extends BaseMatch {
+  constructor(pattern) {
+    super(pattern);
+  }
+  static get type() {
+    return 'exact'
+  }
+  static get multiRegex() {
+    return /^="(.*)"$/
+  }
+  static get singleRegex() {
+    return /^=(.*)$/
+  }
+  search(text) {
+    const isMatch = text === this.pattern;
+
+    return {
+      isMatch,
+      score: isMatch ? 0 : 1,
+      indices: [0, this.pattern.length - 1]
+    }
+  }
+}
+
+// Token: !fire
+
+class InverseExactMatch extends BaseMatch {
+  constructor(pattern) {
+    super(pattern);
+  }
+  static get type() {
+    return 'inverse-exact'
+  }
+  static get multiRegex() {
+    return /^!"(.*)"$/
+  }
+  static get singleRegex() {
+    return /^!(.*)$/
+  }
+  search(text) {
+    const index = text.indexOf(this.pattern);
+    const isMatch = index === -1;
+
+    return {
+      isMatch,
+      score: isMatch ? 0 : 1,
+      indices: [0, text.length - 1]
+    }
+  }
+}
+
+// Token: ^file
+
+class PrefixExactMatch extends BaseMatch {
+  constructor(pattern) {
+    super(pattern);
+  }
+  static get type() {
+    return 'prefix-exact'
+  }
+  static get multiRegex() {
+    return /^\^"(.*)"$/
+  }
+  static get singleRegex() {
+    return /^\^(.*)$/
+  }
+  search(text) {
+    const isMatch = text.startsWith(this.pattern);
+
+    return {
+      isMatch,
+      score: isMatch ? 0 : 1,
+      indices: [0, this.pattern.length - 1]
+    }
+  }
+}
+
+// Token: !^fire
+
+class InversePrefixExactMatch extends BaseMatch {
+  constructor(pattern) {
+    super(pattern);
+  }
+  static get type() {
+    return 'inverse-prefix-exact'
+  }
+  static get multiRegex() {
+    return /^!\^"(.*)"$/
+  }
+  static get singleRegex() {
+    return /^!\^(.*)$/
+  }
+  search(text) {
+    const isMatch = !text.startsWith(this.pattern);
+
+    return {
+      isMatch,
+      score: isMatch ? 0 : 1,
+      indices: [0, text.length - 1]
+    }
+  }
+}
+
+// Token: .file$
+
+class SuffixExactMatch extends BaseMatch {
+  constructor(pattern) {
+    super(pattern);
+  }
+  static get type() {
+    return 'suffix-exact'
+  }
+  static get multiRegex() {
+    return /^"(.*)"\$$/
+  }
+  static get singleRegex() {
+    return /^(.*)\$$/
+  }
+  search(text) {
+    const isMatch = text.endsWith(this.pattern);
+
+    return {
+      isMatch,
+      score: isMatch ? 0 : 1,
+      indices: [text.length - this.pattern.length, text.length - 1]
+    }
+  }
+}
+
+// Token: !.file$
+
+class InverseSuffixExactMatch extends BaseMatch {
+  constructor(pattern) {
+    super(pattern);
+  }
+  static get type() {
+    return 'inverse-suffix-exact'
+  }
+  static get multiRegex() {
+    return /^!"(.*)"\$$/
+  }
+  static get singleRegex() {
+    return /^!(.*)\$$/
+  }
+  search(text) {
+    const isMatch = !text.endsWith(this.pattern);
+    return {
+      isMatch,
+      score: isMatch ? 0 : 1,
+      indices: [0, text.length - 1]
+    }
+  }
+}
+
+class FuzzyMatch extends BaseMatch {
+  constructor(
+    pattern,
+    {
+      location = Config.location,
+      threshold = Config.threshold,
+      distance = Config.distance,
+      includeMatches = Config.includeMatches,
+      findAllMatches = Config.findAllMatches,
+      minMatchCharLength = Config.minMatchCharLength,
+      isCaseSensitive = Config.isCaseSensitive,
+      ignoreLocation = Config.ignoreLocation
+    } = {}
+  ) {
+    super(pattern);
+    this._bitapSearch = new BitapSearch(pattern, {
+      location,
+      threshold,
+      distance,
+      includeMatches,
+      findAllMatches,
+      minMatchCharLength,
+      isCaseSensitive,
+      ignoreLocation
+    });
+  }
+  static get type() {
+    return 'fuzzy'
+  }
+  static get multiRegex() {
+    return /^"(.*)"$/
+  }
+  static get singleRegex() {
+    return /^(.*)$/
+  }
+  search(text) {
+    return this._bitapSearch.searchIn(text)
+  }
+}
+
+// Token: 'file
+
+class IncludeMatch extends BaseMatch {
+  constructor(pattern) {
+    super(pattern);
+  }
+  static get type() {
+    return 'include'
+  }
+  static get multiRegex() {
+    return /^'"(.*)"$/
+  }
+  static get singleRegex() {
+    return /^'(.*)$/
+  }
+  search(text) {
+    let location = 0;
+    let index;
+
+    const indices = [];
+    const patternLen = this.pattern.length;
+
+    // Get all exact matches
+    while ((index = text.indexOf(this.pattern, location)) > -1) {
+      location = index + patternLen;
+      indices.push([index, location - 1]);
+    }
+
+    const isMatch = !!indices.length;
+
+    return {
+      isMatch,
+      score: isMatch ? 1 : 0,
+      indices
+    }
+  }
+}
+
+// ❗Order is important. DO NOT CHANGE.
+const searchers = [
+  ExactMatch,
+  IncludeMatch,
+  PrefixExactMatch,
+  InversePrefixExactMatch,
+  InverseSuffixExactMatch,
+  SuffixExactMatch,
+  InverseExactMatch,
+  FuzzyMatch
+];
+
+const searchersLen = searchers.length;
+
+// Regex to split by spaces, but keep anything in quotes together
+const SPACE_RE = / +(?=([^\"]*\"[^\"]*\")*[^\"]*$)/;
+const OR_TOKEN = '|';
+
+// Return a 2D array representation of the query, for simpler parsing.
+// Example:
+// "^core go$ | rb$ | py$ xy$" => [["^core", "go$"], ["rb$"], ["py$", "xy$"]]
+function parseQuery(pattern, options = {}) {
+  return pattern.split(OR_TOKEN).map((item) => {
+    let query = item
+      .trim()
+      .split(SPACE_RE)
+      .filter((item) => item && !!item.trim());
+
+    let results = [];
+    for (let i = 0, len = query.length; i < len; i += 1) {
+      const queryItem = query[i];
+
+      // 1. Handle multiple query match (i.e, once that are quoted, like `"hello world"`)
+      let found = false;
+      let idx = -1;
+      while (!found && ++idx < searchersLen) {
+        const searcher = searchers[idx];
+        let token = searcher.isMultiMatch(queryItem);
+        if (token) {
+          results.push(new searcher(token, options));
+          found = true;
+        }
+      }
+
+      if (found) {
+        continue
+      }
+
+      // 2. Handle single query matches (i.e, once that are *not* quoted)
+      idx = -1;
+      while (++idx < searchersLen) {
+        const searcher = searchers[idx];
+        let token = searcher.isSingleMatch(queryItem);
+        if (token) {
+          results.push(new searcher(token, options));
+          break
+        }
+      }
+    }
+
+    return results
+  })
+}
+
+// These extended matchers can return an array of matches, as opposed
+// to a singl match
+const MultiMatchSet = new Set([FuzzyMatch.type, IncludeMatch.type]);
+
+/**
+ * Command-like searching
+ * ======================
+ *
+ * Given multiple search terms delimited by spaces.e.g. `^jscript .python$ ruby !java`,
+ * search in a given text.
+ *
+ * Search syntax:
+ *
+ * | Token       | Match type                 | Description                            |
+ * | ----------- | -------------------------- | -------------------------------------- |
+ * | `jscript`   | fuzzy-match                | Items that fuzzy match `jscript`       |
+ * | `=scheme`   | exact-match                | Items that are `scheme`                |
+ * | `'python`   | include-match              | Items that include `python`            |
+ * | `!ruby`     | inverse-exact-match        | Items that do not include `ruby`       |
+ * | `^java`     | prefix-exact-match         | Items that start with `java`           |
+ * | `!^earlang` | inverse-prefix-exact-match | Items that do not start with `earlang` |
+ * | `.js$`      | suffix-exact-match         | Items that end with `.js`              |
+ * | `!.go$`     | inverse-suffix-exact-match | Items that do not end with `.go`       |
+ *
+ * A single pipe character acts as an OR operator. For example, the following
+ * query matches entries that start with `core` and end with either`go`, `rb`,
+ * or`py`.
+ *
+ * ```
+ * ^core go$ | rb$ | py$
+ * ```
+ */
+class ExtendedSearch {
+  constructor(
+    pattern,
+    {
+      isCaseSensitive = Config.isCaseSensitive,
+      includeMatches = Config.includeMatches,
+      minMatchCharLength = Config.minMatchCharLength,
+      ignoreLocation = Config.ignoreLocation,
+      findAllMatches = Config.findAllMatches,
+      location = Config.location,
+      threshold = Config.threshold,
+      distance = Config.distance
+    } = {}
+  ) {
+    this.query = null;
+    this.options = {
+      isCaseSensitive,
+      includeMatches,
+      minMatchCharLength,
+      findAllMatches,
+      ignoreLocation,
+      location,
+      threshold,
+      distance
+    };
+
+    this.pattern = isCaseSensitive ? pattern : pattern.toLowerCase();
+    this.query = parseQuery(this.pattern, this.options);
+  }
+
+  static condition(_, options) {
+    return options.useExtendedSearch
+  }
+
+  searchIn(text) {
+    const query = this.query;
+
+    if (!query) {
+      return {
+        isMatch: false,
+        score: 1
+      }
+    }
+
+    const { includeMatches, isCaseSensitive } = this.options;
+
+    text = isCaseSensitive ? text : text.toLowerCase();
+
+    let numMatches = 0;
+    let allIndices = [];
+    let totalScore = 0;
+
+    // ORs
+    for (let i = 0, qLen = query.length; i < qLen; i += 1) {
+      const searchers = query[i];
+
+      // Reset indices
+      allIndices.length = 0;
+      numMatches = 0;
+
+      // ANDs
+      for (let j = 0, pLen = searchers.length; j < pLen; j += 1) {
+        const searcher = searchers[j];
+        const { isMatch, indices, score } = searcher.search(text);
+
+        if (isMatch) {
+          numMatches += 1;
+          totalScore += score;
+          if (includeMatches) {
+            const type = searcher.constructor.type;
+            if (MultiMatchSet.has(type)) {
+              allIndices = [...allIndices, ...indices];
+            } else {
+              allIndices.push(indices);
+            }
+          }
+        } else {
+          totalScore = 0;
+          numMatches = 0;
+          allIndices.length = 0;
+          break
+        }
+      }
+
+      // OR condition, so if TRUE, return
+      if (numMatches) {
+        let result = {
+          isMatch: true,
+          score: totalScore / numMatches
+        };
+
+        if (includeMatches) {
+          result.indices = allIndices;
+        }
+
+        return result
+      }
+    }
+
+    // Nothing was matched
+    return {
+      isMatch: false,
+      score: 1
+    }
+  }
+}
+
+const registeredSearchers = [];
+
+function register(...args) {
+  registeredSearchers.push(...args);
+}
+
+function createSearcher(pattern, options) {
+  for (let i = 0, len = registeredSearchers.length; i < len; i += 1) {
+    let searcherClass = registeredSearchers[i];
+    if (searcherClass.condition(pattern, options)) {
+      return new searcherClass(pattern, options)
+    }
+  }
+
+  return new BitapSearch(pattern, options)
+}
+
+const LogicalOperator = {
+  AND: '$and',
+  OR: '$or'
+};
+
+const KeyType = {
+  PATH: '$path',
+  PATTERN: '$val'
+};
+
+const isExpression = (query) =>
+  !!(query[LogicalOperator.AND] || query[LogicalOperator.OR]);
+
+const isPath = (query) => !!query[KeyType.PATH];
+
+const isLeaf = (query) =>
+  !isArray(query) && isObject(query) && !isExpression(query);
+
+const convertToExplicit = (query) => ({
+  [LogicalOperator.AND]: Object.keys(query).map((key) => ({
+    [key]: query[key]
+  }))
+});
+
+// When `auto` is `true`, the parse function will infer and initialize and add
+// the appropriate `Searcher` instance
+function parse(query, options, { auto = true } = {}) {
+  const next = (query) => {
+    let keys = Object.keys(query);
+
+    const isQueryPath = isPath(query);
+
+    if (!isQueryPath && keys.length > 1 && !isExpression(query)) {
+      return next(convertToExplicit(query))
+    }
+
+    if (isLeaf(query)) {
+      const key = isQueryPath ? query[KeyType.PATH] : keys[0];
+
+      const pattern = isQueryPath ? query[KeyType.PATTERN] : query[key];
+
+      if (!isString(pattern)) {
+        throw new Error(LOGICAL_SEARCH_INVALID_QUERY_FOR_KEY(key))
+      }
+
+      const obj = {
+        keyId: createKeyId(key),
+        pattern
+      };
+
+      if (auto) {
+        obj.searcher = createSearcher(pattern, options);
+      }
+
+      return obj
+    }
+
+    let node = {
+      children: [],
+      operator: keys[0]
+    };
+
+    keys.forEach((key) => {
+      const value = query[key];
+
+      if (isArray(value)) {
+        value.forEach((item) => {
+          node.children.push(next(item));
+        });
+      }
+    });
+
+    return node
+  };
+
+  if (!isExpression(query)) {
+    query = convertToExplicit(query);
+  }
+
+  return next(query)
+}
+
+class Fuse {
+  constructor(docs, options = {}, index) {
+    this.options = { ...Config, ...options };
+
+    if (
+      this.options.useExtendedSearch &&
+      !true
+    ) {
+      throw new Error(EXTENDED_SEARCH_UNAVAILABLE)
+    }
+
+    this._keyStore = new KeyStore(this.options.keys);
+
+    this.setCollection(docs, index);
+  }
+
+  setCollection(docs, index) {
+    this._docs = docs;
+
+    if (index && !(index instanceof FuseIndex)) {
+      throw new Error(INCORRECT_INDEX_TYPE)
+    }
+
+    this._myIndex =
+      index ||
+      createIndex(this.options.keys, this._docs, {
+        getFn: this.options.getFn
+      });
+  }
+
+  add(doc) {
+    if (!isDefined(doc)) {
+      return
+    }
+
+    this._docs.push(doc);
+    this._myIndex.add(doc);
+  }
+
+  remove(predicate = (/* doc, idx */) => false) {
+    const results = [];
+
+    for (let i = 0, len = this._docs.length; i < len; i += 1) {
+      const doc = this._docs[i];
+      if (predicate(doc, i)) {
+        this.removeAt(i);
+        i -= 1;
+        len -= 1;
+
+        results.push(doc);
+      }
+    }
+
+    return results
+  }
+
+  removeAt(idx) {
+    this._docs.splice(idx, 1);
+    this._myIndex.removeAt(idx);
+  }
+
+  getIndex() {
+    return this._myIndex
+  }
+
+  search(query, { limit = -1 } = {}) {
+    const {
+      includeMatches,
+      includeScore,
+      shouldSort,
+      sortFn,
+      ignoreFieldNorm
+    } = this.options;
+
+    let results = isString(query)
+      ? isString(this._docs[0])
+        ? this._searchStringList(query)
+        : this._searchObjectList(query)
+      : this._searchLogical(query);
+
+    computeScore$1(results, { ignoreFieldNorm });
+
+    if (shouldSort) {
+      results.sort(sortFn);
+    }
+
+    if (isNumber(limit) && limit > -1) {
+      results = results.slice(0, limit);
+    }
+
+    return format(results, this._docs, {
+      includeMatches,
+      includeScore
+    })
+  }
+
+  _searchStringList(query) {
+    const searcher = createSearcher(query, this.options);
+    const { records } = this._myIndex;
+    const results = [];
+
+    // Iterate over every string in the index
+    records.forEach(({ v: text, i: idx, n: norm }) => {
+      if (!isDefined(text)) {
+        return
+      }
+
+      const { isMatch, score, indices } = searcher.searchIn(text);
+
+      if (isMatch) {
+        results.push({
+          item: text,
+          idx,
+          matches: [{ score, value: text, norm, indices }]
+        });
+      }
+    });
+
+    return results
+  }
+
+  _searchLogical(query) {
+
+    const expression = parse(query, this.options);
+
+    const evaluate = (node, item, idx) => {
+      if (!node.children) {
+        const { keyId, searcher } = node;
+
+        const matches = this._findMatches({
+          key: this._keyStore.get(keyId),
+          value: this._myIndex.getValueForItemAtKeyId(item, keyId),
+          searcher
+        });
+
+        if (matches && matches.length) {
+          return [
+            {
+              idx,
+              item,
+              matches
+            }
+          ]
+        }
+
+        return []
+      }
+
+      /*eslint indent: [2, 2, {"SwitchCase": 1}]*/
+      switch (node.operator) {
+        case LogicalOperator.AND: {
+          const res = [];
+          for (let i = 0, len = node.children.length; i < len; i += 1) {
+            const child = node.children[i];
+            const result = evaluate(child, item, idx);
+            if (result.length) {
+              res.push(...result);
+            } else {
+              return []
+            }
+          }
+          return res
+        }
+        case LogicalOperator.OR: {
+          const res = [];
+          for (let i = 0, len = node.children.length; i < len; i += 1) {
+            const child = node.children[i];
+            const result = evaluate(child, item, idx);
+            if (result.length) {
+              res.push(...result);
+              break
+            }
+          }
+          return res
+        }
+      }
+    };
+
+    const records = this._myIndex.records;
+    const resultMap = {};
+    const results = [];
+
+    records.forEach(({ $: item, i: idx }) => {
+      if (isDefined(item)) {
+        let expResults = evaluate(expression, item, idx);
+
+        if (expResults.length) {
+          // Dedupe when adding
+          if (!resultMap[idx]) {
+            resultMap[idx] = { idx, item, matches: [] };
+            results.push(resultMap[idx]);
+          }
+          expResults.forEach(({ matches }) => {
+            resultMap[idx].matches.push(...matches);
+          });
+        }
+      }
+    });
+
+    return results
+  }
+
+  _searchObjectList(query) {
+    const searcher = createSearcher(query, this.options);
+    const { keys, records } = this._myIndex;
+    const results = [];
+
+    // List is Array<Object>
+    records.forEach(({ $: item, i: idx }) => {
+      if (!isDefined(item)) {
+        return
+      }
+
+      let matches = [];
+
+      // Iterate over every key (i.e, path), and fetch the value at that key
+      keys.forEach((key, keyIndex) => {
+        matches.push(
+          ...this._findMatches({
+            key,
+            value: item[keyIndex],
+            searcher
+          })
+        );
+      });
+
+      if (matches.length) {
+        results.push({
+          idx,
+          item,
+          matches
+        });
+      }
+    });
+
+    return results
+  }
+  _findMatches({ key, value, searcher }) {
+    if (!isDefined(value)) {
+      return []
+    }
+
+    let matches = [];
+
+    if (isArray(value)) {
+      value.forEach(({ v: text, i: idx, n: norm }) => {
+        if (!isDefined(text)) {
+          return
+        }
+
+        const { isMatch, score, indices } = searcher.searchIn(text);
+
+        if (isMatch) {
+          matches.push({
+            score,
+            key,
+            value: text,
+            idx,
+            norm,
+            indices
+          });
+        }
+      });
+    } else {
+      const { v: text, n: norm } = value;
+
+      const { isMatch, score, indices } = searcher.searchIn(text);
+
+      if (isMatch) {
+        matches.push({ score, key, value: text, norm, indices });
+      }
+    }
+
+    return matches
+  }
+}
+
+// Practical scoring function
+function computeScore$1(results, { ignoreFieldNorm = Config.ignoreFieldNorm }) {
+  results.forEach((result) => {
+    let totalScore = 1;
+
+    result.matches.forEach(({ key, norm, score }) => {
+      const weight = key ? key.weight : null;
+
+      totalScore *= Math.pow(
+        score === 0 && weight ? Number.EPSILON : score,
+        (weight || 1) * (ignoreFieldNorm ? 1 : norm)
+      );
+    });
+
+    result.score = totalScore;
+  });
+}
+
+function format(
+  results,
+  docs,
+  {
+    includeMatches = Config.includeMatches,
+    includeScore = Config.includeScore
+  } = {}
+) {
+  const transformers = [];
+
+  if (includeMatches) transformers.push(transformMatches);
+  if (includeScore) transformers.push(transformScore);
+
+  return results.map((result) => {
+    const { idx } = result;
+
+    const data = {
+      item: docs[idx],
+      refIndex: idx
+    };
+
+    if (transformers.length) {
+      transformers.forEach((transformer) => {
+        transformer(result, data);
+      });
+    }
+
+    return data
+  })
+}
+
+Fuse.version = '6.4.3';
+Fuse.createIndex = createIndex;
+Fuse.parseIndex = parseIndex;
+Fuse.config = Config;
+
+{
+  Fuse.parseQuery = parse;
+}
+
+{
+  register(ExtendedSearch);
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (Fuse);
+
 
 /***/ }),
 
@@ -66192,6 +67999,19 @@ function useWaitForDOMRef(ref, onResolved) {
 
 /***/ }),
 
+/***/ "./node_modules/react-paginate/dist/react-paginate.js":
+/*!************************************************************!*\
+  !*** ./node_modules/react-paginate/dist/react-paginate.js ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {!function(e,a){ true?module.exports=a(__webpack_require__(/*! react */ "./node_modules/react/index.js")):undefined}(global,(function(e){return function(e){var a={};function t(r){if(a[r])return a[r].exports;var n=a[r]={i:r,l:!1,exports:{}};return e[r].call(n.exports,n,n.exports,t),n.l=!0,n.exports}return t.m=e,t.c=a,t.d=function(e,a,r){t.o(e,a)||Object.defineProperty(e,a,{enumerable:!0,get:r})},t.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},t.t=function(e,a){if(1&a&&(e=t(e)),8&a)return e;if(4&a&&"object"==typeof e&&e&&e.__esModule)return e;var r=Object.create(null);if(t.r(r),Object.defineProperty(r,"default",{enumerable:!0,value:e}),2&a&&"string"!=typeof e)for(var n in e)t.d(r,n,function(a){return e[a]}.bind(null,n));return r},t.n=function(e){var a=e&&e.__esModule?function(){return e.default}:function(){return e};return t.d(a,"a",a),a},t.o=function(e,a){return Object.prototype.hasOwnProperty.call(e,a)},t.p="",t(t.s=4)}([function(e,a,t){e.exports=t(2)()},function(a,t){a.exports=e},function(e,a,t){"use strict";var r=t(3);function n(){}function i(){}i.resetWarningCache=n,e.exports=function(){function e(e,a,t,n,i,o){if(o!==r){var s=new Error("Calling PropTypes validators directly is not supported by the `prop-types` package. Use PropTypes.checkPropTypes() to call them. Read more at http://fb.me/use-check-prop-types");throw s.name="Invariant Violation",s}}function a(){return e}e.isRequired=e;var t={array:e,bool:e,func:e,number:e,object:e,string:e,symbol:e,any:e,arrayOf:a,element:e,elementType:e,instanceOf:a,node:e,objectOf:a,oneOf:a,oneOfType:a,shape:a,exact:a,checkPropTypes:i,resetWarningCache:n};return t.PropTypes=t,t}},function(e,a,t){"use strict";e.exports="SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED"},function(e,a,t){"use strict";t.r(a);var r=t(1),n=t.n(r),i=t(0),o=t.n(i);function s(){return(s=Object.assign||function(e){for(var a=1;a<arguments.length;a++){var t=arguments[a];for(var r in t)Object.prototype.hasOwnProperty.call(t,r)&&(e[r]=t[r])}return e}).apply(this,arguments)}var l=function(e){var a=e.pageClassName,t=e.pageLinkClassName,r=e.page,i=e.selected,o=e.activeClassName,l=e.activeLinkClassName,c=e.getEventListener,u=e.pageSelectedHandler,p=e.href,f=e.extraAriaContext,d=e.ariaLabel||"Page "+r+(f?" "+f:""),g=null;return i&&(g="page",d=e.ariaLabel||"Page "+r+" is your current page",a=void 0!==a?a+" "+o:o,void 0!==t?void 0!==l&&(t=t+" "+l):t=l),n.a.createElement("li",{className:a},n.a.createElement("a",s({role:"button",className:t,href:p,tabIndex:"0","aria-label":d,"aria-current":g,onKeyPress:u},c(u)),r))};l.propTypes={pageSelectedHandler:o.a.func.isRequired,selected:o.a.bool.isRequired,pageClassName:o.a.string,pageLinkClassName:o.a.string,activeClassName:o.a.string,activeLinkClassName:o.a.string,extraAriaContext:o.a.string,href:o.a.string,ariaLabel:o.a.string,page:o.a.number.isRequired,getEventListener:o.a.func.isRequired};var c=l;function u(){return(u=Object.assign||function(e){for(var a=1;a<arguments.length;a++){var t=arguments[a];for(var r in t)Object.prototype.hasOwnProperty.call(t,r)&&(e[r]=t[r])}return e}).apply(this,arguments)}!function(){var e="undefined"!=typeof reactHotLoaderGlobal?reactHotLoaderGlobal.default:void 0;if(e){var t=void 0!==a?a:exports;if(t)if("function"!=typeof t){for(var r in t)if(Object.prototype.hasOwnProperty.call(t,r)){var n=void 0;try{n=t[r]}catch(e){continue}e.register(n,r,"/home/adele/workspace/react-paginate/react_components/PageView.js")}}else e.register(t,"module.exports","/home/adele/workspace/react-paginate/react_components/PageView.js")}}();var p=function(e){var a=e.breakLabel,t=e.breakClassName,r=e.breakLinkClassName,i=e.breakHandler,o=e.getEventListener,s=t||"break";return n.a.createElement("li",{className:s},n.a.createElement("a",u({className:r,role:"button",tabIndex:"0",onKeyPress:i},o(i)),a))};p.propTypes={breakLabel:o.a.oneOfType([o.a.string,o.a.node]),breakClassName:o.a.string,breakLinkClassName:o.a.string,breakHandler:o.a.func.isRequired,getEventListener:o.a.func.isRequired};var f=p;function d(e){return(d="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e})(e)}function g(){return(g=Object.assign||function(e){for(var a=1;a<arguments.length;a++){var t=arguments[a];for(var r in t)Object.prototype.hasOwnProperty.call(t,r)&&(e[r]=t[r])}return e}).apply(this,arguments)}function b(e,a){for(var t=0;t<a.length;t++){var r=a[t];r.enumerable=r.enumerable||!1,r.configurable=!0,"value"in r&&(r.writable=!0),Object.defineProperty(e,r.key,r)}}function v(e,a){return(v=Object.setPrototypeOf||function(e,a){return e.__proto__=a,e})(e,a)}function m(e){var a=function(){if("undefined"==typeof Reflect||!Reflect.construct)return!1;if(Reflect.construct.sham)return!1;if("function"==typeof Proxy)return!0;try{return Date.prototype.toString.call(Reflect.construct(Date,[],(function(){}))),!0}catch(e){return!1}}();return function(){var t,r=C(e);if(a){var n=C(this).constructor;t=Reflect.construct(r,arguments,n)}else t=r.apply(this,arguments);return h(this,t)}}function h(e,a){return!a||"object"!==d(a)&&"function"!=typeof a?y(e):a}function y(e){if(void 0===e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return e}function C(e){return(C=Object.setPrototypeOf?Object.getPrototypeOf:function(e){return e.__proto__||Object.getPrototypeOf(e)})(e)}function k(e,a,t){return a in e?Object.defineProperty(e,a,{value:t,enumerable:!0,configurable:!0,writable:!0}):e[a]=t,e}!function(){var e="undefined"!=typeof reactHotLoaderGlobal?reactHotLoaderGlobal.default:void 0;if(e){var t=void 0!==a?a:exports;if(t)if("function"!=typeof t){for(var r in t)if(Object.prototype.hasOwnProperty.call(t,r)){var n=void 0;try{n=t[r]}catch(e){continue}e.register(n,r,"/home/adele/workspace/react-paginate/react_components/BreakView.js")}}else e.register(t,"module.exports","/home/adele/workspace/react-paginate/react_components/BreakView.js")}}();var P=function(e){!function(e,a){if("function"!=typeof a&&null!==a)throw new TypeError("Super expression must either be null or a function");e.prototype=Object.create(a&&a.prototype,{constructor:{value:e,writable:!0,configurable:!0}}),a&&v(e,a)}(o,e);var a,t,r,i=m(o);function o(e){var a,t;return function(e,a){if(!(e instanceof a))throw new TypeError("Cannot call a class as a function")}(this,o),k(y(a=i.call(this,e)),"handlePreviousPage",(function(e){var t=a.state.selected;e.preventDefault?e.preventDefault():e.returnValue=!1,t>0&&a.handlePageSelected(t-1,e)})),k(y(a),"handleNextPage",(function(e){var t=a.state.selected,r=a.props.pageCount;e.preventDefault?e.preventDefault():e.returnValue=!1,t<r-1&&a.handlePageSelected(t+1,e)})),k(y(a),"handlePageSelected",(function(e,t){t.preventDefault?t.preventDefault():t.returnValue=!1,a.state.selected!==e&&(a.setState({selected:e}),a.callCallback(e))})),k(y(a),"getEventListener",(function(e){return k({},a.props.eventListener,e)})),k(y(a),"handleBreakClick",(function(e,t){t.preventDefault?t.preventDefault():t.returnValue=!1;var r=a.state.selected;a.handlePageSelected(r<e?a.getForwardJump():a.getBackwardJump(),t)})),k(y(a),"callCallback",(function(e){void 0!==a.props.onPageChange&&"function"==typeof a.props.onPageChange&&a.props.onPageChange({selected:e})})),k(y(a),"pagination",(function(){var e=[],t=a.props,r=t.pageRangeDisplayed,i=t.pageCount,o=t.marginPagesDisplayed,s=t.breakLabel,l=t.breakClassName,c=t.breakLinkClassName,u=a.state.selected;if(i<=r)for(var p=0;p<i;p++)e.push(a.getPageElement(p));else{var d,g,b,v=r/2,m=r-v;u>i-r/2?v=r-(m=i-u):u<r/2&&(m=r-(v=u));var h=function(e){return a.getPageElement(e)};for(d=0;d<i;d++)(g=d+1)<=o||g>i-o||d>=u-v&&d<=u+m?e.push(h(d)):s&&e[e.length-1]!==b&&(b=n.a.createElement(f,{key:d,breakLabel:s,breakClassName:l,breakLinkClassName:c,breakHandler:a.handleBreakClick.bind(null,d),getEventListener:a.getEventListener}),e.push(b))}return e})),t=e.initialPage?e.initialPage:e.forcePage?e.forcePage:0,a.state={selected:t},a}return a=o,(t=[{key:"componentDidMount",value:function(){var e=this.props,a=e.initialPage,t=e.disableInitialCallback,r=e.extraAriaContext;void 0===a||t||this.callCallback(a),r&&console.warn("DEPRECATED (react-paginate): The extraAriaContext prop is deprecated. You should now use the ariaLabelBuilder instead.")}},{key:"componentDidUpdate",value:function(e){void 0!==this.props.forcePage&&this.props.forcePage!==e.forcePage&&this.setState({selected:this.props.forcePage})}},{key:"getForwardJump",value:function(){var e=this.state.selected,a=this.props,t=a.pageCount,r=e+a.pageRangeDisplayed;return r>=t?t-1:r}},{key:"getBackwardJump",value:function(){var e=this.state.selected-this.props.pageRangeDisplayed;return e<0?0:e}},{key:"hrefBuilder",value:function(e){var a=this.props,t=a.hrefBuilder,r=a.pageCount;if(t&&e!==this.state.selected&&e>=0&&e<r)return t(e+1)}},{key:"ariaLabelBuilder",value:function(e){var a=e===this.state.selected;if(this.props.ariaLabelBuilder&&e>=0&&e<this.props.pageCount){var t=this.props.ariaLabelBuilder(e+1,a);return this.props.extraAriaContext&&!a&&(t=t+" "+this.props.extraAriaContext),t}}},{key:"getPageElement",value:function(e){var a=this.state.selected,t=this.props,r=t.pageClassName,i=t.pageLinkClassName,o=t.activeClassName,s=t.activeLinkClassName,l=t.extraAriaContext;return n.a.createElement(c,{key:e,pageSelectedHandler:this.handlePageSelected.bind(null,e),selected:a===e,pageClassName:r,pageLinkClassName:i,activeClassName:o,activeLinkClassName:s,extraAriaContext:l,href:this.hrefBuilder(e),ariaLabel:this.ariaLabelBuilder(e),page:e+1,getEventListener:this.getEventListener})}},{key:"render",value:function(){var e=this.props,a=e.disabledClassName,t=e.pageCount,r=e.containerClassName,i=e.previousLabel,o=e.previousClassName,s=e.previousLinkClassName,l=e.previousAriaLabel,c=e.nextLabel,u=e.nextClassName,p=e.nextLinkClassName,f=e.nextAriaLabel,d=this.state.selected,b=o+(0===d?" ".concat(a):""),v=u+(d===t-1?" ".concat(a):""),m=0===d?"true":"false",h=d===t-1?"true":"false";return n.a.createElement("ul",{className:r},n.a.createElement("li",{className:b},n.a.createElement("a",g({className:s,href:this.hrefBuilder(d-1),tabIndex:"0",role:"button",onKeyPress:this.handlePreviousPage,"aria-disabled":m,"aria-label":l},this.getEventListener(this.handlePreviousPage)),i)),this.pagination(),n.a.createElement("li",{className:v},n.a.createElement("a",g({className:p,href:this.hrefBuilder(d+1),tabIndex:"0",role:"button",onKeyPress:this.handleNextPage,"aria-disabled":h,"aria-label":f},this.getEventListener(this.handleNextPage)),c)))}}])&&b(a.prototype,t),r&&b(a,r),o}(r.Component);k(P,"propTypes",{pageCount:o.a.number.isRequired,pageRangeDisplayed:o.a.number.isRequired,marginPagesDisplayed:o.a.number.isRequired,previousLabel:o.a.node,previousAriaLabel:o.a.string,nextLabel:o.a.node,nextAriaLabel:o.a.string,breakLabel:o.a.oneOfType([o.a.string,o.a.node]),hrefBuilder:o.a.func,onPageChange:o.a.func,initialPage:o.a.number,forcePage:o.a.number,disableInitialCallback:o.a.bool,containerClassName:o.a.string,pageClassName:o.a.string,pageLinkClassName:o.a.string,activeClassName:o.a.string,activeLinkClassName:o.a.string,previousClassName:o.a.string,nextClassName:o.a.string,previousLinkClassName:o.a.string,nextLinkClassName:o.a.string,disabledClassName:o.a.string,breakClassName:o.a.string,breakLinkClassName:o.a.string,extraAriaContext:o.a.string,ariaLabelBuilder:o.a.func,eventListener:o.a.string}),k(P,"defaultProps",{pageCount:10,pageRangeDisplayed:2,marginPagesDisplayed:3,activeClassName:"selected",previousLabel:"Previous",previousClassName:"previous",previousAriaLabel:"Previous page",nextLabel:"Next",nextClassName:"next",nextAriaLabel:"Next page",breakLabel:"...",disabledClassName:"disabled",disableInitialCallback:!1,eventListener:"onClick"}),function(){var e="undefined"!=typeof reactHotLoaderGlobal?reactHotLoaderGlobal.default:void 0;if(e){var t=void 0!==a?a:exports;if(t)if("function"!=typeof t){for(var r in t)if(Object.prototype.hasOwnProperty.call(t,r)){var n=void 0;try{n=t[r]}catch(e){continue}e.register(n,r,"/home/adele/workspace/react-paginate/react_components/PaginationBoxView.js")}}else e.register(t,"module.exports","/home/adele/workspace/react-paginate/react_components/PaginationBoxView.js")}}();a.default=P;!function(){var e="undefined"!=typeof reactHotLoaderGlobal?reactHotLoaderGlobal.default:void 0;if(e){var t=void 0!==a?a:exports;if(t)if("function"!=typeof t){for(var r in t)if(Object.prototype.hasOwnProperty.call(t,r)){var n=void 0;try{n=t[r]}catch(e){continue}e.register(n,r,"/home/adele/workspace/react-paginate/react_components/index.js")}}else e.register(t,"module.exports","/home/adele/workspace/react-paginate/react_components/index.js")}}()}])}));
+//# sourceMappingURL=react-paginate.js.map
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
+
+/***/ }),
+
 /***/ "./node_modules/react-toastify/dist/ReactToastify.css":
 /*!************************************************************!*\
   !*** ./node_modules/react-toastify/dist/ReactToastify.css ***!
@@ -74758,6 +76578,104 @@ var AutocompleteDescripcionL = /*#__PURE__*/function (_Component) {
 
 /***/ }),
 
+/***/ "./resources/js/components/Buscador/index.js":
+/*!***************************************************!*\
+  !*** ./resources/js/components/Buscador/index.js ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var fuse_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! fuse.js */ "./node_modules/fuse.js/dist/fuse.esm.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+var index = /*#__PURE__*/function (_Component) {
+  _inherits(index, _Component);
+
+  var _super = _createSuper(index);
+
+  function index(props) {
+    var _this;
+
+    _classCallCheck(this, index);
+
+    _this = _super.call(this, props);
+    _this.handleBuscar = _this.handleBuscar.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(index, [{
+    key: "handleBuscar",
+    value: function handleBuscar(_ref) {
+      var target = _ref.target;
+      var fuse = new fuse_js__WEBPACK_IMPORTED_MODULE_1__["default"](this.props.list, this.props.options);
+      var filtro = ('\'' + target.value).replace(' ', ' \'');
+      var result = fuse.search(filtro);
+      var tmp = '';
+      Object.keys(result).map(function (key) {
+        return tmp = [].concat(_toConsumableArray(tmp), [result[key].item]);
+      });
+      this.props.toRender(tmp);
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-control",
+        id: "buscador_medicos",
+        name: "buscador_medicos",
+        placeholder: "Buscar...",
+        onChange: this.handleBuscar
+      }));
+    }
+  }]);
+
+  return index;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+
+/* harmony default export */ __webpack_exports__["default"] = (index);
+
+/***/ }),
+
 /***/ "./resources/js/components/CausasAdmin.js":
 /*!************************************************!*\
   !*** ./resources/js/components/CausasAdmin.js ***!
@@ -74910,9 +76828,10 @@ var CausasAdmin = /*#__PURE__*/function (_Component) {
     }
   }, {
     key: "handleSubmit",
-    value: function handleSubmit() {
+    value: function handleSubmit(e) {
       var _this3 = this;
 
+      e.preventDefault();
       var url = 'parametro/causae/agregar';
       var causa = document.getElementsByName('causa_externa')[0].value;
       axios__WEBPACK_IMPORTED_MODULE_5___default.a.post(url, {
@@ -74951,9 +76870,10 @@ var CausasAdmin = /*#__PURE__*/function (_Component) {
     }
   }, {
     key: "handleGuardar",
-    value: function handleGuardar() {
+    value: function handleGuardar(e) {
       var _this5 = this;
 
+      e.preventDefault();
       var id = this.state.IdEditar;
       var url = "parametro/causae/".concat(id, "/editar");
       var causa = document.getElementsByName('causa_editada')[0].value;
@@ -74982,7 +76902,8 @@ var CausasAdmin = /*#__PURE__*/function (_Component) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "btn btn-success btn-sm",
         onClick: this.handleCrear
-      }, "+ Crear"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "+ Crear"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        onSubmit: this.handleSubmit,
         className: "row mt-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: this.state.nuevo
@@ -75001,16 +76922,12 @@ var CausasAdmin = /*#__PURE__*/function (_Component) {
         className: "form-control",
         id: "nombre",
         name: "causa_externa",
-        onChange: this.handleChange
+        onChange: this.handleChange,
+        required: true
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "submit",
-        className: "btn btn-success btn-sm",
-        onClick: this.handleSubmit
-      }, "Guardar")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: this.state.errors['nombre']
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "redf  " + (this.state.errors['nombre'] || "")
-      }, this.state.errorMensajes['nombre']))))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "btn btn-success btn-sm"
+      }, "Guardar"))))))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row mt-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-12"
@@ -75042,31 +76959,37 @@ var CausasAdmin = /*#__PURE__*/function (_Component) {
         className: "row"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-12"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        id: "editarCausa",
+        onSubmit: this.handleGuardar
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "codigo"
       }, "Nombre"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
+        required: true,
         className: "form-control form-control-sm",
         name: "causa_editada",
         defaultValue: this.state.causa,
-        onChange: this.handleChangeC
+        onChange: this.handleChange
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "estado_causa"
       }, "Estado"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         className: "form-control form-control-sm",
+        required: true,
         name: "estado_causa",
-        onChange: this.handleChangeC
+        onChange: this.handleChange
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "1"
       }, "Activa"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "0"
       }, "Inactiva")))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__["default"].Footer, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "btn btn-primary btn-sm",
-        onClick: this.handleGuardar
+        type: "submit",
+        form: "editarCausa",
+        className: "btn btn-primary btn-sm"
       }, "Guardar"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "btn btn-primary btn-sm",
         onClick: this.handleCerrarModal
@@ -77453,7 +79376,8 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
     value: function handleEdition(id, name, table, codigo) {
       if (table == 'Clase') {
         this.setState({
-          nombreClase: name,
+          nombreClase: name[0],
+          abbr: name[1],
           modalClaseOpen: true,
           IdEditar: id
         });
@@ -77489,6 +79413,7 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
     value: function handleSubmitClase(e) {
       var _this2 = this;
 
+      e.preventDefault();
       var url = 'parametro/clasesa/agregar';
       var clase = document.getElementsByName('crear_clase')[0].value;
       var abbr = document.getElementsByName('crear_abbr')[0].value;
@@ -77512,6 +79437,7 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
     value: function handleSubmitEstado(e) {
       var _this3 = this;
 
+      e.preventDefault();
       var url = 'parametro/estadosa/agregar';
       var estado = document.getElementsByName('crear_estadoa')[0].value;
       var incapacidad = document.getElementsByName('crear_incapacidad')[0].value;
@@ -77536,6 +79462,7 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
     value: function handleSubmitPrograma(e) {
       var _this4 = this;
 
+      e.preventDefault();
       var url = 'parametro/descripcionesp/agregar';
       var clase = document.getElementsByName('programa_clasea')[0].value;
       var descripcion = document.getElementsByName('programa_descripcion')[0].value;
@@ -77564,6 +79491,7 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
     value: function handleGuardarClase(e) {
       var _this5 = this;
 
+      e.preventDefault();
       var id = this.state.IdEditar;
       var url = "parametro/clasesa/".concat(id, "/editar");
       var clase = document.getElementsByName('editar_clase')[0].value;
@@ -77592,6 +79520,7 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
     value: function handleGuardarEstado(e) {
       var _this6 = this;
 
+      e.preventDefault();
       var id = this.state.IdEditar;
       var url = "parametro/estadosa/".concat(id, "/editar");
       var estado = document.getElementsByName('editar_estadoa')[0].value;
@@ -77621,6 +79550,7 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
     value: function handleGuardarPrograma(e) {
       var _this7 = this;
 
+      e.preventDefault();
       console.log('hola funcion');
       var id = this.state.IdEditar;
       var url = "parametro/descripcionesp/".concat(id, "/editar");
@@ -77728,7 +79658,8 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "btn btn-success btn-sm",
         onClick: this.handleCrearClase
-      }, "+ Crear"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "+ Crear"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        onSubmit: this.handleSubmitClase,
         className: "row mt-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: this.state.nuevoClase
@@ -77753,7 +79684,8 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
         className: "form-control",
         id: "nombre",
         name: "crear_clase",
-        onChange: this.handleChange
+        onChange: this.handleChange,
+        required: true
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         className: "col"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Abbr ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -77761,20 +79693,16 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
         className: "form-control",
         id: "nombre",
         name: "crear_abbr",
-        onChange: this.handleChange
+        onChange: this.handleChange,
+        required: true
       })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
         className: "row"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         className: "col align-self-center"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "submit",
-        className: "btn btn-success btn-sm ",
-        onClick: this.handleSubmitClase
-      }, "Guardar")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: this.state.errors['nombre']
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "redf  " + (this.state.errors['nombre'] || "")
-      }, this.state.errorMensajes['nombre']))))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "btn btn-success btn-sm "
+      }, "Guardar"))))))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row mt-5"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-12"
@@ -77801,7 +79729,8 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
       })))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "btn btn-success btn-sm",
         onClick: this.handleCrearEstado
-      }, "+ Crear"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "+ Crear"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        onSubmit: this.handleSubmitEstado,
         className: "row mt-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: this.state.nuevoEstado
@@ -77826,7 +79755,8 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
         className: "form-control",
         id: "nombre",
         name: "crear_estadoa",
-        onChange: this.handleChange
+        onChange: this.handleChange,
+        required: true
       })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
         className: "row"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
@@ -77835,7 +79765,8 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
         className: "form-control form-control-sm",
         defaultValue: "1",
         name: "crear_incapacidad",
-        onChange: this.handleChangeC
+        onChange: this.handleChange,
+        required: true
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "1"
       }, "Si"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
@@ -77844,13 +79775,8 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
         className: "col align-self-center"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "submit",
-        className: "btn btn-success btn-sm ",
-        onClick: this.handleSubmitEstado
-      }, "Guardar")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: this.state.errors['nombre']
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "redf  " + (this.state.errors['nombre'] || "")
-      }, this.state.errorMensajes['nombre']))))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "btn btn-success btn-sm "
+      }, "Guardar"))))))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row mt-5"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-12"
@@ -77877,7 +79803,8 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
       })))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "btn btn-success btn-sm",
         onClick: this.handleCrearPrograma
-      }, "+ Crear"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "+ Crear"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        onSubmit: this.handleSubmitPrograma,
         className: "row mt-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: this.state.nuevoPrograma
@@ -77902,7 +79829,8 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
         className: "form-control",
         id: "nombre",
         name: "programa_codigo",
-        onChange: this.handleChange
+        onChange: this.handleChange,
+        required: true
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         className: "col"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Descripci\xF3n ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -77910,7 +79838,8 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
         className: "form-control",
         id: "nombre",
         name: "programa_descripcion",
-        onChange: this.handleChange
+        onChange: this.handleChange,
+        required: true
       })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
         className: "row"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
@@ -77919,7 +79848,8 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
         className: "form-control form-control-sm",
         defaultValue: "1",
         name: "programa_clasea",
-        onChange: this.handleChangeC
+        onChange: this.handleChange,
+        required: true
       }, Object.keys(clasesa).map(function (key) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
           key: key,
@@ -77932,7 +79862,8 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
         className: "form-control form-control-sm",
         defaultValue: "1",
         name: "programa_incapacidad",
-        onChange: this.handleChangeC
+        onChange: this.handleChange,
+        required: true
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "1"
       }, "Si"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
@@ -77941,13 +79872,8 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
         className: "col align-self-center"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "submit",
-        className: "btn btn-success btn-sm ",
-        onClick: this.handleSubmitPrograma
-      }, "Guardar")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: this.state.errors['nombre']
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "redf  " + (this.state.errors['nombre'] || "")
-      }, this.state.errorMensajes['nombre']))))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "btn btn-success btn-sm "
+      }, "Guardar"))))))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row mt-5"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-12"
@@ -77983,7 +79909,10 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
         className: "row"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-12"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        id: "editarClase",
+        onSubmit: this.handleGuardarClase
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "codigo"
@@ -77992,7 +79921,8 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
         className: "form-control form-control-sm",
         name: "editar_clase",
         defaultValue: this.state.nombreClase,
-        onChange: this.handleChangeC
+        onChange: this.handleChange,
+        required: true
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -78001,7 +79931,9 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
         type: "text",
         className: "form-control form-control-sm",
         name: "editar_abbr",
-        onChange: this.handleChangeC
+        defaultValue: this.state.abbr,
+        onChange: this.handleChange,
+        required: true
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -78009,14 +79941,16 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
       }, "Estado"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         className: "form-control form-control-sm",
         defaultValue: "1",
-        name: "editar_clase_activo"
+        name: "editar_clase_activo",
+        required: true
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "1"
       }, "Activo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "0"
       }, "Inactivo")))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_2__["default"].Footer, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "btn btn-primary btn-sm",
-        onClick: this.handleGuardarClase
+        form: "editarClase",
+        type: "sumbit",
+        className: "btn btn-primary btn-sm"
       }, "Guardar"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "btn btn-primary btn-sm",
         onClick: this.handleCerrarModal
@@ -78028,7 +79962,10 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
         className: "row"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-12"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        id: "editarEstado",
+        onSubmit: this.handleGuardarEstado
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "codigo"
@@ -78037,7 +79974,8 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
         className: "form-control form-control-sm",
         name: "editar_estadoa",
         defaultValue: this.state.nombreEstado,
-        onChange: this.handleChangeC
+        onChange: this.handleChange,
+        required: true
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -78045,7 +79983,8 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
       }, "Incapacidad"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         className: "form-control form-control-sm",
         defaultValue: "1",
-        name: "editar_incapacidad"
+        name: "editar_incapacidad",
+        required: true
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "1"
       }, "Si"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
@@ -78057,14 +79996,16 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
       }, "Activo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         className: "form-control form-control-sm",
         defaultValue: "1",
-        name: "editar_estadoa_activo"
+        name: "editar_estadoa_activo",
+        required: true
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "1"
       }, "Activo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "0"
       }, "Inactivo")))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_2__["default"].Footer, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "btn btn-primary btn-sm",
-        onClick: this.handleGuardarEstado
+        form: "editarEstado",
+        type: "submit required",
+        className: "btn btn-primary btn-sm"
       }, "Guardar"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "btn btn-primary btn-sm",
         onClick: this.handleCerrarModal
@@ -78076,7 +80017,10 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
         className: "row"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-12"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        onSubmit: this.handleGuardarPrograma,
+        id: "editarPrograma"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "codigo"
@@ -78085,7 +80029,8 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
         className: "form-control form-control-sm",
         name: "editar_programa_codigo",
         defaultValue: this.state.codigoPrograma,
-        onChange: this.handleChangeC
+        onChange: this.handleChange,
+        required: true
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -78093,7 +80038,8 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
       }, "Tipo afiliaci\xF3n"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         className: "form-control form-control-sm",
         defaultValue: "1",
-        name: "editar_programa_clasea"
+        name: "editar_programa_clasea",
+        required: true
       }, Object.keys(clasesa).map(function (key) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
           key: key,
@@ -78109,7 +80055,8 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
         className: "form-control form-control-sm",
         name: "editar_programa_descripcion",
         defaultValue: this.state.nombrePrograma,
-        onChange: this.handleChangeC
+        onChange: this.handleChange,
+        required: true
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -78117,7 +80064,8 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
       }, "Incapacidad"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         className: "form-control form-control-sm",
         defaultValue: "1",
-        name: "editar_programa_incapacidad"
+        name: "editar_programa_incapacidad",
+        required: true
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "1"
       }, "Si"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
@@ -78129,14 +80077,16 @@ var DerechosAdmin = /*#__PURE__*/function (_Component) {
       }, "Estado"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         className: "form-control form-control-sm",
         defaultValue: "1",
-        name: "editar_programa_activo"
+        name: "editar_programa_activo",
+        required: true
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "1"
       }, "Activo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "0"
       }, "Inactivo")))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_2__["default"].Footer, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "btn btn-primary btn-sm",
-        onClick: this.handleGuardarPrograma
+        form: "editarPrograma",
+        type: "submit",
+        className: "btn btn-primary btn-sm"
       }, "Guardar"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "btn btn-primary btn-sm",
         onClick: this.handleCerrarModal
@@ -78272,7 +80222,8 @@ var DiasmaxAdmin = /*#__PURE__*/function (_Component) {
     key: "handleEdition",
     value: function handleEdition(id, esped) {
       this.setState({
-        esped: esped,
+        esped: esped[0],
+        diasmax: esped[1],
         modalOpen: true,
         IdEditar: id
       });
@@ -78295,9 +80246,10 @@ var DiasmaxAdmin = /*#__PURE__*/function (_Component) {
     value: function handleEliminar(id) {}
   }, {
     key: "handleSubmit",
-    value: function handleSubmit() {
+    value: function handleSubmit(e) {
       var _this2 = this;
 
+      e.preventDefault();
       var url = 'parametro/diasmax/agregar';
       var especialidad = document.getElementsByName('crear_especialidad')[0].value;
       var dias_maximos = document.getElementsByName('asignar_dias_maximos')[0].value;
@@ -78317,9 +80269,10 @@ var DiasmaxAdmin = /*#__PURE__*/function (_Component) {
     }
   }, {
     key: "handleGuardar",
-    value: function handleGuardar() {
+    value: function handleGuardar(e) {
       var _this3 = this;
 
+      e.preventDefault();
       var id = this.state.IdEditar;
       console.log(id);
       var url = "parametro/diasmax/".concat(id, "/editar");
@@ -78369,7 +80322,8 @@ var DiasmaxAdmin = /*#__PURE__*/function (_Component) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "btn btn-success btn-sm",
         onClick: this.handleCrear
-      }, "+ Crear"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "+ Crear"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        onSubmit: this.handleSubmit,
         className: "row mt-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: this.state.nuevo
@@ -78389,22 +80343,19 @@ var DiasmaxAdmin = /*#__PURE__*/function (_Component) {
         id: "nombre",
         name: "crear_especialidad",
         defaultValue: "",
-        onChange: this.handleChange
+        onChange: this.handleChange,
+        required: true
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, "D\xEDas m\xE1ximos"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "number",
         className: "form-control",
         id: "nombre",
         name: "asignar_dias_maximos",
-        onChange: this.handleChange
+        onChange: this.handleChange,
+        required: true
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "submit",
-        className: "btn btn-success btn-sm",
-        onClick: this.handleSubmit
-      }, "Guardar")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: this.state.errors['nombre']
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "redf  " + (this.state.errors['nombre'] || "")
-      }, this.state.errorMensajes['nombre']))))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "btn btn-success btn-sm"
+      }, "Guardar"))))))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row mt-5"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-12"
@@ -78436,7 +80387,10 @@ var DiasmaxAdmin = /*#__PURE__*/function (_Component) {
         className: "row"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-12"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        id: "editarDias",
+        onSubmit: this.handleGuardar
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "codigo"
@@ -78445,7 +80399,8 @@ var DiasmaxAdmin = /*#__PURE__*/function (_Component) {
         className: "form-control form-control-sm",
         name: "editar_especialidad",
         defaultValue: this.state.esped,
-        onChange: this.handleChange
+        onChange: this.handleChange,
+        required: true
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -78455,11 +80410,13 @@ var DiasmaxAdmin = /*#__PURE__*/function (_Component) {
         min: "0",
         className: "form-control form-control-sm",
         name: "diasmax",
-        value: this.state.diasmax,
-        onChange: this.handleChange
+        defaultValue: this.state.diasmax,
+        onChange: this.handleChange,
+        required: true
       }))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__["default"].Footer, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "btn btn-primary btn-sm",
-        onClick: this.handleGuardar
+        form: "editarDias",
+        type: "submit",
+        className: "btn btn-primary btn-sm"
       }, "Guardar"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "btn btn-primary btn-sm",
         onClick: this.handleCerrarModal
@@ -78682,6 +80639,7 @@ var EstadosAdmin = /*#__PURE__*/function (_Component) {
     value: function handleSubmit(e) {
       var _this2 = this;
 
+      e.preventDefault();
       var url = 'parametro/estadosi/agregar';
       var estadoi = document.getElementsByName('estados_incapacidad')[0].value;
       axios__WEBPACK_IMPORTED_MODULE_4___default.a.post(url, {
@@ -78700,9 +80658,10 @@ var EstadosAdmin = /*#__PURE__*/function (_Component) {
     }
   }, {
     key: "handleGuardar",
-    value: function handleGuardar() {
+    value: function handleGuardar(e) {
       var _this3 = this;
 
+      e.preventDefault();
       var id = this.state.IdEditar;
       var url = "parametro/estadosi/".concat(id, "/editar");
       var estadoi = document.getElementsByName('editar_estados_incapacidad')[0].value;
@@ -78754,7 +80713,8 @@ var EstadosAdmin = /*#__PURE__*/function (_Component) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "btn btn-success btn-sm",
         onClick: this.handleCrear
-      }, "+ Crear"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "+ Crear"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        onSubmit: this.handleSubmit,
         className: "row mt-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: this.state.nuevo
@@ -78774,16 +80734,12 @@ var EstadosAdmin = /*#__PURE__*/function (_Component) {
         id: "nombre",
         name: "estados_incapacidad",
         onChange: this.handleChange,
-        defaultValue: this.state.nombre
+        defaultValue: this.state.nombre,
+        required: true
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "submit",
-        className: "btn btn-success btn-sm",
-        onClick: this.handleSubmit
-      }, "Guardar")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: this.state.errors['nombre']
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "redf  " + (this.state.errors['nombre'] || "")
-      }, this.state.errorMensajes['nombre']))))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "btn btn-success btn-sm"
+      }, "Guardar"))))))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row mt-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-12"
@@ -78817,7 +80773,10 @@ var EstadosAdmin = /*#__PURE__*/function (_Component) {
         className: "row"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-12"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        id: "editarEstado",
+        onSubmit: this.handleGuardar
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "codigo"
@@ -78826,7 +80785,8 @@ var EstadosAdmin = /*#__PURE__*/function (_Component) {
         className: "form-control form-control-sm",
         name: "editar_estados_incapacidad",
         defaultValue: this.state.nombreEstado,
-        onChange: this.handleChangeC
+        onChange: this.handleChange,
+        required: true
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -78834,14 +80794,16 @@ var EstadosAdmin = /*#__PURE__*/function (_Component) {
       }, "Estado"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         className: "form-control form-control-sm",
         name: "editar_estados_activo",
-        onChange: this.handleChangeC
+        onChange: this.handleChange,
+        required: true
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "1"
       }, "Activa"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "0"
       }, "Inactiva")))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__["default"].Footer, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "btn btn-primary btn-sm",
-        onClick: this.handleGuardar
+        type: "submit",
+        form: "editarEstado",
+        className: "btn btn-primary btn-sm"
       }, "Guardar"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "btn btn-primary btn-sm",
         onClick: this.handleCerrarModal
@@ -78853,11 +80815,6 @@ var EstadosAdmin = /*#__PURE__*/function (_Component) {
 }(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
 
 /* harmony default export */ __webpack_exports__["default"] = (EstadosAdmin);
-/*
-if (document.getElementById('menuUsuarios')) {
-    ReactDOM.render(<MenuUsuarios />, document.getElementById('menuUsuarios'));
-}
-*/
 
 /***/ }),
 
@@ -79181,7 +81138,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
       let f2 = new Date().getTime();
       console.log(f1);
       console.log(f2);
-       let f = f2-f1;
+        let f = f2-f1;
       let edad = new Date(f)
       console.log(edad)
       */
@@ -80081,7 +82038,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
       axios.get(url)
           .then(resp => {
              console.log(resp.data.respuesta)
-           })
+            })
           .catch(err =>{
               console.log(err)
           })*/
@@ -80845,9 +82802,10 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
     value: function handleEliminar(id) {}
   }, {
     key: "handleSubmit",
-    value: function handleSubmit() {
+    value: function handleSubmit(e) {
       var _this2 = this;
 
+      e.preventDefault();
       var url = 'parametro/ips/agregar';
       var cod_sede = document.getElementsByName('crear_cod_sede')[0].value;
       var nombre_sede = document.getElementsByName('crear_nombre_sede')[0].value;
@@ -80879,9 +82837,10 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
     }
   }, {
     key: "handleGuardar",
-    value: function handleGuardar() {
+    value: function handleGuardar(e) {
       var _this3 = this;
 
+      e.preventDefault();
       var id = this.state.IdEditar;
       var url = "parametro/ips/".concat(id, "/editar");
       var cod_sede = document.getElementsByName('editar_cod_sede')[0].value;
@@ -80942,7 +82901,8 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "btn btn-success btn-sm",
         onClick: this.handleCrear
-      }, "+ Crear"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "+ Crear"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        onSubmit: this.handleSubmit,
         className: "row mt-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: this.state.nuevo
@@ -80967,7 +82927,8 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
         className: "form-control",
         id: "nombre",
         name: "crear_cod_sede",
-        onChange: this.handleChange
+        onChange: this.handleChange,
+        required: true
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         className: "col"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Nombre Sede ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -80975,7 +82936,8 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
         className: "form-control",
         id: "nombre",
         name: "crear_nombre_sede",
-        onChange: this.handleChange
+        onChange: this.handleChange,
+        required: true
       })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
         className: "row"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
@@ -80985,7 +82947,8 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
         className: "form-control",
         id: "nombre",
         name: "crear_cod_habilitacion",
-        onChange: this.handleChange
+        onChange: this.handleChange,
+        required: true
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         className: "col"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Direcci\xF3n ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -80993,7 +82956,8 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
         className: "form-control",
         id: "nombre",
         name: "crear_direccion",
-        onChange: this.handleChange
+        onChange: this.handleChange,
+        required: true
       })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
         className: "row"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
@@ -81003,7 +82967,8 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
         className: "form-control",
         id: "nombre",
         name: "crear_telefono",
-        onChange: this.handleChange
+        onChange: this.handleChange,
+        required: true
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         className: "col"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Raz\xF3n Social ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -81011,7 +82976,8 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
         className: "form-control",
         id: "nombre",
         name: "crear_razon_social",
-        onChange: this.handleChange
+        onChange: this.handleChange,
+        required: true
       })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
         className: "row"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
@@ -81021,13 +82987,13 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
         className: "form-control",
         id: "nombre",
         name: "crear_nit",
-        onChange: this.handleChange
+        onChange: this.handleChange,
+        required: true
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
         className: "col align-self-center"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "submit",
-        className: "btn btn-success btn-sm ",
-        onClick: this.handleSubmit
+        className: "btn btn-success btn-sm "
       }, "Guardar")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: this.state.errors['nombre']
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -81072,7 +83038,10 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
         className: "row"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-12"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        id: "editarIps",
+        onSubmit: this.handleGuardar
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "codigo"
@@ -81081,7 +83050,8 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
         className: "form-control form-control-sm",
         name: "editar_cod_sede",
         defaultValue: this.state.name[0],
-        onChange: this.handleChangeC
+        onChange: this.handleChange,
+        required: true
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -81091,7 +83061,8 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
         className: "form-control form-control-sm",
         name: "editar_nombre_sede",
         defaultValue: this.state.name[1],
-        onChange: this.handleChangeC
+        onChange: this.handleChange,
+        required: true
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -81101,7 +83072,8 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
         className: "form-control form-control-sm",
         name: "editar_cod_habilitacion",
         defaultValue: this.state.name[2],
-        onChange: this.handleChangeC
+        onChange: this.handleChange,
+        required: true
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -81111,7 +83083,8 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
         className: "form-control form-control-sm",
         name: "editar_direccion",
         defaultValue: this.state.name[3],
-        onChange: this.handleChangeC
+        onChange: this.handleChange,
+        required: true
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -81121,7 +83094,8 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
         className: "form-control form-control-sm",
         name: "editar_telefono",
         defaultValue: this.state.name[4],
-        onChange: this.handleChangeC
+        onChange: this.handleChange,
+        required: true
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -81131,7 +83105,8 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
         className: "form-control form-control-sm",
         name: "editar_razon_social",
         defaultValue: this.state.name[5],
-        onChange: this.handleChangeC
+        onChange: this.handleChange,
+        required: true
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -81141,10 +83116,12 @@ var IpsAdmin = /*#__PURE__*/function (_Component) {
         className: "form-control form-control-sm",
         name: "editar_nit",
         defaultValue: this.state.name[6],
-        onChange: this.handleChangeC
+        onChange: this.handleChange,
+        required: true
       }))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__["default"].Footer, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "btn btn-primary btn-sm",
-        onClick: this.handleGuardar
+        type: "submit",
+        form: "editarIps",
+        className: "btn btn-primary btn-sm"
       }, "Guardar"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "btn btn-primary btn-sm",
         onClick: this.handleCerrarModal
@@ -81897,13 +83874,13 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
     this.handleLateralidad = this.handleLateralidad.bind(this);
     this.handleProrroga = this.handleProrroga.bind(this);
     this.showMessage = this.showMessage(this)
-     
+      
     this.buscarHistorico = this.buscarHistorico.bind(this);
     this.handleFechaAtencion = this.handleFechaAtencion.bind(this);
     this.validarForm = this.validarForm.bind(this);
     this.clearErrors = this.clearErrors.bind(this);
     this.reviewProrroga = this.reviewProrroga.bind(this);
-     this.handleMaxDias = this.handleMaxDias.bind(this);
+      this.handleMaxDias = this.handleMaxDias.bind(this);
     */
 
     return _this;
@@ -82640,9 +84617,9 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
       /*
       if (parseInt(this.state.diasSolicitados) <= this.state.diasMaximosEspecialidad) {
           let resp = this.validarForm()
-           if (resp) {
-               //alert(this.state.id);
-               let url = 'saveIncapacidad'
+            if (resp) {
+                //alert(this.state.id);
+                let url = 'saveIncapacidad'
               axios.post(url, { datos: this.state })
                   .then(resp => {
                       console.log(resp.data)
@@ -82653,7 +84630,7 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
                   .catch(err => {
                       console.log(err)
                   })
-           }
+            }
           else {
               alert("Hay errores en algunos campos");
           }
@@ -82661,7 +84638,7 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
       else {
           alert("Los días solicitados exceden el máximo definido para su especialidad médica");
       }
-       */
+        */
 
     }
   }, {
@@ -82793,7 +84770,7 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
       axios.get(url)
           .then(resp => {
              console.log(resp.data.respuesta)
-           })
+            })
           .catch(err =>{
               console.log(err)
           })*/
@@ -83666,8 +85643,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _TableMedicos_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TableMedicos.js */ "./resources/js/components/TableMedicos.js");
 /* harmony import */ var react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-bootstrap/Modal */ "./node_modules/react-bootstrap/esm/Modal.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _Buscador__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Buscador */ "./resources/js/components/Buscador/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var react_paginate__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-paginate */ "./node_modules/react-paginate/dist/react-paginate.js");
+/* harmony import */ var react_paginate__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react_paginate__WEBPACK_IMPORTED_MODULE_6__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
@@ -83710,6 +85690,8 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
+
 var MedicosSistema = /*#__PURE__*/function (_Component) {
   _inherits(MedicosSistema, _Component);
 
@@ -83729,6 +85711,7 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
       registroMedico: '',
       correo: '',
       nuevo: 'oculto',
+      editarContraseña: false,
       modalOpen: false,
       nombre: '',
       especialidad: '',
@@ -83753,7 +85736,32 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         contraseña: 'Contraseña requerida',
         confirmar: 'Repita contraseña'
       },
-      IdEditar: '00'
+      fuse_options: {
+        useExtendedSearch: true,
+        findAllMatches: true,
+        minMatchCharLength: 2,
+        location: 0,
+        threshold: 0.3,
+        distance: 10,
+        ignoreFieldNorm: true,
+        keys: [{
+          name: 'nombre',
+          weight: 2
+        }, "reg_medico", {
+          name: "email",
+          weight: 2
+        }, {
+          name: "num_documento",
+          weight: 2
+        }]
+      },
+      IdEditar: '00',
+      data: [],
+      page: [],
+      perPage: 10,
+      offset: 0,
+      currentPage: 0,
+      pageCount: 0
     }; // bind
 
     _this.getMedicosUsers = _this.getMedicosUsers.bind(_assertThisInitialized(_this));
@@ -83767,13 +85775,19 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
     _this.validarForm = _this.validarForm.bind(_assertThisInitialized(_this));
     _this.handleCerrarModal = _this.handleCerrarModal.bind(_assertThisInitialized(_this));
     _this.handleGuardar = _this.handleGuardar.bind(_assertThisInitialized(_this));
-
-    _this.getMedicosUsers();
-
+    _this.handleListar = _this.handleListar.bind(_assertThisInitialized(_this));
+    _this.handleEditPassword = _this.handleEditPassword.bind(_assertThisInitialized(_this));
+    _this.getData = _this.getData.bind(_assertThisInitialized(_this));
+    _this.handlePageClick = _this.handlePageClick.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(MedicosSistema, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.getMedicosUsers();
+    }
+  }, {
     key: "handleCreate",
     value: function handleCreate() {
       this.setState({
@@ -83798,12 +85812,27 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         numeroDocumento: datos[2],
         registroMedico: datos[4],
         nombre: datos[3],
-        especialidad: datos[5]
+        especialidad: datos[5],
+        correo: datos[6]
       });
     }
   }, {
     key: "handleEliminar",
-    value: function handleEliminar(id) {//  console.log(id)
+    value: function handleEliminar(id) {
+      var _this2 = this;
+
+      var url = "usuario/medico/".concat(id, "/eliminar");
+      axios__WEBPACK_IMPORTED_MODULE_5___default.a["delete"](url).then(function (resp) {
+        _this2.props.showToast(resp.data.data, 'success');
+
+        _this2.getMedicosUsers();
+
+        _this2.setState({
+          medicos: _this2.state.medicos
+        });
+      })["catch"](function (err) {
+        console.log(err);
+      });
     }
   }, {
     key: "handleCerrarModal",
@@ -83815,14 +85844,14 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
   }, {
     key: "handleSubmit",
     value: function handleSubmit(e) {
-      var _this2 = this;
+      var _this3 = this;
 
       e.preventDefault();
       var resp = this.validarForm();
 
       if (resp) {
         var url = 'usuario/medico/agregar';
-        axios__WEBPACK_IMPORTED_MODULE_4___default.a.post(url, {
+        axios__WEBPACK_IMPORTED_MODULE_5___default.a.post(url, {
           email: this.state.correo,
           password: this.state.contraseña,
           cod_medico: this.state.codigoMedico,
@@ -83834,17 +85863,17 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         }).then(function (resp) {
           var user = resp.data.row;
 
-          _this2.setState({
-            medicos: [].concat(_toConsumableArray(_this2.state.medicos), [user]),
+          _this3.setState({
+            medicos: [].concat(_toConsumableArray(_this3.state.medicos), [user]),
             nuevo: 'oculto'
           });
 
-          _this2.props.showToast('Datos almacenados', 'success'); // alert("Datos almacenados")
+          _this3.props.showToast('Datos almacenados', 'success'); // alert("Datos almacenados")
 
         })["catch"](function (err) {
           console.log(err);
 
-          _this2.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
+          _this3.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
         });
       }
     }
@@ -83864,7 +85893,7 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
       });
       */
 
-      if (resp) {
+      if (resp && this.state.editarContraseña) {
         if (newState.contraseña != newState.confirmar) {
           newState.errors.contraseña = "visible";
           newState.errorMensajes.contraseña = "Contraseñas no coinciden";
@@ -83893,13 +85922,15 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
   }, {
     key: "getMedicosUsers",
     value: function getMedicosUsers() {
-      var _this3 = this;
+      var _this4 = this;
 
-      var url = 'getMedicosUsers';
-      axios__WEBPACK_IMPORTED_MODULE_4___default.a.get(url).then(function (resp) {
-        //console.log(resp.data.data);
-        _this3.setState({
-          medicos: resp.data.data
+      var url = 'usuario/medico';
+      axios__WEBPACK_IMPORTED_MODULE_5___default.a.get(url).then(function (resp) {
+        _this4.setState({
+          page: resp.data.data,
+          data: resp.data.data
+        }, function () {
+          _this4.getData();
         });
       })["catch"](function (err) {
         console.log(err);
@@ -83921,16 +85952,18 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
     }
   }, {
     key: "handleGuardar",
-    value: function handleGuardar() {
-      var _this4 = this;
+    value: function handleGuardar(e) {
+      var _this5 = this;
 
+      e.preventDefault();
       var id = this.state.IdEditar;
       var url = "usuario/medico/".concat(id, "/editar");
       var resp = this.validarForm();
 
       if (resp) {
-        axios__WEBPACK_IMPORTED_MODULE_4___default.a.put(url, {
+        axios__WEBPACK_IMPORTED_MODULE_5___default.a.put(url, {
           password: this.state.contraseña,
+          email: this.state.correo,
           cod_medico: this.state.codigoMedico,
           nombre: this.state.nombre,
           tipo_documento: this.state.tipoDocumento,
@@ -83938,29 +85971,137 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
           reg_medico: this.state.registroMedico,
           especialidad: this.state.especialidad
         }).then(function (resp) {
-          _this4.getMedicosUsers();
+          _this5.getMedicosUsers();
 
-          _this4.setState({
-            medicos: _toConsumableArray(_this4.state.medicos)
+          _this5.setState({
+            medicos: _toConsumableArray(_this5.state.medicos)
           });
 
-          _this4.handleCerrarModal();
+          _this5.handleCerrarModal();
 
-          _this4.props.showToast('Datos Actualizados', 'success'); // alert("Datos almacenados")
+          _this5.props.showToast('Datos Actualizados', 'success'); // alert("Datos almacenados")
 
         })["catch"](function (err) {
-          _this4.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
+          _this5.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
         });
       }
     }
   }, {
+    key: "handleEditPassword",
+    value: function handleEditPassword() {
+      if (!this.state.editarContraseña) {
+        this.setState({
+          editarContraseña: true
+        });
+      } else {
+        this.setState({
+          editarContraseña: false
+        });
+      }
+    }
+  }, {
+    key: "handleListar",
+    value: function handleListar(arg) {
+      var _this6 = this;
+
+      if (arg) {
+        this.setState({
+          page: arg
+        }, function () {
+          _this6.getData();
+        });
+      } else {
+        this.getMedicosUsers();
+      }
+    }
+  }, {
+    key: "getData",
+    value: function getData() {
+      var data = this.state.page;
+      var slice = data.slice(this.state.offset, this.state.offset + this.state.perPage);
+      this.setState({
+        medicos: slice,
+        pageCount: Math.ceil(data.length / this.state.perPage)
+      });
+    }
+  }, {
+    key: "handlePageClick",
+    value: function handlePageClick(e) {
+      var _this7 = this;
+
+      var selectedPage = e.selected;
+      var offset = selectedPage * this.state.perPage;
+      this.setState({
+        currentPage: selectedPage,
+        offset: offset
+      }, function () {
+        _this7.getData();
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
-      var medicos = this.state.medicos;
+      var _this8 = this;
+
+      var _this$state = this.state,
+          medicos = _this$state.medicos,
+          editarContraseña = _this$state.editarContraseña;
+
+      var textButton = function textButton() {
+        if (!editarContraseña) {
+          return 'Editar contraseña';
+        } else {
+          return 'No editar contraseña';
+        }
+      };
+
+      var editpassword = function editpassword() {
+        // console.log(editarContraseña);
+        if (editarContraseña) {
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("article", {
+            className: "form-group"
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "form-group"
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+            htmlFor: "codigo"
+          }, "Contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+            type: "password",
+            className: "form-control form-control-sm",
+            name: "contrase\xF1a",
+            onChange: _this8.handleChange,
+            required: true
+          })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: _this8.state.errors['contraseña']
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "redf  " + (_this8.state.errors['contraseña'] || "")
+          }, _this8.state.errorMensajes['contraseña'])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "form-group"
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+            htmlFor: "codigo"
+          }, "Confirmar contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+            type: "password",
+            className: "form-control form-control-sm",
+            name: "confirmar",
+            onChange: _this8.handleChange,
+            required: true
+          })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: _this8.state.errors['confirmar']
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "redf  " + (_this8.state.errors['confirmar'] || "")
+          }, _this8.state.errorMensajes['confirmar'])));
+        }
+      };
+
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "btn btn-success btn-sm",
         onClick: this.handleCreate
-      }, "+ Crear"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "+ Crear"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Buscador__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        list: this.state.data,
+        options: this.state.fuse_options,
+        toRender: function toRender(arg) {
+          return _this8.handleListar(arg);
+        }
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row mt-5"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: this.state.nuevo
@@ -83988,7 +86129,8 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         id: "codigoMedico",
         name: "codigoMedico",
         onChange: this.handleChange,
-        value: this.state.codigoMedico
+        defaultValue: this.state.codigoMedico,
+        required: true
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: this.state.errors['codigoMedico']
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -84002,7 +86144,8 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         id: "tipoDocumento",
         name: "tipoDocumento",
         onChange: this.handleChange,
-        value: this.state.tipoDocumento
+        defaultValue: this.state.tipoDocumento,
+        required: true
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: ""
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
@@ -84037,7 +86180,8 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         id: "numeroDocumento",
         name: "numeroDocumento",
         onChange: this.handleChange,
-        value: this.state.numeroDocumento
+        defaultValue: this.state.numeroDocumento,
+        required: true
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-3"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -84048,21 +86192,24 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         id: "registroMedico",
         name: "registroMedico",
         onChange: this.handleChange,
-        value: this.state.registroMedico
+        defaultValue: this.state.registroMedico,
+        required: true
       }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-4"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "nombre"
-      }, "Nombre"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", _defineProperty({
+      }, "Nombre"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         className: "form-control",
         id: "nombre",
         name: "nombre",
         onChange: this.handleChange,
-        value: this.state.nombreUsaurio
-      }, "value", this.state.nombre))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        defaultValue: this.state.nombreUsaurio,
+        value: this.state.nombre,
+        required: true
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-4"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "nombre"
@@ -84072,7 +86219,8 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         id: "correo",
         name: "correo",
         onChange: this.handleChange,
-        value: this.state.correo
+        defaultValue: this.state.correo,
+        required: true
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-4"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -84082,7 +86230,8 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         className: "form-control",
         name: "especialidad",
         onChange: this.handleChange,
-        value: this.state.especialidad
+        defaultValue: this.state.especialidad,
+        required: true
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: ""
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
@@ -84107,8 +86256,13 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         id: "contrase\xF1a",
         name: "contrase\xF1a",
         onChange: this.handleChange,
-        value: this.state.contraseña
+        defaultValue: this.state.contraseña,
+        required: true
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: this.state.errors['contraseña']
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "redf  " + (this.state.errors['contraseña'] || "")
+      }, this.state.errorMensajes['contraseña'])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-4"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "nombre"
@@ -84118,8 +86272,13 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         id: "confirmar",
         name: "confirmar",
         onChange: this.handleChange,
-        value: this.state.confirmar
+        defaultValue: this.state.confirmar,
+        required: true
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: this.state.errors['confirmar']
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "redf  " + (this.state.errors['confirmar'] || "")
+      }, this.state.errorMensajes['confirmar'])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "rethus"
@@ -84128,7 +86287,7 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         id: "rethus",
         name: "rethus",
         onChange: this.handleChange,
-        value: this.state.rethus
+        defaultValue: this.state.rethus
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: ""
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
@@ -84164,19 +86323,36 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         scope: "col"
       }, "Registro"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
         scope: "col"
+      }, "Correo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+        scope: "col"
       }, "Especialidad"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TableMedicos_js__WEBPACK_IMPORTED_MODULE_2__["default"], {
         medicos: medicos,
         handleEdition: this.handleEdition,
         handleEliminar: this.handleEliminar
-      })))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_paginate__WEBPACK_IMPORTED_MODULE_6___default.a, {
+        previousLabel: "<",
+        nextLabel: ">",
+        breakLabel: "...",
+        breakClassName: "break-me",
+        pageCount: this.state.pageCount,
+        marginPagesDisplayed: 2,
+        pageRangeDisplayed: 5,
+        onPageChange: this.handlePageClick,
+        containerClassName: "pagination",
+        subContainerClassName: "pages pagination",
+        activeClassName: "active"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__["default"], {
         show: this.state.modalOpen
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__["default"].Header, null, "Causa externa"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__["default"].Body, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__["default"].Header, null, "Medico"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__["default"].Body, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "container"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-12"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        id: "editarMedico",
+        onSubmit: this.handleGuardar
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "codigo"
@@ -84185,7 +86361,8 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         className: "form-control form-control-sm",
         name: "codigoMedico",
         defaultValue: this.state.codigoMedico,
-        onChange: this.handleChange
+        onChange: this.handleChange,
+        required: true
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -84194,7 +86371,8 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         className: "form-control form-control-sm",
         name: "tipoDocumento",
         defaultValue: this.state.tipoDocumento,
-        onChange: this.handleChange
+        onChange: this.handleChange,
+        required: true
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: ""
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
@@ -84224,7 +86402,8 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         className: "form-control form-control-sm",
         name: "numeroDocumento",
         defaultValue: this.state.numeroDocumento,
-        onChange: this.handleChange
+        onChange: this.handleChange,
+        required: true
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -84234,7 +86413,8 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         className: "form-control form-control-sm",
         name: "registroMedico",
         defaultValue: this.state.registroMedico,
-        onChange: this.handleChange
+        onChange: this.handleChange,
+        required: true
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -84244,7 +86424,8 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         className: "form-control form-control-sm",
         name: "nombre",
         defaultValue: this.state.nombre,
-        onChange: this.handleChange
+        onChange: this.handleChange,
+        required: true
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -84253,26 +86434,10 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         type: "text",
         className: "form-control form-control-sm",
         name: "correo",
-        onChange: this.handleChange
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "form-group"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "codigo"
-      }, "Contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "password",
-        className: "form-control form-control-sm",
-        name: "contrase\xF1a",
-        onChange: this.handleChange
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "form-group"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "codigo"
-      }, "Confirmar contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "password",
-        className: "form-control form-control-sm",
-        name: "confirmar",
-        onChange: this.handleChange
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        defaultValue: this.state.correo,
+        onChange: this.handleChange,
+        required: true
+      })), editpassword(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "especialidadMedica"
@@ -84280,7 +86445,8 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         className: "form-control form-control-sm",
         name: "especialidad",
         defaultValue: this.state.especialidad,
-        onChange: this.handleChange
+        onChange: this.handleChange,
+        required: true
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: ""
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
@@ -84308,8 +86474,12 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
       }, "Si"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "No"
       }, "No")))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__["default"].Footer, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "btn btn-primary btn-sm",
-        onClick: this.handleGuardar
+        className: "btn btn-info btn-sm",
+        onClick: this.handleEditPassword
+      }, textButton()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        type: "submit",
+        form: "editarMedico",
+        className: "btn btn-primary btn-sm"
       }, "Guardar"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "btn btn-primary btn-sm",
         onClick: this.handleCerrarModal
@@ -84321,11 +86491,6 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
 }(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
 
 /* harmony default export */ __webpack_exports__["default"] = (MedicosSistema);
-/*
-if (document.getElementById('menuUsuarios')) {
-    ReactDOM.render(<MenuUsuarios />, document.getElementById('menuUsuarios'));
-}
-*/
 
 /***/ }),
 
@@ -85608,7 +87773,8 @@ function TableClasesa(props) {
   };
 
   var editar = function editar(u) {
-    props.handleEdition(u.target.id, u.target.name, 'Clase', null);
+    var name = u.target.name.split('/');
+    props.handleEdition(u.target.id, name, 'Clase', null);
   };
 
   var clasesa = props.clasesa; //const { users } = this.state;
@@ -85620,7 +87786,7 @@ function TableClasesa(props) {
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, clasesa[key]['clase']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, clasesa[key]['abbr']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, estadoTypes[clasesa[key]['activo']]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
       className: "btn btn-warning btn-sm",
       id: clasesa[key]['id'],
-      name: clasesa[key]['clase'],
+      name: clasesa[key]['clase'] + '/' + clasesa[key]['abbr'],
       onClick: editar
     }, "Editar")));
   }));
@@ -85755,8 +87921,8 @@ function TableDiasmax(props) {
   };
 
   var editar = function editar(u) {
-    //console.log(u.target.name);
-    props.handleEdition(u.target.id, u.target.name);
+    var name = u.target.name.split('/');
+    props.handleEdition(u.target.id, name);
   };
 
   var esp = props.esp; //const { users } = this.state;
@@ -85768,7 +87934,7 @@ function TableDiasmax(props) {
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, esp[key]['especialidad']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, esp[key]['dias_maximos']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
       className: "btn btn-warning btn-sm",
       id: esp[key]['id'],
-      name: esp[key]['especialidad'],
+      name: esp[key]['especialidad'] + '/' + esp[key]['dias_maximos'],
       onClick: editar
     }, "Editar")));
   }));
@@ -86020,12 +88186,20 @@ function TableMedicos(props) {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, Object.keys(medicos).map(function (key) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
       key: key
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, medicos[key]['cod_medico']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, medicos[key]['tipo_documento']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, medicos[key]['num_documento']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, medicos[key]['nombre']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, medicos[key]['reg_medico']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, medicos[key]['especialidad']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, medicos[key]['cod_medico']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, medicos[key]['tipo_documento']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, medicos[key]['num_documento']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, medicos[key]['nombre']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, medicos[key]['reg_medico']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, medicos[key]['email']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, medicos[key]['especialidad']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
       className: "btn btn-warning btn-sm",
       id: medicos[key]['id'],
-      name: medicos[key]['cod_medico'] + '/' + medicos[key]['tipo_documento'] + '/' + medicos[key]['num_documento'] + '/' + medicos[key]['nombre'] + '/' + medicos[key]['reg_medico'] + '/' + medicos[key]['especialidad'],
+      name: medicos[key]['cod_medico'] + '/' + medicos[key]['tipo_documento'] + '/' + medicos[key]['num_documento'] + '/' + medicos[key]['nombre'] + '/' + medicos[key]['reg_medico'] + '/' + medicos[key]['especialidad'] + '/' + medicos[key]['email'],
       onClick: editar
-    }, "Editar")));
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+      "class": "far fa-edit"
+    }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      className: "btn btn-danger btn-sm",
+      id: medicos[key]['id'],
+      onClick: eliminar
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+      "class": "fas fa-trash-alt"
+    }))));
   }));
 }
 
@@ -86186,6 +88360,36 @@ function TipoCotizanteSelect(props) {
 
 /***/ }),
 
+/***/ "./resources/js/components/Usuarios/UsuariosSistema.scss":
+/*!***************************************************************!*\
+  !*** ./resources/js/components/Usuarios/UsuariosSistema.scss ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../node_modules/css-loader!../../../../node_modules/postcss-loader/src??ref--7-2!../../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!./UsuariosSistema.scss */ "./node_modules/css-loader/index.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./resources/js/components/Usuarios/UsuariosSistema.scss");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./resources/js/components/UsuariosSistema.js":
 /*!****************************************************!*\
   !*** ./resources/js/components/UsuariosSistema.js ***!
@@ -86197,12 +88401,15 @@ function TipoCotizanteSelect(props) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _TableUsers_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TableUsers.js */ "./resources/js/components/TableUsers.js");
-/* harmony import */ var react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-bootstrap/Modal */ "./node_modules/react-bootstrap/esm/Modal.js");
+/* harmony import */ var _TableUsers_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TableUsers.js */ "./resources/js/components/TableUsers.js");
+/* harmony import */ var react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-bootstrap/Modal */ "./node_modules/react-bootstrap/esm/Modal.js");
+/* harmony import */ var _Buscador__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Buscador */ "./resources/js/components/Buscador/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var react_paginate__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-paginate */ "./node_modules/react-paginate/dist/react-paginate.js");
+/* harmony import */ var react_paginate__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react_paginate__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _Usuarios_UsuariosSistema_scss__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Usuarios/UsuariosSistema.scss */ "./resources/js/components/Usuarios/UsuariosSistema.scss");
+/* harmony import */ var _Usuarios_UsuariosSistema_scss__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_Usuarios_UsuariosSistema_scss__WEBPACK_IMPORTED_MODULE_6__);
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
@@ -86253,6 +88460,8 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
+
 var UsuariosSistema = /*#__PURE__*/function (_Component) {
   _inherits(UsuariosSistema, _Component);
 
@@ -86267,11 +88476,11 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
     _this.state = {
       users: '',
       nombre: '',
-      usuario: '00',
       correo: '',
       nuevo: 'oculto',
       modalOpen: false,
       contraseña: '',
+      editarContraseña: false,
       tipo: '',
       confirmar: '',
       errors: {
@@ -86288,7 +88497,29 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
         contraseña: '',
         confirmar: ''
       },
-      IdEditar: '00'
+      fuse_options: {
+        useExtendedSearch: true,
+        findAllMatches: true,
+        minMatchCharLength: 2,
+        location: 0,
+        threshold: 0.3,
+        distance: 10,
+        ignoreFieldNorm: true,
+        keys: [{
+          name: 'name',
+          weight: 2
+        }, {
+          name: "email",
+          weight: 2
+        }]
+      },
+      IdEditar: '00',
+      data: [],
+      page: [],
+      perPage: 10,
+      offset: 0,
+      currentPage: 0,
+      pageCount: 0
     }; // bind
 
     _this.getSystemUsers = _this.getSystemUsers.bind(_assertThisInitialized(_this));
@@ -86301,13 +88532,19 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
     _this.handleEliminar = _this.handleEliminar.bind(_assertThisInitialized(_this));
     _this.handleCerrarModal = _this.handleCerrarModal.bind(_assertThisInitialized(_this));
     _this.handleGuardar = _this.handleGuardar.bind(_assertThisInitialized(_this));
-
-    _this.getSystemUsers();
-
+    _this.handleEditPassword = _this.handleEditPassword.bind(_assertThisInitialized(_this));
+    _this.handleListar = _this.handleListar.bind(_assertThisInitialized(_this));
+    _this.getData = _this.getData.bind(_assertThisInitialized(_this));
+    _this.handlePageClick = _this.handlePageClick.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(UsuariosSistema, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.getSystemUsers();
+    }
+  }, {
     key: "handleCreate",
     value: function handleCreate() {
       this.setState({
@@ -86319,23 +88556,40 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
     value: function handleChange(_ref) {
       var target = _ref.target;
       this.setState(_defineProperty({}, target.name, target.value));
+      console.log(this.state);
     }
   }, {
     key: "handleEdition",
     value: function handleEdition(id, usuario, correo, tipo) {
       this.setState({
-        usuario: usuario,
+        nombre: usuario,
         correo: correo,
         tipo: tipo,
         modalOpen: true,
         IdEditar: id
       });
+      console.log('Edit: ', this.state);
+    }
+  }, {
+    key: "handleListar",
+    value: function handleListar(arg) {
+      var _this2 = this;
+
+      if (arg) {
+        this.setState({
+          page: arg
+        }, function () {
+          _this2.getData();
+        });
+      } else {
+        this.getSystemUsers();
+      }
     }
   }, {
     key: "handleCerrarModal",
     value: function handleCerrarModal() {
       this.setState({
-        usuario: '',
+        nombre: '',
         correo: '',
         tipo: '',
         modalOpen: false
@@ -86344,16 +88598,16 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
   }, {
     key: "handleEliminar",
     value: function handleEliminar(id) {
-      var _this2 = this;
+      var _this3 = this;
 
       var url = "usuario/user/".concat(id, "/eliminar");
       axios__WEBPACK_IMPORTED_MODULE_4___default.a["delete"](url).then(function (resp) {
-        _this2.props.showToast(resp.data.data, 'success');
+        _this3.props.showToast(resp.data.data, 'success');
 
-        _this2.getSystemUsers();
+        _this3.getSystemUsers();
 
-        _this2.setState({
-          users: _this2.state.users
+        _this3.setState({
+          users: _this3.state.users
         });
       })["catch"](function (err) {
         console.log(err);
@@ -86362,13 +88616,13 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
   }, {
     key: "handleSubmit",
     value: function handleSubmit(e) {
-      var _this3 = this;
+      var _this4 = this;
 
       e.preventDefault();
       var resp = this.validarForm();
+      var url = 'usuario/user/agregar';
 
       if (resp) {
-        var url = 'usuario/user/agregar';
         axios__WEBPACK_IMPORTED_MODULE_4___default.a.post(url, {
           name: this.state.nombre,
           email: this.state.correo,
@@ -86377,15 +88631,15 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
         }).then(function (resp) {
           var user = resp.data.row;
 
-          _this3.setState({
-            users: [].concat(_toConsumableArray(_this3.state.users), [user]),
+          _this4.setState({
+            users: [].concat(_toConsumableArray(_this4.state.users), [user]),
             nuevo: 'oculto'
           });
 
-          _this3.props.showToast('Datos almacenados', 'success'); // alert("Datos almacenados")
+          _this4.props.showToast('Datos almacenados', 'success'); // alert("Datos almacenados")
 
         })["catch"](function (err) {
-          _this3.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
+          _this4.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
         });
       }
     }
@@ -86393,6 +88647,7 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
     key: "validarForm",
     value: function validarForm() {
       this.clearErrors();
+      var editarContraseña = this.state.editarContraseña;
       var resp = true;
       var newState = Object.assign({}, this.state);
       Object.entries(this.state).map(function (_ref2) {
@@ -86400,7 +88655,7 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
             key = _ref3[0],
             value = _ref3[1];
 
-        if (value == '' && key != 'modalOpen') {
+        if (value == '' && key != 'modalOpen' && editarContraseña) {
           newState.errors[key] = "visible";
           console.log(key);
           newState.errorMensajes[key] = key + " requerido";
@@ -86408,7 +88663,7 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
         }
       });
 
-      if (resp) {
+      if (resp && editarContraseña) {
         if (newState.contraseña != newState.confirmar) {
           newState.errors.contraseña = "visible";
           newState.errorMensajes.contraseña = "Contraseñas no coinciden";
@@ -86438,13 +88693,15 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
   }, {
     key: "getSystemUsers",
     value: function getSystemUsers() {
-      var _this4 = this;
+      var _this5 = this;
 
       var url = 'getSystemUsers';
       axios__WEBPACK_IMPORTED_MODULE_4___default.a.get(url).then(function (resp) {
-        //console.log(resp.data.data);
-        _this4.setState({
-          users: resp.data.data
+        _this5.setState({
+          page: resp.data.data,
+          data: resp.data.data
+        }, function () {
+          _this5.getData();
         });
       })["catch"](function (err) {
         console.log(err);
@@ -86452,9 +88709,10 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
     }
   }, {
     key: "handleGuardar",
-    value: function handleGuardar() {
-      var _this5 = this;
+    value: function handleGuardar(e) {
+      var _this6 = this;
 
+      e.preventDefault();
       var id = this.state.IdEditar;
       var url = "usuario/user/".concat(id, "/editar");
       var resp = this.validarForm();
@@ -86462,32 +88720,125 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
       if (resp) {
         axios__WEBPACK_IMPORTED_MODULE_4___default.a.put(url, {
           name: this.state.nombre,
+          email: this.state.correo,
           password: this.state.contraseña,
           tipo: this.state.tipo
         }).then(function (resp) {
-          _this5.getSystemUsers();
+          _this6.getSystemUsers();
 
-          _this5.setState({
-            users: _toConsumableArray(_this5.state.users)
+          _this6.setState({
+            users: _toConsumableArray(_this6.state.users)
           });
 
-          _this5.handleCerrarModal();
+          _this6.handleCerrarModal();
 
-          _this5.props.showToast('Datos Actualizados', 'success'); // alert("Datos almacenados")
+          _this6.props.showToast('Datos Actualizados', 'success'); // alert("Datos almacenados")
 
         })["catch"](function (err) {
-          _this5.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
+          _this6.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
         });
       }
     }
   }, {
+    key: "handleEditPassword",
+    value: function handleEditPassword() {
+      if (!this.state.editarContraseña) {
+        this.setState({
+          editarContraseña: true
+        });
+      } else {
+        this.setState({
+          editarContraseña: false
+        });
+      }
+    }
+  }, {
+    key: "getData",
+    value: function getData() {
+      var data = this.state.page;
+      var slice = data.slice(this.state.offset, this.state.offset + this.state.perPage);
+      this.setState({
+        users: slice,
+        pageCount: Math.ceil(data.length / this.state.perPage)
+      });
+    }
+  }, {
+    key: "handlePageClick",
+    value: function handlePageClick(e) {
+      var _this7 = this;
+
+      var selectedPage = e.selected;
+      var offset = selectedPage * this.state.perPage;
+      this.setState({
+        currentPage: selectedPage,
+        offset: offset
+      }, function () {
+        _this7.getData();
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
-      var users = this.state.users;
+      var _this8 = this;
+
+      var _this$state = this.state,
+          users = _this$state.users,
+          editarContraseña = _this$state.editarContraseña;
+
+      var textButton = function textButton() {
+        if (!editarContraseña) {
+          return 'Editar contraseña';
+        } else {
+          return 'No editar contraseña';
+        }
+      };
+
+      var editpassword = function editpassword() {
+        if (editarContraseña) {
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("article", {
+            className: "form-group"
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "form-group"
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+            htmlFor: "codigo"
+          }, "Contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+            type: "password",
+            className: "form-control form-control-sm",
+            name: "contrase\xF1a",
+            onChange: _this8.handleChange,
+            required: true
+          })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: _this8.state.errors['contraseña']
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "redf  " + (_this8.state.errors['contraseña'] || "")
+          }, _this8.state.errorMensajes['contraseña'])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "form-group"
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+            htmlFor: "codigo"
+          }, "Confirmar contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+            type: "password",
+            className: "form-control form-control-sm",
+            name: "confirmar",
+            onChange: _this8.handleChange,
+            required: true
+          })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: _this8.state.errors['confirmar']
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "redf  " + (_this8.state.errors['confirmar'] || "")
+          }, _this8.state.errorMensajes['confirmar'])));
+        }
+      };
+
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "btn btn-success btn-sm",
         onClick: this.handleCreate
-      }, "+ Crear"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "+ Crear"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Buscador__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        list: this.state.data,
+        options: this.state.fuse_options,
+        toRender: function toRender(arg) {
+          return _this8.handleListar(arg);
+        }
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
         className: "row mt-5"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: this.state.nuevo
@@ -86515,12 +88866,9 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
         id: "nombre",
         name: "nombre",
         onChange: this.handleChange,
-        value: this.state.nombre
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: this.state.errors['nombre']
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "redf  " + (this.state.errors['nombre'] || "")
-      }, this.state.errorMensajes['nombre']))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        value: this.state.nombre,
+        required: true
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-4"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "nombre"
@@ -86530,12 +88878,9 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
         id: "correo",
         name: "correo",
         onChange: this.handleChange,
-        value: this.state.correo
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: this.state.errors['correo']
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "redf  " + (this.state.errors['correo'] || "")
-      }, this.state.errorMensajes['correo']))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        value: this.state.correo,
+        required: true
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "nombre"
@@ -86544,7 +88889,8 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
         id: "tipo",
         name: "tipo",
         onChange: this.handleChange,
-        value: this.state.tipo
+        value: this.state.tipo,
+        required: true
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: ""
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
@@ -86559,11 +88905,7 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
         value: "4"
       }, "Admin IPS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "5"
-      }, "Usuarios Admin")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: this.state.errors['tipo']
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "redf  " + (this.state.errors['tipo'] || "")
-      }, this.state.errorMensajes['tipo'])))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "Usuarios Admin")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-4"
@@ -86574,12 +88916,13 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
         className: "form-control",
         id: "contrase\xF1a",
         name: "contrase\xF1a",
-        onChange: this.handleChange
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        onChange: this.handleChange,
+        required: true
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: this.state.errors['contraseña']
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "redf  " + (this.state.errors['contraseña'] || "")
-      }, this.state.errorMensajes['contraseña']))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, this.state.errorMensajes['contraseña'])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-4"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "nombre"
@@ -86588,12 +88931,13 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
         className: "form-control",
         id: "confirmar",
         name: "confirmar",
-        onChange: this.handleChange
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        onChange: this.handleChange,
+        required: true
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: this.state.errors['confirmar']
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "redf  " + (this.state.errors['confirmar'] || "")
-      }, this.state.errorMensajes['confirmar']))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, this.state.errorMensajes['confirmar'])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-2"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "submit",
@@ -86618,19 +88962,33 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
         scope: "col"
       }, "Correo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
         scope: "col"
-      }, "Tipo"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TableUsers_js__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      }, "Tipo"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TableUsers_js__WEBPACK_IMPORTED_MODULE_1__["default"], {
         users: users,
         handleEdition: this.handleEdition,
         handleEliminar: this.handleEliminar
-      })))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_paginate__WEBPACK_IMPORTED_MODULE_5___default.a, {
+        previousLabel: "<",
+        nextLabel: ">",
+        breakLabel: "...",
+        breakClassName: "break-me",
+        pageCount: this.state.pageCount,
+        marginPagesDisplayed: 2,
+        pageRangeDisplayed: 5,
+        onPageChange: this.handlePageClick,
+        containerClassName: "pagination",
+        subContainerClassName: "pages pagination",
+        activeClassName: "active"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_2__["default"], {
         show: this.state.modalOpen
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__["default"].Header, null, "Causa externa"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__["default"].Body, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "container"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_2__["default"].Header, null, "Usuario"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_2__["default"].Body, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        className: "container",
+        id: "editarUsuario",
+        onSubmit: this.handleGuardar
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-12"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "codigo"
@@ -86638,37 +88996,21 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
         type: "text",
         className: "form-control form-control-sm",
         name: "nombre",
-        defaultValue: this.state.usuario,
-        onChange: this.handleChange
+        defaultValue: this.state.nombre,
+        onChange: this.handleChange,
+        required: true
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "codigo"
       }, "Correo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "text",
+        type: "email",
         className: "form-control form-control-sm",
         name: "correo",
         defaultValue: this.state.correo,
-        onChange: this.handleChange
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "form-group"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "codigo"
-      }, "Contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "password",
-        className: "form-control form-control-sm",
-        name: "contrase\xF1a",
-        onChange: this.handleChange
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "form-group"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "codigo"
-      }, "Confirmar contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "password",
-        className: "form-control form-control-sm",
-        name: "confirmar",
-        onChange: this.handleChange
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        onChange: this.handleChange,
+        required: true
+      })), editpassword(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "estado_causa"
@@ -86676,7 +89018,8 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
         className: "form-control form-control-sm",
         name: "tipo",
         defaultValue: this.state.tipo,
-        onChange: this.handleChange
+        onChange: this.handleChange,
+        required: true
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: ""
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
@@ -86691,9 +89034,13 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
         value: "4"
       }, "Admin IPS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "5"
-      }, "Usuarios Admin")))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__["default"].Footer, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "btn btn-primary btn-sm",
-        onClick: this.handleGuardar
+      }, "Usuarios Admin")))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_2__["default"].Footer, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "btn btn-info btn-sm",
+        onClick: this.handleEditPassword
+      }, textButton()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        type: "submit",
+        form: "editarUsuario",
+        className: "btn btn-primary btn-sm"
       }, "Guardar"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "btn btn-primary btn-sm",
         onClick: this.handleCerrarModal
@@ -86923,8 +89270,8 @@ if (document.getElementById('test')) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/davidguerra/Documents/comfenalco/comfenalcoapp/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/davidguerra/Documents/comfenalco/comfenalcoapp/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\rauls\OneDrive\Documents\DEV\comfenalcoapp-prod\comfenalcoapp-prod\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\rauls\OneDrive\Documents\DEV\comfenalcoapp-prod\comfenalcoapp-prod\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

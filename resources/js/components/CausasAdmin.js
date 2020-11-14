@@ -84,7 +84,8 @@ class CausasAdmin extends Component {
             })
     }
 
-    handleSubmit(){
+    handleSubmit(e){
+        e.preventDefault();
         let url = 'parametro/causae/agregar'
         let causa = document.getElementsByName('causa_externa')[0].value
         axios.post(url, {causa_externa: causa, estado: 1})
@@ -123,7 +124,8 @@ class CausasAdmin extends Component {
 
     }
 
-    handleGuardar() {
+    handleGuardar(e) {
+        e.preventDefault();
         const id = this.state.IdEditar
         const url = `parametro/causae/${id}/editar`
         const causa = document.getElementsByName('causa_editada')[0].value
@@ -148,7 +150,7 @@ class CausasAdmin extends Component {
             <div>
                 <br/><br/>
                 <button className="btn btn-success btn-sm" onClick={this.handleCrear}>+ Crear</button>
-                <div className="row mt-2">
+                <form onSubmit={this.handleSubmit} className="row mt-2">
                     <div className={this.state.nuevo}>
                         <div className="col-md-12">
                             <div className="card">
@@ -158,21 +160,17 @@ class CausasAdmin extends Component {
                                             <table>
                                                 <tr>
                                                     <td>Nombre</td>
-                                                    <td><input type="text" className="form-control" id="nombre" name="causa_externa" onChange={this.handleChange}></input></td>
-                                                    <td><button type="submit" className="btn btn-success btn-sm" onClick={this.handleSubmit}>Guardar</button></td>
+                                                    <td><input type="text" className="form-control" id="nombre" name="causa_externa" onChange={this.handleChange} required></input></td>
+                                                    <td><button type="submit" className="btn btn-success btn-sm" >Guardar</button></td>
                                                 </tr>
                                             </table>
-
-                                            <div className={this.state.errors['nombre']}>
-                                                <div className={"redf  " + (this.state.errors['nombre'] || "")}>{this.state.errorMensajes['nombre']}</div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </form>
                 <div className="row mt-2">
                     <div className="col-md-12">
                         <div className="card">
@@ -189,7 +187,6 @@ class CausasAdmin extends Component {
                                         </tr>
                                     </thead>
                                     <TableCausas causas={causas} handleEdition ={this.handleEdition} handleEliminar ={this.handleEliminar}/>
-
                                 </table>
                             </div>
                         </div>
@@ -202,27 +199,25 @@ class CausasAdmin extends Component {
                         <div className="container">
                             <div className="row">
                                 <div className="col-12">
-                                    <form>
+                                    <form id="editarCausa" onSubmit={ this.handleGuardar }>
                                         <div className="form-group">
                                             <label htmlFor="codigo">Nombre</label>
-                                            <input type="text" className="form-control form-control-sm" name="causa_editada" defaultValue={this.state.causa} onChange={this.handleChangeC }/>
+                                            <input type="text" required className="form-control form-control-sm" name="causa_editada" defaultValue={this.state.causa} onChange={this.handleChange }/>
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="estado_causa">Estado</label>
-                                            <select className="form-control form-control-sm" name="estado_causa" onChange={this.handleChangeC }>
+                                            <select className="form-control form-control-sm" required name="estado_causa" onChange={this.handleChange }>
                                                 <option value='1'>Activa</option>
                                                 <option value='0'>Inactiva</option>
                                             </select>
                                         </div>
-
                                     </form>
                                 </div>
                             </div>
                         </div>
-
                     </Modal.Body>
-                    <Modal.Footer><button className="btn btn-primary btn-sm" onClick={ this.handleGuardar }>Guardar</button><button className="btn btn-primary btn-sm" onClick={ this.handleCerrarModal }>Cerrar</button></Modal.Footer>
+                    <Modal.Footer><button type="submit" form="editarCausa" className="btn btn-primary btn-sm" >Guardar</button><button className="btn btn-primary btn-sm" onClick={ this.handleCerrarModal }>Cerrar</button></Modal.Footer>
                 </Modal>
 
 
