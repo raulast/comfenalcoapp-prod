@@ -1,9 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import Axios from 'axios'
-
-
-import axios from 'axios';
-
 
 export default function TableMedicos(props) {
 
@@ -38,8 +33,8 @@ export default function TableMedicos(props) {
                             medicos[key]['especialidad']+'/'+
                             medicos[key]['email']
                         }
-                        onClick={editar}><i class="far fa-edit"></i></button></td>
-                    <td><button className="btn btn-danger btn-sm" id={medicos[key]['id']} onClick={eliminar}><i class="fas fa-trash-alt"></i></button></td>
+                        onClick={editar}><i className="far fa-edit"></i></button></td>
+                    <td><button className="btn btn-danger btn-sm" id={medicos[key]['id']} onClick={eliminar}><i className="fas fa-trash-alt"></i></button></td>
                 </tr>
             ))}
         </tbody>

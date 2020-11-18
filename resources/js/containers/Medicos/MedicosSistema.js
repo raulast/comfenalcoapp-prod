@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import TableMedicos from './TableMedicos.js';
 import Modal from "react-bootstrap/Modal";
-import Buscador from "./Buscador";
-import Selector from "./Selector";
+import Buscador from "../../components/Buscador";
+import Selector from "../../components/Selector";
 
 import axios from 'axios';
 import ReactPaginate from 'react-paginate';

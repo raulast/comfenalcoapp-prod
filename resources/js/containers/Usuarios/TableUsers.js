@@ -1,9 +1,4 @@
-import React, { useState, useEffect } from 'react'
-import Axios from 'axios'
-
-
-import axios from 'axios';
-
+import React from 'react'
 
 export default function TableUsers(props) {
 
