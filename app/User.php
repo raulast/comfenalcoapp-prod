@@ -60,4 +60,10 @@ class User extends Authenticatable
         $this->two_factor_expires_at = null;
         $this->save();
     }
+
+    public function contrasenas()
+    {
+        return $this->hasMany('App\Contrasenas');
+    }
+
 }

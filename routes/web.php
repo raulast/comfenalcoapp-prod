@@ -115,7 +115,7 @@ Route::post('/createJuridica','JuridicasController@createJuridica');
 Route::post('/deleteJuridica','JuridicasController@deleteJuridica');
 
 //Parametros Generales /parametro/{modelo}/{id}/(accion)
-Route::group(['prefix' => 'parametro'], function () {
+Route::group(['prefix' => 'parametro','middleware'=>['auth','twofactor']], function () {
     Route::group(['prefix' => '{modelo}'], function () {
         Route::get('/', 'GeneralController@Obtener');
         Route::post('/agregar', 'GeneralController@agregar');
@@ -127,7 +127,8 @@ Route::group(['prefix' => 'parametro'], function () {
     });
 });
 //CRUD de usuarios
-Route::group(['prefix' => 'usuario'], function () {
+Route::group(['prefix' => 'usuario','middleware'=>['auth','twofactor']], function () {
+    Route::post('/editar/password', 'UserController@editarPassword');
     Route::group(['prefix' => '{modelo}'], function () {
         Route::get('/', 'UserController@obtener');
         Route::post('/agregar', 'UserController@agregar');

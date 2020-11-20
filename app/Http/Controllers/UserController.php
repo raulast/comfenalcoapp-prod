@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
+use Auth;
+
 class UserController extends Controller
 {
     public function obtener(Request $request, $modelo){
@@ -49,6 +51,9 @@ class UserController extends Controller
             case 'medico':
                 $model = ['modelo' => 'App\Medico'];
                 break;
+            case 'contrasenas':
+                $model = 'App\Contrasenas';
+                break;
             default:
                 $model = null;
                 break;
@@ -56,7 +61,7 @@ class UserController extends Controller
         return $model;
     }
 
-    private function requestFormato($data, $modelo){
+    private function requestFormato($data, $modelo, $id = null){
         $data = $data->toArray();
         switch ($modelo) {
             case 'user':
@@ -117,12 +122,12 @@ class UserController extends Controller
     public function editar(Request $request, $modelo, $id){
         $model = $this->obtenerModelo($modelo);
         if (!empty($model)){
+            $data2 = $request->toArray();
             if($modelo == 'medico'){
                 $model2 = $this->obtenerModelo('user');
-                $data2 = $request->toArray();
                 if($model2['modelo']::where('id',$model['modelo']::where('id',$id)->first()->user_id)->exists()){
                     if($data2['password']==''){
-                        $data = $this->requestFormato($request,'user');
+                        $data = $this->requestFormato($request,'user', $id);
                         $model2['modelo']::where('id',$model['modelo']::where('id',$id)->first()->user_id)->update([
                             'name' => $data['nombre'],
                             'email' => $data['email'],
@@ -132,30 +137,59 @@ class UserController extends Controller
                             $data['email']
                         );
                     }else{
-                        $data = $this->requestFormato($request,'user');
-                        $model2['modelo']::where('id',$model['modelo']::where('id',$id)->first()->user_id)->update([
-                            'name' => $data['nombre'],
-                            'password' => $data['password'],
-                            'email' => $data['email'],
-                            'tipo'=>1
-                        ]);
-                        unset(
-                            $data['password'],
-                            $data['email']
-                        );
+                        $data = $this->requestFormato($request,'user', $id);
+                        // if($data['password']){
+                        if(true){
+                            $model2['modelo']::where('id',$model['modelo']::where('id',$id)->first()->user_id)->update([
+                                'name' => $data['nombre'],
+                                'password' => Hash::make($data2['password']),
+                                'email' => $data['email'],
+                                'tipo'=>1
+                            ]);
+                            unset(
+                                $data['password'],
+                                $data['email']
+                            );
+                        }else{
+                            return response()->json([
+                                'rejected' => "Ya has utilizado esa contraseña. Por seguridad usa una diferente"
+                            ]);
+                        }
                     }
-                }
-            }elseif($modelo =='user'){
-                $data = $this->requestFormato($request,'user');
-                $model2 = $this->obtenerModelo('medico');
-                if($model2['modelo']::where('user_id',$id)->exists()){
-                    $model2['modelo']::where('user_id',$id)->update([
-                        'nombre' => $data['name']
+                }else{
+                    return response()->json([
+                        'rejected' => "El correo asociado no se ha encontrado"
                     ]);
                 }
+            }elseif($modelo =='user'){
+                $model2 = $this->obtenerModelo('medico');
+                if($data2['password']==''){
+                    $data = $this->requestFormato($request,'user', $id);
+                    if($model2['modelo']::where('user_id',$id)->exists()){
+                        $model2['modelo']::where('user_id',$id)->update([
+                            'nombre' => $data['name']
+                        ]);
+                    }
+                }else{
+                    $data = $this->requestFormato($request,'user', $id);
+                    // if($data['password']){
+                    if(true){
+                        $data['password'] = Hash::make($data2['password']);
+                        if($model2['modelo']::where('user_id',$id)->exists()){
+                            $model2['modelo']::where('user_id',$id)->update([
+                                'nombre' => $data['name']
+                            ]);
+                        }
+                    }else{
+                        return response()->json([
+                            'rejected' => "Ya has utilizado esa contraseña. Por seguridad usa una diferente"
+                        ]);
+                    }
+                }
             }else{
-                $data = $this->requestFormato($request,$modelo);
+                $data = $this->requestFormato($request,$modelo, $id);
             }
+
             $model['modelo']::where('id',$id)->update($data);
             $result= "El registro se actualizo correctamente";
         }else{
@@ -192,6 +226,48 @@ class UserController extends Controller
         return response()->json([
             'data' => $result
         ]);
+    }
+
+    public function editarPassword(Request $request){
+        $id = 26;//Auth::user()->id;
+        $password = $request->post('password');
+        $checked = $this->validarPassword($password, $id);
+        return response()->json([
+            'data' => $checked
+        ]);
+    }
+
+    private function validarPassword($password, $id){
+        $model = $this->obtenerModelo('contrasenas');
+        $data = [];
+        $data['user_id']=$id;
+        $data['password']=Hash::make($password);
+        $count=0;
+        $validation=false;
+        $contrasenas= $model::orderBy('updated_at','asc')->where('user_id',$id)->get();
+        foreach ($contrasenas as $key => $value) {
+            $count=$count+1;
+            $validation = Hash::check($password, $value->password);
+            if ($validation) {
+                break;
+            }
+        }
+        if(!$validation | ($contrasenas->count()==15 && $count == 1) ){
+            if ($contrasenas->count() < 15) {
+                $model::create($data);
+            }elseif(($count == 15) | ($count == 1)){
+                $tmp=$model::where('user_id',$id)
+                ->orderBy('updated_at','asc')->first()->update($data);
+                $validation=false;
+            }
+        }else{
+            $data['validation'] = !$validation;
+            $data['count'] = $count;
+            return $data;
+        }
+        $data['validation'] = !$validation;
+        $data['count'] = $count;
+        return $data;
     }
 
 }
