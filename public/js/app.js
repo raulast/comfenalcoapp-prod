@@ -87892,12 +87892,11 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
     key: "handleChange",
     value: function handleChange(_ref) {
       var target = _ref.target;
-      this.setState(_defineProperty({}, target.name, target.value)); //console.log(this.state);
+      this.setState(_defineProperty({}, target.name, target.value));
     }
   }, {
     key: "handleEdition",
     value: function handleEdition(id, datos) {
-      //console.log(id)
       this.setState({
         modalOpen: true,
         IdEditar: id,
@@ -88005,16 +88004,14 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
   }, {
     key: "clearErrors",
     value: function clearErrors() {
-      var newState = Object.assign({}, this.state); // console.log(Object.entries(newState));
-
+      var newState = Object.assign({}, this.state);
       Object.keys(newState.errors).forEach(function (key) {
         newState.errors[key] = "oculto";
       });
       this.setState(newState);
       var newState2 = Object.assign({}, this.state);
       Object.keys(newState2.errorMensajes).forEach(function (key) {// newState2.errorMensajes[key] = '';
-      }); //console.log(newState);
-
+      });
       this.setState(newState2);
     }
   }, {
@@ -88168,7 +88165,6 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
       };
 
       var editpassword = function editpassword() {
-        // console.log(editarContraseña);
         if (editarContraseña) {
           return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("article", {
             className: "form-group"
@@ -88178,7 +88174,7 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
             htmlFor: "codigo"
           }, "Contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
             pattern: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{8,20}$",
-            title: "al menos una mayuscula,\r al menos una minuscula,\r al menos un n\xFAmero,\r al menos un caracter especial,\r sin espacios",
+            title: "al menos una mayuscula, al menos una minuscula, al menos un n\xFAmero, al menos un caracter especial, sin espacios",
             type: "password",
             className: "form-control",
             id: "contrase\xF1a",
@@ -88195,7 +88191,7 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
             htmlFor: "codigo"
           }, "Confirmar contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
             pattern: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{8,20}$",
-            title: "al menos una mayuscula,\r al menos una minuscula,\r al menos un n\xFAmero,\r al menos un caracter especial,\r sin espacios",
+            title: "al menos una mayuscula, al menos una minuscula, al menos un n\xFAmero, al menos un caracter especial, sin espacios",
             type: "password",
             className: "form-control",
             id: "confirmar",
@@ -88364,7 +88360,7 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         htmlFor: "nombre"
       }, "Contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         pattern: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{8,20}$",
-        title: "al menos una mayuscula,\r al menos una minuscula,\r al menos un n\xFAmero,\r al menos un caracter especial,\r sin espacios",
+        title: "al menos una mayuscula, al menos una minuscula, al menos un n\xFAmero, al menos un caracter especial, sin espacios",
         type: "password",
         className: "form-control",
         id: "contrase\xF1a",
@@ -88381,7 +88377,7 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         htmlFor: "nombre"
       }, "Confirmar Contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         pattern: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{8,20}$",
-        title: "al menos una mayuscula,\r al menos una minuscula,\r al menos un n\xFAmero,\r al menos un caracter especial,\r sin espacios",
+        title: "al menos una mayuscula, al menos una minuscula, al menos un n\xFAmero, al menos un caracter especial, sin espacios",
         type: "password",
         className: "form-control",
         id: "confirmar",
@@ -88933,7 +88929,7 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
     key: "handleChange",
     value: function handleChange(_ref) {
       var target = _ref.target;
-      this.setState(_defineProperty({}, target.name, target.value)); // console.log(this.state)
+      this.setState(_defineProperty({}, target.name, target.value));
     }
   }, {
     key: "handleEdition",
@@ -88944,7 +88940,7 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
         tipo: tipo,
         modalOpen: true,
         IdEditar: id
-      }); // console.log('Edit: ', this.state)
+      });
     }
   }, {
     key: "handleListar",
@@ -89048,7 +89044,6 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
 
         if (value == '' && key != 'modalOpen' && editarContraseña && value != 0) {
           newState.errors[key] = "visible";
-          console.log(key);
           newState.errorMensajes[key] = key + " requerido";
           resp = false;
         }
@@ -89068,8 +89063,7 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
   }, {
     key: "clearErrors",
     value: function clearErrors() {
-      var newState = Object.assign({}, this.state); // console.log(Object.entries(newState));
-
+      var newState = Object.assign({}, this.state);
       Object.keys(newState.errors).forEach(function (key) {
         newState.errors[key] = "oculto";
       });
@@ -89077,8 +89071,7 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
       var newState2 = Object.assign({}, this.state);
       Object.keys(newState2.errorMensajes).forEach(function (key) {
         newState2.errorMensajes[key] = '';
-      }); //console.log(newState);
-
+      });
       this.setState(newState2);
     }
   }, {
@@ -89108,8 +89101,6 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
       var id = this.state.IdEditar;
       var url = "usuario/user/".concat(id, "/editar");
       var resp = this.validarForm();
-      console.log('EDITAR: -> ', this.state.contraseña);
-      console.log('RESP: ->', resp);
 
       if (resp) {
         axios__WEBPACK_IMPORTED_MODULE_5___default.a.put(url, {
@@ -89198,7 +89189,7 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
             htmlFor: "codigo"
           }, "Contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
             pattern: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{8,20}$",
-            title: "al menos una mayuscula,\r al menos una minuscula,\r al menos un n\xFAmero,\r al menos un caracter especial,\r sin espacios",
+            title: "al menos una mayuscula, al menos una minuscula, al menos un n\xFAmero, al menos un caracter especial, sin espacios",
             type: "password",
             className: "form-control",
             id: "contrase\xF1a",
@@ -89215,7 +89206,7 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
             htmlFor: "codigo"
           }, "Confirmar contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
             pattern: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{8,20}$",
-            title: "al menos una mayuscula,\r al menos una minuscula,\r al menos un n\xFAmero,\r al menos un caracter especial,\r sin espacios",
+            title: "al menos una mayuscula, al menos una minuscula, al menos un n\xFAmero, al menos un caracter especial, sin espacios",
             type: "password",
             className: "form-control",
             id: "confirmar",
@@ -89308,7 +89299,7 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
         htmlFor: "nombre"
       }, "Contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         pattern: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{8,20}$",
-        title: "al menos una mayuscula,\r al menos una minuscula,\r al menos un n\xFAmero,\r al menos un caracter especial,\r sin espacios",
+        title: "al menos una mayuscula, al menos una minuscula, al menos un n\xFAmero, al menos un caracter especial, sin espacios",
         type: "password",
         className: "form-control",
         id: "contrase\xF1a",
@@ -89325,7 +89316,7 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
         htmlFor: "nombre"
       }, "Confirmar Contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         pattern: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{8,20}$",
-        title: "al menos una mayuscula,\r al menos una minuscula,\r al menos un n\xFAmero,\r al menos un caracter especial,\r sin espacios",
+        title: "al menos una mayuscula, al menos una minuscula, al menos un n\xFAmero, al menos un caracter especial, sin espacios",
         type: "password",
         className: "form-control",
         id: "confirmar",

@@ -117,10 +117,8 @@ class MedicosSistema extends Component {
         this.setState({
           [target.name]: target.value
         });
-        //console.log(this.state);
     }
     handleEdition(id,datos){
-        //console.log(id)
         this.setState({
             modalOpen: true,
             IdEditar:id,
@@ -222,7 +220,6 @@ class MedicosSistema extends Component {
     }
     clearErrors(){
         let newState = Object.assign({}, this.state);
-       // console.log(Object.entries(newState));
         Object.keys(newState.errors).forEach(key => {
             newState.errors[key] = "oculto";
         });
@@ -231,7 +228,6 @@ class MedicosSistema extends Component {
         Object.keys(newState2.errorMensajes).forEach(key => {
            // newState2.errorMensajes[key] = '';
         });
-        //console.log(newState);
         this.setState(newState2);
     }
 
@@ -382,26 +378,25 @@ class MedicosSistema extends Component {
         }
 
         const editpassword = () =>{
-            // console.log(editarContraseña);
             if(editarContraseña){
                 return (
                     <article className="form-group">
                         <div className="form-group">
                             <label htmlFor="codigo">Contraseña</label>
-                            <input 
+                            <input
                                 pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,20}$"
                                 title="al menos una mayuscula,
                                 al menos una minuscula,
                                 al menos un número,
                                 al menos un caracter especial,
                                 sin espacios"
-                                type="password" 
-                                className="form-control" 
-                                id="contraseña" 
-                                name="contraseña" 
-                                onChange={this.handleChange} 
-                                required>   
-                            </input>                          
+                                type="password"
+                                className="form-control"
+                                id="contraseña"
+                                name="contraseña"
+                                onChange={this.handleChange}
+                                required>
+                            </input>
                         </div>
                         <div className={this.state.errors['contraseña']}>
                             <div className={ "redf  " + ( this.state.errors['contraseña'] || "") }>{this.state.errorMensajes['contraseña']}</div>
@@ -409,20 +404,20 @@ class MedicosSistema extends Component {
 
                         <div className="form-group">
                             <label htmlFor="codigo">Confirmar contraseña</label>
-                            <input 
+                            <input
                                 pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,20}$"
                                 title="al menos una mayuscula,
                                 al menos una minuscula,
                                 al menos un número,
                                 al menos un caracter especial,
                                 sin espacios"
-                                type="password" 
-                                className="form-control" 
-                                id="confirmar" 
-                                name="confirmar" 
-                                onChange={this.handleChange} 
-                                required>   
-                            </input>                          
+                                type="password"
+                                className="form-control"
+                                id="confirmar"
+                                name="confirmar"
+                                onChange={this.handleChange}
+                                required>
+                            </input>
                         </div>
                         <div className={this.state.errors['confirmar']}>
                             <div className={ "redf  " + ( this.state.errors['confirmar'] || "") }>{this.state.errorMensajes['confirmar']}</div>
@@ -505,40 +500,40 @@ class MedicosSistema extends Component {
                                                 <div className="row">
                                                     <div className="col-md-4">
                                                         <label htmlFor="nombre">Contraseña</label>
-                                                        <input 
+                                                        <input
                                                             pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,20}$"
                                                             title="al menos una mayuscula,
                                                             al menos una minuscula,
                                                             al menos un número,
                                                             al menos un caracter especial,
                                                             sin espacios"
-                                                            type="password" 
-                                                            className="form-control" 
-                                                            id="contraseña" 
-                                                            name="contraseña" 
-                                                            onChange={this.handleChange} 
-                                                            required>   
-                                                        </input>                                                      
+                                                            type="password"
+                                                            className="form-control"
+                                                            id="contraseña"
+                                                            name="contraseña"
+                                                            onChange={this.handleChange}
+                                                            required>
+                                                        </input>
                                                     </div>
                                                     <div className={this.state.errors['contraseña']}>
                                                         <div className={ "redf  " + ( this.state.errors['contraseña'] || "") }>{this.state.errorMensajes['contraseña']}</div>
                                                     </div>
                                                     <div className="col-md-4">
                                                         <label htmlFor="nombre">Confirmar Contraseña</label>
-                                                            <input 
+                                                            <input
                                                             pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,20}$"
                                                             title="al menos una mayuscula,
                                                             al menos una minuscula,
                                                             al menos un número,
                                                             al menos un caracter especial,
                                                             sin espacios"
-                                                            type="password" 
-                                                            className="form-control" 
-                                                            id="confirmar" 
-                                                            name="confirmar" 
-                                                            onChange={this.handleChange} 
-                                                            required>   
-                                                        </input>                                                      
+                                                            type="password"
+                                                            className="form-control"
+                                                            id="confirmar"
+                                                            name="confirmar"
+                                                            onChange={this.handleChange}
+                                                            required>
+                                                        </input>
                                                     </div>
                                                     <div className={this.state.errors['confirmar']}>
                                                         <div className={ "redf  " + ( this.state.errors['confirmar'] || "") }>{this.state.errorMensajes['confirmar']}</div>
