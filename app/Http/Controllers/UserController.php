@@ -227,12 +227,24 @@ class UserController extends Controller
     }
 
     public function editarPassword(Request $request){
-        $id = 26;//Auth::user()->id;
+        $id = Auth::user()->id;
         $password = $request->post('password');
         $checked = $this->validarPassword($password, $id);
+        if ($checked['validation']) {
+            $model = $this->obtenerModelo('user');
+            $model['modelo']::where('id',$id)->update([
+                'password' => $checked['password']
+            ]);
+        } else {
+            return response()->json([
+                'rejected' => "Ya has utilizado esa contraseña. Por seguridad usa una diferente"
+            ]);
+        }
+
         return response()->json([
-            'data' => $checked
+            'data' => 'Contraseña actualizada exitosamente'
         ]);
+
     }
 
     private function validarPassword($password, $id){
