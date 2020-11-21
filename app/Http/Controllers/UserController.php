@@ -138,8 +138,7 @@ class UserController extends Controller
                         );
                     }else{
                         $data = $this->requestFormato($request,'user', $id);
-                        // if($data['password']){
-                        if(true){
+                        if($data['password']){
                             $model2['modelo']::where('id',$model['modelo']::where('id',$id)->first()->user_id)->update([
                                 'name' => $data['nombre'],
                                 'password' => Hash::make($data2['password']),
@@ -172,8 +171,7 @@ class UserController extends Controller
                     }
                 }else{
                     $data = $this->requestFormato($request,'user', $id);
-                    // if($data['password']){
-                    if(true){
+                    if($data['password']){
                         $data['password'] = Hash::make($data2['password']);
                         if($model2['modelo']::where('user_id',$id)->exists()){
                             $model2['modelo']::where('user_id',$id)->update([
