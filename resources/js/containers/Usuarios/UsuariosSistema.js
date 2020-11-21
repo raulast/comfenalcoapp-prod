@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import TableUsers from './TableUsers.js';
 import Modal from "react-bootstrap/Modal";
-import Buscador from "./Buscador";
-import Selector from "./Selector";
+import Buscador from "../../components/Buscador";
+import Selector from "../../components/Selector";
 
 import axios from 'axios';
 import ReactPaginate from 'react-paginate';
 
-import './Usuarios/UsuariosSistema.scss';
+import './UsuariosSistema.scss';
 
 class UsuariosSistema extends Component {
     constructor(props) {
@@ -357,33 +357,9 @@ class UsuariosSistema extends Component {
         }
         return (
             <div>
-                <br/><br/>
+                <br/>
                 <button className="btn btn-success btn-sm" onClick={this.handleCreate}>+ Crear</button>
-                <article className="container">
-                    <section className="row justify-content-between">
-                        <Buscador
-                            list={this.state.buscador}
-                            options={this.state.fuse_options}
-                            toRender={(arg)=>this.handleListar(arg, false)}
-                        />
-                        <Selector
-                            list={this.state.selector}
-                            keyx='tipo'
-                            auto={this.state.selector_auto}
-                            toRender={(arg)=>this.handleListar(arg, true)}
-                            tag='user'
-                        >
-                            <option value="*">Todos</option>
-                            <option value="0">Admin</option>
-                            <option value="1">Médico</option>
-                            <option value="2">Auxiliar Pemel</option>
-                            <option value="3">Admin Pemel</option>
-                            <option value="4">Admin IPS</option>
-                            <option value="5">Usuarios Admin</option>
-                        </Selector>
-                    </section>
-                </article>
-                <form className="row mt-5">
+                <article className="row mt-5">
                     <div className={this.state.nuevo}>
                         <div className="col-md-12">
                             <div className="card">
@@ -438,9 +414,34 @@ class UsuariosSistema extends Component {
                                     </form>
                                 </div>
                             </div>
+                            <br/>
                         </div>
                     </div>
-                </form>
+                    <article className="container">
+                        <section className="row justify-content-between">
+                            <Buscador
+                                list={this.state.buscador}
+                                options={this.state.fuse_options}
+                                toRender={(arg)=>this.handleListar(arg, false)}
+                            />
+                            <Selector
+                                list={this.state.selector}
+                                keyx='tipo'
+                                auto={this.state.selector_auto}
+                                toRender={(arg)=>this.handleListar(arg, true)}
+                                tag='user'
+                            >
+                                <option value="*">Todos</option>
+                                <option value="0">Admin</option>
+                                <option value="1">Médico</option>
+                                <option value="2">Auxiliar Pemel</option>
+                                <option value="3">Admin Pemel</option>
+                                <option value="4">Admin IPS</option>
+                                <option value="5">Usuarios Admin</option>
+                            </Selector>
+                        </section>
+                    </article>
+                </article>
                 <div className="row mt-5">
                     <div className="col-md-12">
                         <div className="card">
