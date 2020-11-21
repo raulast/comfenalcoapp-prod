@@ -237,12 +237,14 @@ class UserController extends Controller
             ]);
         } else {
             return response()->json([
-                'rejected' => "Ya has utilizado esa contraseña. Por seguridad usa una diferente"
+                'rejected' => "Ya has utilizado esa contraseña. Por seguridad usa una diferente",
+                'success' => $checked['validation']
             ]);
         }
 
         return response()->json([
-            'data' => 'Contraseña actualizada exitosamente'
+            'data' => 'Contraseña actualizada exitosamente',
+            'success' => $checked['validation']
         ]);
 
     }
@@ -256,16 +258,16 @@ class UserController extends Controller
         $validation=false;
         $contrasenas= $model::orderBy('updated_at','asc')->where('user_id',$id)->get();
         foreach ($contrasenas as $key => $value) {
-            $count=$count+1;
             $validation = Hash::check($password, $value->password);
             if ($validation) {
                 break;
             }
+            $count=$count+1;
         }
-        if(!$validation | ($contrasenas->count()==15 && $count == 1) ){
+        if(!$validation | ($contrasenas->count()==15 && $count == 0) ){
             if ($contrasenas->count() < 15) {
                 $model::create($data);
-            }elseif(($count == 15) | ($count == 1)){
+            }elseif(($count == 15) | ($count == 0)){
                 $tmp=$model::where('user_id',$id)
                 ->orderBy('updated_at','asc')->first()->update($data);
                 $validation=false;
