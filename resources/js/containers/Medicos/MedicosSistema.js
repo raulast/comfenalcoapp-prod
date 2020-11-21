@@ -407,32 +407,9 @@ class MedicosSistema extends Component {
         }
         return (
            <div>
-            <br/><br/>
+            <br/>
             <button className="btn btn-success btn-sm" onClick={this.handleCreate}>+ Crear</button>
-            <article className="container">
-                    <section className="row justify-content-between">
-                        <Buscador
-                            list={this.state.buscador}
-                            options={this.state.fuse_options}
-                            toRender={(arg)=>this.handleListar(arg, false)}
-                        />
-                        <Selector
-                            list={this.state.selector}
-                            keyx='especialidad'
-                            auto={this.state.selector_auto}
-                            toRender={(arg)=>this.handleListar(arg, true)}
-                            tag='medico'
-                        >
-                            <option value="*">Todos</option>
-                            <option value="1">Médico general</option>
-                            <option value="2">Médico especialista</option>
-                            <option value="5">Médico laboral</option>
-                            <option value="3">Odontólogo general</option>
-                            <option value="4">Odontólogo especialista</option>
-                        </Selector>
-                    </section>
-                </article>
-            <div className="row mt-5">
+            <article className="row mt-5">
                 <div className={this.state.nuevo}>
                     <div className="col-md-12">
                         <div className="card">
@@ -532,9 +509,33 @@ class MedicosSistema extends Component {
                                     </form>
                                 </div>
                         </div>
+                        <br/>
                     </div>
                 </div>
-            </div>
+                <article className="container">
+                    <section className="row justify-content-between">
+                        <Buscador
+                            list={this.state.buscador}
+                            options={this.state.fuse_options}
+                            toRender={(arg)=>this.handleListar(arg, false)}
+                        />
+                        <Selector
+                            list={this.state.selector}
+                            keyx='especialidad'
+                            auto={this.state.selector_auto}
+                            toRender={(arg)=>this.handleListar(arg, true)}
+                            tag='medico'
+                        >
+                            <option value="*">Todos</option>
+                            <option value="1">Médico general</option>
+                            <option value="2">Médico especialista</option>
+                            <option value="5">Médico laboral</option>
+                            <option value="3">Odontólogo general</option>
+                            <option value="4">Odontólogo especialista</option>
+                        </Selector>
+                    </section>
+                </article>
+            </article>
             <div className="row mt-5">
                 <div className="col-md-12">
                     <div className="card">

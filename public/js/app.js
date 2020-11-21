@@ -6781,6 +6781,25 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/index.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./resources/js/containers/Medicos/TableMedicos.scss":
+/*!**********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./resources/js/containers/Medicos/TableMedicos.scss ***!
+  \**********************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "i {\n  pointer-events: none;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/index.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./resources/js/containers/Usuarios/UsuariosSistema.scss":
 /*!**************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./resources/js/containers/Usuarios/UsuariosSistema.scss ***!
@@ -75974,9 +75993,9 @@ __webpack_require__(/*! ./components/AdminNav */ "./resources/js/components/Admi
 
 __webpack_require__(/*! ./components/MenuUsuarios */ "./resources/js/components/MenuUsuarios.js");
 
-__webpack_require__(/*! ./components/UsuariosSistema */ "./resources/js/components/UsuariosSistema.js");
+__webpack_require__(/*! ./containers/Usuarios/UsuariosSistema */ "./resources/js/containers/Usuarios/UsuariosSistema.js");
 
-__webpack_require__(/*! ./components/MedicosSistema */ "./resources/js/components/MedicosSistema.js");
+__webpack_require__(/*! ./containers/Medicos/MedicosSistema */ "./resources/js/containers/Medicos/MedicosSistema.js");
 
 __webpack_require__(/*! ./components/CronicosPanel */ "./resources/js/components/CronicosPanel.js");
 
@@ -85633,17 +85652,6 @@ function MedicoSelect(props) {
 
 /***/ }),
 
-/***/ "./resources/js/components/MedicosSistema.js":
-/*!***************************************************!*\
-  !*** ./resources/js/components/MedicosSistema.js ***!
-  \***************************************************/
-/*! exports provided: default */
-/***/ (function(module, exports) {
-
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open 'D:\\Ingenio David\\comfenalcoapp-prod\\resources\\js\\components\\MedicosSistema.js'");
-
-/***/ }),
-
 /***/ "./resources/js/components/Mensaje.js":
 /*!********************************************!*\
   !*** ./resources/js/components/Mensaje.js ***!
@@ -87521,17 +87529,6 @@ function TipoCotizanteSelect(props) {
 
 /***/ }),
 
-/***/ "./resources/js/components/UsuariosSistema.js":
-/*!****************************************************!*\
-  !*** ./resources/js/components/UsuariosSistema.js ***!
-  \****************************************************/
-/*! exports provided: default */
-/***/ (function(module, exports) {
-
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open 'D:\\Ingenio David\\comfenalcoapp-prod\\resources\\js\\components\\UsuariosSistema.js'");
-
-/***/ }),
-
 /***/ "./resources/js/components/ValidacionDerechos.js":
 /*!*******************************************************!*\
   !*** ./resources/js/components/ValidacionDerechos.js ***!
@@ -88207,40 +88204,10 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         }
       };
 
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "btn btn-success btn-sm",
         onClick: this.handleCreate
       }, "+ Crear"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("article", {
-        className: "container"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
-        className: "row justify-content-between"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Buscador__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        list: this.state.buscador,
-        options: this.state.fuse_options,
-        toRender: function toRender(arg) {
-          return _this8.handleListar(arg, false);
-        }
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Selector__WEBPACK_IMPORTED_MODULE_4__["default"], {
-        list: this.state.selector,
-        keyx: "especialidad",
-        auto: this.state.selector_auto,
-        toRender: function toRender(arg) {
-          return _this8.handleListar(arg, true);
-        },
-        tag: "medico"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "*"
-      }, "Todos"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "1"
-      }, "M\xE9dico general"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "2"
-      }, "M\xE9dico especialista"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "5"
-      }, "M\xE9dico laboral"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "3"
-      }, "Odont\xF3logo general"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "4"
-      }, "Odont\xF3logo especialista")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row mt-5"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: this.state.nuevo
@@ -88438,7 +88405,37 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "submit",
         className: "btn btn-success btn-sm"
-      }, "Guardar")))))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "Guardar"))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("article", {
+        className: "container"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
+        className: "row justify-content-between"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Buscador__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        list: this.state.buscador,
+        options: this.state.fuse_options,
+        toRender: function toRender(arg) {
+          return _this8.handleListar(arg, false);
+        }
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Selector__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        list: this.state.selector,
+        keyx: "especialidad",
+        auto: this.state.selector_auto,
+        toRender: function toRender(arg) {
+          return _this8.handleListar(arg, true);
+        },
+        tag: "medico"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "*"
+      }, "Todos"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "1"
+      }, "M\xE9dico general"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "2"
+      }, "M\xE9dico especialista"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "5"
+      }, "M\xE9dico laboral"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "3"
+      }, "Odont\xF3logo general"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "4"
+      }, "Odont\xF3logo especialista"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row mt-5"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-12"
@@ -88645,6 +88642,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TableMedicos; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _TableMedicos_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TableMedicos.scss */ "./resources/js/containers/Medicos/TableMedicos.scss");
+/* harmony import */ var _TableMedicos_scss__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_TableMedicos_scss__WEBPACK_IMPORTED_MODULE_1__);
+
 
 function TableMedicos(props) {
   var eliminar = function eliminar(u) {
@@ -88679,6 +88679,36 @@ function TableMedicos(props) {
 
 /***/ }),
 
+/***/ "./resources/js/containers/Medicos/TableMedicos.scss":
+/*!***********************************************************!*\
+  !*** ./resources/js/containers/Medicos/TableMedicos.scss ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../node_modules/css-loader!../../../../node_modules/postcss-loader/src??ref--7-2!../../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!./TableMedicos.scss */ "./node_modules/css-loader/index.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./resources/js/containers/Medicos/TableMedicos.scss");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./resources/js/containers/Usuarios/TableUsers.js":
 /*!********************************************************!*\
   !*** ./resources/js/containers/Usuarios/TableUsers.js ***!
@@ -88702,8 +88732,7 @@ function TableUsers(props) {
     props.handleEdition(u.target.id, name[0], name[1], name[2]);
   };
 
-  var users = props.users; //const { users } = this.state;
-
+  var users = props.users;
   var userTypes = ["Admin", "Médico", "Auxiliar Pemel", "Admin Pemel", "Admin IPS", "Usuarios Admin"];
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, Object.keys(users).map(function (key) {
     return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
@@ -88713,11 +88742,15 @@ function TableUsers(props) {
       id: users[key]['id'],
       name: users[key]['name'] + '/' + users[key]['email'] + '/' + users[key]['tipo'],
       onClick: editar
-    }, "Editar")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+      className: "far fa-edit"
+    }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
       className: "btn btn-danger btn-sm",
       id: users[key]['id'],
       onClick: eliminar
-    }, "Eliminar")));
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+      className: "fas fa-trash-alt"
+    }))));
   }));
 }
 
@@ -89182,42 +89215,10 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
         }
       };
 
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "btn btn-success btn-sm",
         onClick: this.handleCreate
       }, "+ Crear"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("article", {
-        className: "container"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
-        className: "row justify-content-between"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Buscador__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        list: this.state.buscador,
-        options: this.state.fuse_options,
-        toRender: function toRender(arg) {
-          return _this8.handleListar(arg, false);
-        }
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Selector__WEBPACK_IMPORTED_MODULE_4__["default"], {
-        list: this.state.selector,
-        keyx: "tipo",
-        auto: this.state.selector_auto,
-        toRender: function toRender(arg) {
-          return _this8.handleListar(arg, true);
-        },
-        tag: "user"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "*"
-      }, "Todos"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "0"
-      }, "Admin"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "1"
-      }, "M\xE9dico"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "2"
-      }, "Auxiliar Pemel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "3"
-      }, "Admin Pemel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "4"
-      }, "Admin IPS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "5"
-      }, "Usuarios Admin")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("article", {
         className: "row mt-5"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: this.state.nuevo
@@ -89321,7 +89322,39 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "submit",
         className: "btn btn-success btn-sm"
-      }, "Guardar")))))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "Guardar"))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("article", {
+        className: "container"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
+        className: "row justify-content-between"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Buscador__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        list: this.state.buscador,
+        options: this.state.fuse_options,
+        toRender: function toRender(arg) {
+          return _this8.handleListar(arg, false);
+        }
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Selector__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        list: this.state.selector,
+        keyx: "tipo",
+        auto: this.state.selector_auto,
+        toRender: function toRender(arg) {
+          return _this8.handleListar(arg, true);
+        },
+        tag: "user"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "*"
+      }, "Todos"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "0"
+      }, "Admin"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "1"
+      }, "M\xE9dico"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "2"
+      }, "Auxiliar Pemel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "3"
+      }, "Admin Pemel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "4"
+      }, "Admin IPS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "5"
+      }, "Usuarios Admin"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row mt-5"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-md-12"
