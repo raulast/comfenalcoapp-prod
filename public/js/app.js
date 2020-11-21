@@ -88177,8 +88177,11 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
             htmlFor: "codigo"
           }, "Contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+            pattern: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{8,20}$",
+            title: "al menos una mayuscula,\r al menos una minuscula,\r al menos un n\xFAmero,\r al menos un caracter especial,\r sin espacios",
             type: "password",
-            className: "form-control form-control-sm",
+            className: "form-control",
+            id: "contrase\xF1a",
             name: "contrase\xF1a",
             onChange: _this8.handleChange,
             required: true
@@ -88191,8 +88194,11 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
             htmlFor: "codigo"
           }, "Confirmar contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+            pattern: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{8,20}$",
+            title: "al menos una mayuscula,\r al menos una minuscula,\r al menos un n\xFAmero,\r al menos un caracter especial,\r sin espacios",
             type: "password",
-            className: "form-control form-control-sm",
+            className: "form-control",
+            id: "confirmar",
             name: "confirmar",
             onChange: _this8.handleChange,
             required: true
@@ -88357,12 +88363,13 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "nombre"
       }, "Contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        pattern: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{8,20}$",
+        title: "al menos una mayuscula,\r al menos una minuscula,\r al menos un n\xFAmero,\r al menos un caracter especial,\r sin espacios",
         type: "password",
         className: "form-control",
         id: "contrase\xF1a",
         name: "contrase\xF1a",
         onChange: this.handleChange,
-        defaultValue: this.state.contraseña,
         required: true
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: this.state.errors['contraseña']
@@ -88373,12 +88380,13 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "nombre"
       }, "Confirmar Contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        pattern: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{8,20}$",
+        title: "al menos una mayuscula,\r al menos una minuscula,\r al menos un n\xFAmero,\r al menos un caracter especial,\r sin espacios",
         type: "password",
         className: "form-control",
         id: "confirmar",
         name: "confirmar",
         onChange: this.handleChange,
-        defaultValue: this.state.confirmar,
         required: true
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: this.state.errors['confirmar']
@@ -89038,9 +89046,9 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
             key = _ref3[0],
             value = _ref3[1];
 
-        if (value == '' && key != 'modalOpen' && editarContraseña) {
-          newState.errors[key] = "visible"; // console.log(key)
-
+        if (value == '' && key != 'modalOpen' && editarContraseña && value != 0) {
+          newState.errors[key] = "visible";
+          console.log(key);
           newState.errorMensajes[key] = key + " requerido";
           resp = false;
         }
@@ -89100,6 +89108,8 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
       var id = this.state.IdEditar;
       var url = "usuario/user/".concat(id, "/editar");
       var resp = this.validarForm();
+      console.log('EDITAR: -> ', this.state.contraseña);
+      console.log('RESP: ->', resp);
 
       if (resp) {
         axios__WEBPACK_IMPORTED_MODULE_5___default.a.put(url, {
@@ -89118,8 +89128,7 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
 
           _this6.handleCerrarModal();
 
-          _this6.props.showToast('Datos Actualizados', 'success'); // alert("Datos almacenados")
-
+          _this6.props.showToast('Datos Actualizados', 'success');
         })["catch"](function (err) {
           _this6.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
         });
@@ -89188,8 +89197,11 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
             htmlFor: "codigo"
           }, "Contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+            pattern: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{8,20}$",
+            title: "al menos una mayuscula,\r al menos una minuscula,\r al menos un n\xFAmero,\r al menos un caracter especial,\r sin espacios",
             type: "password",
-            className: "form-control form-control-sm",
+            className: "form-control",
+            id: "contrase\xF1a",
             name: "contrase\xF1a",
             onChange: _this8.handleChange,
             required: true
@@ -89202,8 +89214,11 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
             htmlFor: "codigo"
           }, "Confirmar contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+            pattern: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{8,20}$",
+            title: "al menos una mayuscula,\r al menos una minuscula,\r al menos un n\xFAmero,\r al menos un caracter especial,\r sin espacios",
             type: "password",
-            className: "form-control form-control-sm",
+            className: "form-control",
+            id: "confirmar",
             name: "confirmar",
             onChange: _this8.handleChange,
             required: true
@@ -89292,6 +89307,8 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "nombre"
       }, "Contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        pattern: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{8,20}$",
+        title: "al menos una mayuscula,\r al menos una minuscula,\r al menos un n\xFAmero,\r al menos un caracter especial,\r sin espacios",
         type: "password",
         className: "form-control",
         id: "contrase\xF1a",
@@ -89307,13 +89324,15 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "nombre"
       }, "Confirmar Contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        pattern: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{8,20}$",
+        title: "al menos una mayuscula,\r al menos una minuscula,\r al menos un n\xFAmero,\r al menos un caracter especial,\r sin espacios",
         type: "password",
         className: "form-control",
         id: "confirmar",
         name: "confirmar",
         onChange: this.handleChange,
         required: true
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }), "                                                "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: this.state.errors['confirmar']
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "redf  " + (this.state.errors['confirmar'] || "")
