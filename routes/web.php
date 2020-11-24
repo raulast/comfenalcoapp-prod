@@ -139,3 +139,9 @@ Route::group(['prefix' => 'usuario','middleware'=>['auth','twofactor']], functio
         });
     });
 });
+
+
+Route::get('test', function() {
+    return view('auth.editPassword');
+});
+

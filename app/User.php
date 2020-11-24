@@ -66,4 +66,11 @@ class User extends Authenticatable
         return $this->hasMany('App\Contrasenas');
     }
 
+
+    public function medico()
+    {
+        return $this->hasOne('App\Medico', 'user_id', 'id');
+    }
+
+
 }

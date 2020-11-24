@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\User;
+use App\Medico;
 use Carbon\Carbon;
 
 class InhabilitarCuentas extends Command
@@ -40,8 +41,7 @@ class InhabilitarCuentas extends Command
     public function handle()
     {
         $this->info('Iniciando analisis de usuarios');
-        // $users = User::all();
-        $users = User::where('id', 53)->get();
+        $users = User::all();
         $now = Carbon::now();
 
         $count = [];
@@ -51,14 +51,14 @@ class InhabilitarCuentas extends Command
         foreach ($users as $user) {
             $time = $user->updated_at;
             $diff=date_diff($time,$now);
-            $bar->advance();
             if($diff->format("%a") > 90){
-                $user->name = "(INHABILITADO) ".$user->name;
-                $user->updated_at = $now;
-                // $user->habilitado = 0;
-                $user->save();
+                if(Medico::where('user_id',$user->id)->exists()){
+                    Medico::where('user_id',$user->id)->delete();
+                }
+                $user->delete();
                 $count[]=$user->id;
             }
+            $bar->advance();
         }
         $bar->finish();
         $this->info("\nUsuarios Inhabilitados: ".count($count));

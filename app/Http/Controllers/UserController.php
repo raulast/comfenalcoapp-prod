@@ -229,8 +229,15 @@ class UserController extends Controller
     public function editarPassword(Request $request){
         $user = Auth::user();
         $id = $user->id;
-        //dd($user);
+
+        $actual_password = $request->input('actual-password');
         $password = $request->input('password');
+        if (!(Hash::check($actual_password, $user->password))) {
+            return response()->json([
+                'rejected' => "Contraseña actual incorrecta",
+                'success' => false
+            ]);
+        }
         $checked = $this->validarPassword($password, $id);
         if ($checked['validation']) {
             $model = $this->obtenerModelo('user');
