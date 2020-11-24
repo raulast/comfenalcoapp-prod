@@ -227,8 +227,10 @@ class UserController extends Controller
     }
 
     public function editarPassword(Request $request){
-        $id = Auth::user()->id;
-        $password = $request->post('password');
+        $user = Auth::user();
+        $id = $user->id;
+        //dd($user);
+        $password = $request->input('password');
         $checked = $this->validarPassword($password, $id);
         if ($checked['validation']) {
             $model = $this->obtenerModelo('user');

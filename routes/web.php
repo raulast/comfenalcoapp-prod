@@ -128,7 +128,7 @@ Route::group(['prefix' => 'parametro','middleware'=>['auth','twofactor']], funct
 });
 //CRUD de usuarios
 Route::group(['prefix' => 'usuario','middleware'=>['auth','twofactor']], function () {
-    Route::post('/editar/password', 'UserController@editarPassword');
+    Route::post('/editar/password', 'UserController@editarPassword')->name('editar.password');
     Route::group(['prefix' => '{modelo}'], function () {
         Route::get('/', 'UserController@obtener');
         Route::post('/agregar', 'UserController@agregar');
