@@ -11,6 +11,11 @@
                             {{ session('info') }}
                         </div>
                     @endif
+                    @if (session('rejected'))
+                        <div class="alert alert-danger" role="alert">
+                            {{ session('rejected') }}
+                        </div>
+                    @endif
                 </div>
             </div>
             <div class="card">

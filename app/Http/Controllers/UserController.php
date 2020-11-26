@@ -233,10 +233,11 @@ class UserController extends Controller
         $actual_password = $request->input('actual-password');
         $password = $request->input('password');
         if (!(Hash::check($actual_password, $user->password))) {
-            return response()->json([
-                'rejected' => "Contraseña actual incorrecta",
-                'success' => false
-            ]);
+            return redirect('editar/password')->with('rejected','Contraseña actual incorrecta');
+            // response()->json([
+            //     'rejected' => "Contraseña actual incorrecta",
+            //     'success' => false
+            // ]);
         }
         $checked = $this->validarPassword($password, $id);
         if ($checked['validation']) {
@@ -245,16 +246,18 @@ class UserController extends Controller
                 'password' => $checked['password']
             ]);
         } else {
-            return response()->json([
-                'rejected' => "Ya has utilizado esa contraseña. Por seguridad usa una diferente",
-                'success' => $checked['validation']
-            ]);
+            return redirect('editar/password')->with('rejected','Ya has utilizado esa contraseña. Por seguridad usa una diferente');
+            // response()->json([
+            //     'rejected' => "Ya has utilizado esa contraseña. Por seguridad usa una diferente",
+            //     'success' => $checked['validation']
+            // ]);
         }
 
-        return response()->json([
-            'data' => 'Contraseña actualizada exitosamente',
-            'success' => $checked['validation']
-        ]);
+        return redirect('menu')->with('info','Contraseña actualizada exitosamente');
+        // response()->json([
+        //     'data' => 'Contraseña actualizada exitosamente',
+        //     'success' => $checked['validation']
+        // ]);
 
     }
 

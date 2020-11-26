@@ -14,7 +14,8 @@ class CheckActivity
      */
     protected $except = [
         'editar/password',
-        'usuario/editar/password'
+        'usuario/editar/password',
+        'home'
     ];
 
     /**
@@ -33,12 +34,17 @@ class CheckActivity
           }
         $user = auth()->user();
         if($user && (date_diff($user->updated_at,now())->format("%a")> 0)){
-            $update=Contrasenas::select('updated_at')
+            $get=Contrasenas::select('updated_at')
             ->orderBy('updated_at','desc')
-            ->where('user_id',$user->id)->first()->updated_at;
-            $diff=date_diff($update,now());
-            if($diff->format("%a")>45){
-                return redirect('editar/password')->with('info', 'Vaya!! hace mas de 45 dias no actiualizas tu contraseña por favor cambiala por una nueva para continuar');;
+            ->where('user_id',$user->id)->first();
+            if ($get) {
+                $update = $get->updated_at;
+                $diff=date_diff($update,now());
+                if($diff->format("%a")>45){
+                    return redirect('editar/password')->with('info', '¡Vaya! hace más de 45 días no actualizas tu contraseña por favor cámbiala por una nueva para continuar');
+                }
+            }else{
+                return redirect('editar/password')->with('info', '¡Bienvenido! vemos que conservas aun una contraseña asignada, por favor registra una de tu elección para continuar');
             }
             $user->updated_at = now();
             $user->save();
