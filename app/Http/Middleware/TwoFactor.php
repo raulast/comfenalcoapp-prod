@@ -33,9 +33,6 @@ class TwoFactor
             }
         }
 
-        $user->updated_at = now();
-        $user->save();
-
         return $next($request);
     }
 }

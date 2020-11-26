@@ -5,6 +5,15 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
+                <div class="card-body">
+                    @if (session('info'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('info') }}
+                        </div>
+                    @endif
+                </div>
+            </div>
+            <div class="card">
                 <div class="card-header titulo">Editar Contraseña</div>
 
                 <div class="card-body">

@@ -105,7 +105,7 @@ Route::post('/updateCronico','CronicosController@updateCronico');
 
 
 //juridicos
-Route::get('/juridicas','JuridicasController@index')->name('juridicas')->middleware('auth','twofactor');;
+Route::get('/juridicas','JuridicasController@index')->name('juridicas')->middleware('auth','twofactor');
 Route::get('/getJuridicas','JuridicasController@getJuridicas');
 Route::get('/verJuridica/{id}/{enable}/{crud}','JuridicasController@verJuridica');
 Route::get('/getJuridica/{id}','JuridicasController@getJuridica');
@@ -141,7 +141,6 @@ Route::group(['prefix' => 'usuario','middleware'=>['auth','twofactor']], functio
 });
 
 
-Route::get('test', function() {
+Route::get('editar/password', function() {
     return view('auth.editPassword');
-});
-
+})->name('edit.password')->middleware('auth','twofactor');
