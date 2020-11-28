@@ -17,4 +17,11 @@ class Medico extends Model
     {
         return $this->hasMany('App\Incapcidad');
     }
+
+
+    public function user()
+    {
+        return $this->belongsTo('App\User', 'id', 'user_id');
+    }
+
 }
