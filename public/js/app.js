@@ -88174,7 +88174,7 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
             htmlFor: "codigo"
           }, "Contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
             pattern: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{8,20}$",
-            title: "al menos una mayuscula, al menos una minuscula, al menos un n\xFAmero, al menos un caracter especial, sin espacios",
+            title: "al menos una mayuscula,\r al menos una minuscula,\r al menos un n\xFAmero,\r al menos un caracter especial,\r sin espacios",
             type: "password",
             className: "form-control",
             id: "contrase\xF1a",
@@ -88191,7 +88191,7 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
             htmlFor: "codigo"
           }, "Confirmar contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
             pattern: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{8,20}$",
-            title: "al menos una mayuscula, al menos una minuscula, al menos un n\xFAmero, al menos un caracter especial, sin espacios",
+            title: "al menos una mayuscula,\r al menos una minuscula,\r al menos un n\xFAmero,\r al menos un caracter especial,\r sin espacios",
             type: "password",
             className: "form-control",
             id: "confirmar",
@@ -88360,7 +88360,7 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         htmlFor: "nombre"
       }, "Contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         pattern: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{8,20}$",
-        title: "al menos una mayuscula, al menos una minuscula, al menos un n\xFAmero, al menos un caracter especial, sin espacios",
+        title: "al menos una mayuscula,\r al menos una minuscula,\r al menos un n\xFAmero,\r al menos un caracter especial,\r sin espacios",
         type: "password",
         className: "form-control",
         id: "contrase\xF1a",
@@ -88377,7 +88377,7 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         htmlFor: "nombre"
       }, "Confirmar Contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         pattern: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{8,20}$",
-        title: "al menos una mayuscula, al menos una minuscula, al menos un n\xFAmero, al menos un caracter especial, sin espacios",
+        title: "al menos una mayuscula,\r al menos una minuscula,\r al menos un n\xFAmero,\r al menos un caracter especial,\r sin espacios",
         type: "password",
         className: "form-control",
         id: "confirmar",
@@ -89189,7 +89189,7 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
             htmlFor: "codigo"
           }, "Contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
             pattern: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{8,20}$",
-            title: "al menos una mayuscula, al menos una minuscula, al menos un n\xFAmero, al menos un caracter especial, sin espacios",
+            title: "al menos una mayuscula,\r al menos una minuscula,\r al menos un n\xFAmero,\r al menos un caracter especial,\r sin espacios",
             type: "password",
             className: "form-control",
             id: "contrase\xF1a",
@@ -89206,7 +89206,7 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
             htmlFor: "codigo"
           }, "Confirmar contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
             pattern: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{8,20}$",
-            title: "al menos una mayuscula, al menos una minuscula, al menos un n\xFAmero, al menos un caracter especial, sin espacios",
+            title: "al menos una mayuscula,\r al menos una minuscula,\r al menos un n\xFAmero,\r al menos un caracter especial,\r sin espacios",
             type: "password",
             className: "form-control",
             id: "confirmar",
@@ -89299,7 +89299,7 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
         htmlFor: "nombre"
       }, "Contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         pattern: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{8,20}$",
-        title: "al menos una mayuscula, al menos una minuscula, al menos un n\xFAmero, al menos un caracter especial, sin espacios",
+        title: "al menos una mayuscula,\r al menos una minuscula,\r al menos un n\xFAmero,\r al menos un caracter especial,\r sin espacios",
         type: "password",
         className: "form-control",
         id: "contrase\xF1a",
@@ -89316,7 +89316,7 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
         htmlFor: "nombre"
       }, "Confirmar Contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         pattern: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{8,20}$",
-        title: "al menos una mayuscula, al menos una minuscula, al menos un n\xFAmero, al menos un caracter especial, sin espacios",
+        title: "al menos una mayuscula,\r al menos una minuscula,\r al menos un n\xFAmero,\r al menos un caracter especial,\r sin espacios",
         type: "password",
         className: "form-control",
         id: "confirmar",
@@ -89530,8 +89530,8 @@ if(false) {}
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\rauls\OneDrive\Documents\DEV\comfenalcoapp-prod\comfenalcoapp-prod\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\rauls\OneDrive\Documents\DEV\comfenalcoapp-prod\comfenalcoapp-prod\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\Ingenio David\comfenalcoapp-prod\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\Ingenio David\comfenalcoapp-prod\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

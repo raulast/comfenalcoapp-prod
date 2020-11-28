@@ -253,7 +253,18 @@ class UserController extends Controller
             // ]);
         }
 
-        return redirect('menu')->with('info','Contraseña actualizada exitosamente');
+        if ($user->tipo == 1){
+            return redirect()->route('menu');
+        }
+        if ($user->tipo == 2){
+            return redirect()->route('pemel');
+        }
+        if ($user->tipo == 0){
+            return redirect()->route('pemel');
+        }
+        if ($user->tipo == 5){
+            return redirect()->route('admin');
+        }
         // response()->json([
         //     'data' => 'Contraseña actualizada exitosamente',
         //     'success' => $checked['validation']

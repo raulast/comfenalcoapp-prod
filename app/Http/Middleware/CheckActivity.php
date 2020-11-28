@@ -15,7 +15,8 @@ class CheckActivity
     protected $except = [
         'editar/password',
         'usuario/editar/password',
-        'home'
+        'home',
+        'verify'
     ];
 
     /**
