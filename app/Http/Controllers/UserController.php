@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 use Auth;
 
@@ -227,13 +228,20 @@ class UserController extends Controller
     }
 
     public function editarPassword(Request $request){
+
         $user = Auth::user();
         $id = $user->id;
 
         $actual_password = $request->input('actual-password');
         $password = $request->input('password');
+        $password_confirm = $request->input('password-confirm');
+
+        if ($password !== $password_confirm) {
+            return back()->withInput()->withErrors(['password_comfirm'=>"Las contraseñas no coinciden"]);
+        }
+
         if (!(Hash::check($actual_password, $user->password))) {
-            return redirect('editar/password')->with('rejected','Contraseña actual incorrecta');
+            return back()->withInput()->withErrors(['password_invalida'=>"Contraseña actual incorrecta"]);
             // response()->json([
             //     'rejected' => "Contraseña actual incorrecta",
             //     'success' => false
