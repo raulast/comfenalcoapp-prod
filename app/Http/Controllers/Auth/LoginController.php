@@ -7,6 +7,10 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use App\Notifications\TwoFactorCode;
+use App\Notifications\CuentaBloqueada;
+use Illuminate\Support\Facades\Auth;
+use App\User;
+use App\LoginFail;
 
 class LoginController extends Controller
 {
@@ -51,5 +55,68 @@ class LoginController extends Controller
     {
         $user->generateTwoFactorCode();
         $user->notify(new TwoFactorCode());
+    }
+
+    public function authenticate(Request $request)
+    {
+        $email = $request->input('email');
+        $user = User::where('email', $email)->first();
+        dd($user);
+        if($user){
+            $banned = LoginFail::where('user_id', $user->id)
+            ->where('session', 'banned')->first();
+            if ($banned) {
+                return back()->withInput()->withErrors(['email'=>"
+                Esta cuenta ha sido bloqueada.
+                \nDebido a muchos intentos fallidos de inicio de sesión.
+                \nComuniquese con el administrador para desbloquear su cuenta."]);
+            }
+        }
+
+        $credentials = $request->only('email', 'password');
+        if (Auth::attempt($credentials)) {
+            // Authentication passed...
+            $user = Auth::user();
+            $LoginFail = LoginFail::where('user_id', $user->id)
+            ->where('session', 'active')->first();
+            if ($LoginFail) {
+                $LoginFail->session = 'logged' ;
+                $LoginFail->update();
+            }
+
+            $user->generateTwoFactorCode();
+            $user->notify(new TwoFactorCode());
+        }else{
+            if($user){
+                $LoginFail = LoginFail::where('user_id', $user->id)
+                ->where('session', 'active')->first();
+                if ($LoginFail) {
+                    $LoginFail->intentos = $LoginFail->intentos +1 ;
+                    $LoginFail->session = ($LoginFail->intentos >= 10)?'banned':'active';
+                    $LoginFail->update();
+                    $user->notify(new CuentaBloqueada());
+                    if($LoginFail->intentos >= 7 ){
+                        $restantes = 10 - $LoginFail->intentos;
+                        $message = ($restantes==1)?"intento, por favor\n
+                         restablesca su contraseña o su cuenta sera bloqueada\n
+                         en el sigiente intento fallido" : "intento";
+                         if($restantes > 0){
+                            return back()->withInput()->withErrors(['email'=>"Aun tiene $restantes $message"]);
+                         }else{
+                            return back()->withInput()->withErrors(['email'=>"
+                            Esta cuenta ha sido bloqueada.
+                            \nDebido a muchos intentos fallidos de inicio de sesión.
+                            \nComuniquese con el administrador para desbloquear su cuenta."]);
+                         }
+                    }
+                }else{
+                    $LoginFail = new LoginFail;
+                    $LoginFail->user_id = $user->id;
+                    $LoginFail->intentos = 1 ;
+                    $LoginFail->session = 'active' ;
+                    $LoginFail->save();
+                }
+            }
+        }
     }
 }

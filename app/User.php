@@ -75,4 +75,9 @@ class User extends Authenticatable implements Auditable
     }
 
 
+    public function login_fail()
+    {
+        return $this->hasMany('App\LoginFail');
+    }
+
 }
