@@ -39,9 +39,12 @@ class LoginController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Request $request)
     {
         $this->middleware('guest')->except('logout');
+        if($request->method()=='POST'){
+            $this->authenticate($request);
+        }
     }
 
     /**
@@ -61,15 +64,18 @@ class LoginController extends Controller
     {
         $email = $request->input('email');
         $user = User::where('email', $email)->first();
-        dd($user);
         if($user){
-            $banned = LoginFail::where('user_id', $user->id)
-            ->where('session', 'banned')->first();
-            if ($banned) {
-                return back()->withInput()->withErrors(['email'=>"
-                Esta cuenta ha sido bloqueada.
-                \nDebido a muchos intentos fallidos de inicio de sesión.
-                \nComuniquese con el administrador para desbloquear su cuenta."]);
+            $LoginFail = LoginFail::where('user_id', $user->id)
+            ->where('session', 'active')->first();
+            if (!$LoginFail) {
+                $banned = LoginFail::where('user_id', $user->id)
+                ->where('session', 'banned')->first();
+                if ($banned) {
+                    return back()->withInput()->withErrors(['email'=>"
+                    Esta cuenta ha sido bloqueada.
+                    \nDebido a muchos intentos fallidos de inicio de sesión.
+                    \nComuniquese con el administrador para desbloquear su cuenta."]);
+                }
             }
         }
 
@@ -77,8 +83,6 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
             // Authentication passed...
             $user = Auth::user();
-            $LoginFail = LoginFail::where('user_id', $user->id)
-            ->where('session', 'active')->first();
             if ($LoginFail) {
                 $LoginFail->session = 'logged' ;
                 $LoginFail->update();
@@ -88,13 +92,10 @@ class LoginController extends Controller
             $user->notify(new TwoFactorCode());
         }else{
             if($user){
-                $LoginFail = LoginFail::where('user_id', $user->id)
-                ->where('session', 'active')->first();
                 if ($LoginFail) {
                     $LoginFail->intentos = $LoginFail->intentos +1 ;
                     $LoginFail->session = ($LoginFail->intentos >= 10)?'banned':'active';
                     $LoginFail->update();
-                    $user->notify(new CuentaBloqueada());
                     if($LoginFail->intentos >= 7 ){
                         $restantes = 10 - $LoginFail->intentos;
                         $message = ($restantes==1)?"intento, por favor\n
@@ -103,6 +104,7 @@ class LoginController extends Controller
                          if($restantes > 0){
                             return back()->withInput()->withErrors(['email'=>"Aun tiene $restantes $message"]);
                          }else{
+                            $user->notify(new CuentaBloqueada());
                             return back()->withInput()->withErrors(['email'=>"
                             Esta cuenta ha sido bloqueada.
                             \nDebido a muchos intentos fallidos de inicio de sesión.
