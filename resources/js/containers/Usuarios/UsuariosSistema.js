@@ -232,7 +232,7 @@ class UsuariosSistema extends Component {
     }
 
     getSystemUsers() {
-        let url = 'getSystemUsers'
+        let url = 'usuario/user'
         axios.get(url)
             .then(resp => {
                 this.setState({
