@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 use Auth;
+use DB;
 
 class UserController extends Controller
 {
@@ -17,8 +18,19 @@ class UserController extends Controller
                 $data=$model['modelo']::orderBy('medicos.id','asc')
                 ->select( 'medicos.*', 'users.email')->join('users','medicos.user_id','users.id')->get();
             }else{
-                $data=$model['modelo']::orderBy('id','asc')
-                ->get();
+                $data= DB::select('
+                    select
+                        u.id,
+                        u.name,
+                        u.email,
+                        u.tipo,
+                        tmp.session
+                    from users u
+                    left join (select lf1.user_id, session from login_fail lf1
+                            join (select max(id) as id, user_id from login_fail
+                            group by user_id) as lf2 on lf1.id = lf2.id) as tmp on tmp.user_id =u.id
+                    where u.deleted_at is null
+                ');
             }
             return response()->json([
                 'data' => $data
