@@ -30,6 +30,7 @@ class UserController extends Controller
                             join (select max(id) as id, user_id from login_fail
                             group by user_id) as lf2 on lf1.id = lf2.id) as tmp on tmp.user_id =u.id
                     where u.deleted_at is null
+                    order by u.name asc
                 ');
             }
             return response()->json([
