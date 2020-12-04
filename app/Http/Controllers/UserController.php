@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-
+use App\LoginFail;
 use Auth;
 use DB;
 
@@ -28,7 +28,8 @@ class UserController extends Controller
                     from users u
                     left join (select lf1.user_id, session from login_fail lf1
                             join (select max(id) as id, user_id from login_fail
-                            group by user_id) as lf2 on lf1.id = lf2.id) as tmp on tmp.user_id =u.id
+                            group by user_id) as lf2 on lf1.id = lf2.id
+                            where lf1.deleted_at is null) as tmp on tmp.user_id =u.id
                     where u.deleted_at is null
                     order by u.name asc
                 ');
@@ -234,6 +235,21 @@ class UserController extends Controller
             }
         } else{
             $result= "El registro no se ha eliminado por favor refresque la pagina e intente nuevamente";
+        }
+        return response()->json([
+            'data' => $result
+        ]);
+    }
+    public function desbloquear(Request $request, $modelo, $id){
+        $model = $this->obtenerModelo($modelo);
+        if (!empty($model)){
+            if($model['modelo']::where('id', $id)->exists()){
+                $row = $model['modelo']::find($id);
+                $banned = LoginFail::where('user_id', $id)
+                        ->where('session', 'banned')->first();
+                $banned->delete();
+                $result=  "Usuario desbloqueado exitosamente";
+            }
         }
         return response()->json([
             'data' => $result

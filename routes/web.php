@@ -138,6 +138,7 @@ Route::group(['prefix' => 'usuario','middleware'=>['auth','twofactor']], functio
             Route::get('/', 'UserController@obtenerDetalles');
             Route::put('/editar', 'UserController@editar')->middleware('admin');
             Route::delete('/eliminar', 'UserController@eliminar')->middleware('admin');
+            Route::post('/desbloquear', 'UserController@desbloquear')->middleware('admin');
         });
     });
 });

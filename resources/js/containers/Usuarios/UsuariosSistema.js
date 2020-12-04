@@ -84,6 +84,7 @@ class UsuariosSistema extends Component {
         this.handleGuardar = this.handleGuardar.bind(this);
         this.handleEditPassword = this.handleEditPassword.bind(this);
         this.handleListar=this.handleListar.bind(this);
+        this.handleDesbloquear=this.handleDesbloquear.bind(this);
 
         this.getData = this.getData.bind(this);
         this.handlePageClick = this.handlePageClick.bind(this);
@@ -160,6 +161,18 @@ class UsuariosSistema extends Component {
                         });
             })
             .catch(err => {
+                console.log(err)
+            })
+    }
+    handleDesbloquear(id){
+        let url = `usuario/user/${id}/desbloquear`;
+        axios.post(url)
+            .then(resp => {
+                this.getSystemUsers()
+                this.props.showToast('Usuario desbloqueado exitosamente','success');
+            })
+            .catch(err => {
+                this.props.showToast('¡Ups! Ha ocurrido un Error, por favor refresca la ventana e intenta nuevamente','error');
                 console.log(err)
             })
     }
@@ -500,7 +513,7 @@ class UsuariosSistema extends Component {
                                             <th scope="col">Tipo</th>
                                         </tr>
                                     </thead>
-                                    <TableUsers users={users} handleEdition ={this.handleEdition} handleEliminar ={this.handleEliminar}/>
+                                    <TableUsers users={users} handleEdition ={this.handleEdition} handleEliminar ={this.handleEliminar} handleDesbloquear={this.handleDesbloquear}/>
 
                                 </table>
                             </div>
