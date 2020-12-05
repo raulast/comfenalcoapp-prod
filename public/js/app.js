@@ -88102,22 +88102,34 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
     value: function handleListar(arg, tipo) {
       var _this6 = this;
 
+      var selectedPage = 0;
+      var offset = selectedPage * this.state.perPage;
+      this.setState({
+        currentPage: selectedPage,
+        offset: offset
+      }, function () {
+        _this6.getData();
+      });
+
       if (arg && !tipo) {
         this.setState({
           selector: arg,
-          selector_auto: true
+          selector_auto: true,
+          currentPage: 0
         });
       } else if (arg && tipo) {
         this.setState({
           tabla: arg,
-          selector_auto: false
+          selector_auto: false,
+          currentPage: 0
         }, function () {
           _this6.getData();
         });
       } else {
         this.setState({
           tabla: [],
-          selector_auto: false
+          selector_auto: false,
+          currentPage: 0
         }, function () {
           _this6.getData();
         });
@@ -88480,7 +88492,8 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         onPageChange: this.handlePageClick,
         containerClassName: "pagination",
         subContainerClassName: "pages pagination",
-        activeClassName: "active"
+        activeClassName: "active",
+        forcePage: this.state.currentPage
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_2__["default"], {
         show: this.state.modalOpen
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_2__["default"].Header, null, "Medico"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_2__["default"].Body, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -88727,6 +88740,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 
 function TableUsers(props) {
+  var desbloquear = function desbloquear(u) {
+    props.handleDesbloquear(u.target.id);
+  };
+
   var eliminar = function eliminar(u) {
     props.handleEliminar(u.target.id);
   };
@@ -88737,9 +88754,32 @@ function TableUsers(props) {
   };
 
   var users = props.users;
+  console.log('RAUL', users);
   var userTypes = ["Admin", "Médico", "Auxiliar Pemel", "Admin Pemel", "Admin IPS", "Usuarios Admin"];
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, Object.keys(users).map(function (key) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+    return users[key]['session'] == 'banned' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+      className: "text-danger",
+      key: key
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, users[key]['name']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, users[key]['email']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, userTypes[users[key]['tipo']]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      className: "btn btn-info btn-sm",
+      id: users[key]['id'],
+      onClick: desbloquear
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+      className: "fas fa-user-slash"
+    }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      className: "btn btn-warning btn-sm",
+      id: users[key]['id'],
+      name: users[key]['name'] + '/' + users[key]['email'] + '/' + users[key]['tipo'],
+      onClick: editar
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+      className: "far fa-edit"
+    }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      className: "btn btn-danger btn-sm",
+      id: users[key]['id'],
+      onClick: eliminar
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+      className: "fas fa-trash-alt"
+    })))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
       key: key
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, users[key]['name']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, users[key]['email']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, userTypes[users[key]['tipo']]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
       className: "btn btn-warning btn-sm",
@@ -88908,6 +88948,7 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
     _this.handleGuardar = _this.handleGuardar.bind(_assertThisInitialized(_this));
     _this.handleEditPassword = _this.handleEditPassword.bind(_assertThisInitialized(_this));
     _this.handleListar = _this.handleListar.bind(_assertThisInitialized(_this));
+    _this.handleDesbloquear = _this.handleDesbloquear.bind(_assertThisInitialized(_this));
     _this.getData = _this.getData.bind(_assertThisInitialized(_this));
     _this.handlePageClick = _this.handlePageClick.bind(_assertThisInitialized(_this));
     return _this;
@@ -88947,22 +88988,34 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
     value: function handleListar(arg, tipo) {
       var _this2 = this;
 
+      var selectedPage = 0;
+      var offset = selectedPage * this.state.perPage;
+      this.setState({
+        currentPage: selectedPage,
+        offset: offset
+      }, function () {
+        _this2.getData();
+      });
+
       if (arg && !tipo) {
         this.setState({
           selector: arg,
-          selector_auto: true
+          selector_auto: true,
+          currentPage: 0
         });
       } else if (arg && tipo) {
         this.setState({
           tabla: arg,
-          selector_auto: false
+          selector_auto: false,
+          currentPage: 0
         }, function () {
           _this2.getData();
         });
       } else {
         this.setState({
           tabla: [],
-          selector_auto: false
+          selector_auto: false,
+          currentPage: 0
         }, function () {
           _this2.getData();
         });
@@ -88999,9 +89052,25 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
       });
     }
   }, {
+    key: "handleDesbloquear",
+    value: function handleDesbloquear(id) {
+      var _this4 = this;
+
+      var url = "usuario/user/".concat(id, "/desbloquear");
+      axios__WEBPACK_IMPORTED_MODULE_5___default.a.post(url).then(function (resp) {
+        _this4.getSystemUsers();
+
+        _this4.props.showToast('Usuario desbloqueado exitosamente', 'success');
+      })["catch"](function (err) {
+        _this4.props.showToast('¡Ups! Ha ocurrido un Error, por favor refresca la ventana e intenta nuevamente', 'error');
+
+        console.log(err);
+      });
+    }
+  }, {
     key: "handleSubmit",
     value: function handleSubmit(e) {
-      var _this4 = this;
+      var _this5 = this;
 
       e.preventDefault();
       var resp = this.validarForm();
@@ -89016,17 +89085,17 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
         }).then(function (resp) {
           var user = resp.data.row;
 
-          _this4.setState({
-            tabla: [].concat(_toConsumableArray(_this4.state.tabla), [user]),
+          _this5.setState({
+            tabla: [].concat(_toConsumableArray(_this5.state.tabla), [user]),
             nuevo: 'oculto'
           }, function () {
-            _this4.getData();
+            _this5.getData();
           });
 
-          _this4.props.showToast('Datos almacenados', 'success'); // alert("Datos almacenados")
+          _this5.props.showToast('Datos almacenados', 'success'); // alert("Datos almacenados")
 
         })["catch"](function (err) {
-          _this4.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
+          _this5.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
         });
       }
     }
@@ -89077,16 +89146,16 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
   }, {
     key: "getSystemUsers",
     value: function getSystemUsers() {
-      var _this5 = this;
+      var _this6 = this;
 
-      var url = 'getSystemUsers';
+      var url = 'usuario/user';
       axios__WEBPACK_IMPORTED_MODULE_5___default.a.get(url).then(function (resp) {
-        _this5.setState({
+        _this6.setState({
           buscador: resp.data.data,
           selector: resp.data.data,
           tabla: resp.data.data
         }, function () {
-          _this5.getData();
+          _this6.getData();
         });
       })["catch"](function (err) {
         console.log(err);
@@ -89095,7 +89164,7 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
   }, {
     key: "handleGuardar",
     value: function handleGuardar(e) {
-      var _this6 = this;
+      var _this7 = this;
 
       e.preventDefault();
       var id = this.state.IdEditar;
@@ -89109,19 +89178,19 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
           password: this.state.contraseña,
           tipo: this.state.tipo
         }).then(function (resp) {
-          _this6.getSystemUsers();
+          _this7.getSystemUsers();
 
-          _this6.setState({
-            tabla: _toConsumableArray(_this6.state.tabla)
+          _this7.setState({
+            tabla: _toConsumableArray(_this7.state.tabla)
           }, function () {
-            _this6.getData();
+            _this7.getData();
           });
 
-          _this6.handleCerrarModal();
+          _this7.handleCerrarModal();
 
-          _this6.props.showToast('Datos Actualizados', 'success');
+          _this7.props.showToast('Datos Actualizados', 'success');
         })["catch"](function (err) {
-          _this6.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
+          _this7.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
         });
       }
     }
@@ -89151,7 +89220,7 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
   }, {
     key: "handlePageClick",
     value: function handlePageClick(e) {
-      var _this7 = this;
+      var _this8 = this;
 
       var selectedPage = e.selected;
       var offset = selectedPage * this.state.perPage;
@@ -89159,13 +89228,13 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
         currentPage: selectedPage,
         offset: offset
       }, function () {
-        _this7.getData();
+        _this8.getData();
       });
     }
   }, {
     key: "render",
     value: function render() {
-      var _this8 = this;
+      var _this9 = this;
 
       var _this$state = this.state,
           users = _this$state.users,
@@ -89194,13 +89263,13 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
             className: "form-control",
             id: "contrase\xF1a",
             name: "contrase\xF1a",
-            onChange: _this8.handleChange,
+            onChange: _this9.handleChange,
             required: true
           })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: _this8.state.errors['contraseña']
+            className: _this9.state.errors['contraseña']
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: "redf  " + (_this8.state.errors['contraseña'] || "")
-          }, _this8.state.errorMensajes['contraseña'])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "redf  " + (_this9.state.errors['contraseña'] || "")
+          }, _this9.state.errorMensajes['contraseña'])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "form-group"
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
             htmlFor: "codigo"
@@ -89211,13 +89280,13 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
             className: "form-control",
             id: "confirmar",
             name: "confirmar",
-            onChange: _this8.handleChange,
+            onChange: _this9.handleChange,
             required: true
           })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: _this8.state.errors['confirmar']
+            className: _this9.state.errors['confirmar']
           }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: "redf  " + (_this8.state.errors['confirmar'] || "")
-          }, _this8.state.errorMensajes['confirmar'])));
+            className: "redf  " + (_this9.state.errors['confirmar'] || "")
+          }, _this9.state.errorMensajes['confirmar'])));
         }
       };
 
@@ -89340,14 +89409,14 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
         list: this.state.buscador,
         options: this.state.fuse_options,
         toRender: function toRender(arg) {
-          return _this8.handleListar(arg, false);
+          return _this9.handleListar(arg, false);
         }
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Selector__WEBPACK_IMPORTED_MODULE_4__["default"], {
         list: this.state.selector,
         keyx: "tipo",
         auto: this.state.selector_auto,
         toRender: function toRender(arg) {
-          return _this8.handleListar(arg, true);
+          return _this9.handleListar(arg, true);
         },
         tag: "user"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
@@ -89387,7 +89456,8 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
       }, "Tipo"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TableUsers_js__WEBPACK_IMPORTED_MODULE_1__["default"], {
         users: users,
         handleEdition: this.handleEdition,
-        handleEliminar: this.handleEliminar
+        handleEliminar: this.handleEliminar,
+        handleDesbloquear: this.handleDesbloquear
       }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_paginate__WEBPACK_IMPORTED_MODULE_6___default.a, {
         previousLabel: "<",
         nextLabel: ">",
@@ -89399,7 +89469,8 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
         onPageChange: this.handlePageClick,
         containerClassName: "pagination",
         subContainerClassName: "pages pagination",
-        activeClassName: "active"
+        activeClassName: "active",
+        forcePage: this.state.currentPage
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_2__["default"], {
         show: this.state.modalOpen
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_2__["default"].Header, null, "Usuario"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_2__["default"].Body, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {

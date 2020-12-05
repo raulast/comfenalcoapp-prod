@@ -35,6 +35,12 @@
                                     class="form-control"
                                     name="actual-password"
                                     required>
+
+                                    @error('password_invalida')
+                                        <span class="redf" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                             </div>
                         </div>
 
@@ -55,7 +61,7 @@
                                     name="password"
                                     required>
 
-                                @error('password')
+                                @error('password_comfirm')
                                     <span class="redf" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -64,7 +70,7 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="confirm-password" class="col-md-4 col-form-label text-md-right">Confirmar contraseña</label>
+                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">Confirmar contraseña</label>
 
                             <div class="col-md-6">
                                 <input
@@ -74,10 +80,10 @@
                                     al menos un número,
                                     al menos un caracter especial,
                                     sin espacios"
-                                    id="confirm-password"
+                                    id="password-confirm"
                                     type="password"
                                     class="form-control"
-                                    name="confirm-password"
+                                    name="password-confirm"
                                     required>
                             </div>
                         </div>

@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use App\Contrasenas;
+use App\LoginFail;
 
 class CheckActivity
 {
@@ -16,7 +17,8 @@ class CheckActivity
         'editar/password',
         'usuario/editar/password',
         'home',
-        'verify'
+        'verify',
+        'verify/resend'
     ];
 
     /**
@@ -46,6 +48,15 @@ class CheckActivity
                 }
             }else{
                 return redirect('editar/password')->with('info', '¡Bienvenido! vemos que conservas aun una contraseña asignada, por favor registra una de tu elección para continuar');
+            }
+            $banned = LoginFail::where('user_id', $user->id)
+                        ->where('session', 'banned')->first();
+            if ($banned) {
+                auth()->logout();
+                return redirect('login')->withInput(['email'=>$user->email])->withErrors(['email'=>"
+                Esta cuenta ha sido bloqueada.
+                \nDebido a muchos intentos fallidos de inicio de sesión.
+                \nComuniquese con el administrador para desbloquear su cuenta."]);
             }
             $user->updated_at = now();
             $user->save();
