@@ -249,10 +249,15 @@ class UserController extends Controller
                         ->where('session', 'banned')->first();
                 $banned->delete();
                 $result=  "Usuario desbloqueado exitosamente";
+                $req = Request::create('password/email', 'POST', ['email'=>$row->email]);
+                $res = app()->handle($req);
+                $response = $res->getContent();
             }
         }
+        return json_decode($response);
         return response()->json([
-            'data' => $result
+            'data' => $result,
+            'email'=> $response
         ]);
     }
 
