@@ -13,6 +13,7 @@ export default function TableUsers(props) {
         props.handleEdition(u.target.id, name[0], name[1], name[2])
     }
     const users = props.users;
+        console.log('RAUL', users);
     const userTypes = ["Admin", "Médico","Auxiliar Pemel","Admin Pemel","Admin IPS","Usuarios Admin"]
     return (
         <tbody>

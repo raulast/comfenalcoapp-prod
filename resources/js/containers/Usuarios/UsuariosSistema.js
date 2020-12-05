@@ -115,28 +115,43 @@ class UsuariosSistema extends Component {
             IdEditar:id
         });
     }
-    handleListar(arg, tipo){
+
+    handleListar(arg, tipo) {
+
+        const selectedPage = 0;
+        const offset = selectedPage * this.state.perPage;
+        this.setState({
+            currentPage: selectedPage,
+            offset: offset
+        },()=>{
+            this.getData();
+        });
+
         if (arg && !tipo) {
             this.setState({
                 selector: arg,
-                selector_auto:true
+                selector_auto:true,
+                currentPage: 0
             });
         }else if (arg && tipo) {
             this.setState({
                 tabla: arg,
-                selector_auto:false
+                selector_auto:false,
+                currentPage: 0
             },()=>{
                 this.getData()
             });
         }else{
             this.setState({
                 tabla: [],
-                selector_auto:false
+                selector_auto:false,
+                currentPage: 0
             },()=>{
                 this.getData()
             });
         }
     }
+    
 
     handleCerrarModal(){
         this.setState({
@@ -530,7 +545,8 @@ class UsuariosSistema extends Component {
                     onPageChange={this.handlePageClick}
                     containerClassName={"pagination"}
                     subContainerClassName={"pages pagination"}
-                    activeClassName={"active"}/>
+                    activeClassName={"active"}
+                    forcePage={this.state.currentPage}/>
                 </div>
 
                 <Modal show={this.state.modalOpen}>

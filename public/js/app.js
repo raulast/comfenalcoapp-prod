@@ -88102,22 +88102,34 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
     value: function handleListar(arg, tipo) {
       var _this6 = this;
 
+      var selectedPage = 0;
+      var offset = selectedPage * this.state.perPage;
+      this.setState({
+        currentPage: selectedPage,
+        offset: offset
+      }, function () {
+        _this6.getData();
+      });
+
       if (arg && !tipo) {
         this.setState({
           selector: arg,
-          selector_auto: true
+          selector_auto: true,
+          currentPage: 0
         });
       } else if (arg && tipo) {
         this.setState({
           tabla: arg,
-          selector_auto: false
+          selector_auto: false,
+          currentPage: 0
         }, function () {
           _this6.getData();
         });
       } else {
         this.setState({
           tabla: [],
-          selector_auto: false
+          selector_auto: false,
+          currentPage: 0
         }, function () {
           _this6.getData();
         });
@@ -88480,7 +88492,8 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         onPageChange: this.handlePageClick,
         containerClassName: "pagination",
         subContainerClassName: "pages pagination",
-        activeClassName: "active"
+        activeClassName: "active",
+        forcePage: this.state.currentPage
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_2__["default"], {
         show: this.state.modalOpen
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_2__["default"].Header, null, "Medico"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_2__["default"].Body, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -88741,6 +88754,7 @@ function TableUsers(props) {
   };
 
   var users = props.users;
+  console.log('RAUL', users);
   var userTypes = ["Admin", "Médico", "Auxiliar Pemel", "Admin Pemel", "Admin IPS", "Usuarios Admin"];
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, Object.keys(users).map(function (key) {
     return users[key]['session'] == 'banned' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
@@ -88974,22 +88988,34 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
     value: function handleListar(arg, tipo) {
       var _this2 = this;
 
+      var selectedPage = 0;
+      var offset = selectedPage * this.state.perPage;
+      this.setState({
+        currentPage: selectedPage,
+        offset: offset
+      }, function () {
+        _this2.getData();
+      });
+
       if (arg && !tipo) {
         this.setState({
           selector: arg,
-          selector_auto: true
+          selector_auto: true,
+          currentPage: 0
         });
       } else if (arg && tipo) {
         this.setState({
           tabla: arg,
-          selector_auto: false
+          selector_auto: false,
+          currentPage: 0
         }, function () {
           _this2.getData();
         });
       } else {
         this.setState({
           tabla: [],
-          selector_auto: false
+          selector_auto: false,
+          currentPage: 0
         }, function () {
           _this2.getData();
         });
@@ -89232,7 +89258,7 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
             htmlFor: "codigo"
           }, "Contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
             pattern: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{8,20}$",
-            title: "al menos una mayuscula, al menos una minuscula, al menos un n\xFAmero, al menos un caracter especial, sin espacios",
+            title: "al menos una mayuscula,\r al menos una minuscula,\r al menos un n\xFAmero,\r al menos un caracter especial,\r sin espacios",
             type: "password",
             className: "form-control",
             id: "contrase\xF1a",
@@ -89249,7 +89275,7 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
             htmlFor: "codigo"
           }, "Confirmar contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
             pattern: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{8,20}$",
-            title: "al menos una mayuscula, al menos una minuscula, al menos un n\xFAmero, al menos un caracter especial, sin espacios",
+            title: "al menos una mayuscula,\r al menos una minuscula,\r al menos un n\xFAmero,\r al menos un caracter especial,\r sin espacios",
             type: "password",
             className: "form-control",
             id: "confirmar",
@@ -89342,7 +89368,7 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
         htmlFor: "nombre"
       }, "Contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         pattern: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{8,20}$",
-        title: "al menos una mayuscula, al menos una minuscula, al menos un n\xFAmero, al menos un caracter especial, sin espacios",
+        title: "al menos una mayuscula,\r al menos una minuscula,\r al menos un n\xFAmero,\r al menos un caracter especial,\r sin espacios",
         type: "password",
         className: "form-control",
         id: "contrase\xF1a",
@@ -89359,7 +89385,7 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
         htmlFor: "nombre"
       }, "Confirmar Contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         pattern: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{8,20}$",
-        title: "al menos una mayuscula, al menos una minuscula, al menos un n\xFAmero, al menos un caracter especial, sin espacios",
+        title: "al menos una mayuscula,\r al menos una minuscula,\r al menos un n\xFAmero,\r al menos un caracter especial,\r sin espacios",
         type: "password",
         className: "form-control",
         id: "confirmar",
@@ -89443,7 +89469,8 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
         onPageChange: this.handlePageClick,
         containerClassName: "pagination",
         subContainerClassName: "pages pagination",
-        activeClassName: "active"
+        activeClassName: "active",
+        forcePage: this.state.currentPage
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_2__["default"], {
         show: this.state.modalOpen
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_2__["default"].Header, null, "Usuario"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_2__["default"].Body, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
@@ -89574,8 +89601,8 @@ if(false) {}
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\rauls\OneDrive\Documents\DEV\comfenalcoapp-prod\comfenalcoapp-prod\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\rauls\OneDrive\Documents\DEV\comfenalcoapp-prod\comfenalcoapp-prod\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\Ingenio David\comfenalcoapp-prod\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\Ingenio David\comfenalcoapp-prod\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
