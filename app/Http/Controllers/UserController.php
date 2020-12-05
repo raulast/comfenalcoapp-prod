@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use App\LoginFail;
 use Auth;
 use DB;
+use Session;
 
 class UserController extends Controller
 {
@@ -249,9 +250,10 @@ class UserController extends Controller
                         ->where('session', 'banned')->first();
                 $banned->delete();
                 $result=  "Usuario desbloqueado exitosamente";
-                $req = Request::create('password/email', 'POST', ['email'=>$row->email]);
+                $req = Request::create('password/email', 'POST',['_token'=>Session::token(),'email'=>$row->email]);
                 $res = app()->handle($req);
                 $response = $res->getContent();
+                dd($response);
             }
         }
         return json_decode($response);

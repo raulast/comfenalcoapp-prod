@@ -88102,22 +88102,34 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
     value: function handleListar(arg, tipo) {
       var _this6 = this;
 
+      var selectedPage = 0;
+      var offset = selectedPage * this.state.perPage;
+      this.setState({
+        currentPage: selectedPage,
+        offset: offset
+      }, function () {
+        _this6.getData();
+      });
+
       if (arg && !tipo) {
         this.setState({
           selector: arg,
-          selector_auto: true
+          selector_auto: true,
+          currentPage: 0
         });
       } else if (arg && tipo) {
         this.setState({
           tabla: arg,
-          selector_auto: false
+          selector_auto: false,
+          currentPage: 0
         }, function () {
           _this6.getData();
         });
       } else {
         this.setState({
           tabla: [],
-          selector_auto: false
+          selector_auto: false,
+          currentPage: 0
         }, function () {
           _this6.getData();
         });
@@ -88480,7 +88492,8 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         onPageChange: this.handlePageClick,
         containerClassName: "pagination",
         subContainerClassName: "pages pagination",
-        activeClassName: "active"
+        activeClassName: "active",
+        forcePage: this.state.currentPage
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_2__["default"], {
         show: this.state.modalOpen
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_2__["default"].Header, null, "Medico"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_2__["default"].Body, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -88983,7 +88996,6 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
       }, function () {
         _this2.getData();
       });
-      console.log('PAGINATION: ->', this.state.currentPage, 'TIPO: ->', tipo);
 
       if (arg && !tipo) {
         this.setState({

@@ -120,7 +120,6 @@ class UsuariosSistema extends Component {
 
         const selectedPage = 0;
         const offset = selectedPage * this.state.perPage;
-
         this.setState({
             currentPage: selectedPage,
             offset: offset
@@ -128,7 +127,6 @@ class UsuariosSistema extends Component {
             this.getData();
         });
 
-        console.log('PAGINATION: ->',this.state.currentPage, 'TIPO: ->', tipo );
         if (arg && !tipo) {
             this.setState({
                 selector: arg,
