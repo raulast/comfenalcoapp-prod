@@ -68,7 +68,6 @@ class EstadosAdmin extends Component {
 
     }
     handleSubmit(e){
-        e.preventDefault();
         let url = 'parametro/estadosi/agregar'
         let estadoi = document.getElementsByName('estados_incapacidad')[0].value
         axios.post(url, {estado: estadoi, activo: 1})
@@ -83,8 +82,7 @@ class EstadosAdmin extends Component {
                 this.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente','error')
             })
     }
-    handleGuardar(e){
-        e.preventDefault();
+    handleGuardar(){
         let id = this.state.IdEditar
         let url = `parametro/estadosi/${id}/editar`
         let estadoi = document.getElementsByName('editar_estados_incapacidad')[0].value
@@ -136,7 +134,7 @@ class EstadosAdmin extends Component {
             <div>
                 <br/><br/>
                 <button className="btn btn-success btn-sm" onClick={this.handleCrear}>+ Crear</button>
-                <form onSubmit={this.handleSubmit} className="row mt-2">
+                <div className="row mt-2">
                     <div className={this.state.nuevo}>
                     <div className="col-md-12">
                         <div className="card">
@@ -146,17 +144,21 @@ class EstadosAdmin extends Component {
                                         <table>
                                             <tr>
                                                 <td>Nombre</td>
-                                                <td><input type="text" className="form-control" id="nombre" name="estados_incapacidad" onChange={this.handleChange} defaultValue={this.state.nombre} required></input></td>
-                                                <td><button type="submit" className="btn btn-success btn-sm" >Guardar</button></td>
+                                                <td><input type="text" className="form-control" id="nombre" name="estados_incapacidad" onChange={this.handleChange} defaultValue={this.state.nombre}></input></td>
+                                                <td><button type="submit" className="btn btn-success btn-sm" onClick={this.handleSubmit}>Guardar</button></td>
                                             </tr>
                                         </table>
+
+                                        <div className={this.state.errors['nombre']}>
+                                            <div className={"redf  " + (this.state.errors['nombre'] || "")}>{this.state.errorMensajes['nombre']}</div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     </div>
-                </form>
+                </div>
                 <div className="row mt-2">
                     <div className="col-md-12">
                         <div className="card">
@@ -185,15 +187,15 @@ class EstadosAdmin extends Component {
                         <div className="container">
                             <div className="row">
                                 <div className="col-12">
-                                    <form id="editarEstado" onSubmit={ this.handleGuardar }>
+                                    <form>
                                         <div className="form-group">
                                             <label htmlFor="codigo">Nombre</label>
-                                            <input type="text" className="form-control form-control-sm" name="editar_estados_incapacidad" defaultValue={this.state.nombreEstado} onChange={this.handleChange } required/>
+                                            <input type="text" className="form-control form-control-sm" name="editar_estados_incapacidad" defaultValue={this.state.nombreEstado} onChange={this.handleChangeC }/>
                                         </div>
 
                                         <div className="form-group">
                                             <label htmlFor="estado_causa">Estado</label>
-                                            <select className="form-control form-control-sm" name="editar_estados_activo" onChange={this.handleChange } required>
+                                            <select className="form-control form-control-sm" name="editar_estados_activo" onChange={this.handleChangeC }>
                                                 <option value='1'>Activa</option>
                                                 <option value='0'>Inactiva</option>
                                             </select>
@@ -204,10 +206,7 @@ class EstadosAdmin extends Component {
                             </div>
                         </div>
                     </Modal.Body>
-                    <Modal.Footer>
-                        <button type="submit" form="editarEstado" className="btn btn-primary btn-sm" >Guardar</button>
-                        <button className="btn btn-primary btn-sm" onClick={ this.handleCerrarModal }>Cerrar</button>
-                    </Modal.Footer>
+                    <Modal.Footer><button className="btn btn-primary btn-sm" onClick={ this.handleGuardar }>Guardar</button><button className="btn btn-primary btn-sm" onClick={ this.handleCerrarModal }>Cerrar</button></Modal.Footer>
                 </Modal>
             </div>
         );
@@ -216,4 +215,8 @@ class EstadosAdmin extends Component {
 }
 
 export default EstadosAdmin;
-
+/*
+if (document.getElementById('menuUsuarios')) {
+    ReactDOM.render(<MenuUsuarios />, document.getElementById('menuUsuarios'));
+}
+*/

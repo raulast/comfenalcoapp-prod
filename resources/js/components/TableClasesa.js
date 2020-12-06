@@ -8,8 +8,7 @@ export default function TableClasesa(props) {
         props.handleEliminar(u.target.id)
     }
     const editar = (u) =>{
-        const name = u.target.name.split('/');
-        props.handleEdition(u.target.id,name,'Clase', null);
+        props.handleEdition(u.target.id,u.target.name,'Clase', null)
     }
     const clasesa = props.clasesa;
     //const { users } = this.state;
@@ -20,7 +19,7 @@ export default function TableClasesa(props) {
                 <tr key={key}><td></td><td>{clasesa[key]['clase']}</td>
                 <td>{ clasesa[key]['abbr'] }</td>
                 <td>{estadoTypes[clasesa[key]['activo']]}</td>
-                    <td><button className="btn btn-warning btn-sm" id={clasesa[key]['id']} name={clasesa[key]['clase']+'/'+clasesa[key]['abbr']} onClick={editar}>Editar</button></td>
+                    <td><button className="btn btn-warning btn-sm" id={clasesa[key]['id']} name={clasesa[key]['clase']} onClick={editar}>Editar</button></td>
                 </tr>
             ))}
         </tbody>

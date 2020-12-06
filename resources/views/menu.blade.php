@@ -6,15 +6,6 @@
     <div class="row">
         <div class="col-sm-8 offset-sm-2">
             <div class="card">
-                <div class="card-body">
-                    @if (session('info'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('info') }}
-                        </div>
-                    @endif
-                </div>
-            </div>
-            <div class="card">
                 <div class="card-header"></div>
 
                 <div class="card-body texto">

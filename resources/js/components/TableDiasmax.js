@@ -11,8 +11,8 @@ export default function TableDiasmax(props) {
         props.handleEliminar(u.target.id)
     }
     const editar = (u) =>{
-        const name = u.target.name.split('/');
-        props.handleEdition(u.target.id,name);
+        //console.log(u.target.name);
+        props.handleEdition(u.target.id,u.target.name)
     }
     const esp = props.esp;
     //const { users } = this.state;
@@ -22,8 +22,8 @@ export default function TableDiasmax(props) {
             {Object.keys(esp).map((key) => (
                 <tr key={key}><td></td><td>{esp[key]['especialidad']}</td>
                 <td>{esp[key]['dias_maximos']}</td>
-                    <td><button className="btn btn-warning btn-sm" id={esp[key]['id']} name={esp[key]['especialidad']+'/'+esp[key]['dias_maximos']} onClick={editar}>Editar</button></td>
-
+                    <td><button className="btn btn-warning btn-sm" id={esp[key]['id']} name={esp[key]['especialidad']} onClick={editar}>Editar</button></td>
+                    
                 </tr>
             ))}
         </tbody>

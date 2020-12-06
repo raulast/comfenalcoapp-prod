@@ -3,13 +3,9 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use OwenIt\Auditing\Contracts\Auditable;
 
-class Medico extends Model implements Auditable
+class Medico extends Model
 {
-    use SoftDeletes;
-    use \OwenIt\Auditing\Auditable;
     //
     protected $fillable = [
         'user_id', 'cod_medico','nombre','tipo_documento','num_documento',
@@ -19,11 +15,4 @@ class Medico extends Model implements Auditable
     {
         return $this->hasMany('App\Incapcidad');
     }
-
-
-    public function user()
-    {
-        return $this->belongsTo('App\User', 'id', 'user_id');
-    }
-
 }
