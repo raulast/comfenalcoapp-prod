@@ -6781,9 +6781,28 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/index.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./resources/js/components/Usuarios/UsuariosSistema.scss":
+/***/ "./node_modules/css-loader/index.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./resources/js/containers/Medicos/TableMedicos.scss":
+/*!**********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./resources/js/containers/Medicos/TableMedicos.scss ***!
+  \**********************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "i {\n  pointer-events: none;\n}", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./resources/js/containers/Usuarios/UsuariosSistema.scss":
 /*!**************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./resources/js/components/Usuarios/UsuariosSistema.scss ***!
+  !*** ./node_modules/css-loader!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./resources/js/containers/Usuarios/UsuariosSistema.scss ***!
   \**************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
@@ -75974,9 +75993,9 @@ __webpack_require__(/*! ./components/AdminNav */ "./resources/js/components/Admi
 
 __webpack_require__(/*! ./components/MenuUsuarios */ "./resources/js/components/MenuUsuarios.js");
 
-__webpack_require__(/*! ./components/UsuariosSistema */ "./resources/js/components/UsuariosSistema.js");
+__webpack_require__(/*! ./containers/Usuarios/UsuariosSistema */ "./resources/js/containers/Usuarios/UsuariosSistema.js");
 
-__webpack_require__(/*! ./components/MedicosSistema */ "./resources/js/components/MedicosSistema.js");
+__webpack_require__(/*! ./containers/Medicos/MedicosSistema */ "./resources/js/containers/Medicos/MedicosSistema.js");
 
 __webpack_require__(/*! ./components/CronicosPanel */ "./resources/js/components/CronicosPanel.js");
 
@@ -76646,21 +76665,26 @@ var index = /*#__PURE__*/function (_Component) {
     key: "handleBuscar",
     value: function handleBuscar(_ref) {
       var target = _ref.target;
-      var fuse = new fuse_js__WEBPACK_IMPORTED_MODULE_1__["default"](this.props.list, this.props.options);
-      var filtro = ('\'' + target.value).replace(' ', ' \'');
-      var result = fuse.search(filtro);
-      var tmp = '';
-      Object.keys(result).map(function (key) {
-        return tmp = [].concat(_toConsumableArray(tmp), [result[key].item]);
-      });
-      this.props.toRender(tmp);
+
+      if (target.value != '') {
+        var fuse = new fuse_js__WEBPACK_IMPORTED_MODULE_1__["default"](this.props.list, this.props.options);
+        var filtro = ('\'' + target.value).replace(' ', ' \'');
+        var result = fuse.search(filtro);
+        var tmp = '';
+        Object.keys(result).map(function (key) {
+          return tmp = [].concat(_toConsumableArray(tmp), [result[key].item]);
+        });
+        this.props.toRender(tmp);
+      } else {
+        this.props.toRender(this.props.list);
+      }
     }
   }, {
     key: "render",
     value: function render() {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
-        className: "form-control",
+        className: "form-control col-8",
         id: "buscador_medicos",
         name: "buscador_medicos",
         placeholder: "Buscar...",
@@ -85628,872 +85652,6 @@ function MedicoSelect(props) {
 
 /***/ }),
 
-/***/ "./resources/js/components/MedicosSistema.js":
-/*!***************************************************!*\
-  !*** ./resources/js/components/MedicosSistema.js ***!
-  \***************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _TableMedicos_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TableMedicos.js */ "./resources/js/components/TableMedicos.js");
-/* harmony import */ var react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-bootstrap/Modal */ "./node_modules/react-bootstrap/esm/Modal.js");
-/* harmony import */ var _Buscador__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Buscador */ "./resources/js/components/Buscador/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var react_paginate__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-paginate */ "./node_modules/react-paginate/dist/react-paginate.js");
-/* harmony import */ var react_paginate__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react_paginate__WEBPACK_IMPORTED_MODULE_6__);
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-
-
-
-
-
-
-
-
-var MedicosSistema = /*#__PURE__*/function (_Component) {
-  _inherits(MedicosSistema, _Component);
-
-  var _super = _createSuper(MedicosSistema);
-
-  function MedicosSistema(props) {
-    var _this;
-
-    _classCallCheck(this, MedicosSistema);
-
-    _this = _super.call(this, props);
-    _this.state = {
-      medicos: '',
-      codigoMedico: '',
-      tipoDocumento: '',
-      numeroDocumento: '',
-      registroMedico: '',
-      correo: '',
-      nuevo: 'oculto',
-      editarContraseña: false,
-      modalOpen: false,
-      nombre: '',
-      especialidad: '',
-      contraseña: '',
-      confirmar: '',
-      user_id: '',
-      errors: {
-        codigoMedico: 'oculto',
-        tipoDocumento: 'oculto',
-        registroMedico: 'oculto',
-        correo: 'oculto',
-        epecialidad: 'oculto',
-        contraseña: 'oculto',
-        confirmar: 'oculto'
-      },
-      errorMensajes: {
-        codigoMedico: 'Código requerido',
-        tipoDocumento: 'Tipo requerido',
-        registroMedico: 'Registro requerido',
-        correo: 'Correo requerido',
-        epecialidad: 'Especialidad requerida',
-        contraseña: 'Contraseña requerida',
-        confirmar: 'Repita contraseña'
-      },
-      fuse_options: {
-        useExtendedSearch: true,
-        findAllMatches: true,
-        minMatchCharLength: 2,
-        location: 0,
-        threshold: 0.3,
-        distance: 10,
-        ignoreFieldNorm: true,
-        keys: [{
-          name: 'nombre',
-          weight: 2
-        }, "reg_medico", {
-          name: "email",
-          weight: 2
-        }, {
-          name: "num_documento",
-          weight: 2
-        }]
-      },
-      IdEditar: '00',
-      data: [],
-      page: [],
-      perPage: 10,
-      offset: 0,
-      currentPage: 0,
-      pageCount: 0
-    }; // bind
-
-    _this.getMedicosUsers = _this.getMedicosUsers.bind(_assertThisInitialized(_this));
-    _this.renderUsers = _this.renderUsers.bind(_assertThisInitialized(_this));
-    _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
-    _this.handleEdition = _this.handleEdition.bind(_assertThisInitialized(_this));
-    _this.handleCreate = _this.handleCreate.bind(_assertThisInitialized(_this));
-    _this.handleEliminar = _this.handleEliminar.bind(_assertThisInitialized(_this));
-    _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
-    _this.clearErrors = _this.clearErrors.bind(_assertThisInitialized(_this));
-    _this.validarForm = _this.validarForm.bind(_assertThisInitialized(_this));
-    _this.handleCerrarModal = _this.handleCerrarModal.bind(_assertThisInitialized(_this));
-    _this.handleGuardar = _this.handleGuardar.bind(_assertThisInitialized(_this));
-    _this.handleListar = _this.handleListar.bind(_assertThisInitialized(_this));
-    _this.handleEditPassword = _this.handleEditPassword.bind(_assertThisInitialized(_this));
-    _this.getData = _this.getData.bind(_assertThisInitialized(_this));
-    _this.handlePageClick = _this.handlePageClick.bind(_assertThisInitialized(_this));
-    return _this;
-  }
-
-  _createClass(MedicosSistema, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      this.getMedicosUsers();
-    }
-  }, {
-    key: "handleCreate",
-    value: function handleCreate() {
-      this.setState({
-        nuevo: 'visible'
-      });
-    }
-  }, {
-    key: "handleChange",
-    value: function handleChange(_ref) {
-      var target = _ref.target;
-      this.setState(_defineProperty({}, target.name, target.value)); //console.log(this.state);
-    }
-  }, {
-    key: "handleEdition",
-    value: function handleEdition(id, datos) {
-      //console.log(id)
-      this.setState({
-        modalOpen: true,
-        IdEditar: id,
-        codigoMedico: datos[0],
-        tipoDocumento: datos[1],
-        numeroDocumento: datos[2],
-        registroMedico: datos[4],
-        nombre: datos[3],
-        especialidad: datos[5],
-        correo: datos[6]
-      });
-    }
-  }, {
-    key: "handleEliminar",
-    value: function handleEliminar(id) {
-      var _this2 = this;
-
-      var url = "usuario/medico/".concat(id, "/eliminar");
-      axios__WEBPACK_IMPORTED_MODULE_5___default.a["delete"](url).then(function (resp) {
-        _this2.props.showToast(resp.data.data, 'success');
-
-        _this2.getMedicosUsers();
-
-        _this2.setState({
-          medicos: _this2.state.medicos
-        });
-      })["catch"](function (err) {
-        console.log(err);
-      });
-    }
-  }, {
-    key: "handleCerrarModal",
-    value: function handleCerrarModal() {
-      this.setState({
-        modalOpen: false
-      });
-    }
-  }, {
-    key: "handleSubmit",
-    value: function handleSubmit(e) {
-      var _this3 = this;
-
-      e.preventDefault();
-      var resp = this.validarForm();
-
-      if (resp) {
-        var url = 'usuario/medico/agregar';
-        axios__WEBPACK_IMPORTED_MODULE_5___default.a.post(url, {
-          email: this.state.correo,
-          password: this.state.contraseña,
-          cod_medico: this.state.codigoMedico,
-          nombre: this.state.nombre,
-          tipo_documento: this.state.tipoDocumento,
-          num_documento: this.state.numeroDocumento,
-          reg_medico: this.state.registroMedico,
-          especialidad: this.state.especialidad
-        }).then(function (resp) {
-          var user = resp.data.row;
-
-          _this3.setState({
-            medicos: [].concat(_toConsumableArray(_this3.state.medicos), [user]),
-            nuevo: 'oculto'
-          });
-
-          _this3.props.showToast('Datos almacenados', 'success'); // alert("Datos almacenados")
-
-        })["catch"](function (err) {
-          console.log(err);
-
-          _this3.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
-        });
-      }
-    }
-  }, {
-    key: "validarForm",
-    value: function validarForm() {
-      this.clearErrors();
-      var resp = true;
-      var newState = Object.assign({}, this.state);
-      /*
-      Object.entries(this.state).map(([key, value]) => {
-          if (value == ''){
-              newState.errors[key] = "visible";
-              //newState.errorMensajes[key] = key + " requerido";
-              resp = false;
-          }
-      });
-      */
-
-      if (resp && this.state.editarContraseña) {
-        if (newState.contraseña != newState.confirmar) {
-          newState.errors.contraseña = "visible";
-          newState.errorMensajes.contraseña = "Contraseñas no coinciden";
-          resp = false;
-        }
-      }
-
-      this.setState(newState);
-      return resp;
-    }
-  }, {
-    key: "clearErrors",
-    value: function clearErrors() {
-      var newState = Object.assign({}, this.state); // console.log(Object.entries(newState));
-
-      Object.keys(newState.errors).forEach(function (key) {
-        newState.errors[key] = "oculto";
-      });
-      this.setState(newState);
-      var newState2 = Object.assign({}, this.state);
-      Object.keys(newState2.errorMensajes).forEach(function (key) {// newState2.errorMensajes[key] = '';
-      }); //console.log(newState);
-
-      this.setState(newState2);
-    }
-  }, {
-    key: "getMedicosUsers",
-    value: function getMedicosUsers() {
-      var _this4 = this;
-
-      var url = 'usuario/medico';
-      axios__WEBPACK_IMPORTED_MODULE_5___default.a.get(url).then(function (resp) {
-        _this4.setState({
-          page: resp.data.data,
-          data: resp.data.data
-        }, function () {
-          _this4.getData();
-        });
-      })["catch"](function (err) {
-        console.log(err);
-      });
-    }
-  }, {
-    key: "renderUsers",
-    value: function renderUsers() {
-      var medicos = this.state.medicos;
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, Object.keys(medicos).map(function (key) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
-          key: key
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, medicos[key]['cod_medico']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, medicos[key]['tipo_documento']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, medicos[key]['num_documento']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, medicos[key]['nombre']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, medicos[key]['reg_medico']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, medicos[key]['especialidad']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-          className: "btn btn-warning btn-sm"
-        }, "Editar")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-          className: "btn btn-danger btn-sm"
-        }, "Eliminar")));
-      }));
-    }
-  }, {
-    key: "handleGuardar",
-    value: function handleGuardar(e) {
-      var _this5 = this;
-
-      e.preventDefault();
-      var id = this.state.IdEditar;
-      var url = "usuario/medico/".concat(id, "/editar");
-      var resp = this.validarForm();
-
-      if (resp) {
-        axios__WEBPACK_IMPORTED_MODULE_5___default.a.put(url, {
-          password: this.state.contraseña,
-          email: this.state.correo,
-          cod_medico: this.state.codigoMedico,
-          nombre: this.state.nombre,
-          tipo_documento: this.state.tipoDocumento,
-          num_documento: this.state.numeroDocumento,
-          reg_medico: this.state.registroMedico,
-          especialidad: this.state.especialidad
-        }).then(function (resp) {
-          _this5.getMedicosUsers();
-
-          _this5.setState({
-            medicos: _toConsumableArray(_this5.state.medicos)
-          });
-
-          _this5.handleCerrarModal();
-
-          _this5.props.showToast('Datos Actualizados', 'success'); // alert("Datos almacenados")
-
-        })["catch"](function (err) {
-          _this5.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
-        });
-      }
-    }
-  }, {
-    key: "handleEditPassword",
-    value: function handleEditPassword() {
-      if (!this.state.editarContraseña) {
-        this.setState({
-          editarContraseña: true
-        });
-      } else {
-        this.setState({
-          editarContraseña: false
-        });
-      }
-    }
-  }, {
-    key: "handleListar",
-    value: function handleListar(arg) {
-      var _this6 = this;
-
-      if (arg) {
-        this.setState({
-          page: arg
-        }, function () {
-          _this6.getData();
-        });
-      } else {
-        this.getMedicosUsers();
-      }
-    }
-  }, {
-    key: "getData",
-    value: function getData() {
-      var data = this.state.page;
-      var slice = data.slice(this.state.offset, this.state.offset + this.state.perPage);
-      this.setState({
-        medicos: slice,
-        pageCount: Math.ceil(data.length / this.state.perPage)
-      });
-    }
-  }, {
-    key: "handlePageClick",
-    value: function handlePageClick(e) {
-      var _this7 = this;
-
-      var selectedPage = e.selected;
-      var offset = selectedPage * this.state.perPage;
-      this.setState({
-        currentPage: selectedPage,
-        offset: offset
-      }, function () {
-        _this7.getData();
-      });
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var _this8 = this;
-
-      var _this$state = this.state,
-          medicos = _this$state.medicos,
-          editarContraseña = _this$state.editarContraseña;
-
-      var textButton = function textButton() {
-        if (!editarContraseña) {
-          return 'Editar contraseña';
-        } else {
-          return 'No editar contraseña';
-        }
-      };
-
-      var editpassword = function editpassword() {
-        // console.log(editarContraseña);
-        if (editarContraseña) {
-          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("article", {
-            className: "form-group"
-          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: "form-group"
-          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-            htmlFor: "codigo"
-          }, "Contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-            type: "password",
-            className: "form-control form-control-sm",
-            name: "contrase\xF1a",
-            onChange: _this8.handleChange,
-            required: true
-          })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: _this8.state.errors['contraseña']
-          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: "redf  " + (_this8.state.errors['contraseña'] || "")
-          }, _this8.state.errorMensajes['contraseña'])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: "form-group"
-          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-            htmlFor: "codigo"
-          }, "Confirmar contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-            type: "password",
-            className: "form-control form-control-sm",
-            name: "confirmar",
-            onChange: _this8.handleChange,
-            required: true
-          })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: _this8.state.errors['confirmar']
-          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: "redf  " + (_this8.state.errors['confirmar'] || "")
-          }, _this8.state.errorMensajes['confirmar'])));
-        }
-      };
-
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "btn btn-success btn-sm",
-        onClick: this.handleCreate
-      }, "+ Crear"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Buscador__WEBPACK_IMPORTED_MODULE_4__["default"], {
-        list: this.state.data,
-        options: this.state.fuse_options,
-        toRender: function toRender(arg) {
-          return _this8.handleListar(arg);
-        }
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "row mt-5"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: this.state.nuevo
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-md-12"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "card"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "card-header bg2 titulo"
-      }, "M\xE9dicos "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "card-body texto"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-        onSubmit: this.handleSubmit
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "form-group"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "row"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-md-3"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "codigoMedico"
-      }, "C\xF3digo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "text",
-        className: "form-control",
-        id: "codigoMedico",
-        name: "codigoMedico",
-        onChange: this.handleChange,
-        defaultValue: this.state.codigoMedico,
-        required: true
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: this.state.errors['codigoMedico']
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "redf  " + (this.state.errors['codigoMedico'] || "")
-      }, this.state.errorMensajes['codigoMedico']))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-md-3"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "tipoDocumento"
-      }, "Tipo documento"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-        className: "form-control",
-        id: "tipoDocumento",
-        name: "tipoDocumento",
-        onChange: this.handleChange,
-        defaultValue: this.state.tipoDocumento,
-        required: true
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: ""
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "CC"
-      }, "CC"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "NIT"
-      }, "NIT"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "TI"
-      }, "TI"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "CE"
-      }, "CE"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "PA"
-      }, "PA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "RC"
-      }, "RC"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "NUIP"
-      }, "NUIP"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "MS"
-      }, "MS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "CN"
-      }, "CN")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: this.state.errors['tipoDocumento']
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "redf  " + (this.state.errors['tipoDocumento'] || "")
-      }, this.state.errorMensajes['tipoDocumento']))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-md-3"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "numeroDocumento"
-      }, "No. Documento"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "text",
-        className: "form-control",
-        id: "numeroDocumento",
-        name: "numeroDocumento",
-        onChange: this.handleChange,
-        defaultValue: this.state.numeroDocumento,
-        required: true
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-md-3"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "registroMedico"
-      }, "No. Registro"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "text",
-        className: "form-control",
-        id: "registroMedico",
-        name: "registroMedico",
-        onChange: this.handleChange,
-        defaultValue: this.state.registroMedico,
-        required: true
-      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "row"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-md-4"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "nombre"
-      }, "Nombre"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "text",
-        className: "form-control",
-        id: "nombre",
-        name: "nombre",
-        onChange: this.handleChange,
-        defaultValue: this.state.nombreUsaurio,
-        value: this.state.nombre,
-        required: true
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-md-4"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "nombre"
-      }, "Correo electr\xF3nico"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "email",
-        className: "form-control",
-        id: "correo",
-        name: "correo",
-        onChange: this.handleChange,
-        defaultValue: this.state.correo,
-        required: true
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-md-4"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "especialidadMedica"
-      }, "Especialidad m\xE9dica"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-        id: "especialidad",
-        className: "form-control",
-        name: "especialidad",
-        onChange: this.handleChange,
-        defaultValue: this.state.especialidad,
-        required: true
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: ""
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "1"
-      }, "M\xE9dico general"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "2"
-      }, "M\xE9dico especialista"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "5"
-      }, "M\xE9dico laboral"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "3"
-      }, "Odont\xF3logo general"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "4"
-      }, "Odont\xF3logo especialista")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "row"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-md-4"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "nombre"
-      }, "Contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "password",
-        className: "form-control",
-        id: "contrase\xF1a",
-        name: "contrase\xF1a",
-        onChange: this.handleChange,
-        defaultValue: this.state.contraseña,
-        required: true
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: this.state.errors['contraseña']
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "redf  " + (this.state.errors['contraseña'] || "")
-      }, this.state.errorMensajes['contraseña'])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-md-4"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "nombre"
-      }, "Confirmar Contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "password",
-        className: "form-control",
-        id: "confirmar",
-        name: "confirmar",
-        onChange: this.handleChange,
-        defaultValue: this.state.confirmar,
-        required: true
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: this.state.errors['confirmar']
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "redf  " + (this.state.errors['confirmar'] || "")
-      }, this.state.errorMensajes['confirmar'])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-md-2"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "rethus"
-      }, "Rethus"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-        className: "form-control",
-        id: "rethus",
-        name: "rethus",
-        onChange: this.handleChange,
-        defaultValue: this.state.rethus
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: ""
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "Si"
-      }, "Si"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "No"
-      }, "No"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-md-2"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        type: "submit",
-        className: "btn btn-success btn-sm"
-      }, "Guardar")))))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "row mt-5"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-md-12"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "card"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "card-header bg2 titulo"
-      }, "Medicos registrados"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "card-body texto"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
-        className: "table table-hover"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-        scope: "col"
-      }, "C\xF3digo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-        scope: "col"
-      }, "Tipo Doc"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-        scope: "col"
-      }, "No"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-        scope: "col"
-      }, "Nombre"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-        scope: "col"
-      }, "Registro"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-        scope: "col"
-      }, "Correo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-        scope: "col"
-      }, "Especialidad"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TableMedicos_js__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        medicos: medicos,
-        handleEdition: this.handleEdition,
-        handleEliminar: this.handleEliminar
-      }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_paginate__WEBPACK_IMPORTED_MODULE_6___default.a, {
-        previousLabel: "<",
-        nextLabel: ">",
-        breakLabel: "...",
-        breakClassName: "break-me",
-        pageCount: this.state.pageCount,
-        marginPagesDisplayed: 2,
-        pageRangeDisplayed: 5,
-        onPageChange: this.handlePageClick,
-        containerClassName: "pagination",
-        subContainerClassName: "pages pagination",
-        activeClassName: "active"
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        show: this.state.modalOpen
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__["default"].Header, null, "Medico"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__["default"].Body, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "container"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "row"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-12"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-        id: "editarMedico",
-        onSubmit: this.handleGuardar
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "form-group"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "codigo"
-      }, "C\xF3digo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "text",
-        className: "form-control form-control-sm",
-        name: "codigoMedico",
-        defaultValue: this.state.codigoMedico,
-        onChange: this.handleChange,
-        required: true
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "form-group"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "tipoDocumento"
-      }, "Tipo Documento"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-        className: "form-control form-control-sm",
-        name: "tipoDocumento",
-        defaultValue: this.state.tipoDocumento,
-        onChange: this.handleChange,
-        required: true
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: ""
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "CC"
-      }, "CC"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "NIT"
-      }, "NIT"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "TI"
-      }, "TI"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "CE"
-      }, "CE"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "PA"
-      }, "PA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "RC"
-      }, "RC"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "NUIP"
-      }, "NUIP"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "MS"
-      }, "MS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "CN"
-      }, "CN"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "form-group"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "codigo"
-      }, "No. Documento"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "text",
-        className: "form-control form-control-sm",
-        name: "numeroDocumento",
-        defaultValue: this.state.numeroDocumento,
-        onChange: this.handleChange,
-        required: true
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "form-group"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "codigo"
-      }, "No. Registro"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "text",
-        className: "form-control form-control-sm",
-        name: "registroMedico",
-        defaultValue: this.state.registroMedico,
-        onChange: this.handleChange,
-        required: true
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "form-group"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "codigo"
-      }, "Nombre"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "text",
-        className: "form-control form-control-sm",
-        name: "nombre",
-        defaultValue: this.state.nombre,
-        onChange: this.handleChange,
-        required: true
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "form-group"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "codigo"
-      }, "Correo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "text",
-        className: "form-control form-control-sm",
-        name: "correo",
-        defaultValue: this.state.correo,
-        onChange: this.handleChange,
-        required: true
-      })), editpassword(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "form-group"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "especialidadMedica"
-      }, "Especialidad m\xE9dica"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-        className: "form-control form-control-sm",
-        name: "especialidad",
-        defaultValue: this.state.especialidad,
-        onChange: this.handleChange,
-        required: true
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: ""
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "1"
-      }, "M\xE9dico general"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "2"
-      }, "M\xE9dico especialista"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "5"
-      }, "M\xE9dico laboral"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "3"
-      }, "Odont\xF3logo general"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "4"
-      }, "Odont\xF3logo especialista"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "form-group"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "estado_causa"
-      }, "Rethus"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-        className: "form-control form-control-sm",
-        name: "rethus",
-        onChange: this.handleChange
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: ""
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "Si"
-      }, "Si"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "No"
-      }, "No")))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_3__["default"].Footer, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "btn btn-info btn-sm",
-        onClick: this.handleEditPassword
-      }, textButton()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        type: "submit",
-        form: "editarMedico",
-        className: "btn btn-primary btn-sm"
-      }, "Guardar"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "btn btn-primary btn-sm",
-        onClick: this.handleCerrarModal
-      }, "Cerrar"))));
-    }
-  }]);
-
-  return MedicosSistema;
-}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
-
-/* harmony default export */ __webpack_exports__["default"] = (MedicosSistema);
-
-/***/ }),
-
 /***/ "./resources/js/components/Mensaje.js":
 /*!********************************************!*\
   !*** ./resources/js/components/Mensaje.js ***!
@@ -86688,12 +85846,8 @@ var MenuGenerales = /*#__PURE__*/function (_Component) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _UsuariosSistema_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./UsuariosSistema.js */ "./resources/js/components/UsuariosSistema.js");
-/* harmony import */ var _MedicosSistema_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./MedicosSistema.js */ "./resources/js/components/MedicosSistema.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _containers_Usuarios_UsuariosSistema_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../containers/Usuarios/UsuariosSistema.js */ "./resources/js/containers/Usuarios/UsuariosSistema.js");
+/* harmony import */ var _containers_Medicos_MedicosSistema_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../containers/Medicos/MedicosSistema.js */ "./resources/js/containers/Medicos/MedicosSistema.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -86715,8 +85869,6 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-
 
 
 
@@ -86756,12 +85908,12 @@ var MenuUsuarios = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tab-pane container active",
         id: "sistema"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_UsuariosSistema_js__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_containers_Usuarios_UsuariosSistema_js__WEBPACK_IMPORTED_MODULE_1__["default"], {
         showToast: showToast
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tab-pane container fade",
         id: "medicos"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MedicosSistema_js__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_containers_Medicos_MedicosSistema_js__WEBPACK_IMPORTED_MODULE_2__["default"], {
         showToast: showToast
       }))));
     }
@@ -87667,6 +86819,121 @@ if (document.getElementById('reportesContent')) {
 
 /***/ }),
 
+/***/ "./resources/js/components/Selector/index.js":
+/*!***************************************************!*\
+  !*** ./resources/js/components/Selector/index.js ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var fuse_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! fuse.js */ "./node_modules/fuse.js/dist/fuse.esm.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+var index = /*#__PURE__*/function (_Component) {
+  _inherits(index, _Component);
+
+  var _super = _createSuper(index);
+
+  function index(props) {
+    var _this;
+
+    _classCallCheck(this, index);
+
+    _this = _super.call(this, props);
+    _this.state = {
+      options: {
+        useExtendedSearch: true,
+        findAllMatches: true,
+        minMatchCharLength: 1,
+        threshold: 0,
+        keys: [_this.props.keyx]
+      }
+    };
+    _this.handleBuscar = _this.handleBuscar.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(index, [{
+    key: "handleBuscar",
+    value: function handleBuscar() {
+      var selection = document.getElementById('selector_' + this.props.tag).value;
+
+      if (selection != '*') {
+        var fuse = new fuse_js__WEBPACK_IMPORTED_MODULE_1__["default"](this.props.list, this.state.options);
+        var result = fuse.search(selection);
+        var tmp = '';
+        Object.keys(result).map(function (key) {
+          return tmp = [].concat(_toConsumableArray(tmp), [result[key].item]);
+        });
+        this.props.toRender(tmp);
+      } else {
+        this.props.toRender(this.props.list);
+      }
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      if (this.props.auto) {
+        this.handleBuscar();
+      }
+
+      var children = this.props.children;
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        id: 'selector_' + this.props.tag,
+        className: "form-control col-3",
+        defaultValue: "*",
+        name: "tipo",
+        onChange: this.handleBuscar
+      }, children));
+    }
+  }]);
+
+  return index;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+
+/* harmony default export */ __webpack_exports__["default"] = (index);
+
+/***/ }),
+
 /***/ "./resources/js/components/TableCausas.js":
 /*!************************************************!*\
   !*** ./resources/js/components/TableCausas.js ***!
@@ -88155,57 +87422,6 @@ function TableJuridicas(props) {
 
 /***/ }),
 
-/***/ "./resources/js/components/TableMedicos.js":
-/*!*************************************************!*\
-  !*** ./resources/js/components/TableMedicos.js ***!
-  \*************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TableMedicos; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
-
-
-
-function TableMedicos(props) {
-  var eliminar = function eliminar(u) {
-    props.handleEliminar(u.target.id);
-  };
-
-  var editar = function editar(u) {
-    console.log(u.target.name);
-    var name = u.target.name.split('/');
-    props.handleEdition(u.target.id, name);
-  };
-
-  var medicos = props.medicos;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, Object.keys(medicos).map(function (key) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
-      key: key
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, medicos[key]['cod_medico']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, medicos[key]['tipo_documento']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, medicos[key]['num_documento']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, medicos[key]['nombre']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, medicos[key]['reg_medico']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, medicos[key]['email']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, medicos[key]['especialidad']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-      className: "btn btn-warning btn-sm",
-      id: medicos[key]['id'],
-      name: medicos[key]['cod_medico'] + '/' + medicos[key]['tipo_documento'] + '/' + medicos[key]['num_documento'] + '/' + medicos[key]['nombre'] + '/' + medicos[key]['reg_medico'] + '/' + medicos[key]['especialidad'] + '/' + medicos[key]['email'],
-      onClick: editar
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-      className: "far fa-edit"
-    })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-      className: "btn btn-danger btn-sm",
-      id: medicos[key]['id'],
-      onClick: eliminar
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-      className: "fas fa-trash-alt"
-    }))));
-  }));
-}
-
-/***/ }),
-
 /***/ "./resources/js/components/TableReportes.js":
 /*!**************************************************!*\
   !*** ./resources/js/components/TableReportes.js ***!
@@ -88245,54 +87461,6 @@ function TableReportes(props) {
       }));
     }))));
   }
-}
-
-/***/ }),
-
-/***/ "./resources/js/components/TableUsers.js":
-/*!***********************************************!*\
-  !*** ./resources/js/components/TableUsers.js ***!
-  \***********************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TableUsers; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
-
-
-
-function TableUsers(props) {
-  var eliminar = function eliminar(u) {
-    props.handleEliminar(u.target.id);
-  };
-
-  var editar = function editar(u) {
-    var name = u.target.name.split('/');
-    props.handleEdition(u.target.id, name[0], name[1], name[2]);
-  };
-
-  var users = props.users; //const { users } = this.state;
-
-  var userTypes = ["Admin", "Médico", "Auxiliar Pemel", "Admin Pemel", "Admin IPS", "Usuarios Admin"];
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, Object.keys(users).map(function (key) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
-      key: key
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, users[key]['name']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, users[key]['email']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, userTypes[users[key]['tipo']]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-      className: "btn btn-warning btn-sm",
-      id: users[key]['id'],
-      name: users[key]['name'] + '/' + users[key]['email'] + '/' + users[key]['tipo'],
-      onClick: editar
-    }, "Editar")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-      className: "btn btn-danger btn-sm",
-      id: users[key]['id'],
-      onClick: eliminar
-    }, "Eliminar")));
-  }));
 }
 
 /***/ }),
@@ -88358,706 +87526,6 @@ function TipoCotizanteSelect(props) {
     }, tc.descripcion);
   })));
 }
-
-/***/ }),
-
-/***/ "./resources/js/components/Usuarios/UsuariosSistema.scss":
-/*!***************************************************************!*\
-  !*** ./resources/js/components/Usuarios/UsuariosSistema.scss ***!
-  \***************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-var content = __webpack_require__(/*! !../../../../node_modules/css-loader!../../../../node_modules/postcss-loader/src??ref--7-2!../../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!./UsuariosSistema.scss */ "./node_modules/css-loader/index.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./resources/js/components/Usuarios/UsuariosSistema.scss");
-
-if(typeof content === 'string') content = [[module.i, content, '']];
-
-var transform;
-var insertInto;
-
-
-
-var options = {"hmr":true}
-
-options.transform = transform
-options.insertInto = undefined;
-
-var update = __webpack_require__(/*! ../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
-
-if(content.locals) module.exports = content.locals;
-
-if(false) {}
-
-/***/ }),
-
-/***/ "./resources/js/components/UsuariosSistema.js":
-/*!****************************************************!*\
-  !*** ./resources/js/components/UsuariosSistema.js ***!
-  \****************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _TableUsers_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TableUsers.js */ "./resources/js/components/TableUsers.js");
-/* harmony import */ var react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-bootstrap/Modal */ "./node_modules/react-bootstrap/esm/Modal.js");
-/* harmony import */ var _Buscador__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Buscador */ "./resources/js/components/Buscador/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var react_paginate__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-paginate */ "./node_modules/react-paginate/dist/react-paginate.js");
-/* harmony import */ var react_paginate__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react_paginate__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _Usuarios_UsuariosSistema_scss__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Usuarios/UsuariosSistema.scss */ "./resources/js/components/Usuarios/UsuariosSistema.scss");
-/* harmony import */ var _Usuarios_UsuariosSistema_scss__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_Usuarios_UsuariosSistema_scss__WEBPACK_IMPORTED_MODULE_6__);
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-
-
-
-
-
-
-
-
-var UsuariosSistema = /*#__PURE__*/function (_Component) {
-  _inherits(UsuariosSistema, _Component);
-
-  var _super = _createSuper(UsuariosSistema);
-
-  function UsuariosSistema(props) {
-    var _this;
-
-    _classCallCheck(this, UsuariosSistema);
-
-    _this = _super.call(this, props);
-    _this.state = {
-      users: '',
-      nombre: '',
-      correo: '',
-      nuevo: 'oculto',
-      modalOpen: false,
-      contraseña: '',
-      editarContraseña: false,
-      tipo: '',
-      confirmar: '',
-      errors: {
-        nombre: 'oculto',
-        correo: 'oculto',
-        tipo: 'oculto',
-        contraseña: 'oculto',
-        confirmar: 'oculto'
-      },
-      errorMensajes: {
-        nombre: '',
-        correo: '',
-        tipo: '',
-        contraseña: '',
-        confirmar: ''
-      },
-      fuse_options: {
-        useExtendedSearch: true,
-        findAllMatches: true,
-        minMatchCharLength: 2,
-        location: 0,
-        threshold: 0.3,
-        distance: 10,
-        ignoreFieldNorm: true,
-        keys: [{
-          name: 'name',
-          weight: 2
-        }, {
-          name: "email",
-          weight: 2
-        }]
-      },
-      IdEditar: '00',
-      data: [],
-      page: [],
-      perPage: 10,
-      offset: 0,
-      currentPage: 0,
-      pageCount: 0
-    }; // bind
-
-    _this.getSystemUsers = _this.getSystemUsers.bind(_assertThisInitialized(_this));
-    _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
-    _this.validarForm = _this.validarForm.bind(_assertThisInitialized(_this));
-    _this.clearErrors = _this.clearErrors.bind(_assertThisInitialized(_this));
-    _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
-    _this.handleCreate = _this.handleCreate.bind(_assertThisInitialized(_this));
-    _this.handleEdition = _this.handleEdition.bind(_assertThisInitialized(_this));
-    _this.handleEliminar = _this.handleEliminar.bind(_assertThisInitialized(_this));
-    _this.handleCerrarModal = _this.handleCerrarModal.bind(_assertThisInitialized(_this));
-    _this.handleGuardar = _this.handleGuardar.bind(_assertThisInitialized(_this));
-    _this.handleEditPassword = _this.handleEditPassword.bind(_assertThisInitialized(_this));
-    _this.handleListar = _this.handleListar.bind(_assertThisInitialized(_this));
-    _this.getData = _this.getData.bind(_assertThisInitialized(_this));
-    _this.handlePageClick = _this.handlePageClick.bind(_assertThisInitialized(_this));
-    return _this;
-  }
-
-  _createClass(UsuariosSistema, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      this.getSystemUsers();
-    }
-  }, {
-    key: "handleCreate",
-    value: function handleCreate() {
-      this.setState({
-        nuevo: 'visible'
-      });
-    }
-  }, {
-    key: "handleChange",
-    value: function handleChange(_ref) {
-      var target = _ref.target;
-      this.setState(_defineProperty({}, target.name, target.value));
-      console.log(this.state);
-    }
-  }, {
-    key: "handleEdition",
-    value: function handleEdition(id, usuario, correo, tipo) {
-      this.setState({
-        nombre: usuario,
-        correo: correo,
-        tipo: tipo,
-        modalOpen: true,
-        IdEditar: id
-      });
-      console.log('Edit: ', this.state);
-    }
-  }, {
-    key: "handleListar",
-    value: function handleListar(arg) {
-      var _this2 = this;
-
-      if (arg) {
-        this.setState({
-          page: arg
-        }, function () {
-          _this2.getData();
-        });
-      } else {
-        this.getSystemUsers();
-      }
-    }
-  }, {
-    key: "handleCerrarModal",
-    value: function handleCerrarModal() {
-      this.setState({
-        nombre: '',
-        correo: '',
-        tipo: '',
-        modalOpen: false
-      });
-    }
-  }, {
-    key: "handleEliminar",
-    value: function handleEliminar(id) {
-      var _this3 = this;
-
-      var url = "usuario/user/".concat(id, "/eliminar");
-      axios__WEBPACK_IMPORTED_MODULE_4___default.a["delete"](url).then(function (resp) {
-        _this3.props.showToast(resp.data.data, 'success');
-
-        _this3.getSystemUsers();
-
-        _this3.setState({
-          users: _this3.state.users
-        });
-      })["catch"](function (err) {
-        console.log(err);
-      });
-    }
-  }, {
-    key: "handleSubmit",
-    value: function handleSubmit(e) {
-      var _this4 = this;
-
-      e.preventDefault();
-      var resp = this.validarForm();
-      var url = 'usuario/user/agregar';
-
-      if (resp) {
-        axios__WEBPACK_IMPORTED_MODULE_4___default.a.post(url, {
-          name: this.state.nombre,
-          email: this.state.correo,
-          password: this.state.contraseña,
-          tipo: this.state.tipo
-        }).then(function (resp) {
-          var user = resp.data.row;
-
-          _this4.setState({
-            users: [].concat(_toConsumableArray(_this4.state.users), [user]),
-            nuevo: 'oculto'
-          });
-
-          _this4.props.showToast('Datos almacenados', 'success'); // alert("Datos almacenados")
-
-        })["catch"](function (err) {
-          _this4.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
-        });
-      }
-    }
-  }, {
-    key: "validarForm",
-    value: function validarForm() {
-      this.clearErrors();
-      var editarContraseña = this.state.editarContraseña;
-      var resp = true;
-      var newState = Object.assign({}, this.state);
-      Object.entries(this.state).map(function (_ref2) {
-        var _ref3 = _slicedToArray(_ref2, 2),
-            key = _ref3[0],
-            value = _ref3[1];
-
-        if (value == '' && key != 'modalOpen' && editarContraseña) {
-          newState.errors[key] = "visible";
-          console.log(key);
-          newState.errorMensajes[key] = key + " requerido";
-          resp = false;
-        }
-      });
-
-      if (resp && editarContraseña) {
-        if (newState.contraseña != newState.confirmar) {
-          newState.errors.contraseña = "visible";
-          newState.errorMensajes.contraseña = "Contraseñas no coinciden";
-          resp = false;
-        }
-      }
-
-      this.setState(newState);
-      return resp;
-    }
-  }, {
-    key: "clearErrors",
-    value: function clearErrors() {
-      var newState = Object.assign({}, this.state); // console.log(Object.entries(newState));
-
-      Object.keys(newState.errors).forEach(function (key) {
-        newState.errors[key] = "oculto";
-      });
-      this.setState(newState);
-      var newState2 = Object.assign({}, this.state);
-      Object.keys(newState2.errorMensajes).forEach(function (key) {
-        newState2.errorMensajes[key] = '';
-      }); //console.log(newState);
-
-      this.setState(newState2);
-    }
-  }, {
-    key: "getSystemUsers",
-    value: function getSystemUsers() {
-      var _this5 = this;
-
-      var url = 'getSystemUsers';
-      axios__WEBPACK_IMPORTED_MODULE_4___default.a.get(url).then(function (resp) {
-        _this5.setState({
-          page: resp.data.data,
-          data: resp.data.data
-        }, function () {
-          _this5.getData();
-        });
-      })["catch"](function (err) {
-        console.log(err);
-      });
-    }
-  }, {
-    key: "handleGuardar",
-    value: function handleGuardar(e) {
-      var _this6 = this;
-
-      e.preventDefault();
-      var id = this.state.IdEditar;
-      var url = "usuario/user/".concat(id, "/editar");
-      var resp = this.validarForm();
-
-      if (resp) {
-        axios__WEBPACK_IMPORTED_MODULE_4___default.a.put(url, {
-          name: this.state.nombre,
-          email: this.state.correo,
-          password: this.state.contraseña,
-          tipo: this.state.tipo
-        }).then(function (resp) {
-          _this6.getSystemUsers();
-
-          _this6.setState({
-            users: _toConsumableArray(_this6.state.users)
-          });
-
-          _this6.handleCerrarModal();
-
-          _this6.props.showToast('Datos Actualizados', 'success'); // alert("Datos almacenados")
-
-        })["catch"](function (err) {
-          _this6.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
-        });
-      }
-    }
-  }, {
-    key: "handleEditPassword",
-    value: function handleEditPassword() {
-      if (!this.state.editarContraseña) {
-        this.setState({
-          editarContraseña: true
-        });
-      } else {
-        this.setState({
-          editarContraseña: false
-        });
-      }
-    }
-  }, {
-    key: "getData",
-    value: function getData() {
-      var data = this.state.page;
-      var slice = data.slice(this.state.offset, this.state.offset + this.state.perPage);
-      this.setState({
-        users: slice,
-        pageCount: Math.ceil(data.length / this.state.perPage)
-      });
-    }
-  }, {
-    key: "handlePageClick",
-    value: function handlePageClick(e) {
-      var _this7 = this;
-
-      var selectedPage = e.selected;
-      var offset = selectedPage * this.state.perPage;
-      this.setState({
-        currentPage: selectedPage,
-        offset: offset
-      }, function () {
-        _this7.getData();
-      });
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var _this8 = this;
-
-      var _this$state = this.state,
-          users = _this$state.users,
-          editarContraseña = _this$state.editarContraseña;
-
-      var textButton = function textButton() {
-        if (!editarContraseña) {
-          return 'Editar contraseña';
-        } else {
-          return 'No editar contraseña';
-        }
-      };
-
-      var editpassword = function editpassword() {
-        if (editarContraseña) {
-          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("article", {
-            className: "form-group"
-          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: "form-group"
-          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-            htmlFor: "codigo"
-          }, "Contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-            type: "password",
-            className: "form-control form-control-sm",
-            name: "contrase\xF1a",
-            onChange: _this8.handleChange,
-            required: true
-          })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: _this8.state.errors['contraseña']
-          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: "redf  " + (_this8.state.errors['contraseña'] || "")
-          }, _this8.state.errorMensajes['contraseña'])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: "form-group"
-          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-            htmlFor: "codigo"
-          }, "Confirmar contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-            type: "password",
-            className: "form-control form-control-sm",
-            name: "confirmar",
-            onChange: _this8.handleChange,
-            required: true
-          })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: _this8.state.errors['confirmar']
-          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            className: "redf  " + (_this8.state.errors['confirmar'] || "")
-          }, _this8.state.errorMensajes['confirmar'])));
-        }
-      };
-
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "btn btn-success btn-sm",
-        onClick: this.handleCreate
-      }, "+ Crear"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Buscador__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        list: this.state.data,
-        options: this.state.fuse_options,
-        toRender: function toRender(arg) {
-          return _this8.handleListar(arg);
-        }
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-        className: "row mt-5"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: this.state.nuevo
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-md-12"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "card"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "card-header bg2 titulo"
-      }, "Usuarios "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "card-body texto"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-        onSubmit: this.handleSubmit
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "form-group"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "row"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-md-4"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "nombre"
-      }, "Nombre"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "text",
-        className: "form-control",
-        id: "nombre",
-        name: "nombre",
-        onChange: this.handleChange,
-        value: this.state.nombre,
-        required: true
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-md-4"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "nombre"
-      }, "Correo electr\xF3nico"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "email",
-        className: "form-control",
-        id: "correo",
-        name: "correo",
-        onChange: this.handleChange,
-        value: this.state.correo,
-        required: true
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-md-2"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "nombre"
-      }, "Tipo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-        className: "form-control",
-        id: "tipo",
-        name: "tipo",
-        onChange: this.handleChange,
-        value: this.state.tipo,
-        required: true
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: ""
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "0"
-      }, "Admin"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "1"
-      }, "M\xE9dico"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "2"
-      }, "Auxiliar Pemel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "3"
-      }, "Admin Pemel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "4"
-      }, "Admin IPS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "5"
-      }, "Usuarios Admin")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "row"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-md-4"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "nombre"
-      }, "Contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "password",
-        className: "form-control",
-        id: "contrase\xF1a",
-        name: "contrase\xF1a",
-        onChange: this.handleChange,
-        required: true
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: this.state.errors['contraseña']
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "redf  " + (this.state.errors['contraseña'] || "")
-      }, this.state.errorMensajes['contraseña'])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-md-4"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "nombre"
-      }, "Confirmar Contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "password",
-        className: "form-control",
-        id: "confirmar",
-        name: "confirmar",
-        onChange: this.handleChange,
-        required: true
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: this.state.errors['confirmar']
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "redf  " + (this.state.errors['confirmar'] || "")
-      }, this.state.errorMensajes['confirmar'])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-md-2"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        type: "submit",
-        className: "btn btn-success btn-sm"
-      }, "Guardar")))))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "row mt-5"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-md-12"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "card"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "card-header bg2 titulo"
-      }, "Usuarios registrados"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "card-body texto"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
-        className: "table table-hover"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-        scope: "col"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-        scope: "col"
-      }, "Nombre"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-        scope: "col"
-      }, "Correo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-        scope: "col"
-      }, "Tipo"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TableUsers_js__WEBPACK_IMPORTED_MODULE_1__["default"], {
-        users: users,
-        handleEdition: this.handleEdition,
-        handleEliminar: this.handleEliminar
-      }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_paginate__WEBPACK_IMPORTED_MODULE_5___default.a, {
-        previousLabel: "<",
-        nextLabel: ">",
-        breakLabel: "...",
-        breakClassName: "break-me",
-        pageCount: this.state.pageCount,
-        marginPagesDisplayed: 2,
-        pageRangeDisplayed: 5,
-        onPageChange: this.handlePageClick,
-        containerClassName: "pagination",
-        subContainerClassName: "pages pagination",
-        activeClassName: "active"
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        show: this.state.modalOpen
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_2__["default"].Header, null, "Usuario"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_2__["default"].Body, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-        className: "container",
-        id: "editarUsuario",
-        onSubmit: this.handleGuardar
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "row"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-12"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "form-group"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "codigo"
-      }, "Nombre"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "text",
-        className: "form-control form-control-sm",
-        name: "nombre",
-        defaultValue: this.state.nombre,
-        onChange: this.handleChange,
-        required: true
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "form-group"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "codigo"
-      }, "Correo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "email",
-        className: "form-control form-control-sm",
-        name: "correo",
-        defaultValue: this.state.correo,
-        onChange: this.handleChange,
-        required: true
-      })), editpassword(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "form-group"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "estado_causa"
-      }, "Tipo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-        className: "form-control form-control-sm",
-        name: "tipo",
-        defaultValue: this.state.tipo,
-        onChange: this.handleChange,
-        required: true
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: ""
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "0"
-      }, "Admin"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "1"
-      }, "M\xE9dico"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "2"
-      }, "Auxiliar Pemel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "3"
-      }, "Admin Pemel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "4"
-      }, "Admin IPS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
-        value: "5"
-      }, "Usuarios Admin")))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_2__["default"].Footer, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "btn btn-info btn-sm",
-        onClick: this.handleEditPassword
-      }, textButton()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        type: "submit",
-        form: "editarUsuario",
-        className: "btn btn-primary btn-sm"
-      }, "Guardar"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "btn btn-primary btn-sm",
-        onClick: this.handleCerrarModal
-      }, "Cerrar"))));
-    }
-  }]);
-
-  return UsuariosSistema;
-}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
-
-/* harmony default export */ __webpack_exports__["default"] = (UsuariosSistema);
-/*
-if (document.getElementById('menuUsuarios')) {
-    ReactDOM.render(<MenuUsuarios />, document.getElementById('menuUsuarios'));
-}
-*/
 
 /***/ }),
 
@@ -89250,6 +87718,1875 @@ function Test() {
 if (document.getElementById('test')) {
   react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Test, null), document.getElementById('test'));
 }
+
+/***/ }),
+
+/***/ "./resources/js/containers/Medicos/MedicosSistema.js":
+/*!***********************************************************!*\
+  !*** ./resources/js/containers/Medicos/MedicosSistema.js ***!
+  \***********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _TableMedicos_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TableMedicos.js */ "./resources/js/containers/Medicos/TableMedicos.js");
+/* harmony import */ var react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-bootstrap/Modal */ "./node_modules/react-bootstrap/esm/Modal.js");
+/* harmony import */ var _components_Buscador__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../components/Buscador */ "./resources/js/components/Buscador/index.js");
+/* harmony import */ var _components_Selector__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../components/Selector */ "./resources/js/components/Selector/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var react_paginate__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-paginate */ "./node_modules/react-paginate/dist/react-paginate.js");
+/* harmony import */ var react_paginate__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react_paginate__WEBPACK_IMPORTED_MODULE_6__);
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+
+
+
+
+
+var MedicosSistema = /*#__PURE__*/function (_Component) {
+  _inherits(MedicosSistema, _Component);
+
+  var _super = _createSuper(MedicosSistema);
+
+  function MedicosSistema(props) {
+    var _this;
+
+    _classCallCheck(this, MedicosSistema);
+
+    _this = _super.call(this, props);
+    _this.state = {
+      medicos: '',
+      codigoMedico: '',
+      tipoDocumento: '',
+      numeroDocumento: '',
+      registroMedico: '',
+      correo: '',
+      nuevo: 'oculto',
+      editarContraseña: false,
+      modalOpen: false,
+      nombre: '',
+      especialidad: '',
+      contraseña: '',
+      confirmar: '',
+      user_id: '',
+      errors: {
+        codigoMedico: 'oculto',
+        tipoDocumento: 'oculto',
+        registroMedico: 'oculto',
+        correo: 'oculto',
+        epecialidad: 'oculto',
+        contraseña: 'oculto',
+        confirmar: 'oculto'
+      },
+      errorMensajes: {
+        codigoMedico: 'Código requerido',
+        tipoDocumento: 'Tipo requerido',
+        registroMedico: 'Registro requerido',
+        correo: 'Correo requerido',
+        epecialidad: 'Especialidad requerida',
+        contraseña: 'Contraseña requerida',
+        confirmar: 'Repita contraseña'
+      },
+      fuse_options: {
+        useExtendedSearch: true,
+        findAllMatches: true,
+        minMatchCharLength: 2,
+        location: 0,
+        threshold: 0.3,
+        distance: 10,
+        ignoreFieldNorm: true,
+        keys: [{
+          name: 'nombre',
+          weight: 2
+        }, "reg_medico", {
+          name: "email",
+          weight: 2
+        }, {
+          name: "num_documento",
+          weight: 2
+        }]
+      },
+      IdEditar: '00',
+      buscador: [],
+      selector: [],
+      tabla: [],
+      perPage: 10,
+      selector_auto: false,
+      offset: 0,
+      currentPage: 0,
+      pageCount: 0
+    }; // bind
+
+    _this.getMedicosUsers = _this.getMedicosUsers.bind(_assertThisInitialized(_this));
+    _this.renderUsers = _this.renderUsers.bind(_assertThisInitialized(_this));
+    _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
+    _this.handleEdition = _this.handleEdition.bind(_assertThisInitialized(_this));
+    _this.handleCreate = _this.handleCreate.bind(_assertThisInitialized(_this));
+    _this.handleEliminar = _this.handleEliminar.bind(_assertThisInitialized(_this));
+    _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
+    _this.clearErrors = _this.clearErrors.bind(_assertThisInitialized(_this));
+    _this.validarForm = _this.validarForm.bind(_assertThisInitialized(_this));
+    _this.handleCerrarModal = _this.handleCerrarModal.bind(_assertThisInitialized(_this));
+    _this.handleGuardar = _this.handleGuardar.bind(_assertThisInitialized(_this));
+    _this.handleListar = _this.handleListar.bind(_assertThisInitialized(_this));
+    _this.handleEditPassword = _this.handleEditPassword.bind(_assertThisInitialized(_this));
+    _this.getData = _this.getData.bind(_assertThisInitialized(_this));
+    _this.handlePageClick = _this.handlePageClick.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(MedicosSistema, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.getMedicosUsers();
+    }
+  }, {
+    key: "handleCreate",
+    value: function handleCreate() {
+      this.setState({
+        nuevo: 'visible'
+      });
+    }
+  }, {
+    key: "handleChange",
+    value: function handleChange(_ref) {
+      var target = _ref.target;
+      this.setState(_defineProperty({}, target.name, target.value));
+    }
+  }, {
+    key: "handleEdition",
+    value: function handleEdition(id, datos) {
+      this.setState({
+        modalOpen: true,
+        IdEditar: id,
+        codigoMedico: datos[0],
+        tipoDocumento: datos[1],
+        numeroDocumento: datos[2],
+        registroMedico: datos[4],
+        nombre: datos[3],
+        especialidad: datos[5],
+        correo: datos[6]
+      });
+    }
+  }, {
+    key: "handleEliminar",
+    value: function handleEliminar(id) {
+      var _this2 = this;
+
+      var url = "usuario/medico/".concat(id, "/eliminar");
+      axios__WEBPACK_IMPORTED_MODULE_5___default.a["delete"](url).then(function (resp) {
+        _this2.props.showToast(resp.data.data, 'success');
+
+        _this2.getMedicosUsers();
+
+        _this2.setState({
+          tabla: _this2.state.tabla
+        }, function () {
+          _this2.getData();
+        });
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    }
+  }, {
+    key: "handleCerrarModal",
+    value: function handleCerrarModal() {
+      this.setState({
+        modalOpen: false
+      });
+    }
+  }, {
+    key: "handleSubmit",
+    value: function handleSubmit(e) {
+      var _this3 = this;
+
+      e.preventDefault();
+      var resp = this.validarForm();
+
+      if (resp) {
+        var url = 'usuario/medico/agregar';
+        axios__WEBPACK_IMPORTED_MODULE_5___default.a.post(url, {
+          email: this.state.correo,
+          password: this.state.contraseña,
+          cod_medico: this.state.codigoMedico,
+          nombre: this.state.nombre,
+          tipo_documento: this.state.tipoDocumento,
+          num_documento: this.state.numeroDocumento,
+          reg_medico: this.state.registroMedico,
+          especialidad: this.state.especialidad
+        }).then(function (resp) {
+          var user = resp.data.row;
+
+          _this3.setState({
+            nuevo: 'oculto',
+            tabla: [].concat(_toConsumableArray(_this3.state.tabla), [user])
+          }, function () {
+            _this3.getData();
+          });
+
+          _this3.props.showToast('Datos almacenados', 'success'); // alert("Datos almacenados")
+
+        })["catch"](function (err) {
+          console.log(err);
+
+          _this3.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
+        });
+      }
+    }
+  }, {
+    key: "validarForm",
+    value: function validarForm() {
+      this.clearErrors();
+      var resp = true;
+      var newState = Object.assign({}, this.state);
+      /*
+      Object.entries(this.state).map(([key, value]) => {
+          if (value == ''){
+              newState.errors[key] = "visible";
+              //newState.errorMensajes[key] = key + " requerido";
+              resp = false;
+          }
+      });
+      */
+
+      if (resp && this.state.editarContraseña) {
+        if (newState.contraseña != newState.confirmar) {
+          newState.errors.contraseña = "visible";
+          newState.errorMensajes.contraseña = "Contraseñas no coinciden";
+          resp = false;
+        }
+      }
+
+      this.setState(newState);
+      return resp;
+    }
+  }, {
+    key: "clearErrors",
+    value: function clearErrors() {
+      var newState = Object.assign({}, this.state);
+      Object.keys(newState.errors).forEach(function (key) {
+        newState.errors[key] = "oculto";
+      });
+      this.setState(newState);
+      var newState2 = Object.assign({}, this.state);
+      Object.keys(newState2.errorMensajes).forEach(function (key) {// newState2.errorMensajes[key] = '';
+      });
+      this.setState(newState2);
+    }
+  }, {
+    key: "getMedicosUsers",
+    value: function getMedicosUsers() {
+      var _this4 = this;
+
+      var url = 'usuario/medico';
+      axios__WEBPACK_IMPORTED_MODULE_5___default.a.get(url).then(function (resp) {
+        _this4.setState({
+          buscador: resp.data.data,
+          selector: resp.data.data,
+          tabla: resp.data.data
+        }, function () {
+          _this4.getData();
+        });
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    }
+  }, {
+    key: "renderUsers",
+    value: function renderUsers() {
+      var medicos = this.state.medicos;
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, Object.keys(medicos).map(function (key) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+          key: key
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, medicos[key]['cod_medico']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, medicos[key]['tipo_documento']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, medicos[key]['num_documento']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, medicos[key]['nombre']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, medicos[key]['reg_medico']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, medicos[key]['especialidad']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+          className: "btn btn-warning btn-sm"
+        }, "Editar")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+          className: "btn btn-danger btn-sm"
+        }, "Eliminar")));
+      }));
+    }
+  }, {
+    key: "handleGuardar",
+    value: function handleGuardar(e) {
+      var _this5 = this;
+
+      e.preventDefault();
+      var id = this.state.IdEditar;
+      var url = "usuario/medico/".concat(id, "/editar");
+      var resp = this.validarForm();
+
+      if (resp) {
+        axios__WEBPACK_IMPORTED_MODULE_5___default.a.put(url, {
+          password: this.state.contraseña,
+          email: this.state.correo,
+          cod_medico: this.state.codigoMedico,
+          nombre: this.state.nombre,
+          tipo_documento: this.state.tipoDocumento,
+          num_documento: this.state.numeroDocumento,
+          reg_medico: this.state.registroMedico,
+          especialidad: this.state.especialidad
+        }).then(function (resp) {
+          _this5.getMedicosUsers();
+
+          _this5.setState({
+            tabla: _toConsumableArray(_this5.state.tabla)
+          }, function () {
+            _this5.getData();
+          });
+
+          _this5.handleCerrarModal();
+
+          _this5.props.showToast('Datos Actualizados', 'success'); // alert("Datos almacenados")
+
+        })["catch"](function (err) {
+          _this5.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
+        });
+      }
+    }
+  }, {
+    key: "handleEditPassword",
+    value: function handleEditPassword() {
+      if (!this.state.editarContraseña) {
+        this.setState({
+          editarContraseña: true
+        });
+      } else {
+        this.setState({
+          editarContraseña: false
+        });
+      }
+    }
+  }, {
+    key: "handleListar",
+    value: function handleListar(arg, tipo) {
+      var _this6 = this;
+
+      var selectedPage = 0;
+      var offset = selectedPage * this.state.perPage;
+      this.setState({
+        currentPage: selectedPage,
+        offset: offset
+      }, function () {
+        _this6.getData();
+      });
+
+      if (arg && !tipo) {
+        this.setState({
+          selector: arg,
+          selector_auto: true,
+          currentPage: 0
+        });
+      } else if (arg && tipo) {
+        this.setState({
+          tabla: arg,
+          selector_auto: false,
+          currentPage: 0
+        }, function () {
+          _this6.getData();
+        });
+      } else {
+        this.setState({
+          tabla: [],
+          selector_auto: false,
+          currentPage: 0
+        }, function () {
+          _this6.getData();
+        });
+      }
+    }
+  }, {
+    key: "getData",
+    value: function getData() {
+      var tabla = this.state.tabla;
+      var slice = tabla.slice(this.state.offset, this.state.offset + this.state.perPage);
+      this.setState({
+        medicos: slice,
+        pageCount: Math.ceil(tabla.length / this.state.perPage)
+      });
+    }
+  }, {
+    key: "handlePageClick",
+    value: function handlePageClick(e) {
+      var _this7 = this;
+
+      var selectedPage = e.selected;
+      var offset = selectedPage * this.state.perPage;
+      this.setState({
+        currentPage: selectedPage,
+        offset: offset
+      }, function () {
+        _this7.getData();
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this8 = this;
+
+      var _this$state = this.state,
+          medicos = _this$state.medicos,
+          editarContraseña = _this$state.editarContraseña;
+
+      var textButton = function textButton() {
+        if (!editarContraseña) {
+          return 'Editar contraseña';
+        } else {
+          return 'No editar contraseña';
+        }
+      };
+
+      var editpassword = function editpassword() {
+        if (editarContraseña) {
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("article", {
+            className: "form-group"
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "form-group"
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+            htmlFor: "codigo"
+          }, "Contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+            pattern: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{8,20}$",
+            title: "al menos una mayuscula,\r al menos una minuscula,\r al menos un n\xFAmero,\r al menos un caracter especial,\r sin espacios",
+            type: "password",
+            className: "form-control",
+            id: "contrase\xF1a",
+            name: "contrase\xF1a",
+            onChange: _this8.handleChange,
+            required: true
+          })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: _this8.state.errors['contraseña']
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "redf  " + (_this8.state.errors['contraseña'] || "")
+          }, _this8.state.errorMensajes['contraseña'])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "form-group"
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+            htmlFor: "codigo"
+          }, "Confirmar contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+            pattern: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{8,20}$",
+            title: "al menos una mayuscula,\r al menos una minuscula,\r al menos un n\xFAmero,\r al menos un caracter especial,\r sin espacios",
+            type: "password",
+            className: "form-control",
+            id: "confirmar",
+            name: "confirmar",
+            onChange: _this8.handleChange,
+            required: true
+          })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: _this8.state.errors['confirmar']
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "redf  " + (_this8.state.errors['confirmar'] || "")
+          }, _this8.state.errorMensajes['confirmar'])));
+        }
+      };
+
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "btn btn-success btn-sm",
+        onClick: this.handleCreate
+      }, "+ Crear"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("article", {
+        className: "row mt-5"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: this.state.nuevo
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card-header bg2 titulo"
+      }, "M\xE9dicos "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card-body texto"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        onSubmit: this.handleSubmit
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "codigoMedico"
+      }, "C\xF3digo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-control",
+        id: "codigoMedico",
+        name: "codigoMedico",
+        onChange: this.handleChange,
+        defaultValue: this.state.codigoMedico,
+        required: true
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: this.state.errors['codigoMedico']
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "redf  " + (this.state.errors['codigoMedico'] || "")
+      }, this.state.errorMensajes['codigoMedico']))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "tipoDocumento"
+      }, "Tipo documento"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        className: "form-control",
+        id: "tipoDocumento",
+        name: "tipoDocumento",
+        onChange: this.handleChange,
+        defaultValue: this.state.tipoDocumento,
+        required: true
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: ""
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "CC"
+      }, "CC"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "NIT"
+      }, "NIT"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "TI"
+      }, "TI"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "CE"
+      }, "CE"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "PA"
+      }, "PA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "RC"
+      }, "RC"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "NUIP"
+      }, "NUIP"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "MS"
+      }, "MS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "CN"
+      }, "CN")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: this.state.errors['tipoDocumento']
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "redf  " + (this.state.errors['tipoDocumento'] || "")
+      }, this.state.errorMensajes['tipoDocumento']))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "numeroDocumento"
+      }, "No. Documento"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-control",
+        id: "numeroDocumento",
+        name: "numeroDocumento",
+        onChange: this.handleChange,
+        defaultValue: this.state.numeroDocumento,
+        required: true
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-3"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "registroMedico"
+      }, "No. Registro"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-control",
+        id: "registroMedico",
+        name: "registroMedico",
+        onChange: this.handleChange,
+        defaultValue: this.state.registroMedico,
+        required: true
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "nombre"
+      }, "Nombre"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-control",
+        id: "nombre",
+        name: "nombre",
+        onChange: this.handleChange,
+        defaultValue: this.state.nombreUsaurio,
+        value: this.state.nombre,
+        required: true
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "nombre"
+      }, "Correo electr\xF3nico"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "email",
+        className: "form-control",
+        id: "correo",
+        name: "correo",
+        onChange: this.handleChange,
+        defaultValue: this.state.correo,
+        required: true
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "especialidadMedica"
+      }, "Especialidad m\xE9dica"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        id: "especialidad",
+        className: "form-control",
+        name: "especialidad",
+        onChange: this.handleChange,
+        defaultValue: this.state.especialidad,
+        required: true
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: ""
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "1"
+      }, "M\xE9dico general"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "2"
+      }, "M\xE9dico especialista"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "5"
+      }, "M\xE9dico laboral"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "3"
+      }, "Odont\xF3logo general"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "4"
+      }, "Odont\xF3logo especialista")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "nombre"
+      }, "Contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        pattern: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{8,20}$",
+        title: "al menos una mayuscula,\r al menos una minuscula,\r al menos un n\xFAmero,\r al menos un caracter especial,\r sin espacios",
+        type: "password",
+        className: "form-control",
+        id: "contrase\xF1a",
+        name: "contrase\xF1a",
+        onChange: this.handleChange,
+        required: true
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: this.state.errors['contraseña']
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "redf  " + (this.state.errors['contraseña'] || "")
+      }, this.state.errorMensajes['contraseña'])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "nombre"
+      }, "Confirmar Contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        pattern: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{8,20}$",
+        title: "al menos una mayuscula,\r al menos una minuscula,\r al menos un n\xFAmero,\r al menos un caracter especial,\r sin espacios",
+        type: "password",
+        className: "form-control",
+        id: "confirmar",
+        name: "confirmar",
+        onChange: this.handleChange,
+        required: true
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: this.state.errors['confirmar']
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "redf  " + (this.state.errors['confirmar'] || "")
+      }, this.state.errorMensajes['confirmar'])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "rethus"
+      }, "Rethus"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        className: "form-control",
+        id: "rethus",
+        name: "rethus",
+        onChange: this.handleChange,
+        defaultValue: this.state.rethus
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: ""
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "Si"
+      }, "Si"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "No"
+      }, "No"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        type: "submit",
+        className: "btn btn-success btn-sm"
+      }, "Guardar"))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("article", {
+        className: "container"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
+        className: "row justify-content-between"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Buscador__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        list: this.state.buscador,
+        options: this.state.fuse_options,
+        toRender: function toRender(arg) {
+          return _this8.handleListar(arg, false);
+        }
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Selector__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        list: this.state.selector,
+        keyx: "especialidad",
+        auto: this.state.selector_auto,
+        toRender: function toRender(arg) {
+          return _this8.handleListar(arg, true);
+        },
+        tag: "medico"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "*"
+      }, "Todos"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "1"
+      }, "M\xE9dico general"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "2"
+      }, "M\xE9dico especialista"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "5"
+      }, "M\xE9dico laboral"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "3"
+      }, "Odont\xF3logo general"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "4"
+      }, "Odont\xF3logo especialista"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row mt-5"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card-header bg2 titulo"
+      }, "Medicos registrados"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card-body texto"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+        className: "table table-hover"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+        scope: "col"
+      }, "C\xF3digo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+        scope: "col"
+      }, "Tipo Doc"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+        scope: "col"
+      }, "No"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+        scope: "col"
+      }, "Nombre"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+        scope: "col"
+      }, "Registro"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+        scope: "col"
+      }, "Correo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+        scope: "col"
+      }, "Especialidad"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TableMedicos_js__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        medicos: medicos,
+        handleEdition: this.handleEdition,
+        handleEliminar: this.handleEliminar
+      }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_paginate__WEBPACK_IMPORTED_MODULE_6___default.a, {
+        previousLabel: "<",
+        nextLabel: ">",
+        breakLabel: "...",
+        breakClassName: "break-me",
+        pageCount: this.state.pageCount,
+        marginPagesDisplayed: 2,
+        pageRangeDisplayed: 5,
+        onPageChange: this.handlePageClick,
+        containerClassName: "pagination",
+        subContainerClassName: "pages pagination",
+        activeClassName: "active",
+        forcePage: this.state.currentPage
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        show: this.state.modalOpen
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_2__["default"].Header, null, "Medico"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_2__["default"].Body, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "container"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        id: "editarMedico",
+        onSubmit: this.handleGuardar
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "codigo"
+      }, "C\xF3digo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-control form-control-sm",
+        name: "codigoMedico",
+        defaultValue: this.state.codigoMedico,
+        onChange: this.handleChange,
+        required: true
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "tipoDocumento"
+      }, "Tipo Documento"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        className: "form-control form-control-sm",
+        name: "tipoDocumento",
+        defaultValue: this.state.tipoDocumento,
+        onChange: this.handleChange,
+        required: true
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: ""
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "CC"
+      }, "CC"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "NIT"
+      }, "NIT"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "TI"
+      }, "TI"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "CE"
+      }, "CE"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "PA"
+      }, "PA"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "RC"
+      }, "RC"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "NUIP"
+      }, "NUIP"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "MS"
+      }, "MS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "CN"
+      }, "CN"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "codigo"
+      }, "No. Documento"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-control form-control-sm",
+        name: "numeroDocumento",
+        defaultValue: this.state.numeroDocumento,
+        onChange: this.handleChange,
+        required: true
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "codigo"
+      }, "No. Registro"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-control form-control-sm",
+        name: "registroMedico",
+        defaultValue: this.state.registroMedico,
+        onChange: this.handleChange,
+        required: true
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "codigo"
+      }, "Nombre"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-control form-control-sm",
+        name: "nombre",
+        defaultValue: this.state.nombre,
+        onChange: this.handleChange,
+        required: true
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "codigo"
+      }, "Correo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-control form-control-sm",
+        name: "correo",
+        defaultValue: this.state.correo,
+        onChange: this.handleChange,
+        required: true
+      })), editpassword(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "especialidadMedica"
+      }, "Especialidad m\xE9dica"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        className: "form-control form-control-sm",
+        name: "especialidad",
+        defaultValue: this.state.especialidad,
+        onChange: this.handleChange,
+        required: true
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: ""
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "1"
+      }, "M\xE9dico general"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "2"
+      }, "M\xE9dico especialista"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "5"
+      }, "M\xE9dico laboral"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "3"
+      }, "Odont\xF3logo general"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "4"
+      }, "Odont\xF3logo especialista"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "estado_causa"
+      }, "Rethus"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        className: "form-control form-control-sm",
+        name: "rethus",
+        onChange: this.handleChange
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: ""
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "Si"
+      }, "Si"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "No"
+      }, "No")))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_2__["default"].Footer, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "btn btn-info btn-sm",
+        onClick: this.handleEditPassword
+      }, textButton()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        type: "submit",
+        form: "editarMedico",
+        className: "btn btn-primary btn-sm"
+      }, "Guardar"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "btn btn-primary btn-sm",
+        onClick: this.handleCerrarModal
+      }, "Cerrar"))));
+    }
+  }]);
+
+  return MedicosSistema;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+
+/* harmony default export */ __webpack_exports__["default"] = (MedicosSistema);
+
+/***/ }),
+
+/***/ "./resources/js/containers/Medicos/TableMedicos.js":
+/*!*********************************************************!*\
+  !*** ./resources/js/containers/Medicos/TableMedicos.js ***!
+  \*********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TableMedicos; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _TableMedicos_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TableMedicos.scss */ "./resources/js/containers/Medicos/TableMedicos.scss");
+/* harmony import */ var _TableMedicos_scss__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_TableMedicos_scss__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function TableMedicos(props) {
+  var eliminar = function eliminar(u) {
+    props.handleEliminar(u.target.id);
+  };
+
+  var editar = function editar(u) {
+    console.log(u.target.name);
+    var name = u.target.name.split('/');
+    props.handleEdition(u.target.id, name);
+  };
+
+  var medicos = props.medicos;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, Object.keys(medicos).map(function (key) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+      key: key
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, medicos[key]['cod_medico']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, medicos[key]['tipo_documento']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, medicos[key]['num_documento']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, medicos[key]['nombre']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, medicos[key]['reg_medico']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, medicos[key]['email']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, medicos[key]['especialidad']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      className: "btn btn-warning btn-sm",
+      id: medicos[key]['id'],
+      name: medicos[key]['cod_medico'] + '/' + medicos[key]['tipo_documento'] + '/' + medicos[key]['num_documento'] + '/' + medicos[key]['nombre'] + '/' + medicos[key]['reg_medico'] + '/' + medicos[key]['especialidad'] + '/' + medicos[key]['email'],
+      onClick: editar
+<<<<<<< HEAD
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+      className: "far fa-edit"
+    })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+=======
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+      className: "far fa-edit"
+    }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+>>>>>>> 4f6a473a849d68f74b92d050478a1de5b9c1092a
+      className: "btn btn-danger btn-sm",
+      id: medicos[key]['id'],
+      onClick: eliminar
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+      className: "fas fa-trash-alt"
+    }))));
+  }));
+}
+
+/***/ }),
+
+/***/ "./resources/js/containers/Medicos/TableMedicos.scss":
+/*!***********************************************************!*\
+  !*** ./resources/js/containers/Medicos/TableMedicos.scss ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../node_modules/css-loader!../../../../node_modules/postcss-loader/src??ref--7-2!../../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!./TableMedicos.scss */ "./node_modules/css-loader/index.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./resources/js/containers/Medicos/TableMedicos.scss");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
+/***/ "./resources/js/containers/Usuarios/TableUsers.js":
+/*!********************************************************!*\
+  !*** ./resources/js/containers/Usuarios/TableUsers.js ***!
+  \********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TableUsers; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+function TableUsers(props) {
+  var desbloquear = function desbloquear(u) {
+    props.handleDesbloquear(u.target.id);
+  };
+
+  var eliminar = function eliminar(u) {
+    props.handleEliminar(u.target.id);
+  };
+
+  var editar = function editar(u) {
+    var name = u.target.name.split('/');
+    props.handleEdition(u.target.id, name[0], name[1], name[2]);
+  };
+
+  var users = props.users;
+  console.log('RAUL', users);
+  var userTypes = ["Admin", "Médico", "Auxiliar Pemel", "Admin Pemel", "Admin IPS", "Usuarios Admin"];
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, Object.keys(users).map(function (key) {
+    return users[key]['session'] == 'banned' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+      className: "text-danger",
+      key: key
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, users[key]['name']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, users[key]['email']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, userTypes[users[key]['tipo']]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      className: "btn btn-info btn-sm",
+      id: users[key]['id'],
+      onClick: desbloquear
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+      className: "fas fa-user-slash"
+    }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      className: "btn btn-warning btn-sm",
+      id: users[key]['id'],
+      name: users[key]['name'] + '/' + users[key]['email'] + '/' + users[key]['tipo'],
+      onClick: editar
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+      className: "far fa-edit"
+    }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      className: "btn btn-danger btn-sm",
+      id: users[key]['id'],
+      onClick: eliminar
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+      className: "fas fa-trash-alt"
+    })))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+      key: key
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, users[key]['name']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, users[key]['email']), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, userTypes[users[key]['tipo']]), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      className: "btn btn-warning btn-sm",
+      id: users[key]['id'],
+      name: users[key]['name'] + '/' + users[key]['email'] + '/' + users[key]['tipo'],
+      onClick: editar
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+      className: "far fa-edit"
+    }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      className: "btn btn-danger btn-sm",
+      id: users[key]['id'],
+      onClick: eliminar
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+      className: "fas fa-trash-alt"
+    }))));
+  }));
+}
+
+/***/ }),
+
+/***/ "./resources/js/containers/Usuarios/UsuariosSistema.js":
+/*!*************************************************************!*\
+  !*** ./resources/js/containers/Usuarios/UsuariosSistema.js ***!
+  \*************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _TableUsers_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TableUsers.js */ "./resources/js/containers/Usuarios/TableUsers.js");
+/* harmony import */ var react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-bootstrap/Modal */ "./node_modules/react-bootstrap/esm/Modal.js");
+/* harmony import */ var _components_Buscador__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../components/Buscador */ "./resources/js/components/Buscador/index.js");
+/* harmony import */ var _components_Selector__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../components/Selector */ "./resources/js/components/Selector/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var react_paginate__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-paginate */ "./node_modules/react-paginate/dist/react-paginate.js");
+/* harmony import */ var react_paginate__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react_paginate__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _UsuariosSistema_scss__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./UsuariosSistema.scss */ "./resources/js/containers/Usuarios/UsuariosSistema.scss");
+/* harmony import */ var _UsuariosSistema_scss__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_UsuariosSistema_scss__WEBPACK_IMPORTED_MODULE_7__);
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+
+
+
+
+
+
+var UsuariosSistema = /*#__PURE__*/function (_Component) {
+  _inherits(UsuariosSistema, _Component);
+
+  var _super = _createSuper(UsuariosSistema);
+
+  function UsuariosSistema(props) {
+    var _this;
+
+    _classCallCheck(this, UsuariosSistema);
+
+    _this = _super.call(this, props);
+    _this.state = {
+      users: '',
+      nombre: '',
+      correo: '',
+      nuevo: 'oculto',
+      modalOpen: false,
+      contraseña: '',
+      editarContraseña: false,
+      tipo: '',
+      confirmar: '',
+      errors: {
+        nombre: 'oculto',
+        correo: 'oculto',
+        tipo: 'oculto',
+        contraseña: 'oculto',
+        confirmar: 'oculto'
+      },
+      errorMensajes: {
+        nombre: '',
+        correo: '',
+        tipo: '',
+        contraseña: '',
+        confirmar: ''
+      },
+      fuse_options: {
+        useExtendedSearch: true,
+        findAllMatches: true,
+        minMatchCharLength: 2,
+        location: 0,
+        threshold: 0.3,
+        distance: 10,
+        ignoreFieldNorm: true,
+        keys: [{
+          name: 'name',
+          weight: 2
+        }, {
+          name: "email",
+          weight: 2
+        }]
+      },
+      IdEditar: '00',
+      buscador: [],
+      selector: [],
+      tabla: [],
+      perPage: 10,
+      selector_auto: false,
+      offset: 0,
+      currentPage: 0,
+      pageCount: 0
+    }; // bind
+
+    _this.getSystemUsers = _this.getSystemUsers.bind(_assertThisInitialized(_this));
+    _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
+    _this.validarForm = _this.validarForm.bind(_assertThisInitialized(_this));
+    _this.clearErrors = _this.clearErrors.bind(_assertThisInitialized(_this));
+    _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
+    _this.handleCreate = _this.handleCreate.bind(_assertThisInitialized(_this));
+    _this.handleEdition = _this.handleEdition.bind(_assertThisInitialized(_this));
+    _this.handleEliminar = _this.handleEliminar.bind(_assertThisInitialized(_this));
+    _this.handleCerrarModal = _this.handleCerrarModal.bind(_assertThisInitialized(_this));
+    _this.handleGuardar = _this.handleGuardar.bind(_assertThisInitialized(_this));
+    _this.handleEditPassword = _this.handleEditPassword.bind(_assertThisInitialized(_this));
+    _this.handleListar = _this.handleListar.bind(_assertThisInitialized(_this));
+    _this.handleDesbloquear = _this.handleDesbloquear.bind(_assertThisInitialized(_this));
+    _this.getData = _this.getData.bind(_assertThisInitialized(_this));
+    _this.handlePageClick = _this.handlePageClick.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(UsuariosSistema, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.getSystemUsers();
+    }
+  }, {
+    key: "handleCreate",
+    value: function handleCreate() {
+      this.setState({
+        nuevo: 'visible'
+      });
+    }
+  }, {
+    key: "handleChange",
+    value: function handleChange(_ref) {
+      var target = _ref.target;
+      this.setState(_defineProperty({}, target.name, target.value));
+    }
+  }, {
+    key: "handleEdition",
+    value: function handleEdition(id, usuario, correo, tipo) {
+      this.setState({
+        nombre: usuario,
+        correo: correo,
+        tipo: tipo,
+        modalOpen: true,
+        IdEditar: id
+      });
+    }
+  }, {
+    key: "handleListar",
+    value: function handleListar(arg, tipo) {
+      var _this2 = this;
+
+      var selectedPage = 0;
+      var offset = selectedPage * this.state.perPage;
+      this.setState({
+        currentPage: selectedPage,
+        offset: offset
+      }, function () {
+        _this2.getData();
+      });
+
+      if (arg && !tipo) {
+        this.setState({
+          selector: arg,
+          selector_auto: true,
+          currentPage: 0
+        });
+      } else if (arg && tipo) {
+        this.setState({
+          tabla: arg,
+          selector_auto: false,
+          currentPage: 0
+        }, function () {
+          _this2.getData();
+        });
+      } else {
+        this.setState({
+          tabla: [],
+          selector_auto: false,
+          currentPage: 0
+        }, function () {
+          _this2.getData();
+        });
+      }
+    }
+  }, {
+    key: "handleCerrarModal",
+    value: function handleCerrarModal() {
+      this.setState({
+        nombre: '',
+        correo: '',
+        tipo: '',
+        modalOpen: false
+      });
+    }
+  }, {
+    key: "handleEliminar",
+    value: function handleEliminar(id) {
+      var _this3 = this;
+
+      var url = "usuario/user/".concat(id, "/eliminar");
+      axios__WEBPACK_IMPORTED_MODULE_5___default.a["delete"](url).then(function (resp) {
+        _this3.props.showToast(resp.data.data, 'success');
+
+        _this3.getSystemUsers();
+
+        _this3.setState({
+          tabla: _this3.state.tabla
+        }, function () {
+          _this3.getData();
+        });
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    }
+  }, {
+    key: "handleDesbloquear",
+    value: function handleDesbloquear(id) {
+      var _this4 = this;
+
+      var url = "usuario/user/".concat(id, "/desbloquear");
+      axios__WEBPACK_IMPORTED_MODULE_5___default.a.post(url).then(function (resp) {
+        _this4.getSystemUsers();
+
+        _this4.props.showToast('Usuario desbloqueado exitosamente', 'success');
+      })["catch"](function (err) {
+        _this4.props.showToast('¡Ups! Ha ocurrido un Error, por favor refresca la ventana e intenta nuevamente', 'error');
+
+        console.log(err);
+      });
+    }
+  }, {
+    key: "handleSubmit",
+    value: function handleSubmit(e) {
+      var _this5 = this;
+
+      e.preventDefault();
+      var resp = this.validarForm();
+      var url = 'usuario/user/agregar';
+
+      if (resp) {
+        axios__WEBPACK_IMPORTED_MODULE_5___default.a.post(url, {
+          name: this.state.nombre,
+          email: this.state.correo,
+          password: this.state.contraseña,
+          tipo: this.state.tipo
+        }).then(function (resp) {
+          var user = resp.data.row;
+
+          _this5.setState({
+            tabla: [].concat(_toConsumableArray(_this5.state.tabla), [user]),
+            nuevo: 'oculto'
+          }, function () {
+            _this5.getData();
+          });
+
+          _this5.props.showToast('Datos almacenados', 'success'); // alert("Datos almacenados")
+
+        })["catch"](function (err) {
+          _this5.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
+        });
+      }
+    }
+  }, {
+    key: "validarForm",
+    value: function validarForm() {
+      this.clearErrors();
+      var editarContraseña = this.state.editarContraseña;
+      var resp = true;
+      var newState = Object.assign({}, this.state);
+      Object.entries(this.state).map(function (_ref2) {
+        var _ref3 = _slicedToArray(_ref2, 2),
+            key = _ref3[0],
+            value = _ref3[1];
+
+        if (value == '' && key != 'modalOpen' && editarContraseña && value != 0) {
+          newState.errors[key] = "visible";
+          newState.errorMensajes[key] = key + " requerido";
+          resp = false;
+        }
+      });
+
+      if (resp && editarContraseña) {
+        if (newState.contraseña != newState.confirmar) {
+          newState.errors.contraseña = "visible";
+          newState.errorMensajes.contraseña = "Contraseñas no coinciden";
+          resp = false;
+        }
+      }
+
+      this.setState(newState);
+      return resp;
+    }
+  }, {
+    key: "clearErrors",
+    value: function clearErrors() {
+      var newState = Object.assign({}, this.state);
+      Object.keys(newState.errors).forEach(function (key) {
+        newState.errors[key] = "oculto";
+      });
+      this.setState(newState);
+      var newState2 = Object.assign({}, this.state);
+      Object.keys(newState2.errorMensajes).forEach(function (key) {
+        newState2.errorMensajes[key] = '';
+      });
+      this.setState(newState2);
+    }
+  }, {
+    key: "getSystemUsers",
+    value: function getSystemUsers() {
+      var _this6 = this;
+
+      var url = 'usuario/user';
+      axios__WEBPACK_IMPORTED_MODULE_5___default.a.get(url).then(function (resp) {
+        _this6.setState({
+          buscador: resp.data.data,
+          selector: resp.data.data,
+          tabla: resp.data.data
+        }, function () {
+          _this6.getData();
+        });
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    }
+  }, {
+    key: "handleGuardar",
+    value: function handleGuardar(e) {
+      var _this7 = this;
+
+      e.preventDefault();
+      var id = this.state.IdEditar;
+      var url = "usuario/user/".concat(id, "/editar");
+      var resp = this.validarForm();
+
+      if (resp) {
+        axios__WEBPACK_IMPORTED_MODULE_5___default.a.put(url, {
+          name: this.state.nombre,
+          email: this.state.correo,
+          password: this.state.contraseña,
+          tipo: this.state.tipo
+        }).then(function (resp) {
+          _this7.getSystemUsers();
+
+          _this7.setState({
+            tabla: _toConsumableArray(_this7.state.tabla)
+          }, function () {
+            _this7.getData();
+          });
+
+          _this7.handleCerrarModal();
+
+          _this7.props.showToast('Datos Actualizados', 'success');
+        })["catch"](function (err) {
+          _this7.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente', 'error');
+        });
+      }
+    }
+  }, {
+    key: "handleEditPassword",
+    value: function handleEditPassword() {
+      if (!this.state.editarContraseña) {
+        this.setState({
+          editarContraseña: true
+        });
+      } else {
+        this.setState({
+          editarContraseña: false
+        });
+      }
+    }
+  }, {
+    key: "getData",
+    value: function getData() {
+      var tabla = this.state.tabla;
+      var slice = tabla.slice(this.state.offset, this.state.offset + this.state.perPage);
+      this.setState({
+        users: slice,
+        pageCount: Math.ceil(tabla.length / this.state.perPage)
+      });
+    }
+  }, {
+    key: "handlePageClick",
+    value: function handlePageClick(e) {
+      var _this8 = this;
+
+      var selectedPage = e.selected;
+      var offset = selectedPage * this.state.perPage;
+      this.setState({
+        currentPage: selectedPage,
+        offset: offset
+      }, function () {
+        _this8.getData();
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this9 = this;
+
+      var _this$state = this.state,
+          users = _this$state.users,
+          editarContraseña = _this$state.editarContraseña;
+
+      var textButton = function textButton() {
+        if (!editarContraseña) {
+          return 'Editar contraseña';
+        } else {
+          return 'No editar contraseña';
+        }
+      };
+
+      var editpassword = function editpassword() {
+        if (editarContraseña) {
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("article", {
+            className: "form-group"
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "form-group"
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+            htmlFor: "codigo"
+          }, "Contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+            pattern: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{8,20}$",
+            title: "al menos una mayuscula,\r al menos una minuscula,\r al menos un n\xFAmero,\r al menos un caracter especial,\r sin espacios",
+            type: "password",
+            className: "form-control",
+            id: "contrase\xF1a",
+            name: "contrase\xF1a",
+            onChange: _this9.handleChange,
+            required: true
+          })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: _this9.state.errors['contraseña']
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "redf  " + (_this9.state.errors['contraseña'] || "")
+          }, _this9.state.errorMensajes['contraseña'])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "form-group"
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+            htmlFor: "codigo"
+          }, "Confirmar contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+            pattern: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{8,20}$",
+            title: "al menos una mayuscula,\r al menos una minuscula,\r al menos un n\xFAmero,\r al menos un caracter especial,\r sin espacios",
+            type: "password",
+            className: "form-control",
+            id: "confirmar",
+            name: "confirmar",
+            onChange: _this9.handleChange,
+            required: true
+          })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: _this9.state.errors['confirmar']
+          }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            className: "redf  " + (_this9.state.errors['confirmar'] || "")
+          }, _this9.state.errorMensajes['confirmar'])));
+        }
+      };
+
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "btn btn-success btn-sm",
+        onClick: this.handleCreate
+      }, "+ Crear"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("article", {
+        className: "row mt-5"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: this.state.nuevo
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card-header bg2 titulo"
+      }, "Usuarios "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card-body texto"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        onSubmit: this.handleSubmit
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "nombre"
+      }, "Nombre"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-control",
+        id: "nombre",
+        name: "nombre",
+        onChange: this.handleChange,
+        value: this.state.nombre,
+        required: true
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "nombre"
+      }, "Correo electr\xF3nico"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "email",
+        className: "form-control",
+        id: "correo",
+        name: "correo",
+        onChange: this.handleChange,
+        value: this.state.correo,
+        required: true
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "nombre"
+      }, "Tipo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        className: "form-control",
+        id: "tipo",
+        name: "tipo",
+        onChange: this.handleChange,
+        value: this.state.tipo,
+        required: true
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: ""
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "0"
+      }, "Admin"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "1"
+      }, "M\xE9dico"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "2"
+      }, "Auxiliar Pemel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "3"
+      }, "Admin Pemel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "4"
+      }, "Admin IPS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "5"
+      }, "Usuarios Admin")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "nombre"
+      }, "Contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        pattern: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{8,20}$",
+        title: "al menos una mayuscula,\r al menos una minuscula,\r al menos un n\xFAmero,\r al menos un caracter especial,\r sin espacios",
+        type: "password",
+        className: "form-control",
+        id: "contrase\xF1a",
+        name: "contrase\xF1a",
+        onChange: this.handleChange,
+        required: true
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: this.state.errors['contraseña']
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "redf  " + (this.state.errors['contraseña'] || "")
+      }, this.state.errorMensajes['contraseña'])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-4"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "nombre"
+      }, "Confirmar Contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        pattern: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{8,20}$",
+        title: "al menos una mayuscula,\r al menos una minuscula,\r al menos un n\xFAmero,\r al menos un caracter especial,\r sin espacios",
+        type: "password",
+        className: "form-control",
+        id: "confirmar",
+        name: "confirmar",
+        onChange: this.handleChange,
+        required: true
+      }), "                                                "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: this.state.errors['confirmar']
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "redf  " + (this.state.errors['confirmar'] || "")
+      }, this.state.errorMensajes['confirmar'])), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-2"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        type: "submit",
+        className: "btn btn-success btn-sm"
+      }, "Guardar"))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("article", {
+        className: "container"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("section", {
+        className: "row justify-content-between"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Buscador__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        list: this.state.buscador,
+        options: this.state.fuse_options,
+        toRender: function toRender(arg) {
+          return _this9.handleListar(arg, false);
+        }
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_Selector__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        list: this.state.selector,
+        keyx: "tipo",
+        auto: this.state.selector_auto,
+        toRender: function toRender(arg) {
+          return _this9.handleListar(arg, true);
+        },
+        tag: "user"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "*"
+      }, "Todos"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "0"
+      }, "Admin"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "1"
+      }, "M\xE9dico"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "2"
+      }, "Auxiliar Pemel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "3"
+      }, "Admin Pemel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "4"
+      }, "Admin IPS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "5"
+      }, "Usuarios Admin"))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row mt-5"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-md-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card-header bg2 titulo"
+      }, "Usuarios registrados"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "card-body texto"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+        className: "table table-hover"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+        scope: "col"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+        scope: "col"
+      }, "Nombre"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+        scope: "col"
+      }, "Correo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+        scope: "col"
+      }, "Tipo"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TableUsers_js__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        users: users,
+        handleEdition: this.handleEdition,
+        handleEliminar: this.handleEliminar,
+        handleDesbloquear: this.handleDesbloquear
+      }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_paginate__WEBPACK_IMPORTED_MODULE_6___default.a, {
+        previousLabel: "<",
+        nextLabel: ">",
+        breakLabel: "...",
+        breakClassName: "break-me",
+        pageCount: this.state.pageCount,
+        marginPagesDisplayed: 2,
+        pageRangeDisplayed: 5,
+        onPageChange: this.handlePageClick,
+        containerClassName: "pagination",
+        subContainerClassName: "pages pagination",
+        activeClassName: "active",
+        forcePage: this.state.currentPage
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        show: this.state.modalOpen
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_2__["default"].Header, null, "Usuario"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_2__["default"].Body, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        className: "container",
+        id: "editarUsuario",
+        onSubmit: this.handleGuardar
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-12"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "codigo"
+      }, "Nombre"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-control form-control-sm",
+        name: "nombre",
+        defaultValue: this.state.nombre,
+        onChange: this.handleChange,
+        required: true
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "codigo"
+      }, "Correo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "email",
+        className: "form-control form-control-sm",
+        name: "correo",
+        defaultValue: this.state.correo,
+        onChange: this.handleChange,
+        required: true
+      })), editpassword(), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "estado_causa"
+      }, "Tipo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
+        className: "form-control form-control-sm",
+        name: "tipo",
+        defaultValue: this.state.tipo,
+        onChange: this.handleChange,
+        required: true
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: ""
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "0"
+      }, "Admin"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "1"
+      }, "M\xE9dico"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "2"
+      }, "Auxiliar Pemel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "3"
+      }, "Admin Pemel"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "4"
+      }, "Admin IPS"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: "5"
+      }, "Usuarios Admin")))))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap_Modal__WEBPACK_IMPORTED_MODULE_2__["default"].Footer, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "btn btn-info btn-sm",
+        onClick: this.handleEditPassword
+      }, textButton()), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        type: "submit",
+        form: "editarUsuario",
+        className: "btn btn-primary btn-sm"
+      }, "Guardar"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "btn btn-primary btn-sm",
+        onClick: this.handleCerrarModal
+      }, "Cerrar"))));
+    }
+  }]);
+
+  return UsuariosSistema;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+
+/* harmony default export */ __webpack_exports__["default"] = (UsuariosSistema);
+/*
+if (document.getElementById('menuUsuarios')) {
+    ReactDOM.render(<MenuUsuarios />, document.getElementById('menuUsuarios'));
+}
+*/
+
+/***/ }),
+
+/***/ "./resources/js/containers/Usuarios/UsuariosSistema.scss":
+/*!***************************************************************!*\
+  !*** ./resources/js/containers/Usuarios/UsuariosSistema.scss ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../node_modules/css-loader!../../../../node_modules/postcss-loader/src??ref--7-2!../../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!./UsuariosSistema.scss */ "./node_modules/css-loader/index.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./resources/js/containers/Usuarios/UsuariosSistema.scss");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
 
 /***/ }),
 

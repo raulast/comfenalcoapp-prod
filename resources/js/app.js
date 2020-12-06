@@ -18,8 +18,8 @@ require('./components/Incapacidad'); 
 require('./components/Licencia');
 require('./components/AdminNav');
 require('./components/MenuUsuarios');
-require('./components/UsuariosSistema');
-require('./components/MedicosSistema');
+require('./containers/Usuarios/UsuariosSistema');
+require('./containers/Medicos/MedicosSistema');
 require('./components/CronicosPanel');
 require('./components/Cronico');
 require('./components/JuridicasPanel');

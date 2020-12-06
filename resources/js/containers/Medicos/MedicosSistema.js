@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import TableMedicos from './TableMedicos.js';
 import Modal from "react-bootstrap/Modal";
-import Buscador from "./Buscador";
+import Buscador from "../../components/Buscador";
+import Selector from "../../components/Selector";
 
 import axios from 'axios';
 import ReactPaginate from 'react-paginate';
@@ -72,9 +72,12 @@ class MedicosSistema extends Component {
             },
             IdEditar:'00',
 
-            data: [],
-            page: [],
+            buscador: [],
+            selector: [],
+            tabla: [],
             perPage: 10,
+
+            selector_auto:false,
 
             offset:0,
             currentPage: 0,
@@ -114,10 +117,8 @@ class MedicosSistema extends Component {
         this.setState({
           [target.name]: target.value
         });
-        //console.log(this.state);
     }
     handleEdition(id,datos){
-        //console.log(id)
         this.setState({
             modalOpen: true,
             IdEditar:id,
@@ -138,7 +139,9 @@ class MedicosSistema extends Component {
                 this.props.showToast(resp.data.data,'success')
                 this.getMedicosUsers();
                         this.setState({
-                            medicos: this.state.medicos,
+                            tabla: this.state.tabla
+                        },()=>{
+                            this.getData();
                         });
             })
             .catch(err => {
@@ -172,8 +175,10 @@ class MedicosSistema extends Component {
                 .then(resp => {
                     let user = resp.data.row;
                     this.setState({
-                        medicos: [...this.state.medicos, user],
-                        nuevo: 'oculto'
+                        nuevo: 'oculto',
+                        tabla: [...this.state.tabla, user]
+                        },()=>{
+                            this.getData();
                     });
                     this.props.showToast('Datos almacenados','success');
                     // alert("Datos almacenados")
@@ -215,7 +220,6 @@ class MedicosSistema extends Component {
     }
     clearErrors(){
         let newState = Object.assign({}, this.state);
-       // console.log(Object.entries(newState));
         Object.keys(newState.errors).forEach(key => {
             newState.errors[key] = "oculto";
         });
@@ -224,7 +228,6 @@ class MedicosSistema extends Component {
         Object.keys(newState2.errorMensajes).forEach(key => {
            // newState2.errorMensajes[key] = '';
         });
-        //console.log(newState);
         this.setState(newState2);
     }
 
@@ -233,8 +236,9 @@ class MedicosSistema extends Component {
         axios.get(url)
             .then(resp => {
                 this.setState({
-                    page: resp.data.data,
-                    data: resp.data.data
+                    buscador: resp.data.data,
+                    selector: resp.data.data,
+                    tabla: resp.data.data
                 },()=>{
                     this.getData();
                 });
@@ -287,7 +291,9 @@ class MedicosSistema extends Component {
                 .then(resp => {
                     this.getMedicosUsers()
                     this.setState({
-                        medicos: [...this.state.medicos]
+                        tabla: [...this.state.tabla]
+                    },()=>{
+                        this.getData();
                     });
                     this.handleCerrarModal()
                     this.props.showToast('Datos Actualizados','success');
@@ -311,25 +317,47 @@ class MedicosSistema extends Component {
         }
     }
 
-    handleListar(arg){
-        if (arg) {
+    handleListar(arg, tipo){
+        const selectedPage = 0;
+        const offset = selectedPage * this.state.perPage;
+        this.setState({
+            currentPage: selectedPage,
+            offset: offset
+        },()=>{
+            this.getData();
+        });
+        if (arg && !tipo) {
             this.setState({
-                page:arg
+                selector: arg,
+                selector_auto:true,
+                currentPage: 0
+            });
+        }else if (arg && tipo) {
+            this.setState({
+                tabla: arg,
+                selector_auto:false,
+                currentPage: 0
             },()=>{
                 this.getData()
             });
-        } else {
-            this.getMedicosUsers();
+        }else{
+            this.setState({
+                tabla: [],
+                selector_auto:false,
+                currentPage: 0
+            },()=>{
+                this.getData()
+            });
         }
     }
 
     getData(){
-        const data = this.state.page;
-        const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage);
+        const tabla = this.state.tabla
+        const slice = tabla.slice(this.state.offset, this.state.offset + this.state.perPage);
 
         this.setState({
             medicos: slice,
-            pageCount: Math.ceil(data.length / this.state.perPage)
+            pageCount: Math.ceil(tabla.length / this.state.perPage)
         })
     }
 
@@ -361,13 +389,25 @@ class MedicosSistema extends Component {
         }
 
         const editpassword = () =>{
-            // console.log(editarContraseña);
             if(editarContraseña){
                 return (
                     <article className="form-group">
                         <div className="form-group">
                             <label htmlFor="codigo">Contraseña</label>
-                            <input type="password" className="form-control form-control-sm" name="contraseña" onChange={this.handleChange } required/>
+                            <input
+                                pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,20}$"
+                                title="al menos una mayuscula,
+                                al menos una minuscula,
+                                al menos un número,
+                                al menos un caracter especial,
+                                sin espacios"
+                                type="password"
+                                className="form-control"
+                                id="contraseña"
+                                name="contraseña"
+                                onChange={this.handleChange}
+                                required>
+                            </input>
                         </div>
                         <div className={this.state.errors['contraseña']}>
                             <div className={ "redf  " + ( this.state.errors['contraseña'] || "") }>{this.state.errorMensajes['contraseña']}</div>
@@ -375,7 +415,20 @@ class MedicosSistema extends Component {
 
                         <div className="form-group">
                             <label htmlFor="codigo">Confirmar contraseña</label>
-                            <input type="password" className="form-control form-control-sm" name="confirmar" onChange={this.handleChange } required/>
+                            <input
+                                pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,20}$"
+                                title="al menos una mayuscula,
+                                al menos una minuscula,
+                                al menos un número,
+                                al menos un caracter especial,
+                                sin espacios"
+                                type="password"
+                                className="form-control"
+                                id="confirmar"
+                                name="confirmar"
+                                onChange={this.handleChange}
+                                required>
+                            </input>
                         </div>
                         <div className={this.state.errors['confirmar']}>
                             <div className={ "redf  " + ( this.state.errors['confirmar'] || "") }>{this.state.errorMensajes['confirmar']}</div>
@@ -386,14 +439,9 @@ class MedicosSistema extends Component {
         }
         return (
            <div>
-            <br/><br/>
+            <br/>
             <button className="btn btn-success btn-sm" onClick={this.handleCreate}>+ Crear</button>
-            <Buscador
-                list={this.state.data}
-                options={this.state.fuse_options}
-                toRender={(arg)=>this.handleListar(arg)}
-            />
-            <div className="row mt-5">
+            <article className="row mt-5">
                 <div className={this.state.nuevo}>
                     <div className="col-md-12">
                         <div className="card">
@@ -463,14 +511,40 @@ class MedicosSistema extends Component {
                                                 <div className="row">
                                                     <div className="col-md-4">
                                                         <label htmlFor="nombre">Contraseña</label>
-                                                        <input type="password" className="form-control" id="contraseña" name="contraseña" onChange={this.handleChange} defaultValue={this.state.contraseña} required></input>
+                                                        <input
+                                                            pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,20}$"
+                                                            title="al menos una mayuscula,
+                                                            al menos una minuscula,
+                                                            al menos un número,
+                                                            al menos un caracter especial,
+                                                            sin espacios"
+                                                            type="password"
+                                                            className="form-control"
+                                                            id="contraseña"
+                                                            name="contraseña"
+                                                            onChange={this.handleChange}
+                                                            required>
+                                                        </input>
                                                     </div>
                                                     <div className={this.state.errors['contraseña']}>
                                                         <div className={ "redf  " + ( this.state.errors['contraseña'] || "") }>{this.state.errorMensajes['contraseña']}</div>
                                                     </div>
                                                     <div className="col-md-4">
                                                         <label htmlFor="nombre">Confirmar Contraseña</label>
-                                                        <input type="password" className="form-control" id="confirmar" name="confirmar" onChange={this.handleChange} defaultValue={this.state.confirmar} required></input>
+                                                            <input
+                                                            pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,20}$"
+                                                            title="al menos una mayuscula,
+                                                            al menos una minuscula,
+                                                            al menos un número,
+                                                            al menos un caracter especial,
+                                                            sin espacios"
+                                                            type="password"
+                                                            className="form-control"
+                                                            id="confirmar"
+                                                            name="confirmar"
+                                                            onChange={this.handleChange}
+                                                            required>
+                                                        </input>
                                                     </div>
                                                     <div className={this.state.errors['confirmar']}>
                                                         <div className={ "redf  " + ( this.state.errors['confirmar'] || "") }>{this.state.errorMensajes['confirmar']}</div>
@@ -493,9 +567,33 @@ class MedicosSistema extends Component {
                                     </form>
                                 </div>
                         </div>
+                        <br/>
                     </div>
                 </div>
-            </div>
+                <article className="container">
+                    <section className="row justify-content-between">
+                        <Buscador
+                            list={this.state.buscador}
+                            options={this.state.fuse_options}
+                            toRender={(arg)=>this.handleListar(arg, false)}
+                        />
+                        <Selector
+                            list={this.state.selector}
+                            keyx='especialidad'
+                            auto={this.state.selector_auto}
+                            toRender={(arg)=>this.handleListar(arg, true)}
+                            tag='medico'
+                        >
+                            <option value="*">Todos</option>
+                            <option value="1">Médico general</option>
+                            <option value="2">Médico especialista</option>
+                            <option value="5">Médico laboral</option>
+                            <option value="3">Odontólogo general</option>
+                            <option value="4">Odontólogo especialista</option>
+                        </Selector>
+                    </section>
+                </article>
+            </article>
             <div className="row mt-5">
                 <div className="col-md-12">
                     <div className="card">
@@ -529,7 +627,8 @@ class MedicosSistema extends Component {
                     onPageChange={this.handlePageClick}
                     containerClassName={"pagination"}
                     subContainerClassName={"pages pagination"}
-                    activeClassName={"active"}/>
+                    activeClassName={"active"}
+                    forcePage={this.state.currentPage}/>
             </div>
             <Modal show={this.state.modalOpen}>
                     <Modal.Header>Medico</Modal.Header>

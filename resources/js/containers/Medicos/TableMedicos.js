@@ -1,9 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import Axios from 'axios'
-
-
-import axios from 'axios';
-
+import React, { useState, useEffect } from 'react';
+import './TableMedicos.scss'
 
 export default function TableMedicos(props) {
 

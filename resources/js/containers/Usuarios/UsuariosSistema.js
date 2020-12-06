@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import TableUsers from './TableUsers.js';
 import Modal from "react-bootstrap/Modal";
-import Buscador from "./Buscador"
+import Buscador from "../../components/Buscador";
+import Selector from "../../components/Selector";
 
 import axios from 'axios';
 import ReactPaginate from 'react-paginate';
 
-import './Usuarios/UsuariosSistema.scss';
+import './UsuariosSistema.scss';
 
 class UsuariosSistema extends Component {
     constructor(props) {
@@ -58,9 +59,12 @@ class UsuariosSistema extends Component {
             },
             IdEditar:'00',
 
-            data: [],
-            page: [],
+            buscador: [],
+            selector: [],
+            tabla: [],
             perPage: 10,
+
+            selector_auto:false,
 
             offset:0,
             currentPage: 0,
@@ -80,6 +84,7 @@ class UsuariosSistema extends Component {
         this.handleGuardar = this.handleGuardar.bind(this);
         this.handleEditPassword = this.handleEditPassword.bind(this);
         this.handleListar=this.handleListar.bind(this);
+        this.handleDesbloquear=this.handleDesbloquear.bind(this);
 
         this.getData = this.getData.bind(this);
         this.handlePageClick = this.handlePageClick.bind(this);
@@ -99,7 +104,6 @@ class UsuariosSistema extends Component {
         this.setState({
           [target.name]: target.value
         });
-        console.log(this.state)
     }
 
     handleEdition(id,usuario,correo,tipo){
@@ -110,19 +114,44 @@ class UsuariosSistema extends Component {
             modalOpen: true,
             IdEditar:id
         });
-        console.log('Edit: ', this.state)
     }
-    handleListar(arg){
-        if (arg) {
+
+    handleListar(arg, tipo) {
+
+        const selectedPage = 0;
+        const offset = selectedPage * this.state.perPage;
+        this.setState({
+            currentPage: selectedPage,
+            offset: offset
+        },()=>{
+            this.getData();
+        });
+
+        if (arg && !tipo) {
             this.setState({
-                page: arg
+                selector: arg,
+                selector_auto:true,
+                currentPage: 0
+            });
+        }else if (arg && tipo) {
+            this.setState({
+                tabla: arg,
+                selector_auto:false,
+                currentPage: 0
             },()=>{
                 this.getData()
             });
-        } else {
-            this.getSystemUsers();
+        }else{
+            this.setState({
+                tabla: [],
+                selector_auto:false,
+                currentPage: 0
+            },()=>{
+                this.getData()
+            });
         }
     }
+    
 
     handleCerrarModal(){
         this.setState({
@@ -141,10 +170,24 @@ class UsuariosSistema extends Component {
                 this.props.showToast(resp.data.data,'success')
                 this.getSystemUsers();
                         this.setState({
-                            users: this.state.users,
+                            tabla: this.state.tabla,
+                        },()=>{
+                            this.getData();
                         });
             })
             .catch(err => {
+                console.log(err)
+            })
+    }
+    handleDesbloquear(id){
+        let url = `usuario/user/${id}/desbloquear`;
+        axios.post(url)
+            .then(resp => {
+                this.getSystemUsers()
+                this.props.showToast('Usuario desbloqueado exitosamente','success');
+            })
+            .catch(err => {
+                this.props.showToast('¡Ups! Ha ocurrido un Error, por favor refresca la ventana e intenta nuevamente','error');
                 console.log(err)
             })
     }
@@ -163,8 +206,10 @@ class UsuariosSistema extends Component {
                 .then(resp => {
                     let user = resp.data.row;
                     this.setState({
-                        users: [...this.state.users, user],
+                        tabla: [...this.state.tabla, user],
                         nuevo: 'oculto'
+                    },()=>{
+                        this.getData();
                     });
                     this.props.showToast('Datos almacenados','success');
                     // alert("Datos almacenados")
@@ -176,15 +221,13 @@ class UsuariosSistema extends Component {
     }
 
     validarForm() {
-
         this.clearErrors()
         const { editarContraseña } = this.state;
         let resp = true;
         let newState = Object.assign({}, this.state);
         Object.entries(this.state).map(([key, value]) => {
-            if (value == '' && key != 'modalOpen' && editarContraseña){
+            if (value == '' && key != 'modalOpen' && editarContraseña && value != 0){
                 newState.errors[key] = "visible";
-                console.log(key)
                 newState.errorMensajes[key] = key + " requerido";
                 resp = false;
             }
@@ -205,7 +248,6 @@ class UsuariosSistema extends Component {
 
     clearErrors(){
         let newState = Object.assign({}, this.state);
-       // console.log(Object.entries(newState));
         Object.keys(newState.errors).forEach(key => {
             newState.errors[key] = "oculto";
         });
@@ -214,17 +256,17 @@ class UsuariosSistema extends Component {
         Object.keys(newState2.errorMensajes).forEach(key => {
             newState2.errorMensajes[key] = '';
         });
-        //console.log(newState);
         this.setState(newState2);
     }
 
     getSystemUsers() {
-        let url = 'getSystemUsers'
+        let url = 'usuario/user'
         axios.get(url)
             .then(resp => {
                 this.setState({
-                    page: resp.data.data,
-                    data: resp.data.data
+                    buscador: resp.data.data,
+                    selector: resp.data.data,
+                    tabla: resp.data.data
                 },()=>{
                     this.getData();
                 });
@@ -239,7 +281,7 @@ class UsuariosSistema extends Component {
         e.preventDefault();
         let id = this.state.IdEditar;
         let url = `usuario/user/${id}/editar`;
-        let resp = this.validarForm()
+        let resp = this.validarForm();
         if (resp) {
             axios.put(url, {
                 name:this.state.nombre,
@@ -250,11 +292,12 @@ class UsuariosSistema extends Component {
                 .then(resp => {
                     this.getSystemUsers()
                     this.setState({
-                        users: [...this.state.users]
+                        tabla: [...this.state.tabla]
+                    },()=>{
+                        this.getData();
                     });
                     this.handleCerrarModal()
                     this.props.showToast('Datos Actualizados','success');
-                    // alert("Datos almacenados")
                 })
                 .catch(err => {
                     this.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente','error');
@@ -275,12 +318,12 @@ class UsuariosSistema extends Component {
     }
 
     getData(){
-        const data = this.state.page;
-        const slice = data.slice(this.state.offset, this.state.offset + this.state.perPage);
+        const tabla = this.state.tabla
+        const slice = tabla.slice(this.state.offset, this.state.offset + this.state.perPage);
 
         this.setState({
             users: slice,
-            pageCount: Math.ceil(data.length / this.state.perPage)
+            pageCount: Math.ceil(tabla.length / this.state.perPage)
         })
     }
 
@@ -316,15 +359,41 @@ class UsuariosSistema extends Component {
                     <article className="form-group">
                         <div className="form-group">
                             <label htmlFor="codigo">Contraseña</label>
-                            <input type="password" className="form-control form-control-sm" name="contraseña" onChange={this.handleChange } required/>
-                        </div>
+                            <input
+                                pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,20}$"
+                                title="al menos una mayuscula,
+                                        al menos una minuscula,
+                                        al menos un número,
+                                        al menos un caracter especial,
+                                        sin espacios"
+                                type="password"
+                                className="form-control"
+                                id="contraseña"
+                                name="contraseña"
+                                onChange={this.handleChange}
+                                required>
+                            </input>
+                       </div>
                         <div className={this.state.errors['contraseña']}>
                             <div className={ "redf  " + ( this.state.errors['contraseña'] || "") }>{this.state.errorMensajes['contraseña']}</div>
                         </div>
 
                         <div className="form-group">
                             <label htmlFor="codigo">Confirmar contraseña</label>
-                            <input type="password" className="form-control form-control-sm" name="confirmar" onChange={this.handleChange } required/>
+                            <input
+                                pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,20}$"
+                                title="al menos una mayuscula,
+                                        al menos una minuscula,
+                                        al menos un número,
+                                        al menos un caracter especial,
+                                        sin espacios"
+                                type="password"
+                                className="form-control"
+                                id="confirmar"
+                                name="confirmar"
+                                onChange={this.handleChange}
+                                required>
+                            </input>
                         </div>
                         <div className={this.state.errors['confirmar']}>
                             <div className={ "redf  " + ( this.state.errors['confirmar'] || "") }>{this.state.errorMensajes['confirmar']}</div>
@@ -333,17 +402,11 @@ class UsuariosSistema extends Component {
                 )
             }
         }
-
         return (
             <div>
-                <br/><br/>
+                <br/>
                 <button className="btn btn-success btn-sm" onClick={this.handleCreate}>+ Crear</button>
-                <Buscador
-                    list={this.state.data}
-                    options={this.state.fuse_options}
-                    toRender={(arg)=>this.handleListar(arg)}
-                />
-                <form className="row mt-5">
+                <article className="row mt-5">
                     <div className={this.state.nuevo}>
                         <div className="col-md-12">
                             <div className="card">
@@ -377,15 +440,40 @@ class UsuariosSistema extends Component {
                                             <div className="row">
                                                 <div className="col-md-4">
                                                     <label htmlFor="nombre">Contraseña</label>
-                                                    <input type="password" className="form-control" id="contraseña" name="contraseña" onChange={this.handleChange} required></input>
+                                                    <input
+                                                        pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,20}$"
+                                                        title="al menos una mayuscula,
+                                                        al menos una minuscula,
+                                                        al menos un número,
+                                                        al menos un caracter especial,
+                                                        sin espacios"
+                                                        type="password"
+                                                        className="form-control"
+                                                        id="contraseña"
+                                                        name="contraseña"
+                                                        onChange={this.handleChange}
+                                                        required>
+                                                    </input>
                                                 </div>
                                                 <div className={this.state.errors['contraseña']}>
                                                     <div className={ "redf  " + ( this.state.errors['contraseña'] || "") }>{this.state.errorMensajes['contraseña']}</div>
                                                 </div>
                                                 <div className="col-md-4">
                                                     <label htmlFor="nombre">Confirmar Contraseña</label>
-                                                    <input type="password" className="form-control" id="confirmar" name="confirmar" onChange={this.handleChange} required></input>
-                                                </div>
+                                                    <input
+                                                        pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,20}$"
+                                                        title="al menos una mayuscula,
+                                                        al menos una minuscula,
+                                                        al menos un número,
+                                                        al menos un caracter especial,
+                                                        sin espacios"
+                                                        type="password"
+                                                        className="form-control"
+                                                        id="confirmar"
+                                                        name="confirmar"
+                                                        onChange={this.handleChange}
+                                                        required>
+                                                    </input>                                                </div>
                                                 <div className={this.state.errors['confirmar']}>
                                                     <div className={ "redf  " + ( this.state.errors['confirmar'] || "") }>{this.state.errorMensajes['confirmar']}</div>
                                                 </div>
@@ -398,9 +486,34 @@ class UsuariosSistema extends Component {
                                     </form>
                                 </div>
                             </div>
+                            <br/>
                         </div>
                     </div>
-                </form>
+                    <article className="container">
+                        <section className="row justify-content-between">
+                            <Buscador
+                                list={this.state.buscador}
+                                options={this.state.fuse_options}
+                                toRender={(arg)=>this.handleListar(arg, false)}
+                            />
+                            <Selector
+                                list={this.state.selector}
+                                keyx='tipo'
+                                auto={this.state.selector_auto}
+                                toRender={(arg)=>this.handleListar(arg, true)}
+                                tag='user'
+                            >
+                                <option value="*">Todos</option>
+                                <option value="0">Admin</option>
+                                <option value="1">Médico</option>
+                                <option value="2">Auxiliar Pemel</option>
+                                <option value="3">Admin Pemel</option>
+                                <option value="4">Admin IPS</option>
+                                <option value="5">Usuarios Admin</option>
+                            </Selector>
+                        </section>
+                    </article>
+                </article>
                 <div className="row mt-5">
                     <div className="col-md-12">
                         <div className="card">
@@ -415,7 +528,7 @@ class UsuariosSistema extends Component {
                                             <th scope="col">Tipo</th>
                                         </tr>
                                     </thead>
-                                    <TableUsers users={users} handleEdition ={this.handleEdition} handleEliminar ={this.handleEliminar}/>
+                                    <TableUsers users={users} handleEdition ={this.handleEdition} handleEliminar ={this.handleEliminar} handleDesbloquear={this.handleDesbloquear}/>
 
                                 </table>
                             </div>
@@ -432,7 +545,8 @@ class UsuariosSistema extends Component {
                     onPageChange={this.handlePageClick}
                     containerClassName={"pagination"}
                     subContainerClassName={"pages pagination"}
-                    activeClassName={"active"}/>
+                    activeClassName={"active"}
+                    forcePage={this.state.currentPage}/>
                 </div>
 
                 <Modal show={this.state.modalOpen}>
