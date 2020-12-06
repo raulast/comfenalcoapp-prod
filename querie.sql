@@ -1,1 +1,1 @@
-select * from medicos
+select * from users;

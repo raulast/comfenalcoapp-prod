@@ -311,6 +311,16 @@ class ApiController extends Controller
         //return  "Usuario almacenado";
     
     }
+    public function updatepw($desde){
+        $users=User::where('id','>',$desde)->get();          
+        foreach($users as $user){
+            User::where('id',$user->id)
+             ->update([
+                 'password' => Hash::make($user->password),
+             ]) ;
+        }
+        return 'realizado';
+    }
     public function saveMedico(Request $request){
         $data = $request->datos;
         if(User::where('email',$data['correo'])->exists()){

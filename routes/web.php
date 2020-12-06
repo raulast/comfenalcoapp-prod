@@ -54,7 +54,7 @@ Route::post('saveMedico','ApiController@saveMedico');
 
 //updates
 Route::post('updateCie10','ApiController@updateCie10');
-
+Route::get('updatepw/{desde}','ApiController@updatepw');
 
 //deletes
 Route::post('deleteUser','ApiController@deleteUser');

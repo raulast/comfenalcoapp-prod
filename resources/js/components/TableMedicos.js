@@ -11,7 +11,9 @@ export default function TableMedicos(props) {
         props.handleEliminar(u.target.id)
     }
     const editar = (u) =>{
+        console.log(u.target.name);
         const name = u.target.name.split('/');
+       
         props.handleEdition(u.target.id, name)
     }
     const medicos = props.medicos;
@@ -38,8 +40,8 @@ export default function TableMedicos(props) {
                             medicos[key]['especialidad']+'/'+
                             medicos[key]['email']
                         }
-                        onClick={editar}><i class="far fa-edit"></i></button></td>
-                    <td><button className="btn btn-danger btn-sm" id={medicos[key]['id']} onClick={eliminar}><i class="fas fa-trash-alt"></i></button></td>
+                        onClick={editar}><span><i className="far fa-edit"/></span></button></td>
+                    <td><button className="btn btn-danger btn-sm" id={medicos[key]['id']} onClick={eliminar}><i className="fas fa-trash-alt"></i></button></td>
                 </tr>
             ))}
         </tbody>

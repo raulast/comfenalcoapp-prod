@@ -88178,6 +88178,7 @@ function TableMedicos(props) {
   };
 
   var editar = function editar(u) {
+    console.log(u.target.name);
     var name = u.target.name.split('/');
     props.handleEdition(u.target.id, name);
   };
@@ -88191,14 +88192,14 @@ function TableMedicos(props) {
       id: medicos[key]['id'],
       name: medicos[key]['cod_medico'] + '/' + medicos[key]['tipo_documento'] + '/' + medicos[key]['num_documento'] + '/' + medicos[key]['nombre'] + '/' + medicos[key]['reg_medico'] + '/' + medicos[key]['especialidad'] + '/' + medicos[key]['email'],
       onClick: editar
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-      "class": "far fa-edit"
-    }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+      className: "far fa-edit"
+    })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
       className: "btn btn-danger btn-sm",
       id: medicos[key]['id'],
       onClick: eliminar
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-      "class": "fas fa-trash-alt"
+      className: "fas fa-trash-alt"
     }))));
   }));
 }
