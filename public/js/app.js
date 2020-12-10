@@ -81162,7 +81162,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
       let f2 = new Date().getTime();
       console.log(f1);
       console.log(f2);
-        let f = f2-f1;
+       let f = f2-f1;
       let edad = new Date(f)
       console.log(edad)
       */
@@ -82062,7 +82062,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
       axios.get(url)
           .then(resp => {
              console.log(resp.data.respuesta)
-            })
+           })
           .catch(err =>{
               console.log(err)
           })*/
@@ -83898,13 +83898,13 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
     this.handleLateralidad = this.handleLateralidad.bind(this);
     this.handleProrroga = this.handleProrroga.bind(this);
     this.showMessage = this.showMessage(this)
-      
+     
     this.buscarHistorico = this.buscarHistorico.bind(this);
     this.handleFechaAtencion = this.handleFechaAtencion.bind(this);
     this.validarForm = this.validarForm.bind(this);
     this.clearErrors = this.clearErrors.bind(this);
     this.reviewProrroga = this.reviewProrroga.bind(this);
-      this.handleMaxDias = this.handleMaxDias.bind(this);
+     this.handleMaxDias = this.handleMaxDias.bind(this);
     */
 
     return _this;
@@ -84641,9 +84641,9 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
       /*
       if (parseInt(this.state.diasSolicitados) <= this.state.diasMaximosEspecialidad) {
           let resp = this.validarForm()
-            if (resp) {
-                //alert(this.state.id);
-                let url = 'saveIncapacidad'
+           if (resp) {
+               //alert(this.state.id);
+               let url = 'saveIncapacidad'
               axios.post(url, { datos: this.state })
                   .then(resp => {
                       console.log(resp.data)
@@ -84654,7 +84654,7 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
                   .catch(err => {
                       console.log(err)
                   })
-            }
+           }
           else {
               alert("Hay errores en algunos campos");
           }
@@ -84662,7 +84662,7 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
       else {
           alert("Los días solicitados exceden el máximo definido para su especialidad médica");
       }
-        */
+       */
 
     }
   }, {
@@ -84794,7 +84794,7 @@ var LicenciaFront = /*#__PURE__*/function (_Component) {
       axios.get(url)
           .then(resp => {
              console.log(resp.data.respuesta)
-            })
+           })
           .catch(err =>{
               console.log(err)
           })*/
@@ -88186,7 +88186,7 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
             htmlFor: "codigo"
           }, "Contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
             pattern: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{8,20}$",
-            title: "al menos una mayuscula,\r al menos una minuscula,\r al menos un n\xFAmero,\r al menos un caracter especial,\r sin espacios",
+            title: "al menos una mayuscula, al menos una minuscula, al menos un n\xFAmero, al menos un caracter especial, sin espacios",
             type: "password",
             className: "form-control",
             id: "contrase\xF1a",
@@ -88203,7 +88203,7 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
             htmlFor: "codigo"
           }, "Confirmar contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
             pattern: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{8,20}$",
-            title: "al menos una mayuscula,\r al menos una minuscula,\r al menos un n\xFAmero,\r al menos un caracter especial,\r sin espacios",
+            title: "al menos una mayuscula, al menos una minuscula, al menos un n\xFAmero, al menos un caracter especial, sin espacios",
             type: "password",
             className: "form-control",
             id: "confirmar",
@@ -88372,7 +88372,7 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         htmlFor: "nombre"
       }, "Contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         pattern: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{8,20}$",
-        title: "al menos una mayuscula,\r al menos una minuscula,\r al menos un n\xFAmero,\r al menos un caracter especial,\r sin espacios",
+        title: "al menos una mayuscula, al menos una minuscula, al menos un n\xFAmero, al menos un caracter especial, sin espacios",
         type: "password",
         className: "form-control",
         id: "contrase\xF1a",
@@ -88389,7 +88389,7 @@ var MedicosSistema = /*#__PURE__*/function (_Component) {
         htmlFor: "nombre"
       }, "Confirmar Contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         pattern: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{8,20}$",
-        title: "al menos una mayuscula,\r al menos una minuscula,\r al menos un n\xFAmero,\r al menos un caracter especial,\r sin espacios",
+        title: "al menos una mayuscula, al menos una minuscula, al menos un n\xFAmero, al menos un caracter especial, sin espacios",
         type: "password",
         className: "form-control",
         id: "confirmar",
@@ -88754,7 +88754,6 @@ function TableUsers(props) {
   };
 
   var users = props.users;
-  console.log('RAUL', users);
   var userTypes = ["Admin", "Médico", "Auxiliar Pemel", "Admin Pemel", "Admin IPS", "Usuarios Admin"];
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, Object.keys(users).map(function (key) {
     return users[key]['session'] == 'banned' ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
@@ -89258,7 +89257,7 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
             htmlFor: "codigo"
           }, "Contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
             pattern: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{8,20}$",
-            title: "al menos una mayuscula,\r al menos una minuscula,\r al menos un n\xFAmero,\r al menos un caracter especial,\r sin espacios",
+            title: "al menos una mayuscula, al menos una minuscula, al menos un n\xFAmero, al menos un caracter especial, sin espacios",
             type: "password",
             className: "form-control",
             id: "contrase\xF1a",
@@ -89275,7 +89274,7 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
             htmlFor: "codigo"
           }, "Confirmar contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
             pattern: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{8,20}$",
-            title: "al menos una mayuscula,\r al menos una minuscula,\r al menos un n\xFAmero,\r al menos un caracter especial,\r sin espacios",
+            title: "al menos una mayuscula, al menos una minuscula, al menos un n\xFAmero, al menos un caracter especial, sin espacios",
             type: "password",
             className: "form-control",
             id: "confirmar",
@@ -89368,7 +89367,7 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
         htmlFor: "nombre"
       }, "Contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         pattern: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{8,20}$",
-        title: "al menos una mayuscula,\r al menos una minuscula,\r al menos un n\xFAmero,\r al menos un caracter especial,\r sin espacios",
+        title: "al menos una mayuscula, al menos una minuscula, al menos un n\xFAmero, al menos un caracter especial, sin espacios",
         type: "password",
         className: "form-control",
         id: "contrase\xF1a",
@@ -89385,7 +89384,7 @@ var UsuariosSistema = /*#__PURE__*/function (_Component) {
         htmlFor: "nombre"
       }, "Confirmar Contrase\xF1a"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         pattern: "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{8,20}$",
-        title: "al menos una mayuscula,\r al menos una minuscula,\r al menos un n\xFAmero,\r al menos un caracter especial,\r sin espacios",
+        title: "al menos una mayuscula, al menos una minuscula, al menos un n\xFAmero, al menos un caracter especial, sin espacios",
         type: "password",
         className: "form-control",
         id: "confirmar",
@@ -89601,8 +89600,8 @@ if(false) {}
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\Ingenio David\comfenalcoapp-prod\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! D:\Ingenio David\comfenalcoapp-prod\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/davidguerra/Documents/comfenalco/comfenalcoapp/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/davidguerra/Documents/comfenalco/comfenalcoapp/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
