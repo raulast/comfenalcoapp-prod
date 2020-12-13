@@ -6,6 +6,7 @@ use App\Exports\IncapacidadExport;
 use App\Exports\LicenciasExport;
 use App\Exports\CronicosExport;
 use App\Exports\JuridicasExport;
+use App\Exports\AuditsExport;
 use Maatwebsite\Excel\Facades\Excel;
 
 use App\Incapacidad;
@@ -23,13 +24,13 @@ class ExcelController extends Controller
     //
     public function export(Request $request){
         $datos = $request;
-       
+
         if ($datos['export']=="incapacidad"){
             //dd($datos['ips']);
             $desde = $datos['desde'];
             $hasta = $datos['hasta'];
 
-            
+
             $i = Incapacidad::where('id','>',0);
             if ($datos['ips']!=""){
                 $i->where('ips',$datos['ips']);
@@ -58,7 +59,7 @@ class ExcelController extends Controller
             $totales["total"]=$i->count();
             $totales["dias"] = $i->sum('dias_solicitados');
             $i = $i->with('medico')->get()->toArray();
-            
+
             $datos = collect([]);
             foreach ($i as $in){
                 $in['medico_id']=$in["medico"]["nombre"];
@@ -69,14 +70,14 @@ class ExcelController extends Controller
             //$datos->push($i);
             //$datos->forget("validacion");
             //dd($datos);
-            
+
             return Excel::download(new IncapacidadExport($datos), 'incapacidades.xlsx');
         }
         if ($datos['export']=="licencia"){
             $desde = $datos['desde'];
             $hasta = $datos['hasta'];
 
-            
+
             $i = Licencia::where('id','>',0);
             if ($datos['ips']!=""){
                 $i->where('ips',$datos['ips']);
@@ -118,5 +119,12 @@ class ExcelController extends Controller
         return Excel::download(new JuridicasExport, 'juridicas.xlsx');
     }
 
-    
+    public function exportAudits(Request $request)
+    {
+        $data = new AuditsExport;
+        return response()->json([
+            'data' => $data->collection()
+        ]);
+    }
+
 }
