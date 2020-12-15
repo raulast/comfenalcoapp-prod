@@ -121,10 +121,15 @@ class ExcelController extends Controller
 
     public function exportAudits(Request $request)
     {
-        $data = new AuditsExport;
-        return response()->json([
-            'data' => $data->collection()
-        ]);
+        $req = $request->toArray()?$request->toArray(): [
+            'usuario'=>[26,28],
+            'modelo' => [0,1,2],
+            'desde' => '2020-11-02 22:05:00',
+            'hasta' => '2020-12-14 22:05:00'
+        ] ;
+        $desde = $req['desde'];
+        $hasta = $req['hasta'];
+        return Excel::download(new AuditsExport(null,$req), "auditorias_$desde-$hasta.xlsx");
     }
 
 }

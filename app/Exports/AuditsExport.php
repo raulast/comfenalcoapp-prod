@@ -11,10 +11,13 @@ class AuditsExport implements FromCollection
     * @return \Illuminate\Support\Collection
     */
     protected $audits;
+    public $filter;
 
-    public function __construct($audits= null)
+    public function __construct($audits= null, $filter=[])
     {
         $this->audits = $audits;
+        $this->filter = $filter;
+
     }
     /**
     * @return \Illuminate\Support\Collection
@@ -27,9 +30,28 @@ class AuditsExport implements FromCollection
 
     private function getAudits()
     {
-        $audits = DB::select("
-            select
-                case
+        $f = $this->filter;
+        if (!isset($f)&& !$f) {
+            return [];
+        }
+        $modelos=[
+            0=>"App\Causae",
+            1=>"App\Clasesa",
+            2=>"App\Descripcionesp",
+            3=>"App\Diasmax",
+            4=>"App\Estadosa",
+            5=>"App\Estadosi",
+            6=>"App\Ips",
+            7=>"App\Medico",
+            8=>"App\User",
+            9=>"App\Cie10"
+        ];
+        foreach ($f['modelo'] as $key => $value) {
+            $f['modelo'][$key] = $modelos[$value];
+        }
+        $audits = DB::table('audits')
+        ->selectRaw(
+            "case
                     when event = 'created' then 'Agregar'
                     when event = 'deleted' then 'Eliminar'
                     when event = 'updated' then 'Editar'
@@ -48,31 +70,34 @@ class AuditsExport implements FromCollection
                     when auditable_type = 'App\Cie10' then  'CIE10'
                     ELSE auditable_type
                 END AS tabla_editada,
-                u.name as usuario,
-                a.created_at as fecha,
+                users.name as usuario,
+                audits.created_at as fecha,
                 old_values,
-                new_values
+                new_values"
+        )
+        ->join('users','users.id','audits.user_id');
+        $audits->whereIn('audits.user_id',$f['usuario']);
+        $audits->whereIn('auditable_type',$f['modelo']);
+        $audits->whereBetween('audits.created_at',[$f['desde'],$f['hasta']]);
+        $rows = $audits->get();
 
-            from  audits a
+        $datos = collect([]);
+        foreach ($rows as $row) {
+            $datos->push($row);
+        }
 
-            inner join users u on a.user_id = u.id
+        return $datos;
+    }
 
-            where user_id in (26)
-
-            and auditable_type in (
-                'App\Causae',
-                'App\Clasesa',
-                'App\Descripcionesp',
-                'App\Diasmax',
-                'App\Estadosa',
-                'App\Estadosi',
-                'App\Ips',
-                'App\Medico',
-                'App\User'
-            )
-
-            and a.created_at between '2020-11-28 22:05:00' and '2020-11-30 22:05:50' ;
-        ");
-        return $audits;
+    public function headings(): array
+    {
+        return [
+            'accion',
+            'tabla_editada',
+            'usuario',
+            'fecha',
+            'old_values',
+            'new_values'
+            ];
     }
 }
