@@ -127,9 +127,11 @@ class ExcelController extends Controller
             'desde' => '2020-11-02 22:05:00',
             'hasta' => '2020-12-14 22:05:00'
         ] ;
-        $desde = $req['desde'];
-        $hasta = $req['hasta'];
-        return Excel::download(new AuditsExport(null,$req), "auditorias_$desde-$hasta.xlsx");
+        $desde = date_create($req['desde']);
+        $hasta = date_create($req['hasta']);
+        $desde = date_format($desde,"Y-m-d H:i:s");
+        $hasta = date_format($hasta,"Y-m-d H:i:s");
+        return Excel::download(new AuditsExport(null,$req), "auditorias $desde to $hasta.xlsx");
     }
 
 }
