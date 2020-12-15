@@ -3,9 +3,16 @@
 namespace App\Exports;
 
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithStyles;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+use Maatwebsite\Excel\Concerns\WithColumnFormatting;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use Maatwebsite\Excel\Concerns\WithMapping;
 use DB;
 
-class AuditsExport implements FromCollection
+class AuditsExport implements FromCollection, WithHeadings, ShouldAutoSize, WithStyles, WithMapping, WithColumnFormatting
 {
     /**
     * @return \Illuminate\Support\Collection
@@ -26,6 +33,33 @@ class AuditsExport implements FromCollection
     {
         ini_set('memory_limit','512M');
         return $this->audits?:$this->getAudits();
+    }
+
+    public function styles(Worksheet $sheet)
+    {
+        return [
+            // Style the first row as bold text.
+            1    => ['font' => ['bold' => true]],
+        ];
+    }
+
+    public function columnFormats(): array
+    {
+        return [
+            'D' => NumberFormat::FORMAT_DATE_DDMMYYYY,
+        ];
+    }
+
+    public function map($invoice): array
+    {
+        return [
+            $invoice->accion,
+            $invoice->tabla_editada,
+            $invoice->usuario,
+            \PhpOffice\PhpSpreadsheet\Shared\Date::dateTimeToExcel(date_create($invoice->fecha)),
+            $invoice->old_values,
+            $invoice->new_values,
+        ];
     }
 
     private function getAudits()
@@ -92,12 +126,12 @@ class AuditsExport implements FromCollection
     public function headings(): array
     {
         return [
-            'accion',
-            'tabla_editada',
-            'usuario',
-            'fecha',
-            'old_values',
-            'new_values'
+            'ACCION',
+            'TABLA EDITADA',
+            'USUARIO',
+            'FECHA',
+            'VALOR ANTIGUO',
+            'VALOR NUEVO'
             ];
     }
 }
