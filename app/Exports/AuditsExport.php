@@ -80,6 +80,8 @@ class AuditsExport implements FromCollection, WithHeadings, ShouldAutoSize, With
             8=>"App\User",
             9=>"App\Cie10"
         ];
+        $f['modelo']= is_string($f['modelo'])? (array)json_decode($f['modelo']):[0];
+        $f['usuario']= is_string($f['usuario'])? (array)json_decode($f['usuario']):[0];
         foreach ($f['modelo'] as $key => $value) {
             $f['modelo'][$key] = $modelos[$value];
         }
