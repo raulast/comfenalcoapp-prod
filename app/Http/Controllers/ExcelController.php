@@ -121,17 +121,21 @@ class ExcelController extends Controller
 
     public function exportAudits(Request $request)
     {
-        $req = $request->toArray()?$request->toArray(): [
-            'usuario'=>[26,28],
-            'modelo' => [0,1,2],
-            'desde' => '2020-11-02 22:05:00',
-            'hasta' => '2020-12-14 22:05:00'
-        ] ;
-        $desde = date_create($req['desde']);
-        $hasta = date_create($req['hasta']);
-        $desde = date_format($desde,"Y-m-d H:i:s");
-        $hasta = date_format($hasta,"Y-m-d H:i:s");
-        return Excel::download(new AuditsExport(null,$req), "auditorias $desde to $hasta.xlsx");
+        $req = $request->toArray()?$request->toArray(): null;
+        // [
+        //     'usuario'=>[26,28],
+        //     'modelo' => [0,1,2],
+        //     'desde' => '2020-11-02 22:05:00',
+        //     'hasta' => '2020-12-14 22:05:00'
+        // ] ;
+        if ($req) {
+            # code...
+            $desde = date_create($req['desde']);
+            $hasta = date_create($req['hasta']);
+            $desde = date_format($desde,"Y-m-d H:i:s");
+            $hasta = date_format($hasta,"Y-m-d H:i:s");
+            return Excel::download(new AuditsExport(null,$req), "auditorias $desde to $hasta.xlsx");
+        }
     }
 
 }
