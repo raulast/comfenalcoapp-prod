@@ -94,6 +94,8 @@ Route::get('/exportReporte','ExcelController@export');
 Route::get('/exportCronicos','ExcelController@exportCronicos');
 Route::get('/exportJuridicas','ExcelController@exportJuridicas');
 
+Route::get('/exportAudits','ExcelController@exportAudits');
+
 
 //cronicos
 
