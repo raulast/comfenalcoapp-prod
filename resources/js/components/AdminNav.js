@@ -59,7 +59,7 @@ class AdminNav extends Component {
                     <a className="nav-link" data-toggle="pill" href="#usuarios">Usuarios</a>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link" data-toggle="pill" href="#audits">Audits</a>
+                    <a className="nav-link" data-toggle="pill" href="#audits">Auditoría</a>
                   </li>
                 </ul>
             </div>

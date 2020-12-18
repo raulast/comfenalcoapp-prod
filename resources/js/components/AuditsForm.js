@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import Select from 'react-select'
+import moment from 'moment';
 
 import axios from 'axios';
-import { method } from 'lodash';
 
 // import './AudtisForm.scss';
 
@@ -91,21 +91,12 @@ class AuditsForm extends Component {
         const inicial = Dates[0].value + ' 00:00:00';
         const final = Dates[1].value + ' 23:59:59';
         let url = 'exportAudits';
-        axios.get(url, 
-            {   usuario: this.state.usuariosFetch,
-                modelo: this.state.modelos,
-                desde: inicial,
-                hasta: final
-            }        
-        ).then((response) => {
-            const url = window.URL.createObjectURL(new Blob([response.data]));
-            console.log(url);
-            // window.open(response.data, '_blank')
-         })
-        .catch(err => {
-            this.props.showToast('¡Ups! Ha ocurrido un Error, por favor verifica los datos e intenta nuevamente','error');
-        })
-        
+        const datos = {
+            usuario: encodeURI(`[${this.state.usuariosFetch.join(',')}]`),
+            modelo: encodeURI(`[${this.state.modelos.join(',')}]`)
+        }
+        url = `${url}?usuario=${datos.usuario}&modelo=${datos.modelo}&desde=${encodeURI(inicial)}&hasta=${encodeURI(final)}`;
+        window.open(url, '_blank');
     }
  
     render() {
@@ -115,7 +106,7 @@ class AuditsForm extends Component {
                 <article className="row mt-5">
                     <div className="col-md-12">
                         <div className="card">
-                            <div className="card-header bg2 titulo">Audits</div>
+                            <div className="card-header bg2 titulo">Auditoría</div>
                             <div className="card-body texto">
                                 <form onSubmit={this.handleSubmit} target="_blank">
                                     <div className="form-group">
@@ -133,7 +124,7 @@ class AuditsForm extends Component {
                                                 }
                                             </div>
                                             <div className="col-md-6">
-                                                <label htmlFor="modelo">Modelo</label>
+                                                <label htmlFor="modelo">Elemento</label>
                                                 <Select 
                                                     isMulti  
                                                     options={options}
@@ -143,19 +134,23 @@ class AuditsForm extends Component {
                                             </div>
                                         </div>
                                         <div className="row">
-                                            <div className="col-md-6">
-                                                <label htmlFor="desde">Desde</label>
-                                                <input type="date" name="datepicker"></input>
+                                            <div class="form-group col">
+                                                <label class="col-md-6 col-form-label px-0">Desde</label>
+                                                <div class="col-12 px-0">
+                                                    <input id="desde" class="form-control" type="date" value={moment().format('YYYY-MM-DD')} name="datepicker"/>
+                                                </div>
                                             </div>
-                                            <div className="col-md-6">
-                                                <label htmlFor="hasta">Hasta</label>
-                                                <input type="date" name="datepicker"></input>
+                                            <div class="form-group col">
+                                                <label class="col-md-6 col-form-label px-0">Hasta</label>
+                                                <div class="col-12 px-0">
+                                                    <input id="hasta" class="form-control" type="date" value={moment().format('YYYY-MM-DD')} name="datepicker"/>
+                                                </div>
                                             </div>
                                         </div>
                                         <div className="row">
                                             <div className="col-md-2">
                                                 <br /><br />
-                                                <button type="submit" className="btn btn-success btn-sm">Guardar</button>
+                                                <button type="submit" className="btn btn-success btn-sm">Consultar</button>
                                             </div>
                                         </div>
                                     </div>
