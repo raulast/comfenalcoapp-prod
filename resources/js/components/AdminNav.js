@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import MenuUsuarios from './MenuUsuarios.js';
 import MenuGenerales from './MenuGenerales.js';
-import axios from 'axios';
+import AuditsForm from './AuditsForm.js';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -11,7 +11,6 @@ class AdminNav extends Component {
 
     constructor(props) {
       super(props);
-        console.log(props)
        
         this.state = {
           tipo: props.tipo,
@@ -59,15 +58,19 @@ class AdminNav extends Component {
                   <li className="nav-item">
                     <a className="nav-link" data-toggle="pill" href="#usuarios">Usuarios</a>
                   </li>
+                  <li className="nav-item">
+                    <a className="nav-link" data-toggle="pill" href="#audits">Auditoría</a>
+                  </li>
                 </ul>
             </div>
-            <div className="col-11"> 
+            <div className="col-11">
                 <div className="tab-content">
-                <div className="tab-pane container fade" id="usuarios"><MenuUsuarios showToast={(arg,type) => this.handleToast(arg,type)}/></div>
-                { this.state.tipo != 5 ? 
-                <div className="tab-pane container active" id="generales"><MenuGenerales showToast={(arg,type) => this.handleToast(arg,type)}/></div>
-                : ''
-                }
+                  <div className="tab-pane container fade" id="usuarios"><MenuUsuarios showToast={(arg,type) => this.handleToast(arg,type)}/></div>
+                  { this.state.tipo != 5 ? 
+                  <div className="tab-pane container active" id="generales"><MenuGenerales showToast={(arg,type) => this.handleToast(arg,type)}/></div>
+                  : ''
+                  }
+                  <div className="tab-pane container fade" id="audits"><AuditsForm showToast={(arg,type) => this.handleToast(arg,type)}/></div>
                 </div>
             </div>
           </div>
