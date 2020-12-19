@@ -68,21 +68,21 @@ class CronicosController extends Controller
            // dd($reintegro);
             $abuso = $cr->fecha_carta_suspension_abuso_del_derecho;
             if ($motivo == "TRAMITE DE PENSION"){
-                array_push($alarmas,"Paciente con IPT");
+                array_push($alarmas,"Paciente con Incapacidad permanente total");
                 $data["visible"] = "oculto";
             }
             if (($crh1 == "SI" && $crh2=="NO") || ($crh1 == "NO" && $crh2=="NO") || ($crh1 == "NO" && $crh2=="")){
-                array_push($alarmas,"Paciente CRH no favorable ");
+                array_push($alarmas,"Paciente Concepto de rehabilitación no favorable ");
                 $data["visible"] = "oculto";
             }
             
             if (($estado == "SEGUIMIENTO") && ($motivo=="IPP")){
-                array_push($alarmas, "Paciente con IPP (NOTA: REMITIR A MEDICINA LABORAL LA INCAPACIDAD LA GENERA EL MEDICO LABORAL)");
+                array_push($alarmas, "Paciente con Incapacidad permanente parcial (NOTA: REMITIR A MEDICINA LABORAL LA INCAPACIDAD LA GENERA EL MEDICO LABORAL)");
                 $data["visible"] = "oculto";
             }
             
             if (($estado == "SEGUIMIENTO") && ($motivo!="IPP") &&  ($reintegro!="")){
-                array_push($alarmas, "Paciente seguimiento ICP - Reintegrado ".$reintegro);
+                array_push($alarmas, "Paciente seguimiento incapacidad continua prolongada - Reintegrado ".$reintegro);
             } 
             if ($abuso !=""){
                 array_push($alarmas, "Abuso del derecho - comunicado de abuso y suspensión en ".$abuso);

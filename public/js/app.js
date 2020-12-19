@@ -74445,7 +74445,7 @@ var AutocompleteDescripcion = /*#__PURE__*/function (_Component) {
       var value = e.target.value;
       var suggestions = [];
 
-      if (value.length > 4) {
+      if (value.length >= 4) {
         /*
         const regex = new RegExp(`^${value}`,'i');
         suggestions = this.items.sort().filter(v => regex.test(v));   
@@ -80164,7 +80164,7 @@ var IncapacidadFront = /*#__PURE__*/function (_Component) {
         mensaje2 = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
           className: "alert alert-warning reco",
           role: "alert"
-        }, "El usuario se encuentra registrado en la base de seguimiento por ICP ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
+        }, "El usuario se encuentra registrado en la base de seguimiento por Incapacidad continua prolongada ", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
           href: 'verCronico/' + this.state.cronico.consec + '/0',
           target: "_blank"
         }, "Ver detalle"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("ul", null, this.state.cronico.alarmas.map(function (a, index) {
@@ -86012,6 +86012,7 @@ function TableMedicos(props) {
   };
 
   var editar = function editar(u) {
+    console.log(u.target.name);
     var name = u.target.name.split('/');
     props.handleEdition(u.target.id, name);
   };
@@ -86025,7 +86026,15 @@ function TableMedicos(props) {
       id: medicos[key]['id'],
       name: medicos[key]['cod_medico'] + '/' + medicos[key]['tipo_documento'] + '/' + medicos[key]['num_documento'] + '/' + medicos[key]['nombre'] + '/' + medicos[key]['reg_medico'] + '/' + medicos[key]['especialidad'],
       onClick: editar
-    }, "Editar")));
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+      className: "far fa-edit"
+    })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      className: "btn btn-danger btn-sm",
+      id: medicos[key]['id'],
+      onClick: eliminar
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+      className: "fas fa-trash-alt"
+    }))));
   }));
 }
 
@@ -86097,7 +86106,6 @@ function TableUsers(props) {
   };
 
   var editar = function editar(u) {
-    console.log(u.target.name);
     var name = u.target.name.split('/');
     props.handleEdition(u.target.id, name[0], name[1], name[2]);
   };
@@ -86113,19 +86121,7 @@ function TableUsers(props) {
       id: users[key]['id'],
       name: users[key]['name'] + '/' + users[key]['email'] + '/' + users[key]['tipo'],
       onClick: editar
-<<<<<<< HEAD
-<<<<<<< HEAD
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-      className: "far fa-edit"
-    })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-=======
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-      className: "far fa-edit"
-    }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
->>>>>>> 4f6a473a849d68f74b92d050478a1de5b9c1092a
-=======
     }, "Editar")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
->>>>>>> 63338422eb5b99c43aa38e734f2e1f19859e5a45
       className: "btn btn-danger btn-sm",
       id: users[key]['id'],
       onClick: eliminar
