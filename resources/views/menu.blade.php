@@ -19,12 +19,12 @@
 
                 <div class="card-body texto">
                     <div class="row">
-                        <div class="col-sm-12 col-md-12 offset-md-4">
+                        <div class="col-sm-12 col-md-12 offset-md-2">
                             <button class="buttonm texto mx-auto" style="vertical-align:middle" onclick="window.open('{{ route('incapacidad') }}')"><span>Incapacidades&nbsp;&nbsp;&nbsp;&nbsp;</span></button>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-12 col-md-12 offset-md-4">
+                        <div class="col-sm-12 col-md-12 offset-md-2">
                                 <button class="buttonm texto mx-auto" style="vertical-align:middle" onclick="window.open('{{ route('licencia') }}')"><span>Licencias</span></button>
                         </div>
                     </div>

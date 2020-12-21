@@ -56,7 +56,7 @@ class CheckActivity
                 return redirect('login')->withInput(['email'=>$user->email])->withErrors(['email'=>"
                 Esta cuenta ha sido bloqueada.
                 \nDebido a muchos intentos fallidos de inicio de sesión.
-                \nComuniquese con el administrador para desbloquear su cuenta."]);
+                \nComuníquese con el administrador para desbloquear su cuenta."]);
             }
             $user->updated_at = now();
             $user->save();
