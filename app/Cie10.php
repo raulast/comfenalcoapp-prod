@@ -3,9 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class Cie10 extends Model
+class Cie10 extends Model implements Auditable
 {
+    use \OwenIt\Auditing\Auditable;
     //
     /*
     'descripcion_diagnostico','estado','num_dias_maximo_solicitud',
