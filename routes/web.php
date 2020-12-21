@@ -33,9 +33,11 @@ Route::get('/validacionDescripcion/{estado}/{clasea}/{programa}','IncapacidadCon
 
 
 //admin
-Route::get('/admin','AdminController@index')->name('admin')->middleware('auth','twofactor');
-Route::get('/admin/usuarios','AdminController@users')->name('adminUsers');
-Route::get('/admin/incapacidades','AdminController@incapacidades')->name('adminIncapacidades');
+Route::group(['prefix' => 'admin','middleware'=>['auth','twofactor','admin']], function () {
+    Route::get('/','AdminController@index')->name('admin');
+    Route::get('/usuarios','AdminController@users')->name('adminUsers');
+    Route::get('/incapacidades','AdminController@incapacidades')->name('adminIncapacidades');
+});
 
 //load csv
 Route::get('/load/{tipo}','LoadController@datos');
@@ -54,7 +56,7 @@ Route::post('saveMedico','ApiController@saveMedico');
 
 //updates
 Route::post('updateCie10','ApiController@updateCie10');
-Route::get('updatepw/{desde}','ApiController@updatepw');
+
 
 //deletes
 Route::post('deleteUser','ApiController@deleteUser');
@@ -107,7 +109,7 @@ Route::post('/updateCronico','CronicosController@updateCronico');
 
 
 //juridicos
-Route::get('/juridicas','JuridicasController@index')->name('juridicas')->middleware('auth','twofactor');;
+Route::get('/juridicas','JuridicasController@index')->name('juridicas')->middleware('auth','twofactor');
 Route::get('/getJuridicas','JuridicasController@getJuridicas');
 Route::get('/verJuridica/{id}/{enable}/{crud}','JuridicasController@verJuridica');
 Route::get('/getJuridica/{id}','JuridicasController@getJuridica');
@@ -117,26 +119,33 @@ Route::post('/createJuridica','JuridicasController@createJuridica');
 Route::post('/deleteJuridica','JuridicasController@deleteJuridica');
 
 //Parametros Generales /parametro/{modelo}/{id}/(accion)
-Route::group(['prefix' => 'parametro'], function () {
+Route::group(['prefix' => 'parametro','middleware'=>['auth','twofactor']], function () {
     Route::group(['prefix' => '{modelo}'], function () {
         Route::get('/', 'GeneralController@Obtener');
-        Route::post('/agregar', 'GeneralController@agregar');
+        Route::post('/agregar', 'GeneralController@agregar')->middleware('admin');
         Route::group(['prefix' => '{id}'], function () {
             Route::get('/', 'GeneralController@obtenerDetalles');
-            Route::put('/editar', 'GeneralController@editar');
-            Route::delete('/eliminar', 'GeneralController@eliminar');
+            Route::put('/editar', 'GeneralController@editar')->middleware('admin');
+            Route::delete('/eliminar', 'GeneralController@eliminar')->middleware('admin');
         });
     });
 });
 //CRUD de usuarios
-Route::group(['prefix' => 'usuario'], function () {
+Route::group(['prefix' => 'usuario','middleware'=>['auth','twofactor']], function () {
+    Route::post('/editar/password', 'UserController@editarPassword')->name('editar.password');
     Route::group(['prefix' => '{modelo}'], function () {
         Route::get('/', 'UserController@obtener');
-        Route::post('/agregar', 'UserController@agregar');
+        Route::post('/agregar', 'UserController@agregar')->middleware('admin');
         Route::group(['prefix' => '{id}'], function () {
             Route::get('/', 'UserController@obtenerDetalles');
-            Route::put('/editar', 'UserController@editar');
-            Route::delete('/eliminar', 'UserController@eliminar');
+            Route::put('/editar', 'UserController@editar')->middleware('admin');
+            Route::delete('/eliminar', 'UserController@eliminar')->middleware('admin');
+            Route::post('/desbloquear', 'UserController@desbloquear')->middleware('admin');
         });
     });
 });
+
+
+Route::get('editar/password', function() {
+    return view('auth.editPassword');
+})->name('edit.password')->middleware('auth','twofactor');

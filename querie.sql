@@ -1,1 +1,1 @@
-select * from cronicos ORDER BY id desc 
+select * from dias_max_especialidad
