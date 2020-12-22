@@ -49,7 +49,7 @@
 
                             <div class="col-md-6">
                                 <input
-                                    pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,20}$"
+                                    pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s)(?=.*[@$?¡\-<#\/\>\*!_]){1}\S.{8,20}$"
                                     title="al menos una mayuscula,
                                     al menos una minuscula,
                                     al menos un número,
@@ -74,7 +74,7 @@
 
                             <div class="col-md-6">
                                 <input
-                                    pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,20}$"
+                                    pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s)(?=.*[@$?¡\-<#\/\>\*!_]){1}\S.{8,20}$"
                                     title="al menos una mayuscula,
                                     al menos una minuscula,
                                     al menos un número,
