@@ -137,13 +137,13 @@ class AuditsForm extends Component {
                                             <div class="form-group col">
                                                 <label class="col-md-6 col-form-label px-0">Desde</label>
                                                 <div class="col-12 px-0">
-                                                    <input id="desde" class="form-control" type="date" value={moment().format('YYYY-MM-DD')} name="datepicker"/>
+                                                    <input id="desde" class="form-control" type="date" defaultValue={moment().format('YYYY-MM-DD')} name="datepicker"/>
                                                 </div>
                                             </div>
                                             <div class="form-group col">
                                                 <label class="col-md-6 col-form-label px-0">Hasta</label>
                                                 <div class="col-12 px-0">
-                                                    <input id="hasta" class="form-control" type="date" value={moment().format('YYYY-MM-DD')} name="datepicker"/>
+                                                    <input id="hasta" class="form-control" type="date" defaultValue={moment().format('YYYY-MM-DD')} name="datepicker"/>
                                                 </div>
                                             </div>
                                         </div>
