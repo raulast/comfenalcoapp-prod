@@ -22,7 +22,11 @@ class GeneralController extends Controller
         $model = $this->obtenerModelo($modelo);
         if (!empty($model)) {
             $data = $request->toArray();
-            $row = $model['modelo']::create($data);
+            $row = new $model['modelo'];
+            foreach ($data as $key => $value) {
+                $row->$key = $value;
+            }
+            $row->save();
             $result = "El registro ha sido agregado exitosamente";
         }else{
            $result = "No se pudo crear, por favor refresque la pagina e intente nuevamente";
@@ -49,7 +53,11 @@ class GeneralController extends Controller
         if (!empty($model)){
             if($model['modelo']::where('id', $id)->exists()){
                 $data = $request->toArray();
-                $model['modelo']::where('id', $id)->update($data);
+                $row= $model['modelo']::find($id);
+                foreach ($data as $key => $value) {
+                    $row->$key = $value;
+                }
+                $row->update();
                 $result=  "Actualizado con exito";
             }else{
                 $result=  "El registro ha sido eliminado o no existe";
@@ -66,7 +74,8 @@ class GeneralController extends Controller
         $model = $this->obtenerModelo($modelo);
         if (!empty($model)){
             if($model['modelo']::where('id', $id)->exists()){
-                $model['modelo']::where('id', $id)->delete();
+                $row= $model['modelo']::find($id);
+                $row->delete();
                 $result=  "Eliminado con exito";
             }else{
                 $result=  "El registro ya ha sido eliminado o no existe";

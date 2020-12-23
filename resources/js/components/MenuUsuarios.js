@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import UsuariosSistema from './UsuariosSistema.js';
-import MedicosSistema from './MedicosSistema.js';
-import axios from 'axios';
+import UsuariosSistema from '../containers/Usuarios/UsuariosSistema.js';
+import MedicosSistema from '../containers/Medicos/MedicosSistema.js';
 
 
 class MenuUsuarios extends Component {

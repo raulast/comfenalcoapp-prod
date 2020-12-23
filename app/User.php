@@ -6,11 +6,13 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements Auditable
 {
     use Notifiable;
     use SoftDeletes;
+    use \OwenIt\Auditing\Auditable;
     /**
      * The attributes that are mass assignable.
      *
@@ -60,4 +62,22 @@ class User extends Authenticatable
         $this->two_factor_expires_at = null;
         $this->save();
     }
+
+    public function contrasenas()
+    {
+        return $this->hasMany('App\Contrasenas');
+    }
+
+
+    public function medico()
+    {
+        return $this->hasOne('App\Medico', 'user_id', 'id');
+    }
+
+
+    public function login_fail()
+    {
+        return $this->hasMany('App\LoginFail');
+    }
+
 }
