@@ -31,7 +31,7 @@
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Contraseña') }}</label>
 
                             <div class="col-md-6">
-                                <input pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s)(?=.*[@$?¡\-<#\/\>\*!_]){1}\S.{8,20}$" title="al menos una mayuscula,
+                                <input pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s)(?=.+([\x20-\x2F]|[\x3A-\x40]|[\x5B-\x60]|[\x7B-\x7E])).{8,16}$" title="al menos una mayuscula,
                                 al menos una minuscula,
                                 al menos un número,
                                 al menos un caracter especial,
@@ -49,7 +49,7 @@
                             <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirmar Contraseña') }}</label>
 
                             <div class="col-md-6">
-                                <input pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s)(?=.*[@$?¡\-<#\/\>\*!_]){1}\S.{8,20}$" title="al menos una mayuscula,
+                                <input pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s)(?=.+([\x20-\x2F]|[\x3A-\x40]|[\x5B-\x60]|[\x7B-\x7E])).{8,16}$" title="al menos una mayuscula,
                                 al menos una minuscula,
                                 al menos un número,
                                 al menos un caracter especial,
