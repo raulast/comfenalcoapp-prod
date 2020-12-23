@@ -151,7 +151,7 @@ class UsuariosSistema extends Component {
             });
         }
     }
-    
+
 
     handleCerrarModal(){
         this.setState({
@@ -360,7 +360,7 @@ class UsuariosSistema extends Component {
                         <div className="form-group">
                             <label htmlFor="codigo">Contraseña</label>
                             <input
-                                pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,20}$"
+                                pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s)(?=.+([\x20-\x2F]|[\x3A-\x40]|[\x5B-\x60]|[\x7B-\x7E])).{8,16}$"
                                 title="al menos una mayuscula,
                                         al menos una minuscula,
                                         al menos un número,
@@ -381,7 +381,7 @@ class UsuariosSistema extends Component {
                         <div className="form-group">
                             <label htmlFor="codigo">Confirmar contraseña</label>
                             <input
-                                pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,20}$"
+                                pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s)(?=.+([\x20-\x2F]|[\x3A-\x40]|[\x5B-\x60]|[\x7B-\x7E])).{8,16}$"
                                 title="al menos una mayuscula,
                                         al menos una minuscula,
                                         al menos un número,
@@ -441,7 +441,7 @@ class UsuariosSistema extends Component {
                                                 <div className="col-md-4">
                                                     <label htmlFor="nombre">Contraseña</label>
                                                     <input
-                                                        pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,20}$"
+                                                        pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s)(?=.+([\x20-\x2F]|[\x3A-\x40]|[\x5B-\x60]|[\x7B-\x7E])).{8,16}$"
                                                         title="al menos una mayuscula,
                                                         al menos una minuscula,
                                                         al menos un número,
@@ -461,7 +461,7 @@ class UsuariosSistema extends Component {
                                                 <div className="col-md-4">
                                                     <label htmlFor="nombre">Confirmar Contraseña</label>
                                                     <input
-                                                        pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,20}$"
+                                                        pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s)(?=.+([\x20-\x2F]|[\x3A-\x40]|[\x5B-\x60]|[\x7B-\x7E])).{8,16}$"
                                                         title="al menos una mayuscula,
                                                         al menos una minuscula,
                                                         al menos un número,
