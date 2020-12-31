@@ -99,7 +99,7 @@ Route::get('/exportAudits','ExcelController@exportAudits');
 
 //cronicos
 
-Route::get('/cronicos','CronicosController@index')->name('cronicos')->middleware('auth','twofactor');;
+Route::get('/cronicos','CronicosController@index')->name('cronicos')->middleware('auth','twofactor');
 Route::get('/getCronicos','CronicosController@getCronicos');
 Route::post('/buscarCronicos','CronicosController@buscarCronicos');
 Route::post('/buscarCronico','CronicosController@buscarCronico');
@@ -107,6 +107,7 @@ Route::get('/verCronico/{id}/{enable}','CronicosController@verCronico');
 Route::get('/getCronico/{id}','CronicosController@getCronico');
 Route::post('/updateCronico','CronicosController@updateCronico');
 
+Route::get('/updateCronicoDev','CronicosController@updateCronicoDev')->middleware('auth','twofactor');
 
 //juridicos
 Route::get('/juridicas','JuridicasController@index')->name('juridicas')->middleware('auth','twofactor');

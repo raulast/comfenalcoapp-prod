@@ -19,18 +19,18 @@ class CronicosController extends Controller
     }
     public function buscarCronicos(Request $request){
         $datos = $request->datos;
-        
+
         $identificacion = $datos['identificacion'];
         $desde = $datos['desde'];
         $hasta = $datos['hasta'];
        // return $datos;
-        
+
         $estado = $datos['estado'];
         //$conducta = $datos['conducta'];
         $motivo = $datos['motivo'];
 
         $cronicos = Cronicos::where('id','>=',1);
-        
+
         if ($identificacion != ""){
             $data = $cronicos->where('id_usuario',$identificacion);
         }
@@ -40,7 +40,7 @@ class CronicosController extends Controller
         if ($motivo != ""){
             $data = $cronicos->where('motivo_estado_seguimiento',$motivo);
         }
-        
+
         if (($datos['desde']!="")&&($datos['hasta']!="")){
             $data = $cronicos->whereBetween('fecha_notificacion', [$desde, $hasta]);
         }
@@ -75,23 +75,23 @@ class CronicosController extends Controller
                 array_push($alarmas,"Paciente CRH no favorable ");
                 $data["visible"] = "oculto";
             }
-            
+
             if (($estado == "SEGUIMIENTO") && ($motivo=="IPP")){
                 array_push($alarmas, "Paciente con IPP (NOTA: REMITIR A MEDICINA LABORAL LA INCAPACIDAD LA GENERA EL MEDICO LABORAL)");
                 $data["visible"] = "oculto";
             }
-            
+
             if (($estado == "SEGUIMIENTO") && ($motivo!="IPP") &&  ($reintegro!="")){
                 array_push($alarmas, "Paciente seguimiento ICP - Reintegrado ".$reintegro);
-            } 
+            }
             if ($abuso !=""){
                 array_push($alarmas, "Abuso del derecho - comunicado de abuso y suspensión en ".$abuso);
                 $data["visible"] = "oculto";
             }
 
             $data["consec"]= $consec;
-        }    
-        $data["alarmas"]=$alarmas; 
+        }
+        $data["alarmas"]=$alarmas;
         return response()->json([
             'data' => $data
         ]);
@@ -102,19 +102,41 @@ class CronicosController extends Controller
         return view('cronicos.verCronico',[
             'id' => $id,
             'enable'=>$enable
-        ]); 
+        ]);
     }
     public function getCronico($id){
-          $data = Cronicos::where('id',$id)->first();
-         
-          return response()->json([
+        $data = Cronicos::where('id',$id)->first();
+
+        return response()->json([
             'data' => $data
         ]);
-      }
+    }
     public function updateCronico(Request $request){
         $datos = $request->datos;
         $id = $datos['id'];
         $update = Cronicos::find($id)->update($datos);
+
+        return  "Información actualizada";
+
+    }
+    public function updateCronicoDev(Request $request){
+        $datos = $request->toArray();
+        $id = $datos['id'];
+        $cronico = Cronicos::find($id);
+        foreach ($datos as $key => $value) {
+            $cronico->$key = $value;
+        }
+        // $cronicos->update();
+        $cronico->consecutivo = $cronico->id;
+
+        $cronico->ano_notificacion = ($cronico->fecha_notificacion != '')?(
+            (date('Y',strtotime($cronico->fecha_notificacion))=='1900')?
+            '2019':(
+                (date('Y',strtotime($cronico->fecha_notificacion))<='2015')?'Años Anteriores':(
+                    date('Y',strtotime($cronico->fecha_notificacion))))):
+            '';
+
+        dd($cronico->ano_notificacion);
 
         return  "Información actualizada";
 
