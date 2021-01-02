@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Cronicos;
+use DB;
 
 class CronicosController extends Controller
 {
@@ -45,6 +46,9 @@ class CronicosController extends Controller
             $data = $cronicos->whereBetween('fecha_notificacion', [$desde, $hasta]);
         }
         $data = $data->get();
+        foreach ($data as $key => $value) {
+            $data->$key = $this->formulas($value);
+        }
         return response()->json([
             'data' => $data
         ]);
@@ -59,6 +63,7 @@ class CronicosController extends Controller
         $data["visible"] = "visible";
         if (Cronicos::where('id_usuario',$id)->exists()){
             $cr = Cronicos::where('id_usuario',$id)->first();
+            $cr = $this->formulas($cr);
             $consec = $cr->id;
             $motivo =$cr->motivo_estado_seguimiento;
             $crh1 = $cr->decision_crh1;
@@ -107,26 +112,48 @@ class CronicosController extends Controller
     public function getCronico($id){
         $data = Cronicos::where('id',$id)->first();
 
+        $data = $this->formulas($data);
+
         return response()->json([
             'data' => $data
         ]);
     }
+
     public function updateCronico(Request $request){
-        $datos = $request->datos;
-        $id = $datos['id'];
-        $update = Cronicos::find($id)->update($datos);
-
-        return  "Información actualizada";
-
-    }
-    public function updateCronicoDev(Request $request){
         $datos = $request->toArray();
         $id = $datos['id'];
         $cronico = Cronicos::find($id);
         foreach ($datos as $key => $value) {
             $cronico->$key = $value;
         }
-        // $cronicos->update();
+
+        $cronico = $this->formulas($cronico);
+
+        $cronico->update();
+
+        return  "Información actualizada";
+
+    }
+
+    public function addCronico(Request $request){
+        $datos = $request->toArray();
+        $cronico = new Cronicos;
+        foreach ($datos as $key => $value) {
+            $cronico->$key = $value;
+        }
+
+        $cronico->save();
+
+        $cronico = $this->formulas($cronico);
+
+        $cronico->update();
+
+        return  "Cronico Agregado";
+
+    }
+
+    private function formulas($cronico)
+    {
         $cronico->consecutivo = $cronico->id;
 
         $cronico->ano_notificacion = ($cronico->fecha_notificacion != '')?(
@@ -136,9 +163,55 @@ class CronicosController extends Controller
                     date('Y',strtotime($cronico->fecha_notificacion))))):
             '';
 
-        dd($cronico->ano_notificacion);
+        $cronico->cant_ciclos = DB::select("select count(id) as cant_ciclos from cronicos
+        where id_usuario = ?", [$cronico->id_usuario])[0]->cant_ciclos;
 
-        return  "Información actualizada";
+        $cronico->cc_repetidos = ($cronico->cant_ciclos > 1)? true : false;
 
+        $rdf = $cronico->dias_acumulados_a_fecha_ultima_it;
+        $cronico->rango_dias_a_fecha_ultima_it = ($rdf<60)?"01. No Aplica":(
+            ($rdf>=60 && $rdf<=90)?"02. Entre 60 a 90":(
+                ($rdf>=91 && $rdf<=120)?"03. Entre 91 a 120":(
+                    ($rdf>=121 && $rdf<=150)?"04. Entre 121 a 150":(
+                        ($rdf>=151 && $rdf<=180)?"05. Entre 151 a 180":(
+                            ($rdf>=181 && $rdf<=360)?"06. Entre 181 a 360":(
+                                ($rdf>=361 && $rdf<=540)?"07. Entre 361 a 540":(
+                                    ($rdf>=541 && $rdf<=720)?"08. Entre 541 a 720":(
+                                        ($rdf>=721 && $rdf<=1000)?"09. Entre 721 a 1000":(
+                                            ($rdf>=1001)?"10. Entre Mayor a 1000":""
+                                        )))))))));
+
+        $tmp = "dias_acumulado_a_hoy_desde_fech _inic _ciclo";
+        $cronico->$tmp = (strtoupper($cronico->estado_seguimiento) == "CERRADO")?$rdf:(
+            (strtoupper($cronico->estado_seguimiento) == "SEGUIMIENTO")?"".intval((getdate()[0]-strtotime($cronico->fecha_it_inicio_ciclo))/86400):""
+        );
+
+        $cronico->perdidos = (strtoupper($cronico->estado_seguimiento) == "CERRADO")?"0":(
+            (strtoupper($cronico->estado_seguimiento) == "SEGUIMIENTO")?"".intval((getdate()[0]-strtotime($cronico->fecha_fin_ultima_it))/86400):""
+        );
+
+        $cronico->fecha_dia_120 = date('d/m/Y',86400*((strtotime($cronico->fecha_it_inicio_ciclo)/86400)+120-1));
+        $cronico->fecha_dia_150 = date('d/m/Y',86400*((strtotime($cronico->fecha_it_inicio_ciclo)/86400)+150-1));
+        $cronico->fecha_dia_180 = date('d/m/Y',86400*((strtotime($cronico->fecha_it_inicio_ciclo)/86400)+180-1));
+        $cronico->fecha_dia_480 = date('d/m/Y',86400*((strtotime($cronico->fecha_it_inicio_ciclo)/86400)+480-1));
+        $cronico->fecha_dia_540 = date('d/m/Y',86400*((strtotime($cronico->fecha_it_inicio_ciclo)/86400)+540-1));
+
+        $tmp = "fecha_emision_crh1_(antes_del_180)";
+        $cronico->ano_emision_crh1 = ($cronico->$tmp>=2018)?date('Y',strtotime($cronico->$tmp)):"Años Anteriores";
+        $cronico->mes_emision_crh1 = ($cronico->$tmp>=2018)?date('m',strtotime($cronico->$tmp)):"Años Anteriores";
+
+        $cronico->oportunidad_a_crh1=($cronico->dias_acumulados_a_crh1<=0)?"No Aplica":(
+            ($cronico->dias_acumulados_a_crh1>1 && $cronico->dias_acumulados_a_crh1<=150)?"1. Oportuno":(
+                ($cronico->dias_acumulados_a_crh1>150)?"2. No Oportuno":""
+            )
+        );
+
+        $cronico->rango_cpclo_cierre = ($rdf<25)?"01. Menor 25%":(
+            ($rdf>=25 && $rdf<36)?"02. Entre 25% a 35%":(
+                ($rdf>=36 && $rdf<46)?"03. Entre 36% a 45%":(
+                    ($rdf>=46 && $rdf<50)?"04. Entre 46% a 49%":(
+                        ($rdf>=50)?"05. Entre Mayor 50%":""))));
+
+        return $cronico;
     }
 }
