@@ -120,7 +120,7 @@ class CronicosController extends Controller
     }
 
     public function updateCronico(Request $request){
-        $datos = $request->toArray();
+        $datos = $request->toArray()['datos'];
         $id = $datos['id'];
         $cronico = Cronicos::find($id);
         foreach ($datos as $key => $value) {
@@ -136,7 +136,7 @@ class CronicosController extends Controller
     }
 
     public function addCronico(Request $request){
-        $datos = $request->toArray();
+        $datos = $request->toArray()['datos'];
         $cronico = new Cronicos;
         foreach ($datos as $key => $value) {
             $cronico->$key = $value;
