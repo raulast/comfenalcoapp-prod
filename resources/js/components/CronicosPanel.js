@@ -25,17 +25,12 @@ class CronicosPanel extends Component {
             motivo: '',
             desde: '',
             hasta: '',
-            modalOpen: false,
-            data: {}
         }
         // bind
         this.getCronicos = this.getCronicos.bind(this);
         this.handleChange = this.handleChange.bind(this);
-        this.handleChangeModal = this.handleChangeModal.bind(this);
         this.buscar = this.buscar.bind(this);
         this.handleCrear = this.handleCrear.bind(this);
-        this.handleCerrarModal = this.handleCerrarModal.bind(this);
-        this.handleAddCronico = this.handleAddCronico.bind(this);
         this.getCronicos()
     }
 
@@ -63,33 +58,7 @@ class CronicosPanel extends Component {
     }
 
     handleCrear() {
-        this.setState({
-            modalOpen: true,
-        });
         window.open('verCronico/' + 0 + "/1", '_blank');
-    }
-
-    handleCerrarModal(){
-        this.setState({
-            modalOpen: false,
-        });
-    }
-
-    handleAddCronico(e) {
-        e.preventDefault();
-        let url = '/addCronico';
-        axios.post(url, {datos: this.state.data})
-            .then(resp)
-            .catch(error)
-    }
-
-    handleChangeModal({ target }) {
-        var ncronico = this.state.data;      
-        ncronico[target.name]=target.value;    
-        console.log('props: ', ncronico, 'cronico: ', `T:${this.state.datos}`, target);   
-        this.setState({
-         data: ncronico,
-        });
     }
 
     buscar() {
@@ -178,70 +147,6 @@ class CronicosPanel extends Component {
                         </div>
                     </div>
                 </div>
-
-
-
-                <Modal show={this.state.modalOpen}>
-                    <Modal.Header>Cronico</Modal.Header>
-                    <Modal.Body>
-                        <div className="container">
-                            <div className="row">
-                                <div className="col-12">
-                                    <form id="crearCronico" onSubmit={ this.handleAddCronico }>
-                                        <div className="form-group"><label htmlFor="">Número notificación</label><input type="number" onChange={this.handleChangeModal} required className="form-control form-control-sm" name="numero_notificacion"/></div>
-                                        <div className="form-group"><label htmlFor="">Fecha notificacion</label><input type="date" onChange={this.handleChangeModal} className="form-control form-control-sm" name="fecha_notificacion"/></div>
-                                        <div className="form-group"><label htmlFor="">Tipo ID usuario</label><input type="text" onChange={this.handleChangeModal} className="form-control form-control-sm" name="tipo_id_usuario"/></div>
-                                        <div className="form-group"><label htmlFor="">ID usuario</label><input type="number" onChange={this.handleChangeModal} className="form-control form-control-sm" name="id_usuario"/></div>
-                                        <div className="form-group"><label htmlFor="">Primer nombre</label><input type="text" onChange={this.handleChangeModal} className="form-control form-control-sm" name="nombre_1_usuario"/></div>
-                                        <div className="form-group"><label htmlFor="">Segundo nombre</label><input type="text" onChange={this.handleChangeModal} className="form-control form-control-sm" name="nombre_2_usuario"/></div>
-                                        <div className="form-group"><label htmlFor="">Primer apellido</label><input type="text" onChange={this.handleChangeModal} className="form-control form-control-sm" name="apellido_1_usuario"/></div>
-                                        <div className="form-group"><label htmlFor="">Segundo apellido</label><input type="text" onChange={this.handleChangeModal} className="form-control form-control-sm" name="apellido_2_usuario"/></div>
-                                        <div className="form-group"><label htmlFor="">Tipo afiliado</label><input type="text" onChange={this.handleChangeModal} required className="form-control form-control-sm" name="tipo_afiliado"/></div>
-                                        <div className="form-group"><label htmlFor="">Estado afiliado</label><input type="text" onChange={this.handleChangeModal} className="form-control form-control-sm" name="estado_afiliado"/></div>
-                                        <div className="form-group"><label htmlFor="">Telefono fijo usuario</label><input type="number" onChange={this.handleChangeModal} className="form-control form-control-sm" name="telefono_fijo_usuario"/></div>
-                                        <div className="form-group"><label htmlFor="">Celular usuario</label><input type="number" onChange={this.handleChangeModal} className="form-control form-control-sm" name="celular_usuario"/></div>
-                                        <div className="form-group"><label htmlFor="">Email usuario</label><input type="email" onChange={this.handleChangeModal} className="form-control form-control-sm" name="e mail_usuario"/></div>
-                                        <div className="form-group"><label htmlFor="">Apellidos y Nombres acudiente</label><input type="text" onChange={this.handleChangeModal} className="form-control form-control-sm" name="apellidos_nombres_acudiente"/></div>
-                                        <div className="form-group"><label htmlFor="">Telefono fijo acudiente</label><input type="number" onChange={this.handleChangeModal} className="form-control form-control-sm" name="telefono_fijo_acudiente"/></div>
-                                        <div className="form-group"><label htmlFor="">Telefono celular acudiente</label><input type="number" onChange={this.handleChangeModal} className="form-control form-control-sm" name="telefono_celular_acudiente"/></div>
-                                        <div className="form-group"><label htmlFor="">Email acudiente</label><input type="email" onChange={this.handleChangeModal} className="form-control form-control-sm" name="e mail_acudiente"/></div>
-                                        <div className="form-group"><label htmlFor="">Tipo ID aportante</label><input type="text" onChange={this.handleChangeModal} required className="form-control form-control-sm" name="tipo_id_aportante"/></div>
-                                        <div className="form-group"><label htmlFor="">Nit aportante</label><input type="number" onChange={this.handleChangeModal} className="form-control form-control-sm" name="nit_aportante"/></div>
-                                        <div className="form-group"><label htmlFor="">Nombre aportante </label><input type="text" onChange={this.handleChangeModal} className="form-control form-control-sm" name="nombre_aportante"/></div>
-                                        <div className="form-group"><label htmlFor="">Codigo ARL</label><input type="number" onChange={this.handleChangeModal} className="form-control form-control-sm" name="cod_arl"/></div>
-                                        <div className="form-group"><label htmlFor="">Nombre ARL</label><input type="text" onChange={this.handleChangeModal} className="form-control form-control-sm" name="nombre_arl"/></div>
-                                        <div className="form-group"><label htmlFor="">Codigo AFP</label><input type="number" onChange={this.handleChangeModal} className="form-control form-control-sm" name="cod_afp"/></div>
-                                        <div className="form-group"><label htmlFor="">Nombre AFP</label><input type="text" onChange={this.handleChangeModal} className="form-control form-control-sm" name="nombre_afp"/></div>
-                                        <div className="form-group"><label htmlFor="">Municipio</label><input type="text" onChange={this.handleChangeModal} className="form-control form-control-sm" name="municipio"/></div>
-                                        <div className="form-group"><label htmlFor="">Codigo municipio</label><input type="text" onChange={this.handleChangeModal} required className="form-control form-control-sm" name="codigo_municipio"/></div>
-                                        <div className="form-group"><label htmlFor="">Nit IPS primaria</label><input type="number" onChange={this.handleChangeModal} className="form-control form-control-sm" name="nit_ips_primaria"/></div>
-                                        <div className="form-group"><label htmlFor="">Nombre IPS</label><input type="number" onChange={this.handleChangeModal} className="form-control form-control-sm" name="nombre_ips"/></div>
-                                        <div className="form-group"><label htmlFor="">Nombre (MEL)</label><input type="text" onChange={this.handleChangeModal} className="form-control form-control-sm" name="nombre_medico_laboral_(mel)"/></div>
-                                        <div className="form-group"><label htmlFor=""># Licencia Medico laboral</label><input type="text" onChange={this.handleChangeModal} className="form-control form-control-sm" name="no_licencia_medico_laboral"/></div>
-                                        <div className="form-group"><label htmlFor="">Fecha primera asistencia (mel)</label><input type="date" onChange={this.handleChangeModal} className="form-control form-control-sm" name="fecha_primera_asistio_mel"/></div>
-                                        <div className="form-group"><label htmlFor="">Fecha última cita (mel)</label><input type="date" onChange={this.handleChangeModal} className="form-control form-control-sm" name="fecha_ultima_cita_mel"/></div>
-                                        <div className="form-group"><label htmlFor="">Fecha próxima (mel)</label><input type="date" onChange={this.handleChangeModal} className="form-control form-control-sm" name="fecha_proxima_mel"/></div>
-                                        <div className="form-group"><label htmlFor="">Fecha primera asistencia (sic)</label><input type="date" onChange={this.handleChangeModal} className="form-control form-control-sm" name="fecha_primera_asistio_sic"/></div>
-                                        <div className="form-group"><label htmlFor="">Fecha última cita (sic)</label><input type="date" onChange={this.handleChangeModal} className="form-control form-control-sm" name="fecha_ultima_cita_sic"/></div>
-                                        <div className="form-group"><label htmlFor="">Fecha próxima (sic)</label><input type="date" onChange={this.handleChangeModal} className="form-control form-control-sm" name="fecha_proxima_sic"/></div>
-                                        <div className="form-group"><label htmlFor="">Días acumulados identificacion caso</label><input type="text" onChange={this.handleChangeModal} className="form-control form-control-sm" name="dias_acumulados_a_identificacion_caso"/></div>
-                                        <div className="form-group"><label htmlFor="">Fecha fin IT - Días acumulados a identificacion</label><input type="date" onChange={this.handleChangeModal} className="form-control form-control-sm" name="fecha_fin_it_dias_acumulados_a_indetificacion"/></div>
-                                        <div className="form-group"><label htmlFor="">Tipo seguimiento</label><input type="date" onChange={this.handleChangeModal} className="form-control form-control-sm" name="tipo_seguimiento"/></div>
-                                        <div className="form-group"><label htmlFor="">Estado seguimiento</label><input type="text" onChange={this.handleChangeModal} className="form-control form-control-sm" name="estado_seguimiento"/></div>
-                                        <div className="form-group"><label htmlFor="">Motivo Estado seguimiento</label><input type="text" onChange={this.handleChangeModal} className="form-control form-control-sm" name="motivo_estado_seguimiento"/></div>
-                                        <div className="form-group"><label htmlFor="">CIE-10 Evento seguimiento</label><input type="text" onChange={this.handleChangeModal} className="form-control form-control-sm" name="cie10_evento_seguimiento"/></div>
-                                        <div className="form-group"><label htmlFor="">Descripción CIE-10</label><input type="text" onChange={this.handleChangeModal} className="form-control form-control-sm" name="descripcion_cie10"/></div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <button type="submit" form="crearCronico" className="btn btn-primary btn-sm" >Guardar</button>
-                        <button className="btn btn-primary btn-sm" onClick={ this.handleCerrarModal }>Cerrar</button>
-                    </Modal.Footer>
-                </Modal>
-
 
 
                 <div className="row mt-2">
