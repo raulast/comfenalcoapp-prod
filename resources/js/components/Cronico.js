@@ -24,7 +24,6 @@ class Cronico extends Component {
       }
   
       handleToast(arg,type) {
-        console.log(arg, type);
         if(type == 'success') {
             toast.success(arg, {
                 position: "top-right",

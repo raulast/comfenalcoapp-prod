@@ -1,23 +1,19 @@
 import React, { useState, useEffect } from 'react'
-import Axios from 'axios'
-
 
 import axios from 'axios';
 
 
 export default function TableCronicos(props) {
+    console.log(props);
 
     const eliminar = (u) => {
-        props.handleEliminar(u.target.id)
+        const id= u.target.id;
     }
     const editar = (u) =>{
         props.handleEdition(u.target.id)
     }
     const cronicos = props.cronicos;
     
-   
-    //console.log(Object.keys(cronicos[0]))
-    //console.log(typeof cronicos[0])
     
     if (typeof cronicos === 'object'){
          var cols=Object.keys(cronicos[0])
@@ -39,8 +35,11 @@ export default function TableCronicos(props) {
                     {Object.keys(cronicos).map((key) => (
                         <tr key={key}>
                             {cols.map((col) =>
-                             col != 'id' ? <td>{cronicos[key][col]}</td> :  <td><button className="btn btn-sm btn-success" id={cronicos[key][col]} onClick={openCronico}>Ver</button></td> 
-                
+                             col != 'id' ? <td>{cronicos[key][col]}</td> :
+                                <td className="d-flex justify-content-between align-items-center border-bottom-0 border-right-0 ">
+                                   <button className="btn btn-sm btn-success mx-3" id={cronicos[key][col]} onClick={openCronico}>Ver</button>
+                                   <button className="btn btn-sm btn-danger mx-3" id={cronicos[key][col]} onClick={eliminar}><i className="fas fa-trash-alt"></i></button>
+                                </td> 
                             )}
                     
                         </tr>
