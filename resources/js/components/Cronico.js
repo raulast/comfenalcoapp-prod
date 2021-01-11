@@ -55,21 +55,21 @@ class Cronico extends Component {
               <div className="col-1 "> 
                   <ul className="nav nav-pills flex-column">
                     <li className="nav-item">
-                      <a className="nav-link active" data-toggle="pill" href="#tab1">Tab 1</a>
+                      <a className="nav-link active" data-toggle="pill" href="#tab1">1</a>
                     </li>
                     <li className="nav-item">
-                      <a className="nav-link" data-toggle="pill" href="#tab2">Tab 2</a>
+                      <a className="nav-link" data-toggle="pill" href="#tab2">2</a>
                     </li>
                     <li className="nav-item">
-                      <a className="nav-link" data-toggle="pill" href="#tab3">Tab 3</a>
+                      <a className="nav-link" data-toggle="pill" href="#tab3">3</a>
                     </li>
                   </ul>
               </div>
               <div className="col-11">
                   <div className="tab-content">
-                    <div className="tab-pane container active" id="tab1"><CronicoTab1 {...this.props}/></div>
-                    <div className="tab-pane container fade" id="tab2"><CronicoTab2 {...this.props}/></div>
-                    <div className="tab-pane container fade" id="tab3"><CronicoTab3 {...this.props}/></div>
+                    <div className="tab-pane container active" id="tab1"><CronicoTab1 showToast={(arg,type) => this.handleToast(arg,type)} {...this.props}/></div>
+                    <div className="tab-pane container fade" id="tab2"><CronicoTab2 showToast={(arg,type) => this.handleToast(arg,type)} {...this.props}/></div>
+                    <div className="tab-pane container fade" id="tab3"><CronicoTab3 showToast={(arg,type) => this.handleToast(arg,type)} {...this.props}/></div>
                   </div>
               </div>
             </div>
