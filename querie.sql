@@ -1,1 +1,1 @@
-select * from incapacidad
+delete from users where email='dagueca@gmail.com'
