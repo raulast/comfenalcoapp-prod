@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import TableCronicos from './TableCronicos.js';
+import Modal from "react-bootstrap/Modal";
+
 
 import axios from 'axios';
 
@@ -22,12 +24,13 @@ class CronicosPanel extends Component {
             estado: '',
             motivo: '',
             desde: '',
-            hasta: ''
+            hasta: '',
         }
         // bind
         this.getCronicos = this.getCronicos.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.buscar = this.buscar.bind(this);
+        this.handleCrear = this.handleCrear.bind(this);
         this.getCronicos()
     }
 
@@ -49,12 +52,15 @@ class CronicosPanel extends Component {
                 console.log(err)
             })
     }
-    componentDidMount() {
 
-    }
     exportReport(){
         window.open('exportCronicos','_blank');
     }
+
+    handleCrear() {
+        window.open('verCronico/' + 0 + "/1", '_blank');
+    }
+
     buscar() {
         let url = 'buscarCronicos'
         axios.post(url, { datos: this.state })
@@ -129,6 +135,10 @@ class CronicosPanel extends Component {
                                         <br/>
                                         <button className="btn btn-success" onClick={this.exportReport}>Exportar Datos</button>
                                     </div>
+                                    <div className="col-md-4">
+                                        <br/>
+                                        <button className="btn btn-success" onClick={this.handleCrear}>Crear Cronico</button>
+                                    </div>
                                 </div>
                                 {/*<div className="row mt-1">
                                     <button className="btn btn-success" onClick={this.buscar}>Buscar</button>
@@ -137,6 +147,8 @@ class CronicosPanel extends Component {
                         </div>
                     </div>
                 </div>
+
+
                 <div className="row mt-2">
                     <div className="col-md-12">
                         <div className="card">
