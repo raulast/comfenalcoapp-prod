@@ -140,7 +140,7 @@ class CronicosController extends Controller
 
         $cronico->delete();
 
-        return  "Cronico eliminado exitosamente";
+        return  "Registro eliminado exitosamente";
 
     }
 
