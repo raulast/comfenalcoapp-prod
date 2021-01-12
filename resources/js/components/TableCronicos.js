@@ -8,6 +8,7 @@ export default function TableCronicos(props) {
 
     const eliminar = (u) => {
         const id= u.target.id;
+        props.setModal(true, id);
     }
     const editar = (u) =>{
         props.handleEdition(u.target.id)
