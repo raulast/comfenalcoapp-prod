@@ -6,6 +6,9 @@ import Modal from "react-bootstrap/Modal";
 
 import axios from 'axios';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 
 class CronicosPanel extends Component {
@@ -25,12 +28,21 @@ class CronicosPanel extends Component {
             motivo: '',
             desde: '',
             hasta: '',
+            eliminar: false,
+            modal: {
+                show: false,
+                id: ''
+            }
         }
         // bind
         this.getCronicos = this.getCronicos.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.buscar = this.buscar.bind(this);
         this.handleCrear = this.handleCrear.bind(this);
+        this.showModal = this.showModal.bind(this);
+        this.handleCerrarModal = this.handleCerrarModal.bind(this);
+        this.handleEliminar = this.handleEliminar.bind(this);
+        this.handleToast = this.handleToast.bind(this);
         this.getCronicos()
     }
 
@@ -74,9 +86,64 @@ class CronicosPanel extends Component {
                 console.log(err)
             })
     }
+
+    
+    handleCerrarModal(){
+        this.setState({
+            modal: {show: false},
+            eliminar: false
+        });
+    }
+
+    showModal(arg, id) {
+        this.setState({modal: {show: arg, id}});
+    }
+
+
+    handleToast(arg,type) {
+        if(type == 'success') {
+            toast.success(arg, {
+                position: "top-right",
+                autoClose: 1500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        }else if(type == 'error') {
+            toast.error(arg, {
+                position: "top-right",
+                autoClose: 1500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        }
+    }   
+
+    handleEliminar() {
+        this.setState({eliminar: true});
+        const id= this.state.modal;
+        const baseUrl = '/deleteCronico/'
+        const url = `${baseUrl}${id.id}`
+        axios.delete(url)
+        .then(resp => {
+            this.handleToast(resp.data,'success')
+            this.setState({modal: {show: false}})
+        })
+        .catch(err => {
+            this.handleToast(err,'error')
+        })
+        this.getCronicos()
+    }
+
     render() {
         return (
             <div>
+                <ToastContainer/>
                 <div className="row mt-2">
                     <div className="col-md-12">
                         <div className="card">
@@ -160,13 +227,28 @@ class CronicosPanel extends Component {
 
                         </div>
                         {this.state.cronicos != '' ? (
-                            <TableCronicos cronicos={this.state.cronicos} />
+                            <TableCronicos eliminar={this.state.eliminar} cronicos={this.state.cronicos} setModal={(arg, id) => this.showModal(arg, id)}/>
                         ) : (
                                 <p>No hay datos</p>
                             )}
                     </div>
                 </div>
+                <Modal show={this.state.modal.show}>
+                    <Modal.Header>Eliminar Crónico</Modal.Header>
+                    <Modal.Body>
+                        <div className="container">
+                            <div className="row">
+                                <h3>¿Desea eliminar el crónico #{this.state.modal.id}</h3>
+                            </div>
+                        </div>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <button className="btn btn-danger btn-sm" onClick={ this.handleEliminar }>Eliminar</button>
+                        <button className="btn btn-primary btn-sm" onClick={ this.handleCerrarModal }>Cerrar</button>
+                    </Modal.Footer>
+                </Modal>
             </div>
+            
         );
     }
 

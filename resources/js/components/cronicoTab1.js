@@ -28,23 +28,23 @@ class CronicoTab1 extends Component {
         if(this.state.id != 0) {
             let url = '/updateCronico'
             axios.post(url, { datos: this.state.cronico })
-                .then(resp => {
-                    console.log(resp.data)
-                    // alert(resp.data)
-                })
-                .catch(err => {
-                    console.log(err)
-                })
+            .then(resp => {
+                this.props.showToast(resp.data,'success')
+            })
+            .catch(err => {
+                this.props.showToast(err,'error')
+                console.log(err)
+            })
         } else {
             let url = '/addCronico'
             axios.post(url, { datos: this.state.cronico })
-                .then(resp => {
-                    console.log(resp.data)
-                    // alert(resp.data)
-                })
-                .catch(err => {
-                    console.log(err)
-                })
+            .then(resp => {
+                this.props.showToast(resp.data,'success')
+            })
+            .catch(err => {
+                this.props.showToast(err,'error')
+                console.log(err)
+            })
         }
 
     }
@@ -68,7 +68,6 @@ class CronicoTab1 extends Component {
        var ncronico = this.state.cronico;
        console.log('props 2: ', ncronico, 'cronico: ', this.state.cronico, target.value,  target.id);         
        ncronico[target.id]=target.value; 
-    //    console.log('props: ', ncronico, 'cronico: ', `T:${this.state.cronico}`);   
        this.setState({
         cronico: ncronico,
        });

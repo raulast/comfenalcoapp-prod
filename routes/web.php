@@ -106,6 +106,7 @@ Route::post('/buscarCronico','CronicosController@buscarCronico');
 Route::get('/verCronico/{id}/{enable}','CronicosController@verCronico');
 Route::get('/getCronico/{id}','CronicosController@getCronico');
 Route::post('/updateCronico','CronicosController@updateCronico')->middleware('auth','twofactor');
+Route::delete('/deleteCronico/{id}','CronicosController@deleteCronico')->middleware('auth','twofactor');
 Route::post('/addCronico','CronicosController@addCronico')->middleware('auth','twofactor');
 
 //juridicos

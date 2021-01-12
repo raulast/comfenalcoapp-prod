@@ -135,6 +135,15 @@ class CronicosController extends Controller
 
     }
 
+    public function deleteCronico(Request $request, $id){
+        $cronico = Cronicos::find($id);
+
+        $cronico->delete();
+
+        return  "Cronico eliminado exitosamente";
+
+    }
+
     public function addCronico(Request $request){
         $datos = $request->toArray()['datos'];
         $cronico = new Cronicos;
