@@ -238,7 +238,7 @@ class CronicosPanel extends Component {
                     <Modal.Body>
                         <div className="container">
                             <div className="row">
-                                <h3>¿Desea eliminar el crónico #{this.state.modal.id}</h3>
+                                <h3>¿Desea eliminar el crónico #{this.state.modal.id} ?</h3>
                             </div>
                         </div>
                     </Modal.Body>
