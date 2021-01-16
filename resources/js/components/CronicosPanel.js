@@ -125,7 +125,6 @@ class CronicosPanel extends Component {
     }   
 
     handleEliminar() {
-        this.setState({eliminar: true});
         const id= this.state.modal;
         const baseUrl = '/deleteCronico/'
         const url = `${baseUrl}${id.id}`
@@ -154,16 +153,6 @@ class CronicosPanel extends Component {
                                         <label htmlFor="">Identificación del usuario</label>
                                         <input className="form-control" name="identificacion" value={this.state.identificacion} onChange={this.handleChange} />
                                     </div>
-                                   {/* <div className="col-md-3">
-                                        <label htmlFor="">Conducta</label>
-                                        <select className="form-control" name="conducta" value={this.state.conducta} onChange={this.handleChange}>
-                                            <option value=""></option>
-                                            {this.state.conductas.map((c) =>
-                                                <option value={c}>{c}</option>
-
-                                            )}
-                                        </select>
-                                            </div>*/}
                                     <div className="col-md-3">
                                         <label htmlFor="">Estado</label>
                                         <select className="form-control" name="estado" value={this.state.estado} onChange={this.handleChange}>
@@ -207,9 +196,6 @@ class CronicosPanel extends Component {
                                         <button className="btn btn-success" onClick={this.handleCrear}>Crear Cronico</button>
                                     </div>
                                 </div>
-                                {/*<div className="row mt-1">
-                                    <button className="btn btn-success" onClick={this.buscar}>Buscar</button>
-                                            </div>*/}
                             </div>
                         </div>
                     </div>
@@ -221,13 +207,9 @@ class CronicosPanel extends Component {
                         <div className="card">
                             <div className="card-header bg2 titulo">Listado de Pacientes</div>
                             <div className="card-body texto"></div>
-
-
-
-
                         </div>
                         {this.state.cronicos != '' ? (
-                            <TableCronicos eliminar={this.state.eliminar} cronicos={this.state.cronicos} setModal={(arg, id) => this.showModal(arg, id)}/>
+                            <TableCronicos cronicos={this.state.cronicos} setModal={(arg, id) => this.showModal(arg, id)}/>
                         ) : (
                                 <p>No hay datos</p>
                             )}
@@ -238,7 +220,7 @@ class CronicosPanel extends Component {
                     <Modal.Body>
                         <div className="container">
                             <div className="row">
-                                <h3>¿Desea eliminar el crónico #{this.state.modal.id}</h3>
+                                <h3>¿Desea eliminar el crónico #{this.state.modal.id} ?</h3>
                             </div>
                         </div>
                     </Modal.Body>
