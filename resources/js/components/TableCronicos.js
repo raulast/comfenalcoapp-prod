@@ -37,7 +37,7 @@ export default function TableCronicos(props) {
                         <tr key={key}>
                             {cols.map((col) =>
                              col != 'id' ? <td>{cronicos[key][col]}</td> :
-                                <td className="d-flex justify-content-between align-items-center border-bottom-0 border-right-0 ">
+                                <td className="d-flex justify-content-between align-items-center border-bottom-0 border-right-0">
                                    <button className="btn btn-sm btn-success mx-3" id={cronicos[key][col]} onClick={openCronico}>Ver</button>
                                    <button className="btn btn-sm btn-danger mx-3" id={cronicos[key][col]} onClick={eliminar}><i className="fas fa-trash-alt"></i></button>
                                 </td> 
