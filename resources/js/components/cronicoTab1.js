@@ -25,28 +25,22 @@ class CronicoTab1 extends Component {
         this.getCronico()
     }
     guardarCronico(){
+        let url = '';
+        console.log('target data::', this.props.data);
         if(this.state.id != 0) {
-            let url = '/updateCronico'
-            axios.post(url, { datos: this.state.cronico })
-            .then(resp => {
-                this.props.showToast(resp.data,'success')
-            })
-            .catch(err => {
-                this.props.showToast(err,'error')
-                console.log(err)
-            })
+            url = '/updateCronico';
         } else {
-            let url = '/addCronico'
-            axios.post(url, { datos: this.state.cronico })
-            .then(resp => {
-                this.props.showToast(resp.data,'success')
-            })
-            .catch(err => {
-                this.props.showToast(err,'error')
-                console.log(err)
-            })
+            url = '/addCronico';
         }
-
+        axios.post(url, { datos: this.props.data })
+        .then(resp => {
+            console.log(resp.data);
+            this.props.showToast(resp.data,'success');
+            this.state.id == '0' ? setTimeout(()=>window.location.reload(),1000): null; 
+        })
+        .catch(err => {
+            this.props.showToast(err,'error');
+        })
     }
     getCronico() {
         if(this.state.id != 0) {
@@ -65,12 +59,9 @@ class CronicoTab1 extends Component {
         }
     }
     handleChange({target}) {
-       var ncronico = this.state.cronico;
-       console.log('props 2: ', ncronico, 'cronico: ', this.state.cronico, target.value,  target.id);         
-       ncronico[target.id]=target.value; 
-       this.setState({
-        cronico: ncronico,
-       });
+        var ncronico = this.state.cronico;
+        ncronico[target.id]=target.value; 
+        this.props.dataToSend(ncronico, 1);
     }
     calcularfp(){
         

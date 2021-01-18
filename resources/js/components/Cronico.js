@@ -16,11 +16,15 @@ class Cronico extends Component {
          
           this.state = {
             tipo: props.tipo,
+            data: {},
+            data1: {},
+            data2: {},
+            data3: {}
           }
           // bind
   
         this.handleToast = this.handleToast.bind(this);
-   
+        this.handleData = this.handleData.bind(this);
       }
   
       handleToast(arg,type) {
@@ -46,6 +50,18 @@ class Cronico extends Component {
             });
         }
     }
+
+    handleData(arg, index) {
+      const { data1, data2, data3 } =  this.state;
+      if(index == 1) {
+        this.setState({data1: arg});
+      }else if(index == 2) {
+        this.setState({data2: arg});
+      }else if(index == 3) {
+        this.setState({data3: arg});
+      }
+      this.setState({data: {...data1, ...data2, ...data3}})
+    };
   
       render() {
           return (
@@ -66,9 +82,30 @@ class Cronico extends Component {
               </div>
               <div className="col-11">
                   <div className="tab-content">
-                    <div className="tab-pane container active" id="tab1"><CronicoTab1 showToast={(arg,type) => this.handleToast(arg,type)} {...this.props}/></div>
-                    <div className="tab-pane container fade" id="tab2"><CronicoTab2 showToast={(arg,type) => this.handleToast(arg,type)} {...this.props}/></div>
-                    <div className="tab-pane container fade" id="tab3"><CronicoTab3 showToast={(arg,type) => this.handleToast(arg,type)} {...this.props}/></div>
+                    <div className="tab-pane container active" id="tab1">
+                      <CronicoTab1
+                        dataToSend={(arg, index)=>{this.handleData(arg, index)}} 
+                        showToast={(arg,type) => this.handleToast(arg,type)}
+                        data={this.state.data}
+                        {...this.props}
+                      />
+                    </div>
+                    <div className="tab-pane container fade" id="tab2">
+                      <CronicoTab2
+                        dataToSend={(arg, index)=>{this.handleData(arg, index)}} 
+                        showToast={(arg,type) => this.handleToast(arg,type)}
+                        data={this.state.data}
+                        {...this.props}
+                      />
+                    </div>
+                    <div className="tab-pane container fade" id="tab3">
+                      <CronicoTab3
+                        dataToSend={(arg, index)=>{this.handleData(arg, index)}} 
+                        showToast={(arg,type) => this.handleToast(arg,type)}
+                        data={this.state.data}
+                        {...this.props}
+                      />
+                    </div>
                   </div>
               </div>
             </div>
