@@ -6,18 +6,7 @@ import axios from 'axios';
 
 
 export default function TableJuridicas(props) {
-
-    const eliminar = (u) => {
-        props.handleEliminar(u.target.id)
-    }
-    const editar = (u) =>{
-        props.handleEdition(u.target.id)
-    }
     const juridicas= props.juridicas;
-    
-   
-    //console.log(Object.keys(cronicos[0]))
-    //console.log(typeof cronicos[0])
     
     if (typeof juridicas === 'object'){
          var cols=Object.keys(juridicas[0])
@@ -25,46 +14,36 @@ export default function TableJuridicas(props) {
             <td>{col}</td>
             );
 
-    const openJuridica = (u) =>{
-        window.open('verJuridica/'+ u.target.id + "/1/u",'_blank');
-    }
-    const deleteJuridica = (u) =>{
-         if (window.confirm('Está seguro quedesea eliminar este registro?')) {
-            var url ="/deleteJuridica"
-            axios.post(url, { datos: u.target.id })
-            .then(resp => {
-                console.log(resp.data)
-                alert(resp.data)
-            })
-            .catch(err => {
-                console.log(err)
-            })
-         }
-         
+        const openJuridica = (u) =>{
+            window.open('verJuridica/'+ u.target.id + "/1/u",'_blank');
+        }
+        const deleteJuridica = (u) =>{
+            const id= u.target.id;
+            props.setModal(true, id);
+        }
+        return (
+            <div style={{overflow: scroll}}>
+                <table className="table table-sm table-striped table-bordered texto">
+                    <tbody>
+                        <tr className="table-success">{ columnas}</tr>
+                        {Object.keys(juridicas).map((key) => (
+                            <tr key={key}>
+                                {cols.map((col) =>
+                                col != 'id' 
+                                ? <td>{juridicas[key][col]}</td> 
+                                : <td className="d-flex justify-content-between align-items-center border-bottom-0 border-right-0">
+                                        <button className="btn btn-sm btn-success mx-3" id={juridicas[key][col]} onClick={openJuridica}>Ver</button>
+                                        <button className="btn btn-sm btn-danger mx-3" id={juridicas[key][col]} onClick={deleteJuridica}>
+                                            <i className="fas fa-trash-alt"></i>
+                                        </button>
+                                    </td>
+                                )}    
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
 
-    }
-    return (
-
-        <div style={{overflow: scroll}}>
-           
-            <table className="table table-sm table-striped table-bordered texto">
-                <tbody>
-                    <tr className="table-success">{ columnas}</tr>
-
-                    {Object.keys(juridicas).map((key) => (
-                        <tr key={key}>
-                            {cols.map((col) =>
-                             col != 'id' ? <td>{juridicas[key][col]}</td> :  <td><button className="btn btn-sm btn-success" id={juridicas[key][col]} onClick={openJuridica}>Ver</button>&nbsp;<button className="btn btn-sm btn-danger" id={juridicas[key][col]} onClick={deleteJuridica}>x</button></td> 
-                
-                            )}
-                            
-                        </tr>
-            ))}
-               
-                </tbody>
-            </table>
-        </div>
-
-    );
+        );
     }
 }

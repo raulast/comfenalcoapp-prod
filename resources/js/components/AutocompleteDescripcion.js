@@ -24,7 +24,7 @@ export default class AutocompleteDescripcion extends Component {
         const value = e.target.value;
 
         let suggestions = [];
-        if (value.length > 4) {
+        if (value.length >= 4) {
             /*
             const regex = new RegExp(`^${value}`,'i');
             suggestions = this.items.sort().filter(v => regex.test(v));   

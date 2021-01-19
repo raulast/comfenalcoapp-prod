@@ -77,7 +77,9 @@ class ApiController extends Controller
     }
     public function search($tipo,$value){
         if ($tipo=="diagnostico"){
-            $data=Cie10::where('descripcion_diagnostico','like','%'.$value.'%')->where('num_dias_maximo_solicitud','>',0)->get();
+            $data=Cie10::where('descripcion_diagnostico','like','%'.$value.'%')
+            ->orWhere('codigo',$value)
+            ->where('num_dias_maximo_solicitud','>',0)->get();
         }
         if ($tipo=="diagnosticoLicencia"){
             $data=Cie10::where('tipo_licencia',$value)->get();
