@@ -38,7 +38,7 @@ class JuridicaTab2 extends Component {
             .then(resp => {
                 console.log(resp.data);
                 this.props.showToast(resp.data,'success');
-                this.state.crud == 'c' ? setTimeout(()=>window.location.reload(),1000): null; 
+                this.state.crud == 'c' ? setTimeout(()=>window.location.reload(),1000): null;
             })
             .catch(err => {
                 this.props.showToast(err,'error');
@@ -54,7 +54,7 @@ class JuridicaTab2 extends Component {
                         juridicac: resp.data.data
                     });
                     let newJuridicac = Object.assign({}, this.state.juridicac);
-                    // console.log(Object.entries(newState));  
+                    // console.log(Object.entries(newState));
                      Object.keys(newJuridicac).forEach(key => {
                          newJuridicac[key] = "";
                      });
@@ -73,7 +73,7 @@ class JuridicaTab2 extends Component {
             njuridica[target.id] = target.value;
             this.props.dataToSend(njuridica, 2);
         }
-        
+
         if (this.state.crud == "c") {
             var njuridica = this.state.juridicac;
             njuridica[target.id] = target.value;
@@ -95,7 +95,7 @@ class JuridicaTab2 extends Component {
                     <div className="col-md-12 texto">
                         <ul className="nav nav-tabs">
                             <li className="nav-item">
-                                <a className="nav-link active" data-toggle="tab" href="#paj">PRETENCION ACCION JURIDICA</a>
+                                <a className="nav-link active" data-toggle="tab" href="#paj">PRETENSIÓN ACCIÓN JURÍDICA</a>
                             </li>
                             <li className="nav-item">
                                 <a className="nav-link" data-toggle="tab" href="#fpi">FALLO PRIMERA INSTANCIA</a>
@@ -104,7 +104,7 @@ class JuridicaTab2 extends Component {
                                 <a className="nav-link" data-toggle="tab" href="#fsi">FALLO SEGUNDA INSTANCIA</a>
                             </li>
                         </ul>
-            
+
                         <div className="tab-content">
                             <div className="tab-pane container active" id="paj">
                                 <div className="row mt-2">
@@ -370,7 +370,7 @@ class JuridicaTab2 extends Component {
                 <div className="row mt-4">
                     <div className="col-md-6 offset-md-3 texto">
                         <button className="btn btn-success btn-block" onClick={this.guardarJuridica}>GUARDAR CAMBIOS</button>
-                    </div>                                            
+                    </div>
                 </div>
                 : ''
                 }
