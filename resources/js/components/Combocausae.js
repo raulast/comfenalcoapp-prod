@@ -24,6 +24,10 @@ export default function Combocausae(props){
     }*/
     const handleCausa = (e) => {
         //console.log(e.target.value)
+        var id = e.target.value;
+        if ((id >=9 )&&(id <=12)){
+            alert("La causa externa seleccionada genera remisión a urgencias y activación de ruta")
+        }
         props.handleCausa(e.target.value)
     }
     useEffect(getCausas,[])

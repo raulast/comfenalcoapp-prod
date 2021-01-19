@@ -4,6 +4,7 @@ import IpsSelect from './IpsSelect.js';
 import MedicoSelect from './MedicoSelect.js';
 import EspecialidadesSelect from './EspecialidadesSelect.js';
 import TipoCotizanteSelect from './TipoCotizanteSelect.js';
+import EstadoSelect from './EstadoSelect.js';
 import AutocompleteDescripcion from './AutocompleteDescripcion.js';
 import TableReportes from './TableReportes.js';
 import axios from 'axios';
@@ -18,6 +19,7 @@ class Reporte extends Component {
            empresa:'',
            tipoCotizante:'',
            tipoLicencia:'',
+           estado:'',
            desde:'',
            hasta:'',
            capitulo:'',
@@ -146,8 +148,15 @@ class Reporte extends Component {
                                             </select>
                                     </div>
                                     <div className="col-md-4">
-                                        <label htmlFor="">Período de tiempo (desde)</label>
-                                        <input type="date" name="desde" className="form-control form-control-sm" onChange={this.handleChange}/>
+                                        <label htmlFor="">Estado</label>
+                                        <EstadoSelect handleChange={this.handleChange}/>
+                                    </div>
+                                   
+                                </div>
+                                <div className="row mt-2">
+                                    <div className="col-md-4">
+                                            <label htmlFor="">Período de tiempo (desde)</label>
+                                            <input type="date" name="desde" className="form-control form-control-sm" onChange={this.handleChange}/>
                                     </div>
                                     <div className="col-md-4">
                                         <label htmlFor="">Período de tiempo (hasta)</label>

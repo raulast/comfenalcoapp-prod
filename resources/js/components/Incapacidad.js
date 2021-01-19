@@ -723,7 +723,9 @@ class IncapacidadFront extends Component {
         //console.log(endDate.toISOString().slice(0,10))    
         var count = 0;
         var countf = 0;
-        var festivos = ["2020-05-01","2020-05-25","2020-06-15","2020-06-22","2020-06-29","2020-07-20","2020-08-07","2020-08-17","2020-10-12","2020-11-02","2020-11-16","2020-12-08","2020-12-25"];
+        var festivos = ["2020-05-01","2020-05-25","2020-06-15","2020-06-22","2020-06-29","2020-07-20","2020-08-07","2020-08-17","2020-10-12","2020-11-02","2020-11-16","2020-12-08","2020-12-25",
+                        "2021-01-01","2021-01-11","2021-03-22","2021-04-01","2021-04-02","2021-05-01","2021-05-17","2021-06-03","2021-06-14","2021-07-05","2021-07-20","2021-08-07","2021-08-16",
+                        "2021-10-18","2021-11-01","2021-11-15","2021-12-08","2021-12-25"];
         var curDate = startDate;
         while (curDate <= endDate) {
             var dayOfWeek = curDate.getDay();
@@ -1016,7 +1018,7 @@ class IncapacidadFront extends Component {
         }
         if(this.state.cronico.consec != 0){
             mensaje2 = (<div className="alert alert-warning reco" role="alert">
-            El usuario se encuentra registrado en la base de seguimiento por ICP <a href={ 'verCronico/' + this.state.cronico.consec + '/0' } target="_blank">Ver detalle</a>
+            El usuario se encuentra registrado en la base de seguimiento por Incapacidad continua prolongada <a href={ 'verCronico/' + this.state.cronico.consec + '/0' } target="_blank">Ver detalle</a>
                 <ul>
                 {this.state.cronico.alarmas.map((a, index) =>
                      <li>{this.state.cronico.alarmas[index]}</li>                        
