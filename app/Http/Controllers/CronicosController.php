@@ -87,7 +87,7 @@ class CronicosController extends Controller
             }
 
             if (($estado == "SEGUIMIENTO") && ($motivo!="IPP") &&  ($reintegro!="")){
-                array_push($alarmas, "Paciente seguimiento ICP - Reintegrado ".$reintegro);
+                array_push($alarmas, "Paciente seguimiento Incapacidad continua prolongada - Reintegrado ".$reintegro);
             }
             if ($abuso !=""){
                 array_push($alarmas, "Abuso del derecho - comunicado de abuso y suspensión en ".$abuso);
@@ -140,7 +140,7 @@ class CronicosController extends Controller
 
         $cronico->delete();
 
-        return  "Cronico eliminado exitosamente";
+        return  "Registro eliminado exitosamente";
 
     }
 

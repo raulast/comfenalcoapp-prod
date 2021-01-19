@@ -51,6 +51,9 @@ class ApiController extends Controller
         if ($tipo== "tiposCotizante"){ 
             $data=$this->loadTcDB(); 
         }
+        if ($tipo== "estados"){ 
+            $data=$this->loadEstadosDB(); 
+        }
         return response()->json([
             'data' => $data
         ]);
@@ -74,6 +77,10 @@ class ApiController extends Controller
     private function loadTcDB(){
         $tc=Descripcionesp::where('incapacidad',1)->orderBy('descripcion','asc')->get();
         return $tc;
+    }
+    private function loadEstadosDB(){
+        $estados=Estadosi::where('activo',1)->orderBy('estado','asc')->get();
+        return $estados;
     }
     public function search($tipo,$value){
         if ($tipo=="diagnostico"){
