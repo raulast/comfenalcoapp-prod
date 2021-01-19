@@ -72,7 +72,7 @@ class LoginController extends Controller
                         return back()->withInput()->withErrors(['email'=>"
                         Esta cuenta ha sido bloqueada.
                         \nDebido a muchos intentos fallidos de inicio de sesión.
-                        \nComuníquese con el administrador para desbloquear su cuenta."]);
+                        \nComuniquese con el administrador para desbloquear su cuenta."]);
                     }
                 }
             }

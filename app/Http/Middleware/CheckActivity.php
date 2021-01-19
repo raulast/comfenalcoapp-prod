@@ -36,7 +36,7 @@ class CheckActivity
             }
           }
         $user = auth()->user();
-        if($user && ($user->updated_at == $user->created_at | date_diff($user->updated_at,now())->format("%a")> 0)){
+        if($user && (date_diff($user->updated_at,now())->format("%a")> 0)){
             $get=Contrasenas::select('updated_at')
             ->orderBy('updated_at','desc')
             ->where('user_id',$user->id)->first();
@@ -56,7 +56,7 @@ class CheckActivity
                 return redirect('login')->withInput(['email'=>$user->email])->withErrors(['email'=>"
                 Esta cuenta ha sido bloqueada.
                 \nDebido a muchos intentos fallidos de inicio de sesión.
-                \nComuníquese con el administrador para desbloquear su cuenta."]);
+                \nComuniquese con el administrador para desbloquear su cuenta."]);
             }
             $user->updated_at = now();
             $user->save();
