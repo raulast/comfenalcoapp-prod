@@ -36,7 +36,7 @@ class JuridicaTab1 extends Component {
             .then(resp => {
                 console.log(resp.data);
                 this.props.showToast(resp.data,'success');
-                this.state.crud == 'c' ? setTimeout(()=>window.location.reload(),1000): null; 
+                this.state.crud == 'c' ? setTimeout(()=>window.location.reload(),1000): null;
             })
             .catch(err => {
                 this.props.showToast(err,'error');
@@ -71,7 +71,7 @@ class JuridicaTab1 extends Component {
             njuridica[target.id] = target.value;
             this.props.dataToSend(njuridica, 1);
         }
-        
+
         if (crud == "c") {
             var njuridica = this.state.juridicac;
             njuridica[target.id] = target.value;
@@ -94,21 +94,21 @@ class JuridicaTab1 extends Component {
                     <div className="col-md-12 texto">
                         <ul className="nav nav-tabs">
                             <li className="nav-item">
-                                <a className="nav-link active" data-toggle="tab" href="#dj">DATOS DE ACCION JURIDICA</a>
+                                <a className="nav-link active" data-toggle="tab" href="#dj">DATOS DE ACCIÓN JURÍDICA</a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" data-toggle="tab" href="#ngp">NOTIFICACION PARA GESTION PEMEL</a>
+                                <a className="nav-link" data-toggle="tab" href="#ngp">NOTIFICACION PARA GESTIÓN PEMEL</a>
                             </li>
                             { this.state.crud != 'c' ?
                                 <li className="nav-item">
-                                    <a className="nav-link" data-toggle="tab" href="#agp">ANALISIS GESTION JURIDICA PEMEL</a>
+                                    <a className="nav-link" data-toggle="tab" href="#agp">ANÁLISIS GESTIÓN JURÍDICA PEMEL</a>
                                 </li>
                              :null}
                             <li className="nav-item">
-                                <a className="nav-link" data-toggle="tab" href="#ide">INFORMACION DEMANDANTE Y/O EMPRESA R.CLIENTE</a>
+                                <a className="nav-link" data-toggle="tab" href="#ide">INFORMACIÓN DEMANDANTE Y/O EMPRESA R.CLIENTE</a>
                             </li>
                         </ul>
-            
+
                         <div className="tab-content">
                             <div className="tab-pane container active" id="dj">
                                 <div className="row mt-2">
@@ -424,7 +424,7 @@ class JuridicaTab1 extends Component {
                 <div className="row mt-4">
                     <div className="col-md-6 offset-md-3 texto">
                         <button className="btn btn-success btn-block" onClick={this.guardarJuridica}>GUARDAR CAMBIOS</button>
-                    </div>                                            
+                    </div>
                 </div>
                 : ''
                 }

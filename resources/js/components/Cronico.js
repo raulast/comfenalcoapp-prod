@@ -60,7 +60,7 @@ class Cronico extends Component {
       }else if(index == 3) {
         this.setState({data3: arg});
       }
-      this.setState({data: {...data1, ...data2, ...data3}})
+      this.setState((state) =>  {return {data: {...state.data1, ...state.data2, ...state.data3}} });
     };
   
       render() {
