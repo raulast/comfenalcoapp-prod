@@ -284,7 +284,7 @@ class UserController extends Controller
             // ]);
         }
         $checked = $this->validarPassword($password, $id);
-        if ($checked['validation']) {
+        if ($checked['validation']&& ($actual_password != $password)) {
             $model = $this->obtenerModelo('user');
             $model['modelo']::where('id',$id)->update([
                 'password' => $checked['password']
