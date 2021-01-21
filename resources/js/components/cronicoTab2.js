@@ -401,7 +401,7 @@ class CronicoTab2 extends Component {
                                             </tr>
                                             <tr className="form-group">
                                                 <td>%CPCLO</td>
-                                                <td><input title="porcentaje sin simbolo, y separado por coma ej: 98,25" pattern="([0-9]{1,2},?[0-9]*)" className="form-control" type="text" id="cpclo2" defaultValue={this.state.id != 0 ? cronico[cols[92]]: ''} size="50" onChange={this.handleChange}/></td>
+                                                <td><input type="number" pattern="[0-9]{1,2}([\.,][0-9]+)?" step="0.01" title="número con máximo dos decimas ej: 22,42" className="form-control" type="text" id="cpclo2" defaultValue={this.state.id != 0 ? cronico[cols[92]]: ''} size="50" onChange={this.handleChange}/></td>
                                             </tr>
                                             <tr className="form-group">
                                                 <td>Contingencia origen dictamen JRCI</td>
@@ -454,7 +454,7 @@ class CronicoTab2 extends Component {
                                             </tr>
                                             <tr className="form-group">
                                                 <td>%CPCLO</td>
-                                                <td><input title="porcentaje sin simbolo, y separado por coma ej: 98,25" pattern="([0-9]{1,2},?[0-9]*)" className="form-control" type="text" id="cpclo3" defaultValue={this.state.id != 0 ? cronico[cols[99]]: ''} size="50" onChange={this.handleChange}/></td>
+                                                <td><input type="number" pattern="[0-9]{1,2}([\.,][0-9]+)?" step="0.01" title="número con máximo dos decimas ej: 22,42" className="form-control" type="text" id="cpclo3" defaultValue={this.state.id != 0 ? cronico[cols[99]]: ''} size="50" onChange={this.handleChange}/></td>
                                             </tr>
                                             <tr className="form-group">
                                                 <td>Contingencia origen dictamen JNCI</td>
