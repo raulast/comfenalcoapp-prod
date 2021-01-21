@@ -28,9 +28,9 @@ class CronicoTab2 extends Component {
         this.guardarCronico = this.guardarCronico.bind(this);
         this.getCronico()
     }
-    guardarCronico(){
+    guardarCronico({target}){
+        target.disabled = true;
         let url = '';
-        console.log('target data::', this.props.data);
         if(this.state.id != 0) {
             url = '/updateCronico';
         } else {
@@ -40,7 +40,7 @@ class CronicoTab2 extends Component {
         .then(resp => {
             console.log(resp.data);
             this.props.showToast(resp.data,'success');
-            this.state.id == '0' ? setTimeout(()=>window.location.reload(),1000): null; 
+            setTimeout(()=>window.location.reload(),300);
         })
         .catch(err => {
             this.props.showToast(err,'error');
@@ -220,7 +220,7 @@ class CronicoTab2 extends Component {
                                             </tr>
                                             <tr className="form-group">
                                                 <td>Fecha emisión CRH1 (antes del 180)</td>
-                                                <td><input className="form-control" type="text" id="fecha_emision_crh1_(antes_del_180)" defaultValue={this.state.id != 0 ? cronico[cols[64]]: ''} size="50" onChange={this.handleChange}/></td>
+                                                <td><input className="form-control" type="date" id="fecha_emision_crh1_(antes_del_180)" defaultValue={this.state.id != 0 ? cronico[cols[64]]: ''} size="50" onChange={this.handleChange}/></td>
                                             </tr>
                                             {this.state.id != 0 ?
                                                 <tr className="form-group">
@@ -239,8 +239,8 @@ class CronicoTab2 extends Component {
                                             <tr className="form-group">
                                                 <td>Decisión CRH1 favorable</td>
                                                 <td>
-                                                    <select className="form-control" id="decision_crh2_favorable" onChange={this.handleChange}>
-                                                        <option defaultValue={this.state.id != 0 ? cronico[cols[74]]: ''}>{this.state.id != 0 ? cronico[cols[67]]: ''}</option>
+                                                    <select className="form-control" id="decision_crh1_favorable" onChange={this.handleChange}>
+                                                        <option defaultValue={this.state.id != 0 ? cronico[cols[67]]: ''}>{this.state.id != 0 ? cronico[cols[67]]: ''}</option>
                                                         <option value="SI">SI</option>
                                                         <option value="NO">NO</option>
                                                     </select>
@@ -280,6 +280,7 @@ class CronicoTab2 extends Component {
                                                         <option defaultValue={this.state.id != 0 ? cronico[cols[74]]: ''}>{this.state.id != 0 ? cronico[cols[74]]: ''}</option>
                                                         <option value="SI">SI</option>
                                                         <option value="NO">NO</option>
+                                                        <option value=""></option>
                                                     </select>
                                                 </td>
                                             </tr>
@@ -340,13 +341,14 @@ class CronicoTab2 extends Component {
                                                         <option defaultValue={this.state.id != 0 ? cronico[cols[84]]: ''}>{this.state.id != 0 ? cronico[cols[84]]: ''}</option>
                                                         <option value="AFP">AFP</option>
                                                         <option value="ARL">ARL</option>
+                                                        <option value="EG">EG</option>
                                                         <option value="EPS">EPS</option>
                                                     </select>
                                                 </td>
                                             </tr>
                                             <tr className="form-group">
                                                 <td>CPCLO</td>
-                                                <td><input className="form-control" type="text" id="cpclo" defaultValue={this.state.id != 0 ? cronico[cols[85]]: ''} size="50" onChange={this.handleChange}/></td>
+                                                <td><input title="porcentaje sin simbolo, y separado por coma ej: 98,25" pattern="([0-9]{1,2},?[0-9]*)" className="form-control" type="text" id="cpclo" defaultValue={this.state.id != 0 ? cronico[cols[85]]: ''} size="50" onChange={this.handleChange}/></td>
                                             </tr>
                                             <tr className="form-group">
                                                 <td>Contingencia origen dictamen 1a oportunidad</td>
@@ -373,6 +375,7 @@ class CronicoTab2 extends Component {
                                                         <option value="EPS">EPS</option>
                                                         <option value="USUARIO">USUARIO</option>
                                                         <option value="EMPRESA">EMPRESA</option>
+                                                        <option value="ASEGURADORA">ASEGURADORA</option>
                                                     </select>
                                                 </td>
                                             </tr>
@@ -394,11 +397,11 @@ class CronicoTab2 extends Component {
                                         <tbody>
                                             <tr className="form-group">
                                                 <td>CPCLO fecha JRCI</td>
-                                                <td><input className="form-control" type="text" id="cpclo_fecha_jrci" defaultValue={this.state.id != 0 ? cronico[cols[91]]: ''} size="50" onChange={this.handleChange}/></td>
+                                                <td><input className="form-control" type="date" id="cpclo_fecha_jrci" defaultValue={this.state.id != 0 ? cronico[cols[91]]: ''} size="50" onChange={this.handleChange}/></td>
                                             </tr>
                                             <tr className="form-group">
                                                 <td>%CPCLO</td>
-                                                <td><input className="form-control" type="text" id="cpclo2" defaultValue={this.state.id != 0 ? cronico[cols[92]]: ''} size="50" onChange={this.handleChange}/></td>
+                                                <td><input title="porcentaje sin simbolo, y separado por coma ej: 98,25" pattern="([0-9]{1,2},?[0-9]*)" className="form-control" type="text" id="cpclo2" defaultValue={this.state.id != 0 ? cronico[cols[92]]: ''} size="50" onChange={this.handleChange}/></td>
                                             </tr>
                                             <tr className="form-group">
                                                 <td>Contingencia origen dictamen JRCI</td>
@@ -425,6 +428,7 @@ class CronicoTab2 extends Component {
                                                         <option value="EPS">EPS</option>
                                                         <option value="USUARIO">USUARIO</option>
                                                         <option value="EMPRESA">EMPRESA</option>
+                                                        <option value="ASEGURADORA">ASEGURADORA</option>
                                                     </select>
                                                 </td>
                                             </tr>
@@ -446,11 +450,11 @@ class CronicoTab2 extends Component {
                                         <tbody>
                                             <tr className="form-group">
                                                 <td>CPCLO fecha JNCI</td>
-                                                <td><input className="form-control" type="text" id="cpclo_fecha_jnci" defaultValue={this.state.id != 0 ? cronico[cols[98]]: ''} size="50" onChange={this.handleChange}/></td>
+                                                <td><input className="form-control" type="date" id="cpclo_fecha_jnci" defaultValue={this.state.id != 0 ? cronico[cols[98]]: ''} size="50" onChange={this.handleChange}/></td>
                                             </tr>
                                             <tr className="form-group">
                                                 <td>%CPCLO</td>
-                                                <td><input className="form-control" type="text" id="cpclo3" defaultValue={this.state.id != 0 ? cronico[cols[99]]: ''} size="50" onChange={this.handleChange}/></td>
+                                                <td><input title="porcentaje sin simbolo, y separado por coma ej: 98,25" pattern="([0-9]{1,2},?[0-9]*)" className="form-control" type="text" id="cpclo3" defaultValue={this.state.id != 0 ? cronico[cols[99]]: ''} size="50" onChange={this.handleChange}/></td>
                                             </tr>
                                             <tr className="form-group">
                                                 <td>Contingencia origen dictamen JNCI</td>

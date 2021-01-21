@@ -36,7 +36,7 @@ class JuridicaTab1 extends Component {
             .then(resp => {
                 console.log(resp.data);
                 this.props.showToast(resp.data,'success');
-                this.state.crud == 'c' ? setTimeout(()=>window.location.reload(),1000): null;
+                setTimeout(()=>window.location.reload(),300);
             })
             .catch(err => {
                 this.props.showToast(err,'error');
