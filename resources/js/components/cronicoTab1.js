@@ -13,8 +13,8 @@ class CronicoTab1 extends Component {
             enable:props.enable,
             cronico:{},
             fp:[],
-            estados: ['CERRADO', 'SEGUIMIENTO'],
-            motivos: ['FALLECIDO', 'IPP', 'NUEVO', 'PENSIONADO', 'REINTEGRADO', 'RETIRADO', 'SEGUIMIENTO', 'TRAMITE DE PENSION', 'REVISION'],
+            estados: ['CERRADO', 'SEGUIMIENTO', 'REVISION'],
+            motivos: ['FALLECIDO', 'IPP', 'NUEVO', 'PENSIONADO', 'REINTEGRADO', 'RETIRADO', 'SEGUIMIENTO', 'TRAMITE DE PENSION'],
         }
         // bind
         
