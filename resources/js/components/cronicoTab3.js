@@ -142,7 +142,7 @@ class CronicoTab3 extends Component {
                                             </tr>
                                             <tr className="form-group">
                                                 <td>%CPCLO</td>
-                                                <td><input title="porcentaje sin simbolo, y separado por coma ej: 98,25" pattern="([0-9]{1,2},?[0-9]*)" className="form-control" type="text" id="cpclo_demanda_dictamen" defaultValue={this.state.id != 0 ? cronico[cols[103]]: ''} size="50" onChange={this.handleChange}/></td>
+                                                <td><input type="number" pattern="[0-9]{1,2}([\.,][0-9]+)?" step="0.01" title="número con máximo dos decimas ej: 22,42" className="form-control" type="text" id="cpclo_demanda_dictamen" defaultValue={this.state.id != 0 ? cronico[cols[103]]: ''} size="50" onChange={this.handleChange}/></td>
                                             </tr>
                                             <tr className="form-group">
                                                 <td>Contingencia origen dictamen demanda</td>
@@ -173,7 +173,7 @@ class CronicoTab3 extends Component {
                                             </tr>
                                             <tr className="form-group">
                                                 <td>%CPCLO cierre</td>
-                                                <td><input title="porcentaje sin simbolo, y separado por coma ej: 98,25" pattern="([0-9]{1,2},?[0-9]*)" className="form-control" type="text" id="cpclo_cierre" defaultValue={this.state.id != 0 ? cronico[cols[107]]: ''} size="50" onChange={this.handleChange}/></td>
+                                                <td><input type="number" pattern="[0-9]{1,2}([\.,][0-9]+)?" step="0.01" title="número con máximo dos decimas ej: 22,42" className="form-control" type="text" id="cpclo_cierre" defaultValue={this.state.id != 0 ? cronico[cols[107]]: ''} size="50" onChange={this.handleChange}/></td>
                                             </tr>
                                             { this.state.id != 0 ?
                                                 <tr className="form-group">
