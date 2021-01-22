@@ -13,7 +13,7 @@ class CronicoTab1 extends Component {
             enable:props.enable,
             cronico:{},
             fp:[],
-            estados: ['CERRADO', 'SEGUIMIENTO'],
+            estados: ['CERRADO', 'SEGUIMIENTO', 'REVISION'],
             motivos: ['FALLECIDO', 'IPP', 'NUEVO', 'PENSIONADO', 'REINTEGRADO', 'RETIRADO', 'SEGUIMIENTO', 'TRAMITE DE PENSION'],
         }
         // bind
@@ -24,9 +24,9 @@ class CronicoTab1 extends Component {
         this.guardarCronico = this.guardarCronico.bind(this);
         this.getCronico()
     }
-    guardarCronico(){
+    guardarCronico({target}){
+        target.disabled = true;
         let url = '';
-        console.log('target data::', this.props.data);
         if(this.state.id != 0) {
             url = '/updateCronico';
         } else {
@@ -36,7 +36,8 @@ class CronicoTab1 extends Component {
         .then(resp => {
             console.log(resp.data);
             this.props.showToast(resp.data,'success');
-            this.state.id == '0' ? setTimeout(()=>window.location.reload(),1000): null; 
+            setTimeout(()=>window.location.reload(),300);
+            this.state.id == 0 ? window.history.back() : null; 
         })
         .catch(err => {
             this.props.showToast(err,'error');
@@ -47,7 +48,6 @@ class CronicoTab1 extends Component {
             let url = '/getCronico/'+this.state.id
             axios.get(url)
                 .then(resp => {
-                    console.log(resp.data.data);
                     this.setState({
                         cronico: resp.data.data,
                     });
@@ -95,7 +95,8 @@ class CronicoTab1 extends Component {
         const { cronico } = this.state;        
         if (typeof this.state.cronico === 'object'){
             var cols=Object.keys(this.state.cronico)
-            //console.log(cols);
+            //console.log(cols);            
+            cronico.length != 0 ? console.log('cronico:', cronico ): null;
         }
 
         return (
@@ -138,7 +139,7 @@ class CronicoTab1 extends Component {
                                                 { this.state.id != 0 ?
                                                     <tr className="form-group">
                                                         <td>Año notificación</td>
-                                                        <td><input className="form-control" type="text" id="ano_notificacion" defaultValue={this.state.id != 0 ? cronico[cols[4]]: ''} onChange={this.handleChange}/></td>
+                                                        <td><input className="form-control" disabled type="text" id="ano_notificacion" defaultValue={this.state.id != 0 ? cronico[cols[4]]: ''} onChange={this.handleChange}/></td>
                                                     </tr>
                                                     : null
                                                 }
@@ -155,10 +156,10 @@ class CronicoTab1 extends Component {
                                                 <tr className="form-group"><td>Tipo ID usuario</td><td><input className="form-control" type="text" id="tipo_id_usuario"  defaultValue={this.state.id != 0 ? cronico[cols[5]]: ''} size="50" onChange={this.handleChange}/></td></tr>
                                                 <tr className="form-group"><td>ID usuario</td><td><input className="form-control" type="text" id="id_usuario"  defaultValue={this.state.id != 0 ? cronico[cols[6]]: ''} size="50" onChange={this.handleChange}/></td></tr>
                                                 {this.state.id != 0 ?
-                                                    <tr className="form-group"><td>CC repetidos</td><td><input className="form-control" type="text" id="cc_repetidos"  defaultValue={this.state.id != 0 ? cronico[cols[7]] : ''} size="50" onChange={this.handleChange}/></td></tr>
+                                                    <tr className="form-group"><td>CC repetidos</td><td><input disabled className="form-control" type="text" id="cc_repetidos"  defaultValue={this.state.id != 0 ? cronico[cols[7]] : ''} size="50" onChange={this.handleChange}/></td></tr>
                                                 : null}
                                                 {this.state.id != 0 ?
-                                                    <tr className="form-group"><td>Cantidad de ciclos</td><td><input className="form-control" type="text" id="cant_ciclos"  defaultValue={this.state.id != 0 ? cronico[cols[8]]: ''} size="50" onChange={this.handleChange}/></td></tr>
+                                                    <tr className="form-group"><td>Cantidad de ciclos</td><td><input disabled className="form-control" type="text" id="cant_ciclos"  defaultValue={this.state.id != 0 ? cronico[cols[8]]: ''} size="50" onChange={this.handleChange}/></td></tr>
                                                 :null}
                                                 <tr className="form-group"><td>Primer nombre</td><td><input className="form-control" type="text" id="nombre_1_usuario"  defaultValue={this.state.id != 0 ? cronico[cols[9]]: ''} size="50" onChange={this.handleChange}/></td></tr>
                                                 <tr className="form-group"><td>Segundo nombre</td><td><input className="form-control" type="text" id="nombre_2_usuario"  defaultValue={this.state.id != 0 ? cronico[cols[10]]: ''} size="50" onChange={this.handleChange}/></td></tr>
@@ -166,8 +167,8 @@ class CronicoTab1 extends Component {
                                                 <tr className="form-group"><td>Segundo apellido</td><td><input className="form-control" type="text" id="apellido_2_usuario"  defaultValue={this.state.id != 0 ? cronico[cols[12]]: ''} size="50" onChange={this.handleChange}/></td></tr>
                                                 <tr className="form-group"><td>Tipo afiliado</td><td><input className="form-control" type="text" id="tipo_afiliado"  defaultValue={this.state.id != 0 ? cronico[cols[13]]: ''} size="50" onChange={this.handleChange}/></td></tr>
                                                 <tr className="form-group"><td>Estado afiliado</td><td><input className="form-control" type="text" id="estado_afiliado"  defaultValue={this.state.id != 0 ? cronico[cols[14]]: ''} size="50" onChange={this.handleChange}/></td></tr>
-                                                <tr className="form-group"><td>Tipo afiliado población mayo 2020</td><td><input className="form-control" type="text" id="tipo_afiliado_poblacion_mayo2020"  defaultValue={this.state.id != 0 ? cronico[cols[15]]: ''} size="50" onChange={this.handleChange}/></td></tr>
-                                                <tr className="form-group"><td>Estado afiliado población mayo 2020</td><td><input className="form-control" type="text" id="estado_afiliado_poblacion_mayo2020"  defaultValue={this.state.id != 0 ? cronico[cols[16]]: ''} size="50" onChange={this.handleChange}/></td></tr>
+                                                <tr className="form-group"><td>Tipo afiliado población</td><td><input className="form-control" type="text" id="tipo_afiliado_poblacion_mayo2020"  defaultValue={this.state.id != 0 ? cronico[cols[15]]: ''} size="50" onChange={this.handleChange}/></td></tr>
+                                                <tr className="form-group"><td>Estado afiliado población</td><td><input className="form-control" type="text" id="estado_afiliado_poblacion_mayo2020"  defaultValue={this.state.id != 0 ? cronico[cols[16]]: ''} size="50" onChange={this.handleChange}/></td></tr>
                                                 <tr className="form-group"><td>Telefono fijo usuario</td><td><input className="form-control" type="text" id="telefono_fijo_usuario"  defaultValue={this.state.id != 0 ? cronico[cols[17]]: ''} size="50" onChange={this.handleChange}/></td></tr>
                                                 <tr className="form-group"><td>Celular usuario</td><td><input className="form-control" type="text" id="celular_usuario"  defaultValue={this.state.id != 0 ? cronico[cols[18]]: ''} size="50" onChange={this.handleChange}/></td></tr>
                                                 <tr className="form-group"><td>Email usuario</td><td><input className="form-control" type="email" id="e mail_usuario"  defaultValue={this.state.id != 0 ? cronico[cols[19]]: ''} size="50" onChange={this.handleChange}/></td></tr>
@@ -179,9 +180,40 @@ class CronicoTab1 extends Component {
                                                 <tr className="form-group"><td>Nit aportante</td><td><input className="form-control" type="text" id="nit_aportante"  defaultValue={this.state.id != 0 ? cronico[cols[25]]: ''} size="50" onChange={this.handleChange}/></td></tr>
                                                 <tr className="form-group"><td>Nombre aportante</td><td><input className="form-control" type="text" id="nombre_aportante"  defaultValue={this.state.id != 0 ? cronico[cols[26]]: ''} size="50" onChange={this.handleChange}/></td></tr>
                                                 <tr className="form-group"><td>Código ARL</td><td><input className="form-control" type="text" id="cod_arl"  defaultValue={this.state.id != 0 ? cronico[cols[27]]: ''} size="50" onChange={this.handleChange}/></td></tr>
-                                                <tr className="form-group"><td>Nombre ARL</td><td><input className="form-control" type="text" id="nombre_arl"  defaultValue={this.state.id != 0 ? cronico[cols[28]]: ''} size="50" onChange={this.handleChange}/></td></tr>
+                                                <tr className="form-group">
+                                                    <td>Nombre ARL</td>
+                                                    <td>
+                                                        <select className="form-control" id="nombre_arl" onChange={this.handleChange}>
+                                                            <option value={this.state.id != 0 ? cronico[cols[28]]: ''}>{this.state.id != 0 ? cronico[cols[28]]: ''}</option>
+                                                            <option value="SURA">SURA</option>
+                                                            <option value="COLMENA">COLMENA</option>
+                                                            <option value="ALFA">ALFA</option>
+                                                            <option value="COLPATRIA">COLPATRIA</option>
+                                                            <option value="LIBERTY">LIBERTY</option>
+                                                            <option value="EQUIDAD">EQUIDAD</option>
+                                                            <option value="MAPFRE">MAPFRE</option>
+                                                            <option value="BOLIVAR">BOLIVAR</option>
+                                                            <option value="POSITIVA">POSITIVA</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
                                                 <tr className="form-group"><td>Código AFP</td><td><input className="form-control" type="text" id="cod_afp"  defaultValue={this.state.id != 0 ? cronico[cols[29]]: ''} size="50" onChange={this.handleChange}/></td></tr>
-                                                <tr className="form-group"><td>Nombre AFP</td><td><input className="form-control" type="text" id="nombre_afp"  defaultValue={this.state.id != 0 ? cronico[cols[30]]: ''} size="50" onChange={this.handleChange}/></td></tr>
+                                                <tr className="form-group">
+                                                    <td>Nombre AFP</td>
+                                                    <td>
+                                                        <select className="form-control" id="nombre_afp" onChange={this.handleChange}>
+                                                            <option value={this.state.id != 0 ? cronico[cols[30]]: ''}>{this.state.id != 0 ? cronico[cols[30]]: ''}</option>
+                                                            <option value="COLFONDOSCOLPENSIONES">COLFONDOSCOLPENSIONES</option>
+                                                            <option value="COLPENSIONES">COLPENSIONES</option>
+                                                            <option value="COLPENSIONES/PROTECCION">COLPENSIONES/PROTECCION</option>
+                                                            <option value="NO TIENE">NO TIENE</option>
+                                                            <option value="OLD MUTUAL">OLD MUTUAL</option>
+                                                            <option value="PORVENIR">PORVENIR</option>
+                                                            <option value="PROTECCION">PROTECCION</option>
+                                                            <option value="SKANDIA">SKANDIA</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
                                                 <tr className="form-group"><td>Municipio</td><td><input className="form-control" type="text" id="municipio"  defaultValue={this.state.id != 0 ? cronico[cols[31]]: ''} size="50" onChange={this.handleChange}/></td></tr>
                                                 <tr className="form-group"><td>Código municipio</td><td><input className="form-control" type="text" id="codigo_municipio"  defaultValue={this.state.id != 0 ? cronico[cols[32]]: ''} size="50" onChange={this.handleChange}/></td></tr>
                                                 <tr className="form-group"><td>NIT IPS primaria</td><td><input className="form-control" type="text" id="nit_ips_primaria"  defaultValue={this.state.id != 0 ? cronico[cols[33]]: ''} size="50" onChange={this.handleChange}/></td></tr>
@@ -255,8 +287,8 @@ class CronicoTab1 extends Component {
                                                     <td>
                                                         <select className="form-control" id="tipo_seguimiento" onChange={this.handleChange}>
                                                             <option defaultValue={this.state.id != 0 ? cronico[cols[45]]: ''}>{this.state.id != 0 ? cronico[cols[45]]: ''}</option>
-                                                            <option defaultValue="EG">CPCLO</option>
-                                                            <option defaultValue="AT">ICP</option>
+                                                            <option defaultValue="CPCLO">CPCLO</option>
+                                                            <option defaultValue="ICP">ICP</option>
                                                         </select>
                                                     </td>
                                                 </tr>
@@ -295,9 +327,9 @@ class CronicoTab1 extends Component {
                                                     <td>
                                                         <select className="form-control" id="contingencia_origen_inicial" onChange={this.handleChange}>
                                                             <option defaultValue={this.state.id != 0 ? cronico[cols[50]]: ''}>{this.state.id != 0 ? cronico[cols[50]]: ''}</option>
-                                                            {this.state.motivos.map((e) =>
-                                                                <option defaultValue={e}>{e}</option>
-                                                            )}
+                                                            <option value="EG">EG</option>
+                                                            <option value="AT">AT</option>
+                                                            <option value="EL">EL</option>
                                                         </select>
                                                     </td>
                                                 </tr>
