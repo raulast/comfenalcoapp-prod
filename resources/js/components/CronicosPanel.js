@@ -70,7 +70,7 @@ class CronicosPanel extends Component {
     }
 
     handleCrear() {
-        window.open('verCronico/' + 0 + "/1", '_blank');
+        window.open('verCronico/' + 0 + "/1", '_self');
     }
 
     buscar() {
