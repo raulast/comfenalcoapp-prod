@@ -40,6 +40,9 @@ class ReportesController extends Controller
         if ($datos['contingencia']!=""){
             $i->where('contingencia_origen',$datos['contingencia']);
         }
+        if ($datos['estado']!=""){
+            $i->where('estado_id',$datos['estado']);
+        }
         if ($datos['soat']=="si"){
             $i->where('causa_externa',2);
         }
