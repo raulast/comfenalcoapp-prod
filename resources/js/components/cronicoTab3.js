@@ -16,7 +16,7 @@ class CronicoTab3 extends Component {
             enable:props.enable,
             cronico:{},
             fp:[],
-            estados: ['CERRADO', 'SEGUIMIENTO'],
+            estados: ['CERRADO', 'SEGUIMIENTO', 'REVISION'],
             motivos: ['FALLECIDO', 'IPP', 'NUEVO', 'PENSIONADO', 'REINTEGRADO', 'RETIRADO', 'SEGUIMIENTO', 'TRAMITE DE PENSION'],
         }
         // bind
@@ -40,6 +40,7 @@ class CronicoTab3 extends Component {
             console.log(resp.data);
             this.props.showToast(resp.data,'success');
             setTimeout(()=>window.location.reload(),300);
+            this.state.id == 0 ? window.history.back() : null; 
         })
         .catch(err => {
             this.props.showToast(err,'error');
@@ -138,11 +139,11 @@ class CronicoTab3 extends Component {
                                         <tbody>
                                             <tr className="form-group">
                                                 <td>Fecha demanda laboral</td>
-                                                <td><input className="form-control" type="date" id="deuda" defaultValue={this.state.id != 0 ? cronico[cols[102]]: ''} size="50" onChange={this.handleChange}/></td>
+                                                <td><input className="form-control" type="date" id="fecha_demanda_lboral" defaultValue={this.state.id != 0 ? cronico[cols[102]]: ''} size="50" onChange={this.handleChange}/></td>
                                             </tr>
                                             <tr className="form-group">
                                                 <td>%CPCLO</td>
-                                                <td><input type="number" pattern="[0-9]{1,2}([\.,][0-9]+)?" step="0.01" title="número con máximo dos decimas ej: 22,42" className="form-control" type="text" id="cpclo_demanda_dictamen" defaultValue={this.state.id != 0 ? cronico[cols[103]]: ''} size="50" onChange={this.handleChange}/></td>
+                                                <td><input type="number" min="0" max="100" pattern="[0-9]{1,2}([\.,][0-9]+)?" step="0.01" title="número con máximo dos decimas ej: 22,42" className="form-control" id="cpclo_demanda_dictamen" defaultValue={this.state.id != 0 ? cronico[cols[103]]: ''} size="50" onChange={this.handleChange}/></td>
                                             </tr>
                                             <tr className="form-group">
                                                 <td>Contingencia origen dictamen demanda</td>
@@ -173,12 +174,12 @@ class CronicoTab3 extends Component {
                                             </tr>
                                             <tr className="form-group">
                                                 <td>%CPCLO cierre</td>
-                                                <td><input type="number" pattern="[0-9]{1,2}([\.,][0-9]+)?" step="0.01" title="número con máximo dos decimas ej: 22,42" className="form-control" type="text" id="cpclo_cierre" defaultValue={this.state.id != 0 ? cronico[cols[107]]: ''} size="50" onChange={this.handleChange}/></td>
+                                                <td><input type="number" min="0" max="100" pattern="[0-9]{1,2}([\.,][0-9]+)?" step="0.01" title="número con máximo dos decimas ej: 22,42" className="form-control" id="cpclo_cierre" defaultValue={this.state.id != 0 ? cronico[cols[107]]: ''} size="50" onChange={this.handleChange}/></td>
                                             </tr>
                                             { this.state.id != 0 ?
                                                 <tr className="form-group">
                                                     <td>Rango CPCLO cierre</td>
-                                                    <td><input className="form-control" type="text" id="rango_cpclo_cierre" defaultValue={this.state.id != 0 ? cronico[cols[108]]: ''} size="50" onChange={this.handleChange}/></td>
+                                                    <td><input disabled className="form-control" type="text" id="rango_cpclo_cierre" defaultValue={this.state.id != 0 ? cronico[cols[108]]: ''} size="50" onChange={this.handleChange}/></td>
                                                 </tr>
                                                 :null
                                             }
@@ -356,7 +357,7 @@ class CronicoTab3 extends Component {
                                         <tbody>
                                             <tr className="form-group">
                                                 <td>Fecha cierre notificación evento</td>
-                                                <td><input className="form-control" type="text" id="fecha_cierre_notificacion_evento" defaultValue={this.state.id != 0 ? cronico[cols[136]]: ''} size="50" onChange={this.handleChange}/></td>
+                                                <td><input className="form-control" type="date" id="fecha_cierre_notificacion_evento" defaultValue={this.state.id != 0 ? cronico[cols[136]]: ''} size="50" onChange={this.handleChange}/></td>
                                             </tr>
                                             <tr className="form-group">
                                                 <td>Observación</td>
@@ -374,7 +375,7 @@ class CronicoTab3 extends Component {
                                             </tr>
                                             <tr className="form-group">
                                                 <td>Observación cobertura tutela</td>
-                                                <td><input className="form-control" type="text" id="observacion_cobertura_tutela" defaultValue={this.state.id != 0 ? cronico[cols[133]]: ''} size="50" onChange={this.handleChange}/></td>
+                                                <td><input className="form-control" type="text" id="observacion_cobertura_tutela" defaultValue={this.state.id != 0 ? cronico[cols[139]]: ''} size="50" onChange={this.handleChange}/></td>
                                             </tr>
                                         </tbody>
                                     </table>
