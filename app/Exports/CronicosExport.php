@@ -6,32 +6,46 @@ use App\Cronicos;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Concerns\WithStyles;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use Maatwebsite\Excel\Events\AfterSheet;
 
-class CronicosExport implements FromCollection, WithHeadings, ShouldAutoSize
+class CronicosExport implements FromCollection, WithHeadings, ShouldAutoSize, WithEvents, WithStyles
 {
     /**
     * @return \Illuminate\Support\Collection
     */
     protected $cronicos;
- 
+
     public function __construct($cronicos= null)
     {
         $this->cronicos = $cronicos;
     }
-    
+
     /**
     * @return \Illuminate\Support\Collection
     */
     public function collection()
     {
         ini_set('memory_limit','512M');
-        return $this->cronicos ?: Cronicos::all();
+        return $this->cronicos ?: Cronicos::where('id','<',10)->get();
         //return Inscripcion::all();
     }
+
+    public function styles(Worksheet $sheet)
+    {
+        return [
+            // Style the first row as bold text.
+            1    => ['font' => ['bold' => true], 'alignment'=>['horizontal' => 'center']],
+        ];
+    }
+
     public function headings(): array
     {
         return [
-            'id','consecutivo',
+            'id',
+            'consecutivo',
             'numero_notificacion',
             'fecha_notificacion',
             'ano_notificacion',
@@ -172,5 +186,21 @@ class CronicosExport implements FromCollection, WithHeadings, ShouldAutoSize
             'observacion_cobertura_tutela',
             ];
     }
-  
+
+    public function registerEvents(): array
+    {
+        return [
+            AfterSheet::class => function(AfterSheet $event) {
+                // $event->sheet->insertNewRowBefore(1, 1);
+                // $event->sheet->getStyle('1')->getAlignment()->applyFromArray(
+                //     array('horizontal' => 'center')
+                // );
+
+                // $event->sheet->mergeCells('B1:D1');
+                // $event->sheet->setCellValue('B1','Categoria 01');
+
+            }
+        ];
+    }
+
 }
