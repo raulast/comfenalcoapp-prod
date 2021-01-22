@@ -37,6 +37,7 @@ class CronicoTab1 extends Component {
             console.log(resp.data);
             this.props.showToast(resp.data,'success');
             setTimeout(()=>window.location.reload(),300);
+            this.state.id == 0 ? window.history.back() : null; 
         })
         .catch(err => {
             this.props.showToast(err,'error');
@@ -47,7 +48,6 @@ class CronicoTab1 extends Component {
             let url = '/getCronico/'+this.state.id
             axios.get(url)
                 .then(resp => {
-                    console.log(resp.data.data);
                     this.setState({
                         cronico: resp.data.data,
                     });
@@ -96,7 +96,7 @@ class CronicoTab1 extends Component {
         if (typeof this.state.cronico === 'object'){
             var cols=Object.keys(this.state.cronico)
             //console.log(cols);            
-            cronico.length != 0 ? console.log('cronico:', cronico): null;
+            cronico.length != 0 ? console.log('cronico:', cronico ): null;
         }
 
         return (
@@ -156,10 +156,10 @@ class CronicoTab1 extends Component {
                                                 <tr className="form-group"><td>Tipo ID usuario</td><td><input className="form-control" type="text" id="tipo_id_usuario"  defaultValue={this.state.id != 0 ? cronico[cols[5]]: ''} size="50" onChange={this.handleChange}/></td></tr>
                                                 <tr className="form-group"><td>ID usuario</td><td><input className="form-control" type="text" id="id_usuario"  defaultValue={this.state.id != 0 ? cronico[cols[6]]: ''} size="50" onChange={this.handleChange}/></td></tr>
                                                 {this.state.id != 0 ?
-                                                    <tr className="form-group"><td>CC repetidos</td><td><input className="form-control" type="text" id="cc_repetidos"  defaultValue={this.state.id != 0 ? cronico[cols[7]] : ''} size="50" onChange={this.handleChange}/></td></tr>
+                                                    <tr className="form-group"><td>CC repetidos</td><td><input disabled className="form-control" type="text" id="cc_repetidos"  defaultValue={this.state.id != 0 ? cronico[cols[7]] : ''} size="50" onChange={this.handleChange}/></td></tr>
                                                 : null}
                                                 {this.state.id != 0 ?
-                                                    <tr className="form-group"><td>Cantidad de ciclos</td><td><input className="form-control" type="text" id="cant_ciclos"  defaultValue={this.state.id != 0 ? cronico[cols[8]]: ''} size="50" onChange={this.handleChange}/></td></tr>
+                                                    <tr className="form-group"><td>Cantidad de ciclos</td><td><input disabled className="form-control" type="text" id="cant_ciclos"  defaultValue={this.state.id != 0 ? cronico[cols[8]]: ''} size="50" onChange={this.handleChange}/></td></tr>
                                                 :null}
                                                 <tr className="form-group"><td>Primer nombre</td><td><input className="form-control" type="text" id="nombre_1_usuario"  defaultValue={this.state.id != 0 ? cronico[cols[9]]: ''} size="50" onChange={this.handleChange}/></td></tr>
                                                 <tr className="form-group"><td>Segundo nombre</td><td><input className="form-control" type="text" id="nombre_2_usuario"  defaultValue={this.state.id != 0 ? cronico[cols[10]]: ''} size="50" onChange={this.handleChange}/></td></tr>
