@@ -31,13 +31,13 @@ class CronicosExport implements FromCollection, WithHeadings, ShouldAutoSize, Wi
     public function collection()
     {
         ini_set('memory_limit','512M');
-        $this->cronicos = Cronicos::where('id','<',10)->get();
+        $this->cronicos = Cronicos::all();
         $tmp = [];
         foreach ($this->cronicos as $key => $value) {
             $tmp[$key]= $value->toArray();
         }
         $this->crepetidos = array_count_values(array_column($tmp,'id_usuario'));
-        return $this->cronicos ?: Cronicos::where('id','<',10)->get();
+        return $this->cronicos ?: Cronicos::all();
         //return Inscripcion::all();
     }
 
@@ -358,14 +358,43 @@ class CronicosExport implements FromCollection, WithHeadings, ShouldAutoSize, Wi
     {
         return [
             AfterSheet::class => function(AfterSheet $event) {
-                // $event->sheet->insertNewRowBefore(1, 1);
-                // $event->sheet->getStyle('1')->getAlignment()->applyFromArray(
-                //     array('horizontal' => 'center')
-                // );
+                $event->sheet->insertNewRowBefore(1, 1);
+                $event->sheet->getStyle('1')->getAlignment()->applyFromArray(
+                    array('horizontal' => 'center')
+                );
 
-                // $event->sheet->mergeCells('B1:D1');
-                // $event->sheet->setCellValue('B1','Categoria 01');
+                $event->sheet->mergeCells('B1:D1');
+                $event->sheet->setCellValue('B1','NOTIFICACIÓN (SIR)');
 
+                $event->sheet->mergeCells('E1:X1');
+                $event->sheet->setCellValue('E1','IDENTIFICA EMPRESA SEDE USUARIO (REGISTRO CLIENTE)');
+
+                $event->sheet->mergeCells('AF1:AL1');
+                $event->sheet->setCellValue('AF1','INFORMACIÓN CASO (SIR)');
+
+                $event->sheet->mergeCells('AM1:AS1');
+                $event->sheet->setCellValue('AM1','INFORMACIÓN INCAPACIDAD (SISPOS)');
+
+                $event->sheet->mergeCells('AT1:AW1');
+                $event->sheet->setCellValue('AT1','FECHAS PROYECTADAS');
+
+                $event->sheet->mergeCells('AX1:BP1');
+                $event->sheet->setCellValue('AX1','SEGUIMIENTO CRHs (SIR)');
+
+                $event->sheet->mergeCells('BQ1:CI1');
+                $event->sheet->setCellValue('BQ1','SEGUIMIENTO A INSTANCIAS DE CPCLO (SIR)');
+
+                $event->sheet->mergeCells('CJ1:CM1');
+                $event->sheet->setCellValue('CJ1','INFORMACIÓN DEMANDA DICTAMEN (SIR)');
+
+                $event->sheet->mergeCells('CN1:CU1');
+                $event->sheet->setCellValue('CN1','CPCLO AL CIERRE');
+
+                $event->sheet->mergeCells('CV1:DA1');
+                $event->sheet->setCellValue('CV1','ABUSO DEL DERECHO');
+
+                $event->sheet->mergeCells('DB1:DG1');
+                $event->sheet->setCellValue('DB1','CIERRE REINTEGRO');
             }
         ];
     }
