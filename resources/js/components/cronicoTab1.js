@@ -14,7 +14,7 @@ class CronicoTab1 extends Component {
             cronico:{},
             fp:[],
             estados: ['CERRADO', 'SEGUIMIENTO', 'REVISION'],
-            motivos: ['FALLECIDO', 'IPP', 'NUEVO', 'PENSIONADO', 'REINTEGRADO', 'RETIRADO', 'SEGUIMIENTO', 'TRAMITE DE PENSION'],
+            motivos: ['FALLECIDO', 'IPP', 'NUEVO', 'PENSIONADO', 'REINTEGRADO', 'PERDIDO', 'RETIRADO', 'SEGUIMIENTO', 'TRAMITE DE PENSION'],
         }
         // bind
         
@@ -153,7 +153,18 @@ class CronicoTab1 extends Component {
                                     <div className="col-md-8 texto">
                                         <table className="table table-sm table-striped table-bordered texto mt-5">
                                             <tbody>
-                                                <tr className="form-group"><td>Tipo ID usuario</td><td><input className="form-control" type="text" id="tipo_id_usuario"  defaultValue={this.state.id != 0 ? cronico[cols[5]]: ''} size="50" onChange={this.handleChange}/></td></tr>
+                                                <tr className="form-group">
+                                                    <td>Tipo ID usuario</td>
+                                                    <td>
+                                                        <select className="form-control" id="tipo_id_usuario" onChange={this.handleChange}>
+                                                            <option defaultValue={this.state.id != 0 ? cronico[cols[5]]: ''}>{this.state.id != 0 ? cronico[cols[5]]: ''}</option>
+                                                            <option value="CC">CC</option>
+                                                            <option value="CE">CE</option>
+                                                            <option value="PE">PE</option>
+                                                            <option value="TI">TI</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
                                                 <tr className="form-group"><td>ID usuario</td><td><input className="form-control" type="text" id="id_usuario"  defaultValue={this.state.id != 0 ? cronico[cols[6]]: ''} size="50" onChange={this.handleChange}/></td></tr>
                                                 {this.state.id != 0 ?
                                                     <tr className="form-group"><td>CC repetidos</td><td><input disabled className="form-control" type="text" id="cc_repetidos"  defaultValue={this.state.id != 0 ? cronico[cols[7]] : ''} size="50" onChange={this.handleChange}/></td></tr>
@@ -165,10 +176,59 @@ class CronicoTab1 extends Component {
                                                 <tr className="form-group"><td>Segundo nombre</td><td><input className="form-control" type="text" id="nombre_2_usuario"  defaultValue={this.state.id != 0 ? cronico[cols[10]]: ''} size="50" onChange={this.handleChange}/></td></tr>
                                                 <tr className="form-group"><td>Primer apellido</td><td><input className="form-control" type="text" id="apellido_1_usuario"  defaultValue={this.state.id != 0 ? cronico[cols[11]]: ''} size="50" onChange={this.handleChange}/></td></tr>
                                                 <tr className="form-group"><td>Segundo apellido</td><td><input className="form-control" type="text" id="apellido_2_usuario"  defaultValue={this.state.id != 0 ? cronico[cols[12]]: ''} size="50" onChange={this.handleChange}/></td></tr>
-                                                <tr className="form-group"><td>Tipo afiliado</td><td><input className="form-control" type="text" id="tipo_afiliado"  defaultValue={this.state.id != 0 ? cronico[cols[13]]: ''} size="50" onChange={this.handleChange}/></td></tr>
-                                                <tr className="form-group"><td>Estado afiliado</td><td><input className="form-control" type="text" id="estado_afiliado"  defaultValue={this.state.id != 0 ? cronico[cols[14]]: ''} size="50" onChange={this.handleChange}/></td></tr>
-                                                <tr className="form-group"><td>Tipo afiliado población</td><td><input className="form-control" type="text" id="tipo_afiliado_poblacion_mayo2020"  defaultValue={this.state.id != 0 ? cronico[cols[15]]: ''} size="50" onChange={this.handleChange}/></td></tr>
-                                                <tr className="form-group"><td>Estado afiliado población</td><td><input className="form-control" type="text" id="estado_afiliado_poblacion_mayo2020"  defaultValue={this.state.id != 0 ? cronico[cols[16]]: ''} size="50" onChange={this.handleChange}/></td></tr>
+                                                <tr className="form-group">
+                                                    <td>Tipo afiliación</td>
+                                                    <td>
+                                                        <select className="form-control" id="tipo_afiliado" onChange={this.handleChange}>
+                                                            <option defaultValue={this.state.id != 0 ? cronico[cols[13]]: ''}>{this.state.id != 0 ? cronico[cols[13]]: ''}</option>
+                                                            <option value="AGREMIADO">AGREMIADO</option>
+                                                            <option value="APRENDIZ">APRENDIZ</option>
+                                                            <option value="CONYUGE / COMPAÑERO">CONYUGE / COMPAÑERO</option>
+                                                            <option value="DEPENDIENTE">DEPENDIENTE</option>
+                                                            <option value="HIJO">HIJO</option>
+                                                            <option value="INDEPENDIENTE">INDEPENDIENTE</option>
+                                                            <option value="MADRE COMUNITARIA">MADRE COMUNITARIA</option>
+                                                            <option value="PENSIONADO">PENSIONADO</option>
+                                                            <option value="PROTECCION AL CESANTE">PROTECCION AL CESANTE</option>
+                                                            <option value="SUBSIDIADO">SUBSIDIADO</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                                <tr className="form-group">
+                                                    <td>Estado afiliado</td>
+                                                    <td>
+                                                        <select className="form-control" id="estado_afiliado" onChange={this.handleChange}>
+                                                            <option defaultValue={this.state.id != 0 ? cronico[cols[14]]: ''}>{this.state.id != 0 ? cronico[cols[14]]: ''}</option>
+                                                            <option value="ACTIVO">ACTIVO</option>
+                                                            <option value="RETIRADO">RETIRADO</option>
+                                                            <option value="SUSPENDIDO">SUSPENDIDO</option>
+                                                            <option value="FALLECIDO">FALLECIDO</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                                <tr className="form-group">
+                                                    <td>Tipo afiliado última población</td>
+                                                    <td>
+                                                        <select className="form-control" id="tipo_afiliado_poblacion_mayo2020" onChange={this.handleChange}>
+                                                            <option defaultValue={this.state.id != 0 ? cronico[cols[15]]: ''}>{this.state.id != 0 ? cronico[cols[15]]: ''}</option>
+                                                            <option value="COTIZANTE">COTIZANTE</option>
+                                                            <option value="BENEFICIARIO">BENEFICIARIO</option>
+                                                            <option value="CABEZA DE FAMILIA">CABEZA DE FAMILIA</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                                <tr className="form-group">
+                                                    <td>Estado afiliado última población</td>
+                                                    <td>
+                                                        <select className="form-control" id="estado_afiliado_poblacion_mayo2020" onChange={this.handleChange}>
+                                                            <option defaultValue={this.state.id != 0 ? cronico[cols[16]]: ''}>{this.state.id != 0 ? cronico[cols[16]]: ''}</option>
+                                                            <option value="AFILIADO">AFILIADO</option>
+                                                            <option value="FALLECIDO">FALLECIDO</option>
+                                                            <option value="MOROSO">MOROSO</option>
+                                                            <option value="COBERTURA">COBERTURA</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
                                                 <tr className="form-group"><td>Telefono fijo usuario</td><td><input className="form-control" type="text" id="telefono_fijo_usuario"  defaultValue={this.state.id != 0 ? cronico[cols[17]]: ''} size="50" onChange={this.handleChange}/></td></tr>
                                                 <tr className="form-group"><td>Celular usuario</td><td><input className="form-control" type="text" id="celular_usuario"  defaultValue={this.state.id != 0 ? cronico[cols[18]]: ''} size="50" onChange={this.handleChange}/></td></tr>
                                                 <tr className="form-group"><td>Email usuario</td><td><input className="form-control" type="email" id="e mail_usuario"  defaultValue={this.state.id != 0 ? cronico[cols[19]]: ''} size="50" onChange={this.handleChange}/></td></tr>
@@ -176,7 +236,18 @@ class CronicoTab1 extends Component {
                                                 <tr className="form-group"><td>Telefono fijo acudiente</td><td><input className="form-control" type="text" id="telefono_fijo_acudiente"  defaultValue={this.state.id != 0 ? cronico[cols[21]]: ''} size="50" onChange={this.handleChange}/></td></tr>
                                                 <tr className="form-group"><td>Celular acudiente</td><td><input className="form-control" type="text" id="telefono_celular_acudiente"  defaultValue={this.state.id != 0 ? cronico[cols[22]]: ''} size="50" onChange={this.handleChange}/></td></tr>
                                                 <tr className="form-group"><td>Email acudiente</td><td><input className="form-control" type="email" id="e mail_acudiente"  defaultValue={this.state.id != 0 ? cronico[cols[23]]: ''} size="50" onChange={this.handleChange}/></td></tr>
-                                                <tr className="form-group"><td>Tipo ID aportante</td><td><input className="form-control" type="text" id="tipo_id_aportante"  defaultValue={this.state.id != 0 ? cronico[cols[24]]: ''} size="50" onChange={this.handleChange}/></td></tr>
+                                                <tr className="form-group">
+                                                    <td>Tipo ID aportante</td>
+                                                    <td>
+                                                        <select className="form-control" id="tipo_id_aportante" onChange={this.handleChange}>
+                                                            <option defaultValue={this.state.id != 0 ? cronico[cols[24]]: ''}>{this.state.id != 0 ? cronico[cols[24]]: ''}</option>
+                                                            <option value="CC">CC</option>
+                                                            <option value="CE">CE</option>
+                                                            <option value="PE">PE</option>
+                                                            <option value="NIT">NIT</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
                                                 <tr className="form-group"><td>Nit aportante</td><td><input className="form-control" type="text" id="nit_aportante"  defaultValue={this.state.id != 0 ? cronico[cols[25]]: ''} size="50" onChange={this.handleChange}/></td></tr>
                                                 <tr className="form-group"><td>Nombre aportante</td><td><input className="form-control" type="text" id="nombre_aportante"  defaultValue={this.state.id != 0 ? cronico[cols[26]]: ''} size="50" onChange={this.handleChange}/></td></tr>
                                                 <tr className="form-group"><td>Código ARL</td><td><input className="form-control" type="text" id="cod_arl"  defaultValue={this.state.id != 0 ? cronico[cols[27]]: ''} size="50" onChange={this.handleChange}/></td></tr>
@@ -287,7 +358,7 @@ class CronicoTab1 extends Component {
                                                     <td>
                                                         <select className="form-control" id="tipo_seguimiento" onChange={this.handleChange}>
                                                             <option defaultValue={this.state.id != 0 ? cronico[cols[45]]: ''}>{this.state.id != 0 ? cronico[cols[45]]: ''}</option>
-                                                            <option defaultValue="CPCLO">CPCLO</option>
+                                                            <option defaultValue="HIPERFRECUENTADOR">HIPERFRECUENTADOR</option>
                                                             <option defaultValue="ICP">ICP</option>
                                                         </select>
                                                     </td>
