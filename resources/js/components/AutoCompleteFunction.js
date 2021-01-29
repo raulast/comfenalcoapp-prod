@@ -1,4 +1,5 @@
 import Axios from 'axios';
+import _ from 'lodash';
 
 export const AutoCompleteFunction = (value) => {
 
@@ -21,4 +22,10 @@ export const AutoCompleteFunction = (value) => {
             console.log(error);
         }
     }
+
+}
+
+export const AutoCompleteHandler = (value, arr) => {
+    const arrIndex = _.findIndex(arr, ['nombre', value]);
+    return arr[arrIndex].codigo;
 }
