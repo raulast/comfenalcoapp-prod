@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { size } from 'lodash';
+import { AutoCompleteFunction } from './AutoCompleteFunction';
 import axios from 'axios';
 
 
@@ -14,7 +14,14 @@ class CronicoTab1 extends Component {
             cronico:{},
             fp:[],
             estados: ['CERRADO', 'SEGUIMIENTO', 'REVISION'],
-            motivos: ['FALLECIDO', 'IPP', 'NUEVO', 'PENSIONADO', 'REINTEGRADO', 'RETIRADO', 'SEGUIMIENTO', 'TRAMITE DE PENSION'],
+            motivos: ['FALLECIDO', 'IPP', 'NUEVO', 'PENSIONADO', 'REINTEGRADO', 'PERDIDO', 'RETIRADO', 'SEGUIMIENTO', 'TRAMITE DE PENSION'],
+            municipios: ['ALCALA', 'ANDALUCIA', 'ANSERMANUEVO', 'ARGELIA', 'BOLIVAR', 'BUENAVENTURA',
+                'BUGALAGRANDE', 'CAICEDONIA', 'CALIMA', 'CANDELARIA', 'CARTAGO', 'DAGUA', 'EL AGUILA',
+                'EL CAIRO', 'EL CERRITO', 'EL DOVIO', 'FLORIDA', 'GINEBRA', 'GUACARI', 'GUADALAJARA DE BUGA',
+                'JAMUNDI', 'LA CUMBRE', 'LA UNION', 'LA VICTORIA', 'OBANDO', 'PALMIRA', 'PRADERA',
+                'RESTREPO', 'RIOFRIO', 'ROLDANILLO', 'SAN PEDRO', 'SEVILLA', 'TORO', 'TRUJILLO', 'TULUA',
+                'ULLOA', 'VERSALLES', 'CALI', 'VIJES', 'YOTOCO', 'YUMBO', 'ZARZAL', 'BUGA', 'DARIEN',
+            ]
         }
         // bind
         
@@ -59,6 +66,18 @@ class CronicoTab1 extends Component {
         }
     }
     handleChange({target}) {
+        if (target.id == 'cie10_evento_seguimiento') {
+            let newValue = []
+            // const newTarget = document.getElementById('descripcion_cie10');
+            try {
+                console.log('target 2', AutoCompleteFunction(target.value));
+            } catch (error) {
+                console.error(error);
+            }
+            
+            // newValue = newValue.descripcion_diagnostico;
+            // newTarget.value = newValue;
+        }
         var ncronico = this.state.cronico;
         ncronico[target.id]=target.value; 
         this.props.dataToSend(ncronico, 1);
@@ -214,7 +233,17 @@ class CronicoTab1 extends Component {
                                                         </select>
                                                     </td>
                                                 </tr>
-                                                <tr className="form-group"><td>Municipio</td><td><input className="form-control" type="text" id="municipio"  defaultValue={this.state.id != 0 ? cronico[cols[31]]: ''} size="50" onChange={this.handleChange}/></td></tr>
+                                                <tr className="form-group">
+                                                    <td>Municipio</td>
+                                                    <td>
+                                                        <select className="form-control" id="municipio" onChange={this.handleChange}>
+                                                            <option value={this.state.id != 0 ? cronico[cols[31]]: ''}>{this.state.id != 0 ? cronico[cols[31]]: ''}</option>
+                                                            {this.state.municipios.map((e) =>
+                                                                <option defaultValue={e}>{e}</option>
+                                                            )}
+                                                        </select>
+                                                    </td>
+                                                </tr>
                                                 <tr className="form-group"><td>Código municipio</td><td><input className="form-control" type="text" id="codigo_municipio"  defaultValue={this.state.id != 0 ? cronico[cols[32]]: ''} size="50" onChange={this.handleChange}/></td></tr>
                                                 <tr className="form-group"><td>NIT IPS primaria</td><td><input className="form-control" type="text" id="nit_ips_primaria"  defaultValue={this.state.id != 0 ? cronico[cols[33]]: ''} size="50" onChange={this.handleChange}/></td></tr>
                                                 <tr className="form-group"><td>Nombre IPS</td><td><input className="form-control" type="text" id="nombre_ips"  defaultValue={this.state.id != 0 ? cronico[cols[34]]: ''} size="50" onChange={this.handleChange}/></td></tr>
@@ -316,7 +345,7 @@ class CronicoTab1 extends Component {
                                                 </tr>
                                                 <tr className="form-group">
                                                     <td>Cie10 evento seguimiento</td>
-                                                    <td><input className="form-control" type="text" id="cie10_evento_seguimiento" defaultValue={this.state.id != 0 ? cronico[cols[48]]: ''} size="50" onChange={this.handleChange}/></td>
+                                                    <td><input maxLength="4" minLength="4" title="ingresa un código entre A000 y Z999" pattern="^[A-Z]{1}[0-9]{3}$" className="form-control" type="text" id="cie10_evento_seguimiento" defaultValue={this.state.id != 0 ? cronico[cols[48]]: ''} size="50" onChange={this.handleChange}/></td>
                                                 </tr>
                                                 <tr className="form-group">
                                                     <td>Descripcion Cie10</td>
