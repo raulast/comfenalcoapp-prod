@@ -31,15 +31,15 @@ class CronicosExport implements FromCollection, WithHeadings, ShouldAutoSize, Wi
     public function collection()
     {
         ini_set('memory_limit','512M');
-        $this->cronicos = Cronicos::where('id','<',20)->get();
-        // $this->cronicos = Cronicos::all();
+        // $this->cronicos = Cronicos::where('id','<',20)->get();
+        $this->cronicos = Cronicos::all();
         $tmp = [];
         foreach ($this->cronicos as $key => $value) {
             $tmp[$key]= $value->toArray();
         }
         $this->crepetidos = array_count_values(array_column($tmp,'id_usuario'));
-        return $this->cronicos ?: Cronicos::where('id','<',20)->get();
-        // return $this->cronicos ?: Cronicos::all();
+        // return $this->cronicos ?: Cronicos::where('id','<',20)->get();
+        return $this->cronicos ?: Cronicos::all();
         //return Inscripcion::all();
     }
 
