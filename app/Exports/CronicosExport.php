@@ -3,14 +3,14 @@
 namespace App\Exports;
 
 use App\Cronicos;
-use Maatwebsite\Excel\Concerns\FromCollection;
-use Maatwebsite\Excel\Concerns\WithHeadings;
-use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Events\AfterSheet;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithStyles;
-use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
-use Maatwebsite\Excel\Events\AfterSheet;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class CronicosExport implements FromCollection, WithHeadings, ShouldAutoSize, WithEvents, WithStyles, WithMapping
 {
@@ -31,13 +31,15 @@ class CronicosExport implements FromCollection, WithHeadings, ShouldAutoSize, Wi
     public function collection()
     {
         ini_set('memory_limit','512M');
-        $this->cronicos = Cronicos::all();
+        $this->cronicos = Cronicos::where('id','<',20)->get();
+        // $this->cronicos = Cronicos::all();
         $tmp = [];
         foreach ($this->cronicos as $key => $value) {
             $tmp[$key]= $value->toArray();
         }
         $this->crepetidos = array_count_values(array_column($tmp,'id_usuario'));
-        return $this->cronicos ?: Cronicos::all();
+        return $this->cronicos ?: Cronicos::where('id','<',20)->get();
+        // return $this->cronicos ?: Cronicos::all();
         //return Inscripcion::all();
     }
 
@@ -68,7 +70,7 @@ class CronicosExport implements FromCollection, WithHeadings, ShouldAutoSize, Wi
 
         $cronico->cant_ciclos = $this->crepetidos["$cronico->id_usuario"];
 
-        $cronico->cc_repetidos = ($cronico->cant_ciclos > 1)? true : false;
+        $cronico->cc_repetidos = ($cronico->cant_ciclos > 1)? 'true' : 'false';
 
         $rdf = $cronico->dias_acumulados_a_fecha_ultima_it;
         $cronico->rango_dias_a_fecha_ultima_it = ($rdf<60)?"01. No Aplica":(
@@ -116,241 +118,294 @@ class CronicosExport implements FromCollection, WithHeadings, ShouldAutoSize, Wi
 
         $invoice = $cronico;
 
-        return [
-            $invoice->consecutivo,
-            $invoice->numero_notificacion,
-            $invoice->fecha_notificacion,
-            $invoice->ano_notificacion,
-            $invoice->municipio,
-            $invoice->codigo_municipio,
-            $invoice->tipo_id_aportante,
-            $invoice->nit_aportante,
-            $invoice->nombre_aportante,
-            $invoice->nit_ips_primaria,
-            $invoice->nombre_ips,
-            $invoice->nombre_1_usuario,
-            $invoice->nombre_2_usuario,
-            $invoice->apellido_1_usuario,
-            $invoice->apellido_2_usuario,
-            $invoice->tipo_id_usuario,
-            $invoice->id_usuario,
-            $invoice->cc_repetidos,
-            $invoice->cant_ciclos,
-            $invoice->dias_acumulados_a_identificacion_caso,
-            $invoice->fecha_fin_it_dias_acumulados_a_indetificacion,
-            $invoice->estado_afiliado,
-            $invoice->tipo_afiliado,
-            '-',
-            $invoice->$mel,
-            $invoice->no_licencia_medico_laboral,
-            $invoice->fecha_ultima_cita_mel,
-            $invoice->cod_arl,
-            $invoice->nombre_arl,
-            $invoice->cod_afp,
-            $invoice->nombre_afp,
-            $invoice->tipo_seguimiento,
-            $invoice->estado_seguimiento,
-            $invoice->motivo_estado_seguimiento,
-            $invoice->fecha_cierre,
-            $invoice->cie10_evento_seguimiento,
-            $invoice->descripcion_cie10,
-            $invoice->contingencia_origen_inicial,
-            $invoice->fecha_it_inicio_ciclo,
-            $invoice->fecha_inicio_ultima_it,
-            $invoice->fecha_fin_ultima_it,
-            $invoice->dias_acumulados_a_fecha_ultima_it,
-            $invoice->rango_dias_a_fecha_ultima_it,
-            $invoice->$daic,
-            $invoice->perdidos,
-            $invoice->fecha_dia_180,
-            $invoice->fecha_dia_540,
-            $invoice->fecha_dia_120,
-            $invoice->fecha_dia_150,
-            $invoice->radicacion_masiva_fecha_carta,
-            $invoice->$fec180,
-            $invoice->decision_crh1,
-            $invoice->dias_acumulados_a_crh1,
-            '-',
-            $invoice->oportunidad_a_crh1,
-            $invoice->fecha_remision_afp_arl_crh1,
-            $invoice->fecha_notif_crh1_a_afp,
-            $invoice->fecha_dia_480,
-            $invoice->$fec540,
-            $invoice->decision_crh2_favorable,
-            $invoice->dias_acum_a_crh2,
-            $invoice->fecha_remision_afp_arl_crh2,
-            $invoice->fecha_notif_crh2_a_afp,
-            $invoice->fecha_emision_crh3_mod_pronostico,
-            $invoice->decision_crh3_favorable,
-            $invoice->dias_acum_a_crh3,
-            $invoice->fecha_remision_afp_arl_crh3,
-            $invoice->fecha_notif_crh3_a_afp,
-            $invoice->cpclo_fecha_1a_oport,
-            $invoice->entidad_califica_1a_oportunidad,
-            $invoice->cpclo,
-            $invoice->$cod1o,
-            $invoice->$fe1o,
-            $invoice->quien_manifiesta_desacuerdo,
-            $invoice->fecha_manifestacion_desacuerdo,
-            $invoice->fecha_entrega_a_jrci,
-            $invoice->cpclo_fecha_jrci,
-            $invoice->cpclo2,
-            $invoice->contingencia_origen_dictamen_jrci,
-            $invoice->fecha_estructuracion_jrci,
-            $invoice->quien_manifiesta_controversia,
-            $invoice->fecha_manifestacion_controversia,
-            $invoice->fecha_entrega_a_jnci,
-            $invoice->cpclo_fecha_jnci,
-            $invoice->cpclo3,
-            $invoice->contingencia_origen_dictamen_jnci,
-            $invoice->fecha_estructuracion_jnci,
-            $invoice->fecha_demanda_lboral,
-            $invoice->cpclo_demanda_dictamen,
-            $invoice->contingencia_origen_dictamen_demanda,
-            $invoice->fecha_estructuracion_demanda,
-            $invoice->firme_si,
-            '-',
-            $invoice->rango_cpclo_cierre,
-            $invoice->contingencia_origen_de_cierre,
-            $invoice->fecha_estructuracion_cierre,
-            $invoice->instancia_al_cierre,
-            $invoice->clasificacion_tipo_incpacidad,
-            $invoice->fecha_cert_inva,
-            $invoice->fecha_carta_cita_pemel,
-            $invoice->fecha_carta_explicaciones_abuso,
-            $invoice->fecha_carta_cita_acuerdo__abuso,
-            $invoice->fecha_acta_acuerdo_de_cumplimiento,
-            $invoice->fecha_carta_suspension_abuso_del_derecho,
-            $invoice->fecha_restitucion_derecho_it,
-            $invoice->fecha_reintegro_por_mmm,
-            $invoice->fecha_control_reintegro,
-            $invoice->resultado_reintegro_por_mmm,
-            $invoice->fecha_refuerzo_reintegro,
-            $invoice->fecha_control_fallido,
-            $invoice->resultado_refuerzo_reintegro,
-            $invoice->fecha_cierre_notificacion_evento,
-            $invoice->observacion,
-            $invoice->observacion_cobertura_tutela,
+        $campos = [
+            'numero_notificacion',
+            'fecha_notificacion',
+            'tipo_id_usuario',
+            'id_usuario',
+            'cc_repetidos',
+            'cant_ciclos',
+            'nombre_1_usuario',
+            'nombre_2_usuario',
+            'apellido_1_usuario',
+            'apellido_2_usuario',
+            'tipo_afiliado',
+            'estado_afiliado',
+            'tipo_afiliado_poblacion_mayo2020',
+            'estado_afiliado_poblacion_mayo2020',
+            'telefono_fijo_usuario',
+            'celular_usuario',
+            'e mail_usuario',
+            'apellidos_nombres_acudiente',
+            'telefono_fijo_acudiente',
+            'telefono_celular_acudiente',
+            'e mail_acudiente',
+            'tipo_id_aportante',
+            'nit_aportante',
+            'nombre_aportante',
+            'cod_arl',
+            'nombre_arl',
+            'cod_afp',
+            'nombre_afp',
+            'municipio',
+            'codigo_municipio',
+            'nit_ips_primaria',
+            'nombre_ips',
+            'nombre_medico_laboral_(mel)',
+            'no_licencia_medico_laboral',
+            'fecha_primera_asistio_mel',
+            'fecha_ultima_cita_mel',
+            'fecha_proxima_mel',
+            'fecha_primera_asistio_sic',
+            'fecha_ultima_cita_sic',
+            'fecha_proxima_sic',
+            'dias_acumulados_a_identificacion_caso',
+            'fecha_fin_it_dias_acumulados_a_indetificacion',
+            'tipo_seguimiento',
+            'estado_seguimiento',
+            'motivo_estado_seguimiento',
+            'cie10_evento_seguimiento',
+            'descripcion_cie10',
+            'contingencia_origen_inicial',
+            'fecha_cierre',
+            'fecha_it_inicio_ciclo',
+            'fecha_inicio_ultima_it',
+            'fecha_fin_ultima_it',
+            'dias_acumulados_a_fecha_ultima_it',
+            'rango_dias_a_fecha_ultima_it',
+            'dias_acumulado_a_hoy_desde_fech _inic _ciclo',
+            'perdidos',
+            'fecha_dia_180',
+            'fecha_dia_540',
+            'fecha_dia_120',
+            'fecha_dia_150',
+            'radicacion_masiva_fecha_carta',
+            'fecha_emision_crh1_(antes_del_180)',
+            'ano_emision_crh1',
+            'mes_emision_crh1',
+            'decision_crh1',
+            'dias_acumulados_a_crh1',
+            'oportunidad_a_crh1',
+            'fecha_remision_afp_arl_crh1',
+            'fecha_notif_crh1_a_afp',
+            'fecha_dia_480',
+            'fecha_emision_crh2_(antes_del_540)',
+            'decision_crh2_favorable',
+            'dias_acum_a_crh2',
+            'fecha_remision_afp_arl_crh2',
+            'fecha_notif_crh2_a_afp',
+            'fecha_emision_crh3_mod_pronostico',
+            'decision_crh3_favorable',
+            'dias_acum_a_crh3',
+            'fecha_remision_afp_arl_crh3',
+            'fecha_notif_crh3_a_afp',
+            'cpclo_fecha_1a_oport',
+            'entidad_califica_1a_oportunidad',
+            'cpclo',
+            'contingencia_origen_dictamen_1_oport ',
+            'fecha_estructuracion_1_oport ',
+            'quien_manifiesta_desacuerdo',
+            'fecha_manifestacion_desacuerdo',
+            'fecha_entrega_a_jrci',
+            'cpclo_fecha_jrci',
+            'cpclo2',
+            'contingencia_origen_dictamen_jrci',
+            'fecha_estructuracion_jrci',
+            'quien_manifiesta_controversia',
+            'fecha_manifestacion_controversia',
+            'fecha_entrega_a_jnci',
+            'cpclo_fecha_jnci',
+            'cpclo3',
+            'contingencia_origen_dictamen_jnci',
+            'fecha_estructuracion_jnci',
+            'fecha_demanda_lboral',
+            'cpclo_demanda_dictamen',
+            'contingencia_origen_dictamen_demanda',
+            'fecha_estructuracion_demanda',
+            'firme_si',
+            'cpclo_cierre',
+            'rango_cpclo_cierre',
+            'categoria_discapacidad',
+            'contingencia_origen_de_cierre',
+            'fecha_estructuracion_cierre',
+            'instancia_al_cierre',
+            'clasificacion_tipo_incpacidad',
+            'fecha_cert_inva',
+            'fecha_carta_cita_pemel',
+            'fecha_carta_explicaciones_abuso',
+            'fecha_carta_cita_acuerdo__abuso',
+            'fecha_acta_acuerdo_de_cumplimiento',
+            'fecha_carta_suspension_abuso_del_derecho',
+            'fecha_restitucion_derecho_it',
+            'fecha_reintegro_por_mmm',
+            'fecha_control_reintegro',
+            'resultado_reintegro_por_mmm',
+            'fecha_refuerzo_reintegro',
+            'fecha_control_fallido',
+            'resultado_refuerzo_reintegro',
+            'fecha_comunicado_usuario',
+            'tipo_comunicado_(llamado-email-carta)',
+            'fecha_comunicado_busqueda_empresa',
+            'deuda',
+            'procedimiento_pendiente',
+            'fecha_de_solicitud',
+            'area_de_contacto',
+            'fecha_de_respuesta',
+            'respuesta',
+            'fecha_cierre_notificacion_evento',
+            'observacion',
+            'tutela_pe',
+            'observacion_cobertura_tutela',
         ];
+
+        $rows = [];
+        foreach ($campos as $key => $value) {
+            $rows[] = $invoice->$value;
+        }
+
+        return $rows;
     }
 
     public function headings(): array
     {
         return [
-                'consecutivo',
-                'numero_notificacion',
-                'fecha_notificacion',
-                'ano_notificacion',
-                'municipio',
-                'codigo_municipio',
-                'tipo_id_aportante',
-                'nit_aportante',
-                'nombre_aportante',
-                'nit_ips_primaria',
-                'nombre_ips',
-                'nombre_1_usuario',
-                'nombre_2_usuario',
-                'apellido_1_usuario',
-                'apellido_2_usuario',
-                'tipo_id_usuario',
-                'id_usuario',
-                'cc_repetidos',
-                'cant_ciclos',
-                'dias_acumulados_a_identificacion_caso',
-                'fecha_fin_it_dias_acumulados_a_indetificacion',
-                'estado_afiliado',
-                'tipo_afiliado',
-                '##CODIGO TIPO AFILIADO ##',
-                '[nombre_medico_laboral_(mel)]',
-                'no_licencia_medico_laboral',
-                'fecha_ultima_cita_mel',
-                'cod_arl',
-                'nombre_arl',
-                'cod_afp',
-                'nombre_afp',
-                'tipo_seguimiento',
-                'estado_seguimiento',
-                'motivo_estado_seguimiento',
-                'fecha_cierre',
-                'cie10_evento_seguimiento',
-                'descripcion_cie10',
-                'contingencia_origen_inicial',
-                'fecha_it_inicio_ciclo',
-                'fecha_inicio_ultima_it',
-                'fecha_fin_ultima_it',
-                'dias_acumulados_a_fecha_ultima_it',
-                'rango_dias_a_fecha_ultima_it',
-                '[dias_acumulado_a_hoy_desde_fech _inic _ciclo]',
-                'perdidos',
-                'fecha_dia_180',
-                'fecha_dia_540',
-                'fecha_dia_120',
-                'fecha_dia_150',
-                'radicacion_masiva_fecha_carta',
-                '[fecha_emision_crh1_(antes_del_180)]',
-                'decision_crh1',
-                'dias_acumulados_a_crh1',
-                '##Diferencia Femision-Dia150##',
-                'oportunidad_a_crh1',
-                'fecha_remision_afp_arl_crh1',
-                'fecha_notif_crh1_a_afp',
-                'fecha_dia_480',
-                '[fecha_emision_crh2_(antes_del_540)]',
-                'decision_crh2_favorable',
-                'dias_acum_a_crh2',
-                'fecha_remision_afp_arl_crh2',
-                'fecha_notif_crh2_a_afp',
-                'fecha_emision_crh3_mod_pronostico',
-                'decision_crh3_favorable',
-                'dias_acum_a_crh3',
-                'fecha_remision_afp_arl_crh3',
-                'fecha_notif_crh3_a_afp',
-                'cpclo_fecha_1a_oport',
-                'entidad_califica_1a_oportunidad',
-                'cpclo',
-                '[contingencia_origen_dictamen_1_oport ]',
-                '[fecha_estructuracion_1_oport ]',
-                'quien_manifiesta_desacuerdo',
-                'fecha_manifestacion_desacuerdo',
-                'fecha_entrega_a_jrci',
-                'cpclo_fecha_jrci',
-                'cpclo2',
-                'contingencia_origen_dictamen_jrci',
-                'fecha_estructuracion_jrci',
-                'quien_manifiesta_controversia',
-                'fecha_manifestacion_controversia',
-                'fecha_entrega_a_jnci',
-                'cpclo_fecha_jnci',
-                'cpclo3',
-                'contingencia_origen_dictamen_jnci',
-                'fecha_estructuracion_jnci',
-                'fecha_demanda_lboral',
-                'cpclo_demanda_dictamen',
-                'contingencia_origen_dictamen_demanda',
-                'fecha_estructuracion_demanda',
-                'firme_si',
-                '##PORCENTAJE CPCL##',
-                'rango_cpclo_cierre',
-                'contingencia_origen_de_cierre',
-                'fecha_estructuracion_cierre',
-                'instancia_al_cierre',
-                'clasificacion_tipo_incpacidad',
-                'fecha_cert_inva',
-                'fecha_carta_cita_pemel',
-                'fecha_carta_explicaciones_abuso',
-                'fecha_carta_cita_acuerdo__abuso',
-                'fecha_acta_acuerdo_de_cumplimiento',
-                'fecha_carta_suspension_abuso_del_derecho',
-                'fecha_restitucion_derecho_it',
-                'fecha_reintegro_por_mmm',
-                'fecha_control_reintegro',
-                'resultado_reintegro_por_mmm',
-                'fecha_refuerzo_reintegro',
-                'fecha_control_fallido',
-                'resultado_refuerzo_reintegro',
-                'fecha_cierre_notificacion_evento',
-                'observacion',
-                'observacion_cobertura_tutela',
+                'N° NOTIFICACION',
+                'FECHA NOTIFICACIÓN',
+                'TIPO ID USUARIO',
+                'N° ID USUARIO',
+                'UNICO ID USUARIO',
+                'CANTIDAD CICLOS',
+                'PRIMER NOMBRE',
+                'SEGUNDO NOMBRE',
+                'PRIMER APELLIDO',
+                'SEGUNDO APELLIDO',
+                'TIPO AFILIACION',
+                'ESTADO AFILIADO ',
+                'Tipo Afiliado Ultima Poblacion',
+                'Estado Afiliado Ultima Poblacion',
+                'N° TELEFONO FIJO',
+                'N° CELULAR',
+                'E.MAIL',
+                'ACUDIENTE - NOMBRE Y APELLIDO',
+                'ACUDIENTE - N° TELEFONO FIJO',
+                'ACUDIENTE - N° CELULAR',
+                'ACUDIENTE - E.MAIL ',
+                'TIPO ID APORTANTE',
+                'N° ID APORTANTE',
+                'NOMBRE APORTANTE',
+                'COD_ARL',
+                'NOMBRE ARL',
+                'COD_AFP',
+                'NOMBRE AFP',
+                'MUNICIPIO',
+                'CODIGO MUNICIPÍO',
+                'CODIGO IPS PRIMARIA',
+                'NOMBRE IPS',
+                'NOMBRE MEDICO LABORAL (MEL)',
+                'N° LICENCIA MEDICO LABORAL',
+                'FECHA PRIMERA CITA ASISTIO',
+                'FECHA ULTIMA CITA ',
+                'FECHA PROXIMA',
+                'FECHA PRIMERA CITA ASISTIO',
+                'FECHA ULTIMA CITA ',
+                'FECHA PROXIMA',
+                'DIAS ACUMULADOS A IDENTIFICACIÓN CASO',
+                'FECHA FIN IT - DIAS ACUMULADOS A IDENTIFICACIÓN',
+                'TIPO SEGUIMIENTO',
+                'ESTADO SEGUIMIENTO',
+                'MOTIVO ESTADO SEGUIMIENTO',
+                'CIE-10 EVENTO',
+                'DESCRIPCIÓN CIE-10',
+                'CONTINGENCIA ORIGEN INICIAL',
+                'FECHA CIERRE',
+                'FECHA IT INICIO CICLO',
+                'FECHA INICIO ULTIMA IT',
+                'FECHA FIN ULTIMA IT',
+                'DIAS ACUMULADOS A FECHA ULTIMA IT',
+                'RANGO DIAS A FECHA ULTIMA IT',
+                'DIAS ACUMULADO A HOY DESDE FECH. INIC. CICLO',
+                'PERDIDOS ',
+                'FECHA DIA 180',
+                'FECHA DIA 540',
+                'FECHA DIA 120',
+                'FECHA DIA 150',
+                'FECHA CARTA RADICACIÓN MASIVA',
+                'FECHA EMISIÓN CRH1 (Antes de dia 180)',
+                'Año Emision CRH1',
+                'Mes Emision CRH1',
+                'DECISIÓN CRH1',
+                'DIAS ACUMULADOS A CRH1',
+                'Oportunidad a CRH1',
+                'FECHA REMISION AFP - ARL CRH1',
+                'FECHA NOTIF. CRH1 A AFP',
+                'FECHA DIA 480',
+                'FECHA EMISIÓN CRH2 (Antes de dia 540)',
+                'DECISIÓN CRH2 FAVORABLE',
+                'DIAS ACUM. A CRH2',
+                'FECHA REMISION AFP - ARL CRH2',
+                'FECHA NOTIF. CRH2 A AFP',
+                'FECHA EMISIÓN CRH3',
+                'DECISIÓN CRH3 FAVORABLE',
+                'DIAS ACUM. A CRH3',
+                'FECHA REMISION AFP - ARL CRH3',
+                'FECHA NOTIF. CRH3 A AFP',
+                'FECHA CPCLO 1° OPORTUNIDAD.',
+                'ENTIDAD CALIFICA 1° OPORTUNIDAD',
+                '%CPCLO',
+                'CONTINGENCIA ORIGEN  DICTAMEN 1° OPORT.',
+                'FECHA ESTRUCTURACIÓN 1° OPORT.',
+                'QUIEN MANIFIESTA DESACUERDO',
+                'FECHA MANIFESTACIÓN DESACUERDO',
+                'FECHA ENTREGA A JRCI',
+                'FECHA CPCLO JRCI',
+                '%CPCLO',
+                'CONTINGENCIA ORIGEN DICTAMEN JRCI',
+                'FECHA ESTRUCTURACIÓN JRCI',
+                'QUIEN MANIFIESTA CONTROVERSIA',
+                'FECHA MANIFESTACIÓN CONTROVERSIA',
+                'FECHA ENTREGA A JNCI',
+                'FECHA CPCLO JNCI',
+                '%CPCLO',
+                'CONTINGENCIA ORIGEN DICTAMEN JNCI',
+                'FECHA ESTRUCTURACIÓN JNCI',
+                'FECHA DEMANDA LBORAL',
+                '%CPCLO',
+                'CONTINGENCIA ORIGEN DICTAMEN DEMANDA',
+                'FECHA ESTRUCTURACIÓN DEMANDA',
+                'FIRME (SI)',
+                '%CPCLO CIERRE',
+                'RANGO CPCLO CIERRE',
+                'CATEGORIA DISCAPACIDAD',
+                'CONTINGENCIA ORIGEN DE CIERRE',
+                'FECHA ESTRUCTURACION CIERRE',
+                'INSTANCIA AL CIERRE',
+                'CLASIFICACIÓN TIPO INCPACIDAD',
+                'FECHA CERTIFICADO INVALIDEZ',
+                'FECHA CARTA - CITA PEMEL',
+                'FECHA CARTA EXPLICACIONES ABUSO',
+                'FECHA CARTA_CITA_ACUERDO_ ABUSO',
+                'FECHA_ACTA_ACUERDO_DE_CUMPLIMIENTO',
+                'Fecha_CARTA_SUSPENSION_ABUSO_DEL_DERECHO',
+                'FECHA RESTITUCIÓN DERECHO IT',
+                'FECHA REINTEGRO POR MMM ',
+                'FECHA CONTROL REINTEGRO',
+                'RESULTADO REINTEGRO POR MMM',
+                'FECHA REFUERZO REINTEGRO',
+                'FECHA CONTROL REINT. FALLIDO',
+                'RESULTADO REFUERZO REINTEGRO',
+                'FECHA COMUNICADO A USUARIO',
+                'TIPO COMUNICADO EMITIDO',
+                'FECHA COMUNICADO BUSQUEDA EMPRESA',
+                'DEUDA',
+                'PROCEDIMIENTO PENDIENTE',
+                'FECHA DE SOLICITUD',
+                'AREA DE CONTACTO',
+                'FECHA DE RESPUESTA',
+                'RESPUESTA',
+                'FECHA CIERRE NOTIFICACIÓN EVENTO',
+                'OBSERVACIÓN',
+                'TUTELA PE (SI/NO)',
+                'OBSERVACION TUTELA',
             ];
     }
 
@@ -363,38 +418,56 @@ class CronicosExport implements FromCollection, WithHeadings, ShouldAutoSize, Wi
                     array('horizontal' => 'center')
                 );
 
-                $event->sheet->mergeCells('B1:D1');
-                $event->sheet->setCellValue('B1','NOTIFICACIÓN (SIR)');
+                $event->sheet->mergeCells('A1:B1');
+                $event->sheet->setCellValue('A1','NOTIFICACIÓN (SIR)');
 
-                $event->sheet->mergeCells('E1:X1');
-                $event->sheet->setCellValue('E1','IDENTIFICA EMPRESA SEDE USUARIO (REGISTRO CLIENTE)');
+                $event->sheet->mergeCells('C1:AH1');
+                $event->sheet->setCellValue('C1','INFORMACION DEMOGRAFICA USUARIO Y EMPRESA (REGISTRO CLIENTE)');
 
-                $event->sheet->mergeCells('AF1:AL1');
-                $event->sheet->setCellValue('AF1','INFORMACIÓN CASO (SIR)');
+                $event->sheet->mergeCells('AI1:AK1');
+                $event->sheet->setCellValue('AI1','MEL CITAS AGENDA');
 
-                $event->sheet->mergeCells('AM1:AS1');
-                $event->sheet->setCellValue('AM1','INFORMACIÓN INCAPACIDAD (SISPOS)');
+                $event->sheet->mergeCells('AL1:AN1');
+                $event->sheet->setCellValue('AL1','SICOLOGIA CITAS AGENDA');
 
-                $event->sheet->mergeCells('AT1:AW1');
-                $event->sheet->setCellValue('AT1','FECHAS PROYECTADAS');
+                $event->sheet->mergeCells('AO1:AW1');
+                $event->sheet->setCellValue('AO1','GESTION DEL CASO MEL (SIR)');
 
-                $event->sheet->mergeCells('AX1:BP1');
-                $event->sheet->setCellValue('AX1','SEGUIMIENTO CRHs (SIR)');
+                $event->sheet->mergeCells('AX1:BD1');
+                $event->sheet->setCellValue('AX1','INFORMACIÓN INCAPACIDADES (SISPOS)');
 
-                $event->sheet->mergeCells('BQ1:CI1');
-                $event->sheet->setCellValue('BQ1','SEGUIMIENTO A INSTANCIAS DE CPCLO (SIR)');
+                $event->sheet->mergeCells('BE1:BH1');
+                $event->sheet->setCellValue('BE1','FECHAS PROYECTADAS');
 
-                $event->sheet->mergeCells('CJ1:CM1');
-                $event->sheet->setCellValue('CJ1','INFORMACIÓN DEMANDA DICTAMEN (SIR)');
+                $event->sheet->mergeCells('BI1:CB1');
+                $event->sheet->setCellValue('BI1','GESTION CRHs (SIR)');
 
-                $event->sheet->mergeCells('CN1:CU1');
-                $event->sheet->setCellValue('CN1','CPCLO AL CIERRE');
+                $event->sheet->mergeCells('CC1:CJ1');
+                $event->sheet->setCellValue('CC1','1 INSTANCIA DE CPCLO ');
 
-                $event->sheet->mergeCells('CV1:DA1');
-                $event->sheet->setCellValue('CV1','ABUSO DEL DERECHO');
+                $event->sheet->mergeCells('CK1:CQ1');
+                $event->sheet->setCellValue('CK1','2 INSTANCIA DE CPCLO ');
 
-                $event->sheet->mergeCells('DB1:DG1');
-                $event->sheet->setCellValue('DB1','CIERRE REINTEGRO');
+                $event->sheet->mergeCells('CR1:CU1');
+                $event->sheet->setCellValue('CR1','3 INSTANCIA DE CPCLO ');
+
+                $event->sheet->mergeCells('CV1:CY1');
+                $event->sheet->setCellValue('CV1','DEMANDA DICTAMEN CPCLO');
+
+                $event->sheet->mergeCells('CZ1:DH1');
+                $event->sheet->setCellValue('CZ1','DICTAMEN CPCLO AL CIERRE');
+
+                $event->sheet->mergeCells('DI1:DN1');
+                $event->sheet->setCellValue('DI1','ABUSO DEL DERECHO');
+
+                $event->sheet->mergeCells('DO1:DT1');
+                $event->sheet->setCellValue('DO1','CIERRE REINTEGRO');
+
+                $event->sheet->mergeCells('DU1:DW1');
+                $event->sheet->setCellValue('DU1','GESTION PERDIDOS');
+
+                $event->sheet->mergeCells('DX1:EC1');
+                $event->sheet->setCellValue('DX1','GESTIÓN DEUDA');
             }
         ];
     }

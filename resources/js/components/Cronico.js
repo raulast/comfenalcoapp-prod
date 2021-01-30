@@ -52,7 +52,6 @@ class Cronico extends Component {
     }
 
     handleData(arg, index) {
-      const { data1, data2, data3 } =  this.state;
       if(index == 1) {
         this.setState({data1: arg});
       }else if(index == 2) {
