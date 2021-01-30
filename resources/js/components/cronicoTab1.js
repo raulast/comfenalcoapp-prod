@@ -103,20 +103,19 @@ class CronicoTab1 extends Component {
         ncronico[codigo] = newValue;
         this.props.dataToSend(ncronico, 1);
     }
-
     handleChange({target}) {
         let ncronico = this.state.cronico; 
         if (target.id == 'cie10_evento_seguimiento') {
-            let newValue = []
-            // const newTarget = document.getElementById('descripcion_cie10');
-            try {
-                console.log('target 2', AutoCompleteFunction(target.value));
-            } catch (error) {
-                console.error(error);
+            const newTarget = document.getElementById('descripcion_cie10');
+            async function functionPrueba (value, handler) {
+                const response = await AutoCompleteFunction(value);
+                newTarget.value = response;
+                ncronico['descripcion_cie10'] = response;
+                handler(ncronico, 1);
             }
-            
-            // newValue = newValue.descripcion_diagnostico;
-            // newTarget.value = newValue;
+            if (target.value.length >= 4){
+                functionPrueba(target.value, this.props.dataToSend);
+            }
         } else if (target.id == 'municipio') {
             this.handleAutoSelect('codigo_municipio',target.value,this.state.municipio, ncronico);
         } else if (target.id == 'nombre_arl') {
@@ -164,7 +163,6 @@ class CronicoTab1 extends Component {
         if (typeof this.state.cronico === 'object'){
             var cols=Object.keys(this.state.cronico)
             //console.log(cols);            
-            cronico.length != 0 ? console.log('cronico:', cronico ): null;
         }
 
         return (
