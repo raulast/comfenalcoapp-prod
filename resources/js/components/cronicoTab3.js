@@ -169,8 +169,14 @@ class CronicoTab3 extends Component {
                                     <table className="table table-sm table-striped table-bordered texto mt-5">
                                         <tbody>
                                             <tr className="form-group">
-                                                <td>Firme (SI)</td>
-                                                <td><input className="form-control" type="text" id="firme_si" defaultValue={this.state.id != 0 ? cronico[cols[106]]: ''} size="50" onChange={this.handleChange}/></td>
+                                                <td>FIRME (SI)</td>
+                                                <td>
+                                                    <select className="form-control" id="firme_si" onChange={this.handleChange}>
+                                                        <option defaultValue={this.state.id != 0 ? cronico[cols[106]]: ''}>{this.state.id != 0 ? cronico[cols[106]]: ''}</option>
+                                                        <option value="SI">SI</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
                                             </tr>
                                             <tr className="form-group">
                                                 <td>%CPCLO cierre</td>
@@ -215,7 +221,17 @@ class CronicoTab3 extends Component {
                                             </tr>
                                             <tr className="form-group">
                                                 <td>Instancia al cierre</td>
-                                                <td><input className="form-control" type="text" id="instancia_al_cierre" defaultValue={this.state.id != 0 ? cronico[cols[112]]: ''} size="50" onChange={this.handleChange}/></td>
+                                                <td>
+                                                    <select className="form-control" id="instancia_al_cierre" onChange={this.handleChange}>
+                                                        <option defaultValue={this.state.id != 0 ? cronico[cols[112]]: ''}>{this.state.id != 0 ? cronico[cols[112]]: ''}</option>
+                                                        <option value="PRIMERA OPORTUNIDAD EPS">PRIMERA OPORTUNIDAD EPS</option>
+                                                        <option value="PRIMERA OPORTUNIDAD AFP">PRIMERA OPORTUNIDAD AFP</option>
+                                                        <option value="PRIMERA OPORTUNIDAD ARL">PRIMERA OPORTUNIDAD ARL</option>
+                                                        <option value="JRCI">JRCI</option>
+                                                        <option value="JNCI">JNCI</option>
+                                                        <option value="FALLO">FALLO</option>
+                                                    </select>
+                                                </td>
                                             </tr>
                                             <tr className="form-group">
                                                 <td>Clasificación tipo incapacidad</td>
@@ -224,6 +240,7 @@ class CronicoTab3 extends Component {
                                                         <option defaultValue={this.state.id != 0 ? cronico[cols[113]]: ''}>{this.state.id != 0 ? cronico[cols[113]]: ''}</option>
                                                         <option value="IPP">IPP</option>
                                                         <option value="IPT">IPT</option>
+                                                        <option value="IT">IT</option>
                                                     </select>
                                                 </td>
                                             </tr>
@@ -281,7 +298,15 @@ class CronicoTab3 extends Component {
                                             </tr>
                                             <tr className="form-group">
                                                 <td>Resultado reintegro por MMMM</td>
-                                                <td><input className="form-control" type="text" id="resultado_reintegro_por_mmm" defaultValue={this.state.id != 0 ? cronico[cols[123]]: ''} size="50" onChange={this.handleChange}/></td>
+                                                <td>
+                                                    <select className="form-control" id="resultado_reintegro_por_mmm" onChange={this.handleChange}>
+                                                        <option defaultValue={this.state.id != 0 ? cronico[cols[123]]: ''}>{this.state.id != 0 ? cronico[cols[123]]: ''}</option>
+                                                        <option value="REINGRESO">REINGRESO</option>
+                                                        <option value="ADAPTACION">ADAPTACION</option>
+                                                        <option value="REUBICACION">REUBICACION</option>
+                                                        <option value="FALLIDO">FALLIDO</option>
+                                                    </select>
+                                                </td>
                                             </tr>
                                             <tr className="form-group">
                                                 <td>Fecha refuerzo reintegro</td>
@@ -293,7 +318,15 @@ class CronicoTab3 extends Component {
                                             </tr>
                                             <tr className="form-group">
                                                 <td>Resultado refuerzo reintegro</td>
-                                                <td><input className="form-control" type="text" id="resultado_refuerzo_reintegro" defaultValue={this.state.id != 0 ? cronico[cols[126]]: ''} size="50" onChange={this.handleChange}/></td>
+                                                <td>
+                                                    <select className="form-control" id="resultado_refuerzo_reintegro" onChange={this.handleChange}>
+                                                        <option defaultValue={this.state.id != 0 ? cronico[cols[126]]: ''}>{this.state.id != 0 ? cronico[cols[126]]: ''}</option>
+                                                        <option value="REINGRESO">REINGRESO</option>
+                                                        <option value="ADAPTACION">ADAPTACION</option>
+                                                        <option value="REUBICACION">REUBICACION</option>
+                                                        <option value="FALLIDO">FALLIDO</option>
+                                                    </select>
+                                                </td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -308,8 +341,15 @@ class CronicoTab3 extends Component {
                                                 <td><input className="form-control" type="date" id="fecha_comunicado_usuario" defaultValue={this.state.id != 0 ? cronico[cols[127]]: ''} size="50" onChange={this.handleChange}/></td>
                                             </tr>
                                             <tr className="form-group">
-                                                <td>Tipo comunicado (llamada-email-carta)</td>
-                                                <td><input className="form-control" type="text" id="tipo_comunicado_(llamado-email-carta)" defaultValue={this.state.id != 0 ? cronico[cols[128]]: ''} size="50" onChange={this.handleChange}/></td>
+                                                <td>Tipo comunicado emitido</td>
+                                                <td>
+                                                    <select className="form-control" id="tipo_comunicado_(llamado-email-carta)" onChange={this.handleChange}>
+                                                        <option defaultValue={this.state.id != 0 ? cronico[cols[128]]: ''}>{this.state.id != 0 ? cronico[cols[128]]: ''}</option>
+                                                        <option value="LLAMADA">LLAMADA</option>
+                                                        <option value="EMAIL">EMAIL</option>
+                                                        <option value="CARTA">CARTA</option>
+                                                    </select>
+                                                </td>
                                             </tr>
                                             <tr className="form-group">
                                                 <td>Fecha comunicado busqueda empresa</td>
@@ -325,7 +365,13 @@ class CronicoTab3 extends Component {
                                         <tbody>
                                             <tr className="form-group">
                                                 <td>Deuda</td>
-                                                <td><input className="form-control" type="text" id="deuda" defaultValue={this.state.id != 0 ? cronico[cols[130]]: ''} size="50" onChange={this.handleChange}/></td>
+                                                <td>
+                                                    <select className="form-control" id="deuda" onChange={this.handleChange}>
+                                                        <option defaultValue={this.state.id != 0 ? cronico[cols[130]]: ''}>{this.state.id != 0 ? cronico[cols[130]]: ''}</option>
+                                                        <option value="SI">SI</option>
+                                                        <option value="NO">NO</option>
+                                                    </select>
+                                                </td>
                                             </tr>
                                             <tr className="form-group">
                                                 <td>Procedimiento pendiente</td>
@@ -375,7 +421,22 @@ class CronicoTab3 extends Component {
                                             </tr>
                                             <tr className="form-group">
                                                 <td>Observación cobertura tutela</td>
-                                                <td><input className="form-control" type="text" id="observacion_cobertura_tutela" defaultValue={this.state.id != 0 ? cronico[cols[139]]: ''} size="50" onChange={this.handleChange}/></td>
+                                                <td>
+                                                    <select className="form-control" id="observacion_cobertura_tutela" onChange={this.handleChange}>
+                                                        <option defaultValue={this.state.id != 0 ? cronico[cols[139]]: ''}>{this.state.id != 0 ? cronico[cols[139]]: ''}</option>
+                                                        <option value="PAGO SOLO IT MENOR A 180">PAGO SOLO IT MENOR A 180</option>
+                                                        <option value="PAGO SOLO IT DIA 180-540 CRH OPORTUNO">PAGO SOLO IT DIA 180-540 CRH OPORTUNO</option>
+                                                        <option value="PAGO SOLO IT DIA 180-540 CRH NO OPORTUNO">PAGO SOLO IT DIA 180-540 CRH NO OPORTUNO</option>
+                                                        <option value="PAGO SOLO IT MAYOR 540 CRH FAVORABLE">PAGO SOLO IT MAYOR 540 CRH FAVORABLE</option>
+                                                        <option value="PAGO SOLO IT MAYOR 540 CRH NO FAVORABLE">PAGO SOLO IT MAYOR 540 CRH NO FAVORABLE</option>
+                                                        <option value="PAGO IT HASTA CPCLO FIRME">PAGO IT HASTA CPCLO FIRME</option>
+                                                        <option value="PAGO IT HASTA CPCLO NO FIRME">PAGO IT HASTA CPCLO NO FIRME</option>
+                                                        <option value="PAGO IT HASTA PENSION">PAGO IT HASTA PENSION</option>
+                                                        <option value="PAGO IT HASTA REINTEGRO">PAGO IT HASTA REINTEGRO</option>
+                                                        <option value="PAGO IT HASTA CURACION-MMM">PAGO IT HASTA CURACION-MMM</option>
+                                                        <option value="PAGO IT A FECHA RESTRUCTURACION">PAGO IT A FECHA RESTRUCTURACION</option>
+                                                    </select>
+                                                </td>
                                             </tr>
                                         </tbody>
                                     </table>

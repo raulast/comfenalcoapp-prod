@@ -341,7 +341,6 @@ class CronicoTab2 extends Component {
                                                         <option defaultValue={this.state.id != 0 ? cronico[cols[84]]: ''}>{this.state.id != 0 ? cronico[cols[84]]: ''}</option>
                                                         <option value="AFP">AFP</option>
                                                         <option value="ARL">ARL</option>
-                                                        <option value="EG">EG</option>
                                                         <option value="EPS">EPS</option>
                                                     </select>
                                                 </td>
