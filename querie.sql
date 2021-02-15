@@ -1,2 +1,2 @@
-select * from medicos
+select * from incapacidad;
 
