@@ -41,6 +41,9 @@ class TwoFactorController extends Controller
             if (auth()->user()->tipo == 5){
                 return redirect()->route('admin');
             }
+            if (auth()->user()->tipo == 4){
+                return redirect()->route('reportesips');
+            }
         }
 
         return redirect()->back()->withErrors(['two_factor_code' => 'El código ingresado no es correcto']);
