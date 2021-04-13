@@ -25,3 +25,4 @@ require('./components/Cronico');
 require('./components/JuridicasPanel');
 require('./components/Juridica');
 require('./components/Reporte');
+require('./components/Reporteips');

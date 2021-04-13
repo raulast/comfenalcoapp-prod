@@ -12,6 +12,9 @@ class ReportesController extends Controller
     public function index(){
         return view('reportes.reportes');
     }
+    public function reportesips(){
+        return view('reportes.reportesips');
+    }
     public function reportIncapacidades(Request $request){
         $datos = $request->datos;
         $desde = $datos['desde'];

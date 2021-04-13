@@ -1,2 +1,2 @@
-select * from users ;
+select * from medicos where user_id = 207
 
