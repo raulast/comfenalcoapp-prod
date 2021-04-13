@@ -407,10 +407,12 @@ class IncapacidadFront extends Component {
                 this.setState({
                     cronico: resp.data.data,
                 });
-                if (this.state.visible != 'oculto'){
-                    this.setState({
-                        visible:resp.data.data.visible,
-                    });
+                if (this.state.diasMaximosEspecialidad >0){
+                    if (this.state.visible != 'oculto'){
+                        this.setState({
+                            visible:resp.data.data.visible,
+                        });
+                    }
                 }
 
             })
