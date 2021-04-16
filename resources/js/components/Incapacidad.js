@@ -169,7 +169,15 @@ class IncapacidadFront extends Component {
         window.open(url,"_blank");
         //location.reload();
     }
-    
+
+    componentDidUpdate() {
+        const { fechaInicioIncapacidad, updated } = this.state;
+        if (fechaInicioIncapacidad && updated) {
+            this.handleFechaFin();
+            this.setState({ updated: false });
+        }
+    }
+
     async getNumeroIncapacidad(){
         let url ='getNumeroIncapacidad'
         axios.get(url)
@@ -606,6 +614,7 @@ class IncapacidadFront extends Component {
 
             this.setState({
                 fechaInicioIncapacidad:new Date(e.target.value).toISOString().slice(0,10),
+                updated: true
             });
             if (this.state.diasMaximosEspecialidad>0){
                 if (fi>l1){
@@ -621,7 +630,6 @@ class IncapacidadFront extends Component {
                     });
                 }
             }
-       
     }
     handleDiasSolicitados(e){
         this.setState({
@@ -650,14 +658,18 @@ class IncapacidadFront extends Component {
         
     }
     handleFechaFin(e){
+        const { diasSolicitados } = this.state;
         let l1 = new Date(this.state.fechaInicioIncapacidad);
-        let dias = this.state.diasSolicitados -1;
-        l1 = new Date(l1.setTime( l1.getTime() + dias * 86400000 )).getTime()
-        this.setState({
-            fechaFinIncapacidad:new Date(l1).toISOString().slice(0,10),
-        });
-        this.getBusinessDatesCount(new Date(this.state.fechaInicioIncapacidad),new Date(l1))
-        
+        if (parseInt(diasSolicitados) !== 0) {
+            let dias = diasSolicitados -1;
+            l1 = new Date(l1.setTime( l1.getTime() + dias * 86400000 )).getTime()
+            this.setState({
+                fechaFinIncapacidad:new Date(l1).toISOString().slice(0,10),
+            });
+            this.getBusinessDatesCount(new Date(this.state.fechaInicioIncapacidad),new Date(l1))
+        } else {
+            this.setState({ diasReconocidos: 0 });
+        }
         this.reviewProrroga()
     }
     handleCausa(e){
@@ -745,7 +757,9 @@ class IncapacidadFront extends Component {
             diasReconocidos : reconocidos
         });
     }
-    async guardarIncapacidad(){
+    async guardarIncapacidad({target}){
+        target.disabled = true;
+        console.log('target Incapacidad: ', target);
         //console.log(this.state)
         //console.log(parseInt(this.state.diasSolicitados));
         var esp = "otros"
@@ -764,6 +778,7 @@ class IncapacidadFront extends Component {
                         let url = 'saveIncapacidad'
                         axios.post(url, { datos: this.state })
                             .then(resp => {
+                                target.disabled = false;
                                 console.log(resp.data)
                                 alert(resp.data)
                                 //this.setState(this.initialState);
@@ -773,6 +788,7 @@ class IncapacidadFront extends Component {
                                 })
                             })
                             .catch(err => {
+                                target.disabled = false;
                                 console.log(err)
                             })
                         
@@ -1300,7 +1316,7 @@ class IncapacidadFront extends Component {
                                     <div className="col-sm-2">
                                         <div className="form-group">
                                             <label htmlFor="diasSolicitados">Dias solicitados</label>
-                                            <input type="number" id="diasSolicitados" className="form-control" onChange={this.handleDiasSolicitados} value={this.state.diasSolicitados} onKeyUp={this.handleFechaFin} onClick={this.handleFechaFin}/>
+                                            <input type="number" min='0' id="diasSolicitados" className="form-control" onChange={this.handleDiasSolicitados} value={this.state.diasSolicitados} onKeyUp={this.handleFechaFin} onClick={this.handleFechaFin}/>
                                             <div className={this.state.errors['diasSolicitados']}>
                                                 <div className={ "redf  " + ( this.state.errors['diasSolicitados'] || "") }>{this.state.errorMensajes['diasSolicitados']}</div>
                                             </div>
