@@ -13,15 +13,15 @@ class IncapacidadExport implements FromCollection, WithHeadings, ShouldAutoSize
     * @return \Illuminate\Support\Collection
     */
 
- 
- 
+
+
     protected $incapacidades;
- 
+
     public function __construct($incapacidades= null)
     {
         $this->incapacidades = $incapacidades;
     }
-    
+
     /**
     * @return \Illuminate\Support\Collection
     */
@@ -34,43 +34,47 @@ class IncapacidadExport implements FromCollection, WithHeadings, ShouldAutoSize
     public function headings(): array
     {
         return [
-             'id',
+            'id',
             'prorrogaid',
+            'fecha_atencion',
             'tipo_documento_afiliado',
             'num_documento_afiliado',
-            'tipo_prestador',
-            'ips',
-            'medico_id',
-            'fecha_atencion',
-            'causa_externa',
+            'nombre_afiliado',
+            'fecha_inicio_incapacidad',
+            'fecha_fin_incapacidad',
+            'dias_solicitados',
+            'dias_reconocidos',
+            'prorroga',
+            'dias_acumulados_previos',
+            'dias_acumulados_ultima_incapacidad',
+            'contingencia_origen',
+            'descripcion_contingencia',
             'codigo_diagnostico',
             'codigo_diagnostico1',
             'codigo_diagnostico2',
             'codigo_diagnostico3',
             'lateralidad',
-            'fecha_inicio_incapacidad',
-            'dias_solicitados',
-            'dias_reconocidos',
-            'fecha_fin_incapacidad',
-            'prorroga',
-            'dias_acumulados_previos',
-            'contingencia_origen',
-            'dias_acumulados_ultima_incapacidad',
-            'observacion',
-            'estado_id',
-            'observacion_estado',
-            'created_at',	
-            'updated_at',
-            'nombre_afiliado',
+            'tipo_prestador',
+            'descripcion_tipo_prestador',
+            'IPS',
+            'NIT_IPS',
+            'NOMBRE_IPS',
+            'medico',
+            'especialidad_medico',
+            'causa_externa',
+            'descripcion_causa_externa',
             'estado_afiliado',
             'tipo_cotizante',
             'programa_afiliado',
             'aportantes',
-    
-            'lateralidad1',
-            'lateralidad2',
-            'lateralidad3',
-           
+            'NombreEmpresa',
+            'observacion',
+            'estado_id',
+            'estados_incapacidad',
+            'observacion_estado',
+            'created_at',
+            'updated_at',
+            'descripcion_programa_afiliado'
         ];
     }
 }
