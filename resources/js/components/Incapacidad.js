@@ -9,6 +9,8 @@ import AutocompleteDescripcion from './AutocompleteDescripcion.js';
 import axios from 'axios';
 import { size } from 'lodash';
 import ValidacionDerechos from './ValidacionDerechos';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 class IncapacidadFront extends Component {
@@ -159,6 +161,7 @@ class IncapacidadFront extends Component {
         this.generarCertificado=this.generarCertificado.bind(this);
         this.verificarTraslapo=this.verificarTraslapo.bind(this);
         this.calculoEdad = this.calculoEdad.bind(this);
+        this.handleToast = this.handleToast.bind(this);
     }
     generarCertificado(a){
         console.log(a)
@@ -168,6 +171,25 @@ class IncapacidadFront extends Component {
         let url = '/certificadoIncapacidad/'+id+"/"+pid+"/"+a;
         window.open(url,"_blank");
         //location.reload();
+    }
+
+    handleToast(arg,type) {
+        const toastOptions = {
+            success: 'success',
+            error: 'error',
+            info: 'info',
+            warning: 'warn'
+        }
+        const toastType = toastOptions[type]
+        toast[toastType](arg, {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
     }
 
     componentDidUpdate() {
@@ -505,7 +527,8 @@ class IncapacidadFront extends Component {
                     let observacion_estado = this.state.observacion_estado;
                     let observacion = "Ruptura por escoger otro capítulo";
 
-                    alert("El diagnóstico seleccionado no pertenece al mismo capítulo de la última incapacidad")
+                    // alert("El diagnóstico seleccionado no pertenece al mismo capítulo de la última incapacidad")
+                    this.handleToast("El diagnóstico seleccionado no pertenece al mismo capítulo de la última incapacidad",'warning');
                     
                     if (!observacion_estado.includes(observacion)){
                         var nuevaob =`${observacion_estado} ${observacion}`
@@ -570,7 +593,8 @@ class IncapacidadFront extends Component {
                     })
                 }
                 else{
-                    alert("El diagnóstico seleccionado no pertenece al mismo capítulo de la última incapacidad")
+                    // alert("El diagnóstico seleccionado no pertenece al mismo capítulo de la última incapacidad")
+                    this.handleToast("El diagnóstico seleccionado no pertenece al mismo capítulo de la última incapacidad",'warning');
                     this.setState({
                         diasAcumuladosPrevios: resp.data.dias,
                         diasAcumuladosUltima : parseInt(resp.data.dias) + parseInt(diasSolicitados),
@@ -598,7 +622,8 @@ class IncapacidadFront extends Component {
         let f2 = new Date(this.state.fechaFinUltima).getTime();
        
         if (f1 < f2){
-            alert("La fecha de inicio no puede ser menor a la fecha de finalización de la última incapacidad")
+            // alert("La fecha de inicio no puede ser menor a la fecha de finalización de la última incapacidad")
+            this.handleToast("La fecha de inicio no puede ser menor a la fecha de finalización de la última incapacidad",'warning');
             return false;
         }
         return true;
@@ -620,13 +645,15 @@ class IncapacidadFront extends Component {
             });
             if (this.state.diasMaximosEspecialidad>0){
                 if (fi>l1){
-                    alert("La fecha de inicio no puede ser mayor a 3 días desde la fecha de atención")
+                    // alert("La fecha de inicio no puede ser mayor a 3 días desde la fecha de atención")
+                    this.handleToast("La fecha de inicio no puede ser mayor a 3 días desde la fecha de atención",'warning');
                     this.setState({
                         fechaInicioIncapacidad:new Date().toISOString().slice(0,10)
                     });
                 }
                 if (fi<l2){
-                    alert("La fecha de inicio no puede ser menor a 3 días desde la fecha de atención")
+                    // alert("La fecha de inicio no puede ser menor a 3 días desde la fecha de atención")
+                    this.handleToast("La fecha de inicio no puede ser mayor a 3 días desde la fecha de atención",'warning');
                     this.setState({
                         fechaInicioIncapacidad:new Date().toISOString().slice(0,10),
                     });
@@ -725,7 +752,8 @@ class IncapacidadFront extends Component {
         var contingencia = e.target.value;
         var causae = this.state.causae
         if ((contingencia == 2 || contingencia == 3) && (causae != 1 && causae != 14)){
-            alert("la causa externa solo puede ser Accidente de trabajo o Enfermedad laboral")
+            // alert("la causa externa solo puede ser Accidente de trabajo o Enfermedad laboral")
+            this.handleToast("la causa externa solo puede ser Accidente de trabajo o Enfermedad laboral",'warning');
             this.setState({
                 causae : '',
             });
@@ -761,7 +789,7 @@ class IncapacidadFront extends Component {
     }
     async guardarIncapacidad({target}){
         target.disabled = true;
-        console.log('target Incapacidad: ', target);
+        console.log('target buttonClicked: ', target.disabled);
         //console.log(this.state)
         //console.log(parseInt(this.state.diasSolicitados));
         var esp = "otros"
@@ -782,7 +810,9 @@ class IncapacidadFront extends Component {
                             .then(resp => {
                                 target.disabled = false;
                                 console.log(resp.data)
-                                alert(resp.data)
+                                // alert(resp.data)
+                                this.handleToast(resp.data,'success');
+                                target.disabled = false;
                                 //this.setState(this.initialState);
                             // location.reload();
                             this.setState({
@@ -790,17 +820,20 @@ class IncapacidadFront extends Component {
                                 })
                             })
                             .catch(err => {
-                                target.disabled = false;
                                 console.log(err)
+                                this.handleToast(err,'error');
+                                target.disabled = false;
                             })
-                        
                     }
                     else{
-                        alert("Hay errores en algunos campos");
+                        // alert("Hay errores en algunos campos");
+                        this.handleToast("Hay errores en algunos campos",'error');
+                        target.disabled = false;
                     }
             }
             else{
-                alert("Los días solicitados exceden el máximo definido para su especialidad médica");
+                // alert("Los días solicitados exceden el máximo definido para su especialidad médica");
+                this.handleToast("Los días solicitados exceden el máximo definido para su especialidad médica",'error');
             }
         }
         if (esp == "laboral"){
@@ -814,7 +847,9 @@ class IncapacidadFront extends Component {
                         axios.post(url, { datos: this.state })
                             .then(resp => {
                                 console.log(resp.data)
-                                alert(resp.data)
+                                // alert(resp.data)
+                                this.handleToast(resp.data,'success');
+                                target.disabled = false;
                                 //this.setState(this.initialState);
                             // location.reload();
                             this.setState({
@@ -823,15 +858,16 @@ class IncapacidadFront extends Component {
                             })
                             .catch(err => {
                                 console.log(err)
+                                this.handleToast(err,'error');
+                                target.disabled = false;
                             })
-                        
                     }
                     else{
-                        alert("Hay errores en algunos campos");
+                        // alert("Hay errores en algunos campos 2");
+                        this.handleToast("Hay errores en algunos campos",'error');
+                        target.disabled = false;
                     }
         }
-
-        
     }
     async validarForm(){
         this.clearErrors()
@@ -1054,10 +1090,8 @@ class IncapacidadFront extends Component {
 
                             
         return (
-        
-       
-        
         <div className="container texto">
+            <ToastContainer/>
             <div className="row justify-content-center">
                 <div className="col-md-10">
                     <div className="card">
