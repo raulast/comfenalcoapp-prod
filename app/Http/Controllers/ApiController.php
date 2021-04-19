@@ -137,20 +137,26 @@ class ApiController extends Controller
             $idant = $i->id;
             $prorrogaidant = $i->prorrogaid;
             $fechaFinUltima = $i->fecha_fin_incapacidad;
+
+            return response()->json([
+                'dias' => (int)$dias,
+                'capitulo' => $capitulo,
+                'idant' => $idant,
+                'prorrogaidant' => (int)$prorrogaidant,
+                'fechaFinUltima' => $fechaFinUltima
+            ]);
         }
         else{
             $datos="no";
         }
         //dd($datos);
         return response()->json([
-            'dias' => (int)$dias,
-            'capitulo' => $capitulo,
-            'idant' => $idant,
-            'prorrogaidant' => (int)$prorrogaidant,
-            'fechaFinUltima' => $fechaFinUltima
+            'dias' => 0,
+            'capitulo' => null,
+            'idant' => null,
+            'prorrogaidant' => null,
+            'fechaFinUltima' => null
         ]);
-        
-        
     }
     public function historicoIncapacidades(){
         $datos= Incapacidad::orderBy('created_at','desc')->get();

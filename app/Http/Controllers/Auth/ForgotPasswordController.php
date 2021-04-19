@@ -37,8 +37,11 @@ class ForgotPasswordController extends Controller
 
         if ($request->input('email') !== null) {
             $email = $request->input('email');
-            $user = isset($email) ? User::where('email', $email)->first()->id : null;
-            $banned = LoginFail::where('user_id', $user)
+            $user = isset($email) ? User::where('email', $email)->first() : null;
+            if(!$user){
+                return back()->withInput()->withErrors(['email'=>"El email que intenta recuperar no se encuentra registrado en la plataforma. Por favor comuníquese con el administrador."]);
+            }
+            $banned = LoginFail::where('user_id', $user->id)
                     ->where('session', 'banned')->first();
             if ($banned) {
                 return redirect('login')->withInput()->withErrors(['email'=>"

@@ -50,6 +50,9 @@ class ResetPasswordController extends Controller
             return back()->withInput()->withErrors(['email'=>"Ya se ha restablecido la contraseña para este email, si no lo ha hecho usted por favor comuniquese con el administrador"]);
         }
         $user = User::where('email',$request->input('email'))->first();
+        if(!$user){
+            return back()->withInput()->withErrors(['email'=>"El email que intenta recuperar no se encuentra registrado en la plataforma. Por favor comuníquese con el administrador."]);
+        }
         $id = $user->id;
 
         $password = $request->input('password');
