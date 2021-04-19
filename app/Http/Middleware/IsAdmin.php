@@ -12,7 +12,7 @@ class IsAdmin
      * @var array
      */
     protected $admin = [
-        0
+        0,5
     ];
 
     /**
