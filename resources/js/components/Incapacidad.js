@@ -629,6 +629,7 @@ class IncapacidadFront extends Component {
         return true;
     }
     handleFechaInicioIncapacidad(e){
+        
         //var todayDate = new Date().toISOString().slice(0,10);
         
             let fi =new Date(e.target.value).getTime();
@@ -643,9 +644,10 @@ class IncapacidadFront extends Component {
                 fechaInicioIncapacidad:new Date(e.target.value).toISOString().slice(0,10),
                 updated: true
             });
+            
             if (this.state.diasMaximosEspecialidad>0){
                 if (fi>l1){
-                    // alert("La fecha de inicio no puede ser mayor a 3 días desde la fecha de atención")
+                   // alert("La fecha de inicio no puede ser mayor a 3 días desde la fecha de atención")
                     this.handleToast("La fecha de inicio no puede ser mayor a 3 días desde la fecha de atención",'warning');
                     this.setState({
                         fechaInicioIncapacidad:new Date().toISOString().slice(0,10)
