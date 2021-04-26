@@ -111,7 +111,7 @@ class ReportesController extends Controller
         if (($datos['desde']!="")&&($datos['hasta'])){
             $desde = $desde." 00:00:00";
             $hasta = $hasta." 11:59:59";
-            $i->whereBetween('created_at', [$desde, $hasta]);
+            $i->whereBetween('incapacidades.created_at', [$desde, $hasta]);
         }
         $totales=array();
         $totales["total"]=$i->count();
