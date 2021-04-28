@@ -91,22 +91,22 @@ class ExcelController extends Controller
             ->leftJoin('medicos','medicos.id','=','incapacidad.medico_id')
             ->where('incapacidad.id','>',0);
             if ($datos['ips']!=""){
-                $i->where('ips',$datos['ips']);
+                $i->where('incapacidad.ips',$datos['ips']);
             }
             if ($datos['medico']!=""){
-                $i->where('medico_id',$datos['medico']);
+                $i->where('incapacidad.medico_id',$datos['medico']);
             }
             if ($datos['paciente']!=""){
-                $i->where('num_documento_afiliado',$datos['paciente']);
+                $i->where('incapacidad.num_documento_afiliado',$datos['paciente']);
             }
             if ($datos['codigoDiagnostico']!=""){
-                $i->where('codigo_diagnostico',$datos['codigoDiagnostico']);
+                $i->where('incapacidad.codigo_diagnostico',$datos['codigoDiagnostico']);
             }
             if ($datos['contingencia']!=""){
-                $i->where('contingencia_origen',$datos['contingencia']);
+                $i->where('incapacidad.contingencia_origen',$datos['contingencia']);
             }
             if ($datos['soat']=="si"){
-                $i->where('causa_externa',2);
+                $i->where('incapacidad.causa_externa',2);
             }
             if (($datos['desde']!="")&&($datos['hasta']!="")){
                 $desde = $desde." 00:00:00";
@@ -162,16 +162,16 @@ class ExcelController extends Controller
 
             $i = Licencia::where('id','>',0);
             if ($datos['ips']!=""){
-                $i->where('ips',$datos['ips']);
+                $i->where('licencias.ips',$datos['ips']);
             }
             if ($datos['medico']!=""){
-                $i->where('medico_id',$datos['medico']);
+                $i->where('licencias.medico_id',$datos['medico']);
             }
             if ($datos['paciente']!=""){
-                $i->where('num_documento_afiliado',$datos['paciente']);
+                $i->where('licencias.num_documento_afiliado',$datos['paciente']);
             }
             if ($datos['tipoLicencia']!=""){
-                $i->where('tipo_licencia',$datos['tipoLicencia']);
+                $i->where('licencias.tipo_licencia',$datos['tipoLicencia']);
             }
             /*
             if ($datos['codigoDiagnostico']!=""){
