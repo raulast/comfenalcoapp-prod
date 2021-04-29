@@ -56,7 +56,7 @@ class ReportesController extends Controller
             'ips.nit as NIT_IPS',
             'ips.nombre_sede as NOMBRE_IPS',
             'medicos.nombre as medico',
-            DB::raw("CASE contingencia_origen
+            DB::raw("CASE medicos.especialidad
                     WHEN 1 THEN 'Médico general'
                     WHEN 2 THEN 'Médico especialista'
                     WHEN 3 THEN 'Odontólogo general'
@@ -194,28 +194,37 @@ class ReportesController extends Controller
             'codigo_diagnostico1',
             'codigo_diagnostico2',
             'codigo_diagnostico3',
-            'causa_externa',
-            // DESCRIPCION CAUSA EXTERNA	Agregar
+            'licencias.causa_externa',
+            'causae.causa_externa as descripcion_causa_externa',
             'tipo_prestador',
             'licencias.ips',
-            // NIT IPS	Agregar
-            // NOMBRE IPS	Agregar
+            'ips.nit as NIT_IPS',
+            'ips.nombre_sede as NOMBRE_IPS',
             'licencias.medico_id',
-            // NOMBRE DEL MEDICO	Agregar
-            // ESPECIALIDAD DEL MEDICO	Agregar
+            'medicos.nombre as medico',
+            DB::raw("CASE medicos.especialidad
+                    WHEN 1 THEN 'Médico general'
+                    WHEN 2 THEN 'Médico especialista'
+                    WHEN 3 THEN 'Odontólogo general'
+                    WHEN 4 THEN 'Odontólogo especialista'
+                ELSE '' END AS especialidad_medico"),
             'tipo_atencion',
             'edad_gestacional_semanas',
             'edad_gestacional_dias',
             'dias_gestacion',
             'recien_nacido_viable',
             'licencias.estado_id',
-            // DESCRIPCION ESTADO ID	Agregar
+            'estados_incapacidad.estado as descripcion_estado',
             'observacion',
             'aportantes',
             'licencias.created_at',
             'licencias.updated_at',
             'licencias.deleted_at',
-        )->where('id','>',0);
+        )->leftJoin('causae','causae.id','=','licencias.causa_externa')
+        ->leftJoin('ips','ips.id','=','licencias.ips')
+        ->leftJoin('medicos','medicos.id','=','licencias.medico_id')
+        ->leftJoin('estados_incapacidad','estados_incapacidad.id','=','licencias.estado_id')
+        ->where('licencias.id','>',0);
         if ($datos['ips']!=""){
             $i->where('licencias.ips',$datos['ips']);
         }
